@@ -1,0 +1,15 @@
+Package: llmpulse
+Title: R Package Client for LLM Pulse API
+Version: 1.22.0
+Author: person("LLM Pulse Support", email = "info@llmpulse.ai", role = c("aut", "cre"))
+Maintainer: LLM Pulse Support <info@llmpulse.ai>
+Description: REST API client for LLM Pulse AI visibility analytics.
+URL: https://github.com/LLM-Pulse/llmpulse-r
+BugReports: https://github.com/LLM-Pulse/llmpulse-r/issues
+Depends: R (>= 3.3)
+Encoding: UTF-8
+License: MIT
+LazyData: true
+Suggests: testthat
+Imports: jsonlite, httr, R6, base64enc, stringr
+RoxygenNote: 7.2.1
