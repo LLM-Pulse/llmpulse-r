@@ -56,8 +56,8 @@ ListWebhooks200ResponseDataInner <- R6::R6Class(
         self$`project_id` <- `project_id`
       }
       if (!is.null(`event_type`)) {
-        if (!(`event_type` %in% c("mention.created", "competitor_mention.created", "citation.created", "prompt_execution.completed", "sentiment.negative_detected", "recommendation.completed", "intelligence_task.completed"))) {
-          stop(paste("Error! \"", `event_type`, "\" cannot be assigned to `event_type`. Must be \"mention.created\", \"competitor_mention.created\", \"citation.created\", \"prompt_execution.completed\", \"sentiment.negative_detected\", \"recommendation.completed\", \"intelligence_task.completed\".", sep = ""))
+        if (!(`event_type` %in% c("mention.created", "competitor_mention.created", "citation.created", "prompt_execution.completed", "sentiment.negative_detected", "recommendation.completed", "intelligence_task.completed", "intelligence_task.updated"))) {
+          stop(paste("Error! \"", `event_type`, "\" cannot be assigned to `event_type`. Must be \"mention.created\", \"competitor_mention.created\", \"citation.created\", \"prompt_execution.completed\", \"sentiment.negative_detected\", \"recommendation.completed\", \"intelligence_task.completed\", \"intelligence_task.updated\".", sep = ""))
         }
         if (!(is.character(`event_type`) && length(`event_type`) == 1)) {
           stop(paste("Error! Invalid data for `event_type`. Must be a string:", `event_type`))
@@ -176,8 +176,8 @@ ListWebhooks200ResponseDataInner <- R6::R6Class(
         self$`project_id` <- this_object$`project_id`
       }
       if (!is.null(this_object$`event_type`)) {
-        if (!is.null(this_object$`event_type`) && !(this_object$`event_type` %in% c("mention.created", "competitor_mention.created", "citation.created", "prompt_execution.completed", "sentiment.negative_detected", "recommendation.completed", "intelligence_task.completed"))) {
-          stop(paste("Error! \"", this_object$`event_type`, "\" cannot be assigned to `event_type`. Must be \"mention.created\", \"competitor_mention.created\", \"citation.created\", \"prompt_execution.completed\", \"sentiment.negative_detected\", \"recommendation.completed\", \"intelligence_task.completed\".", sep = ""))
+        if (!is.null(this_object$`event_type`) && !(this_object$`event_type` %in% c("mention.created", "competitor_mention.created", "citation.created", "prompt_execution.completed", "sentiment.negative_detected", "recommendation.completed", "intelligence_task.completed", "intelligence_task.updated"))) {
+          stop(paste("Error! \"", this_object$`event_type`, "\" cannot be assigned to `event_type`. Must be \"mention.created\", \"competitor_mention.created\", \"citation.created\", \"prompt_execution.completed\", \"sentiment.negative_detected\", \"recommendation.completed\", \"intelligence_task.completed\", \"intelligence_task.updated\".", sep = ""))
         }
         self$`event_type` <- this_object$`event_type`
       }
@@ -219,8 +219,8 @@ ListWebhooks200ResponseDataInner <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`id` <- this_object$`id`
       self$`project_id` <- this_object$`project_id`
-      if (!is.null(this_object$`event_type`) && !(this_object$`event_type` %in% c("mention.created", "competitor_mention.created", "citation.created", "prompt_execution.completed", "sentiment.negative_detected", "recommendation.completed", "intelligence_task.completed"))) {
-        stop(paste("Error! \"", this_object$`event_type`, "\" cannot be assigned to `event_type`. Must be \"mention.created\", \"competitor_mention.created\", \"citation.created\", \"prompt_execution.completed\", \"sentiment.negative_detected\", \"recommendation.completed\", \"intelligence_task.completed\".", sep = ""))
+      if (!is.null(this_object$`event_type`) && !(this_object$`event_type` %in% c("mention.created", "competitor_mention.created", "citation.created", "prompt_execution.completed", "sentiment.negative_detected", "recommendation.completed", "intelligence_task.completed", "intelligence_task.updated"))) {
+        stop(paste("Error! \"", this_object$`event_type`, "\" cannot be assigned to `event_type`. Must be \"mention.created\", \"competitor_mention.created\", \"citation.created\", \"prompt_execution.completed\", \"sentiment.negative_detected\", \"recommendation.completed\", \"intelligence_task.completed\", \"intelligence_task.updated\".", sep = ""))
       }
       self$`event_type` <- this_object$`event_type`
       self$`target_url` <- this_object$`target_url`

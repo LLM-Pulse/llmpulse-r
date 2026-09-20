@@ -25,6 +25,8 @@
 #' @field estimated_time  character [optional]
 #' @field created_at  character [optional]
 #' @field processed_at  character [optional]
+#' @field manually_edited_at When the content was last edited by hand; null while the output is as generated character [optional]
+#' @field edited_by_user_id User behind the last manual edit; null for an unedited task or an edit made from an embedded portal integer [optional]
 #' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -50,6 +52,8 @@ IntelligenceTask <- R6::R6Class(
     `estimated_time` = NULL,
     `created_at` = NULL,
     `processed_at` = NULL,
+    `manually_edited_at` = NULL,
+    `edited_by_user_id` = NULL,
     `request_id` = NULL,
 
     #' @description
@@ -73,9 +77,11 @@ IntelligenceTask <- R6::R6Class(
     #' @param estimated_time estimated_time
     #' @param created_at created_at
     #' @param processed_at processed_at
+    #' @param manually_edited_at When the content was last edited by hand; null while the output is as generated
+    #' @param edited_by_user_id User behind the last manual edit; null for an unedited task or an edit made from an embedded portal
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `public_id` = NULL, `project_id` = NULL, `task_type` = NULL, `title` = NULL, `status` = NULL, `prompt_id` = NULL, `prompt_text` = NULL, `agentic_mode` = NULL, `custom_topic` = NULL, `user_instructions` = NULL, `output_language_code` = NULL, `word_count` = NULL, `result_data` = NULL, `error_message` = NULL, `estimated_time` = NULL, `created_at` = NULL, `processed_at` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`id` = NULL, `public_id` = NULL, `project_id` = NULL, `task_type` = NULL, `title` = NULL, `status` = NULL, `prompt_id` = NULL, `prompt_text` = NULL, `agentic_mode` = NULL, `custom_topic` = NULL, `user_instructions` = NULL, `output_language_code` = NULL, `word_count` = NULL, `result_data` = NULL, `error_message` = NULL, `estimated_time` = NULL, `created_at` = NULL, `processed_at` = NULL, `manually_edited_at` = NULL, `edited_by_user_id` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -180,6 +186,18 @@ IntelligenceTask <- R6::R6Class(
           stop(paste("Error! Invalid data for `processed_at`. Must be a string:", `processed_at`))
         }
         self$`processed_at` <- `processed_at`
+      }
+      if (!is.null(`manually_edited_at`)) {
+        if (!is.character(`manually_edited_at`)) {
+          stop(paste("Error! Invalid data for `manually_edited_at`. Must be a string:", `manually_edited_at`))
+        }
+        self$`manually_edited_at` <- `manually_edited_at`
+      }
+      if (!is.null(`edited_by_user_id`)) {
+        if (!(is.numeric(`edited_by_user_id`) && length(`edited_by_user_id`) == 1)) {
+          stop(paste("Error! Invalid data for `edited_by_user_id`. Must be an integer:", `edited_by_user_id`))
+        }
+        self$`edited_by_user_id` <- `edited_by_user_id`
       }
       if (!is.null(`request_id`)) {
         if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
@@ -292,6 +310,14 @@ IntelligenceTask <- R6::R6Class(
         IntelligenceTaskObject[["processed_at"]] <-
           self$`processed_at`
       }
+      if (!is.null(self$`manually_edited_at`)) {
+        IntelligenceTaskObject[["manually_edited_at"]] <-
+          self$`manually_edited_at`
+      }
+      if (!is.null(self$`edited_by_user_id`)) {
+        IntelligenceTaskObject[["edited_by_user_id"]] <-
+          self$`edited_by_user_id`
+      }
       if (!is.null(self$`request_id`)) {
         IntelligenceTaskObject[["request_id"]] <-
           self$`request_id`
@@ -360,6 +386,12 @@ IntelligenceTask <- R6::R6Class(
       if (!is.null(this_object$`processed_at`)) {
         self$`processed_at` <- this_object$`processed_at`
       }
+      if (!is.null(this_object$`manually_edited_at`)) {
+        self$`manually_edited_at` <- this_object$`manually_edited_at`
+      }
+      if (!is.null(this_object$`edited_by_user_id`)) {
+        self$`edited_by_user_id` <- this_object$`edited_by_user_id`
+      }
       if (!is.null(this_object$`request_id`)) {
         self$`request_id` <- this_object$`request_id`
       }
@@ -402,6 +434,8 @@ IntelligenceTask <- R6::R6Class(
       self$`estimated_time` <- this_object$`estimated_time`
       self$`created_at` <- this_object$`created_at`
       self$`processed_at` <- this_object$`processed_at`
+      self$`manually_edited_at` <- this_object$`manually_edited_at`
+      self$`edited_by_user_id` <- this_object$`edited_by_user_id`
       self$`request_id` <- this_object$`request_id`
       self
     },

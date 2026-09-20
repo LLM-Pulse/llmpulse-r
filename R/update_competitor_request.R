@@ -9,8 +9,11 @@
 #' @format An \code{R6Class} generator object
 #' @field project_id  integer
 #' @field brand_name  character [optional]
+#' @field domain Website domain or host used for citation matching. A full URL is accepted and normalised to its host. character [optional]
 #' @field matching_names  list(character) [optional]
 #' @field color Hex color, e.g. #1a2b3c character [optional]
+#' @field citation_match_mode  character [optional]
+#' @field citation_match_path Required when changing citation_match_mode to path_prefix character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -19,18 +22,24 @@ UpdateCompetitorRequest <- R6::R6Class(
   public = list(
     `project_id` = NULL,
     `brand_name` = NULL,
+    `domain` = NULL,
     `matching_names` = NULL,
     `color` = NULL,
+    `citation_match_mode` = NULL,
+    `citation_match_path` = NULL,
 
     #' @description
     #' Initialize a new UpdateCompetitorRequest class.
     #'
     #' @param project_id project_id
     #' @param brand_name brand_name
+    #' @param domain Website domain or host used for citation matching. A full URL is accepted and normalised to its host.
     #' @param matching_names matching_names
     #' @param color Hex color, e.g. #1a2b3c
+    #' @param citation_match_mode citation_match_mode
+    #' @param citation_match_path Required when changing citation_match_mode to path_prefix
     #' @param ... Other optional arguments.
-    initialize = function(`project_id`, `brand_name` = NULL, `matching_names` = NULL, `color` = NULL, ...) {
+    initialize = function(`project_id`, `brand_name` = NULL, `domain` = NULL, `matching_names` = NULL, `color` = NULL, `citation_match_mode` = NULL, `citation_match_path` = NULL, ...) {
       if (!missing(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -43,6 +52,12 @@ UpdateCompetitorRequest <- R6::R6Class(
         }
         self$`brand_name` <- `brand_name`
       }
+      if (!is.null(`domain`)) {
+        if (!(is.character(`domain`) && length(`domain`) == 1)) {
+          stop(paste("Error! Invalid data for `domain`. Must be a string:", `domain`))
+        }
+        self$`domain` <- `domain`
+      }
       if (!is.null(`matching_names`)) {
         stopifnot(is.vector(`matching_names`), length(`matching_names`) != 0)
         sapply(`matching_names`, function(x) stopifnot(is.character(x)))
@@ -53,6 +68,21 @@ UpdateCompetitorRequest <- R6::R6Class(
           stop(paste("Error! Invalid data for `color`. Must be a string:", `color`))
         }
         self$`color` <- `color`
+      }
+      if (!is.null(`citation_match_mode`)) {
+        if (!(`citation_match_mode` %in% c("domain", "host", "path_prefix"))) {
+          stop(paste("Error! \"", `citation_match_mode`, "\" cannot be assigned to `citation_match_mode`. Must be \"domain\", \"host\", \"path_prefix\".", sep = ""))
+        }
+        if (!(is.character(`citation_match_mode`) && length(`citation_match_mode`) == 1)) {
+          stop(paste("Error! Invalid data for `citation_match_mode`. Must be a string:", `citation_match_mode`))
+        }
+        self$`citation_match_mode` <- `citation_match_mode`
+      }
+      if (!is.null(`citation_match_path`)) {
+        if (!(is.character(`citation_match_path`) && length(`citation_match_path`) == 1)) {
+          stop(paste("Error! Invalid data for `citation_match_path`. Must be a string:", `citation_match_path`))
+        }
+        self$`citation_match_path` <- `citation_match_path`
       }
     },
 
@@ -95,6 +125,10 @@ UpdateCompetitorRequest <- R6::R6Class(
         UpdateCompetitorRequestObject[["brand_name"]] <-
           self$`brand_name`
       }
+      if (!is.null(self$`domain`)) {
+        UpdateCompetitorRequestObject[["domain"]] <-
+          self$`domain`
+      }
       if (!is.null(self$`matching_names`)) {
         UpdateCompetitorRequestObject[["matching_names"]] <-
           self$`matching_names`
@@ -102,6 +136,14 @@ UpdateCompetitorRequest <- R6::R6Class(
       if (!is.null(self$`color`)) {
         UpdateCompetitorRequestObject[["color"]] <-
           self$`color`
+      }
+      if (!is.null(self$`citation_match_mode`)) {
+        UpdateCompetitorRequestObject[["citation_match_mode"]] <-
+          self$`citation_match_mode`
+      }
+      if (!is.null(self$`citation_match_path`)) {
+        UpdateCompetitorRequestObject[["citation_match_path"]] <-
+          self$`citation_match_path`
       }
       return(UpdateCompetitorRequestObject)
     },
@@ -119,11 +161,23 @@ UpdateCompetitorRequest <- R6::R6Class(
       if (!is.null(this_object$`brand_name`)) {
         self$`brand_name` <- this_object$`brand_name`
       }
+      if (!is.null(this_object$`domain`)) {
+        self$`domain` <- this_object$`domain`
+      }
       if (!is.null(this_object$`matching_names`)) {
         self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       }
       if (!is.null(this_object$`color`)) {
         self$`color` <- this_object$`color`
+      }
+      if (!is.null(this_object$`citation_match_mode`)) {
+        if (!is.null(this_object$`citation_match_mode`) && !(this_object$`citation_match_mode` %in% c("domain", "host", "path_prefix"))) {
+          stop(paste("Error! \"", this_object$`citation_match_mode`, "\" cannot be assigned to `citation_match_mode`. Must be \"domain\", \"host\", \"path_prefix\".", sep = ""))
+        }
+        self$`citation_match_mode` <- this_object$`citation_match_mode`
+      }
+      if (!is.null(this_object$`citation_match_path`)) {
+        self$`citation_match_path` <- this_object$`citation_match_path`
       }
       self
     },
@@ -148,8 +202,14 @@ UpdateCompetitorRequest <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`project_id` <- this_object$`project_id`
       self$`brand_name` <- this_object$`brand_name`
+      self$`domain` <- this_object$`domain`
       self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       self$`color` <- this_object$`color`
+      if (!is.null(this_object$`citation_match_mode`) && !(this_object$`citation_match_mode` %in% c("domain", "host", "path_prefix"))) {
+        stop(paste("Error! \"", this_object$`citation_match_mode`, "\" cannot be assigned to `citation_match_mode`. Must be \"domain\", \"host\", \"path_prefix\".", sep = ""))
+      }
+      self$`citation_match_mode` <- this_object$`citation_match_mode`
+      self$`citation_match_path` <- this_object$`citation_match_path`
       self
     },
 

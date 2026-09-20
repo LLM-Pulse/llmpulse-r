@@ -22,6 +22,8 @@ Name | Type | Description | Notes
 **estimated_time** | **character** |  | [optional] 
 **created_at** | **character** |  | [optional] 
 **processed_at** | **character** |  | [optional] 
+**manually_edited_at** | **character** | When the content was last edited by hand; null while the output is as generated | [optional] 
+**edited_by_user_id** | **integer** | User behind the last manual edit; null for an unedited task or an edit made from an embedded portal | [optional] 
 **request_id** | **character** |  | [optional] 
 
 

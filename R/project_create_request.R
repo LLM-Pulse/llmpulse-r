@@ -14,6 +14,12 @@
 #' @field brand_name  character [optional]
 #' @field description  character [optional]
 #' @field industry  list(character) [optional]
+#' @field business_model Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected character [optional]
+#' @field business_model_other Free-text business model, only accepted when business_model is OTHER; rejected against any other key character [optional]
+#' @field target_audience Who the brand sells to. Context for Recommendations and GEO Writer (Brand Book) character [optional]
+#' @field brand_voice Tone of voice guidance for generated content (Brand Book) character [optional]
+#' @field goals What the brand wants to achieve. Context for GEO Writer and prompt suggestions character [optional]
+#' @field primary_products Main products or services list(character) [optional]
 #' @field matching_names  list(character) [optional]
 #' @field prompts  list(character) [optional]
 #' @field competitors  list(\link{ProjectCreateRequestCompetitorsInner}) [optional]
@@ -35,6 +41,12 @@ ProjectCreateRequest <- R6::R6Class(
     `brand_name` = NULL,
     `description` = NULL,
     `industry` = NULL,
+    `business_model` = NULL,
+    `business_model_other` = NULL,
+    `target_audience` = NULL,
+    `brand_voice` = NULL,
+    `goals` = NULL,
+    `primary_products` = NULL,
     `matching_names` = NULL,
     `prompts` = NULL,
     `competitors` = NULL,
@@ -54,6 +66,12 @@ ProjectCreateRequest <- R6::R6Class(
     #' @param brand_name brand_name
     #' @param description description
     #' @param industry industry
+    #' @param business_model Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected
+    #' @param business_model_other Free-text business model, only accepted when business_model is OTHER; rejected against any other key
+    #' @param target_audience Who the brand sells to. Context for Recommendations and GEO Writer (Brand Book)
+    #' @param brand_voice Tone of voice guidance for generated content (Brand Book)
+    #' @param goals What the brand wants to achieve. Context for GEO Writer and prompt suggestions
+    #' @param primary_products Main products or services
     #' @param matching_names matching_names
     #' @param prompts prompts
     #' @param competitors competitors
@@ -63,7 +81,7 @@ ProjectCreateRequest <- R6::R6Class(
     #' @param external_identifier Embed-enabled (Enterprise) accounts only; other accounts receive ERR_PLAN_REQUIRED. Idempotency key and embed-session join key, unique per account
     #' @param execute_prompts_immediately execute_prompts_immediately. Default to TRUE.
     #' @param ... Other optional arguments.
-    initialize = function(`website_url`, `name`, `main_country`, `main_language`, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `matching_names` = NULL, `prompts` = NULL, `competitors` = NULL, `owned_media` = NULL, `use_subdomain` = FALSE, `weekly_email_subscribed` = FALSE, `external_identifier` = NULL, `execute_prompts_immediately` = TRUE, ...) {
+    initialize = function(`website_url`, `name`, `main_country`, `main_language`, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, `prompts` = NULL, `competitors` = NULL, `owned_media` = NULL, `use_subdomain` = FALSE, `weekly_email_subscribed` = FALSE, `external_identifier` = NULL, `execute_prompts_immediately` = TRUE, ...) {
       if (!missing(`website_url`)) {
         if (!(is.character(`website_url`) && length(`website_url`) == 1)) {
           stop(paste("Error! Invalid data for `website_url`. Must be a string:", `website_url`))
@@ -108,6 +126,41 @@ ProjectCreateRequest <- R6::R6Class(
         stopifnot(is.vector(`industry`), length(`industry`) != 0)
         sapply(`industry`, function(x) stopifnot(is.character(x)))
         self$`industry` <- `industry`
+      }
+      if (!is.null(`business_model`)) {
+        if (!(is.character(`business_model`) && length(`business_model`) == 1)) {
+          stop(paste("Error! Invalid data for `business_model`. Must be a string:", `business_model`))
+        }
+        self$`business_model` <- `business_model`
+      }
+      if (!is.null(`business_model_other`)) {
+        if (!(is.character(`business_model_other`) && length(`business_model_other`) == 1)) {
+          stop(paste("Error! Invalid data for `business_model_other`. Must be a string:", `business_model_other`))
+        }
+        self$`business_model_other` <- `business_model_other`
+      }
+      if (!is.null(`target_audience`)) {
+        if (!(is.character(`target_audience`) && length(`target_audience`) == 1)) {
+          stop(paste("Error! Invalid data for `target_audience`. Must be a string:", `target_audience`))
+        }
+        self$`target_audience` <- `target_audience`
+      }
+      if (!is.null(`brand_voice`)) {
+        if (!(is.character(`brand_voice`) && length(`brand_voice`) == 1)) {
+          stop(paste("Error! Invalid data for `brand_voice`. Must be a string:", `brand_voice`))
+        }
+        self$`brand_voice` <- `brand_voice`
+      }
+      if (!is.null(`goals`)) {
+        if (!(is.character(`goals`) && length(`goals`) == 1)) {
+          stop(paste("Error! Invalid data for `goals`. Must be a string:", `goals`))
+        }
+        self$`goals` <- `goals`
+      }
+      if (!is.null(`primary_products`)) {
+        stopifnot(is.vector(`primary_products`), length(`primary_products`) != 0)
+        sapply(`primary_products`, function(x) stopifnot(is.character(x)))
+        self$`primary_products` <- `primary_products`
       }
       if (!is.null(`matching_names`)) {
         stopifnot(is.vector(`matching_names`), length(`matching_names`) != 0)
@@ -213,6 +266,30 @@ ProjectCreateRequest <- R6::R6Class(
         ProjectCreateRequestObject[["industry"]] <-
           self$`industry`
       }
+      if (!is.null(self$`business_model`)) {
+        ProjectCreateRequestObject[["business_model"]] <-
+          self$`business_model`
+      }
+      if (!is.null(self$`business_model_other`)) {
+        ProjectCreateRequestObject[["business_model_other"]] <-
+          self$`business_model_other`
+      }
+      if (!is.null(self$`target_audience`)) {
+        ProjectCreateRequestObject[["target_audience"]] <-
+          self$`target_audience`
+      }
+      if (!is.null(self$`brand_voice`)) {
+        ProjectCreateRequestObject[["brand_voice"]] <-
+          self$`brand_voice`
+      }
+      if (!is.null(self$`goals`)) {
+        ProjectCreateRequestObject[["goals"]] <-
+          self$`goals`
+      }
+      if (!is.null(self$`primary_products`)) {
+        ProjectCreateRequestObject[["primary_products"]] <-
+          self$`primary_products`
+      }
       if (!is.null(self$`matching_names`)) {
         ProjectCreateRequestObject[["matching_names"]] <-
           self$`matching_names`
@@ -303,6 +380,24 @@ ProjectCreateRequest <- R6::R6Class(
       if (!is.null(this_object$`industry`)) {
         self$`industry` <- ApiClient$new()$deserializeObj(this_object$`industry`, "array[character]", loadNamespace("llmpulse"))
       }
+      if (!is.null(this_object$`business_model`)) {
+        self$`business_model` <- this_object$`business_model`
+      }
+      if (!is.null(this_object$`business_model_other`)) {
+        self$`business_model_other` <- this_object$`business_model_other`
+      }
+      if (!is.null(this_object$`target_audience`)) {
+        self$`target_audience` <- this_object$`target_audience`
+      }
+      if (!is.null(this_object$`brand_voice`)) {
+        self$`brand_voice` <- this_object$`brand_voice`
+      }
+      if (!is.null(this_object$`goals`)) {
+        self$`goals` <- this_object$`goals`
+      }
+      if (!is.null(this_object$`primary_products`)) {
+        self$`primary_products` <- ApiClient$new()$deserializeObj(this_object$`primary_products`, "array[character]", loadNamespace("llmpulse"))
+      }
       if (!is.null(this_object$`matching_names`)) {
         self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       }
@@ -361,6 +456,12 @@ ProjectCreateRequest <- R6::R6Class(
       self$`brand_name` <- this_object$`brand_name`
       self$`description` <- this_object$`description`
       self$`industry` <- ApiClient$new()$deserializeObj(this_object$`industry`, "array[character]", loadNamespace("llmpulse"))
+      self$`business_model` <- this_object$`business_model`
+      self$`business_model_other` <- this_object$`business_model_other`
+      self$`target_audience` <- this_object$`target_audience`
+      self$`brand_voice` <- this_object$`brand_voice`
+      self$`goals` <- this_object$`goals`
+      self$`primary_products` <- ApiClient$new()$deserializeObj(this_object$`primary_products`, "array[character]", loadNamespace("llmpulse"))
       self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       self$`prompts` <- ApiClient$new()$deserializeObj(this_object$`prompts`, "array[character]", loadNamespace("llmpulse"))
       self$`competitors` <- ApiClient$new()$deserializeObj(this_object$`competitors`, "array[ProjectCreateRequestCompetitorsInner]", loadNamespace("llmpulse"))

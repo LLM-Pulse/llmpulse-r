@@ -26,12 +26,12 @@ library(llmpulse)
 var_project_id <- 56 # integer | Project ID
 var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 var_from <- "from_example" # character |  (Optional)
-var_to <- "to_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
-var_collection_id <- 56 # integer |  (Optional)
-var_country_code <- "country_code_example" # character | ISO country code (e.g. US, GB, DE) (Optional)
-var_language_code <- "language_code_example" # character | ISO language code (e.g. en, es, de) (Optional)
-var_prompt_type <- "prompt_type_example" # character | Filter by prompt type (search intent) (Optional)
+var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (Optional)
 
@@ -48,12 +48,12 @@ Name | Type | Description  | Notes
  **project_id** | **integer**| Project ID | 
  **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
  **from** | **character**|  | [optional] 
- **to** | **character**|  | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 
- **collection_id** | **integer**|  | [optional] 
- **country_code** | **character**| ISO country code (e.g. US, GB, DE) | [optional] 
- **language_code** | **character**| ISO language code (e.g. en, es, de) | [optional] 
- **prompt_type** | Enum [informational, navigational, commercial, transactional] | Filter by prompt type (search intent) | [optional] 
+ **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
 
@@ -90,12 +90,12 @@ library(llmpulse)
 var_project_id <- 56 # integer | Project ID
 var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 var_from <- "from_example" # character |  (Optional)
-var_to <- "to_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
-var_collection_id <- 56 # integer |  (Optional)
-var_country_code <- "country_code_example" # character | ISO country code (e.g. US, GB, DE) (Optional)
-var_language_code <- "language_code_example" # character | ISO language code (e.g. en, es, de) (Optional)
-var_prompt_type <- "prompt_type_example" # character | Filter by prompt type (search intent) (Optional)
+var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
 var_brand1 <- 56 # integer | Competitor ID for the first comparison brand (omit to compare project brand) (Optional)
@@ -114,14 +114,14 @@ Name | Type | Description  | Notes
  **project_id** | **integer**| Project ID | 
  **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
  **from** | **character**|  | [optional] 
- **to** | **character**|  | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 
- **collection_id** | **integer**|  | [optional] 
- **country_code** | **character**| ISO country code (e.g. US, GB, DE) | [optional] 
- **language_code** | **character**| ISO language code (e.g. en, es, de) | [optional] 
- **prompt_type** | Enum [informational, navigational, commercial, transactional] | Filter by prompt type (search intent) | [optional] 
+ **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
  **brand1** | **integer**| Competitor ID for the first comparison brand (omit to compare project brand) | [optional] 
  **brand2** | **integer**|  | [optional] 
 
@@ -158,12 +158,12 @@ library(llmpulse)
 var_project_id <- 56 # integer | Project ID
 var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 var_from <- "from_example" # character |  (Optional)
-var_to <- "to_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
-var_collection_id <- 56 # integer |  (Optional)
-var_country_code <- "country_code_example" # character | ISO country code (e.g. US, GB, DE) (Optional)
-var_language_code <- "language_code_example" # character | ISO language code (e.g. en, es, de) (Optional)
-var_prompt_type <- "prompt_type_example" # character | Filter by prompt type (search intent) (Optional)
+var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_page <- 1 # integer |  (Optional)
 var_per_page <- 20 # integer |  (Optional)
@@ -181,12 +181,12 @@ Name | Type | Description  | Notes
  **project_id** | **integer**| Project ID | 
  **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
  **from** | **character**|  | [optional] 
- **to** | **character**|  | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 
- **collection_id** | **integer**|  | [optional] 
- **country_code** | **character**| ISO country code (e.g. US, GB, DE) | [optional] 
- **language_code** | **character**| ISO language code (e.g. en, es, de) | [optional] 
- **prompt_type** | Enum [informational, navigational, commercial, transactional] | Filter by prompt type (search intent) | [optional] 
+ **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]

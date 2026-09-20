@@ -4,136 +4,12 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetAgentTraffic**](MetricsApi.md#GetAgentTraffic) | **GET** /metrics/agent_traffic | AI bot crawler traffic (Scale+, Beta)
-[**GetAiTraffic**](MetricsApi.md#GetAiTraffic) | **GET** /metrics/ai_traffic | AI referral traffic (Scale+)
 [**GetPromptSummary**](MetricsApi.md#GetPromptSummary) | **GET** /metrics/prompt_summary | Per-prompt metrics summary
 [**GetShareOfVoice**](MetricsApi.md#GetShareOfVoice) | **GET** /metrics/sov | Share of Voice
 [**GetSummary**](MetricsApi.md#GetSummary) | **GET** /metrics/summary | Aggregated metrics summary
 [**GetTimeseries**](MetricsApi.md#GetTimeseries) | **GET** /metrics/timeseries | Time-series metrics
 [**GetTopSources**](MetricsApi.md#GetTopSources) | **GET** /metrics/top_sources | Top cited sources
 
-
-# **GetAgentTraffic**
-> AgentTrafficResponse GetAgentTraffic(project_id, range = var.range, from = var.from, to = var.to, bot = var.bot, company = var.company, group_by = "bot", granularity = var.granularity)
-
-AI bot crawler traffic (Scale+, Beta)
-
-Aggregated AI bot traffic hitting the project's origin server (GPTBot, PerplexityBot, ClaudeBot, OAI-SearchBot, Google-Extended, etc.). Sourced from Cloudflare or CSV uploads. Requires the Scale plan; lower tiers receive ERR_PLAN_REQUIRED.
-
-### Example
-```R
-library(llmpulse)
-
-# AI bot crawler traffic (Scale+, Beta)
-#
-# prepare function argument(s)
-var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
-var_from <- "from_example" # character |  (Optional)
-var_to <- "to_example" # character |  (Optional)
-var_bot <- "bot_example" # character | Filter by bot slug (e.g. gptbot, claudebot, perplexitybot) (Optional)
-var_company <- "company_example" # character | Filter by company (e.g. openai, anthropic, google) (Optional)
-var_group_by <- "bot" # character |  (Optional)
-var_granularity <- "granularity_example" # character |  (Optional)
-
-api_instance <- MetricsApi$new()
-# Configure HTTP bearer authorization: BearerAuth
-api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-# to save the result into a file, simply add the optional `data_file` parameter, e.g.
-# result <- api_instance$GetAgentTraffic(var_project_id, range = var_range, from = var_from, to = var_to, bot = var_bot, company = var_company, group_by = var_group_by, granularity = var_granularitydata_file = "result.txt")
-result <- api_instance$GetAgentTraffic(var_project_id, range = var_range, from = var_from, to = var_to, bot = var_bot, company = var_company, group_by = var_group_by, granularity = var_granularity)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
- **from** | **character**|  | [optional] 
- **to** | **character**|  | [optional] 
- **bot** | **character**| Filter by bot slug (e.g. gptbot, claudebot, perplexitybot) | [optional] 
- **company** | **character**| Filter by company (e.g. openai, anthropic, google) | [optional] 
- **group_by** | Enum [bot, company] |  | [optional] [default to &quot;bot&quot;]
- **granularity** | Enum [day, week, month] |  | [optional] 
-
-### Return type
-
-[**AgentTrafficResponse**](AgentTrafficResponse.md)
-
-### Authorization
-
-[BearerAuth](../README.md#BearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Agent traffic data |  -  |
-| **403** | Endpoint requires a higher plan tier |  -  |
-
-# **GetAiTraffic**
-> GetAiTraffic(project_id, range = var.range, from = var.from, to = var.to, source = var.source, granularity = var.granularity)
-
-AI referral traffic (Scale+)
-
-AI referral traffic for a project: human visits arriving from AI assistants (ChatGPT, Perplexity, Gemini, Claude, etc.), measured from the connected web analytics provider (Google Analytics 4, Adobe Analytics, PostHog, Plausible or Piano). Returns per-source users, sessions and conversions with totals and a conversion rate. Requires a connected provider and the Scale plan; otherwise returns ERR_AI_TRAFFIC_NOT_CONNECTED or ERR_PLAN_REQUIRED.
-
-### Example
-```R
-library(llmpulse)
-
-# AI referral traffic (Scale+)
-#
-# prepare function argument(s)
-var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
-var_from <- "from_example" # character |  (Optional)
-var_to <- "to_example" # character |  (Optional)
-var_source <- "source_example" # character | Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) (Optional)
-var_granularity <- "granularity_example" # character |  (Optional)
-
-api_instance <- MetricsApi$new()
-# Configure HTTP bearer authorization: BearerAuth
-api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetAiTraffic(var_project_id, range = var_range, from = var_from, to = var_to, source = var_source, granularity = var_granularity)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
- **from** | **character**|  | [optional] 
- **to** | **character**|  | [optional] 
- **source** | **character**| Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) | [optional] 
- **granularity** | Enum [day, week, month] |  | [optional] 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[BearerAuth](../README.md#BearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | AI referral traffic data |  -  |
-| **403** | Endpoint requires a higher plan tier |  -  |
-| **404** | Resource not found |  -  |
 
 # **GetPromptSummary**
 > PromptSummaryResponse GetPromptSummary(project_id, range = var.range, from = var.from, to = var.to, breakdown = var.breakdown, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, sort = "responses", sort_dir = "desc", page = 1, per_page = 20, output = var.output)
@@ -152,14 +28,14 @@ library(llmpulse)
 var_project_id <- 56 # integer | Project ID
 var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 var_from <- "from_example" # character |  (Optional)
-var_to <- "to_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_breakdown <- "breakdown_example" # character | Add per-(prompt, model) rows to the output (Optional)
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-var_collection_id <- 56 # integer |  (Optional)
-var_country_code <- "country_code_example" # character | ISO country code (e.g. US, GB, DE) (Optional)
-var_language_code <- "language_code_example" # character | ISO language code (e.g. en, es, de) (Optional)
+var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 var_prompt <- 56 # integer | Filter by prompt ID (Optional)
-var_prompt_type <- "prompt_type_example" # character | Filter by prompt type (search intent) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_sort <- "responses" # character |  (Optional)
 var_sort_dir <- "desc" # character |  (Optional)
@@ -183,14 +59,14 @@ Name | Type | Description  | Notes
  **project_id** | **integer**| Project ID | 
  **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
  **from** | **character**|  | [optional] 
- **to** | **character**|  | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **breakdown** | Enum [model] | Add per-(prompt, model) rows to the output | [optional] 
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collection_id** | **integer**|  | [optional] 
- **country_code** | **character**| ISO country code (e.g. US, GB, DE) | [optional] 
- **language_code** | **character**| ISO language code (e.g. en, es, de) | [optional] 
+ **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 
- **prompt_type** | Enum [informational, navigational, commercial, transactional] | Filter by prompt type (search intent) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **sort** | Enum [responses, mentions, citations, mention_rate, visibility, citation_rate, avg_mention_position, avg_position] |  | [optional] [default to &quot;responses&quot;]
  **sort_dir** | Enum [asc, desc] |  | [optional] [default to &quot;desc&quot;]
@@ -234,13 +110,13 @@ library(llmpulse)
 var_project_id <- 56 # integer | Project ID
 var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 var_from <- "from_example" # character |  (Optional)
-var_to <- "to_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
 var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (Optional)
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-var_collection_id <- 56 # integer |  (Optional)
+var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
 var_prompt <- 56 # integer | Filter by prompt ID (Optional)
-var_prompt_type <- "prompt_type_example" # character | Filter by prompt type (search intent) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
 var_view <- "over_time" # character | Which Share of Voice projection to flatten. Only valid together with 'output'. 'over_time' (default) is one row per date and actor, 'current' the ranked snapshot, 'breakdown' the Top 4 plus Others. (Optional)
@@ -261,13 +137,13 @@ Name | Type | Description  | Notes
  **project_id** | **integer**| Project ID | 
  **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
  **from** | **character**|  | [optional] 
- **to** | **character**|  | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 
  **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collection_id** | **integer**|  | [optional] 
+ **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 
- **prompt_type** | Enum [informational, navigational, commercial, transactional] | Filter by prompt type (search intent) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
  **view** | Enum [over_time, current, breakdown] | Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. | [optional] [default to &quot;over_time&quot;]
@@ -309,12 +185,12 @@ var_metrics <- "metrics_example" # character | Comma-separated list of metrics: 
 var_granularity <- "granularity_example" # character |  (Optional)
 var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 var_from <- "from_example" # character |  (Optional)
-var_to <- "to_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (Optional)
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-var_collection_id <- 56 # integer |  (Optional)
+var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
 var_prompt <- 56 # integer | Filter by prompt ID (Optional)
-var_prompt_type <- "prompt_type_example" # character | Filter by prompt type (search intent) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
 
@@ -336,12 +212,12 @@ Name | Type | Description  | Notes
  **granularity** | Enum [day, week, month] |  | [optional] 
  **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
  **from** | **character**|  | [optional] 
- **to** | **character**|  | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collection_id** | **integer**|  | [optional] 
+ **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 
- **prompt_type** | Enum [informational, navigational, commercial, transactional] | Filter by prompt type (search intent) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
 
@@ -384,14 +260,14 @@ var_metrics <- "metrics_example" # character | Comma-separated list of metrics: 
 var_granularity <- "granularity_example" # character |  (Optional)
 var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 var_from <- "from_example" # character |  (Optional)
-var_to <- "to_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (Optional)
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-var_collection_id <- 56 # integer |  (Optional)
-var_country_code <- "country_code_example" # character | ISO country code (e.g. US, GB, DE) (Optional)
-var_language_code <- "language_code_example" # character | ISO language code (e.g. en, es, de) (Optional)
+var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 var_prompt <- 56 # integer | Filter by prompt ID (Optional)
-var_prompt_type <- "prompt_type_example" # character | Filter by prompt type (search intent) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_include_project <- TRUE # character |  (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
@@ -414,14 +290,14 @@ Name | Type | Description  | Notes
  **granularity** | Enum [day, week, month] |  | [optional] 
  **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
  **from** | **character**|  | [optional] 
- **to** | **character**|  | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collection_id** | **integer**|  | [optional] 
- **country_code** | **character**| ISO country code (e.g. US, GB, DE) | [optional] 
- **language_code** | **character**| ISO language code (e.g. en, es, de) | [optional] 
+ **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 
- **prompt_type** | Enum [informational, navigational, commercial, transactional] | Filter by prompt type (search intent) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **include_project** | **character**|  | [optional] [default to TRUE]
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
@@ -464,13 +340,13 @@ library(llmpulse)
 var_project_id <- 56 # integer | Project ID
 var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 var_from <- "from_example" # character |  (Optional)
-var_to <- "to_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-var_collection_id <- 56 # integer |  (Optional)
-var_country_code <- "country_code_example" # character | ISO country code (e.g. US, GB, DE) (Optional)
-var_language_code <- "language_code_example" # character | ISO language code (e.g. en, es, de) (Optional)
+var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 var_prompt <- 56 # integer | Filter by prompt ID (Optional)
-var_prompt_type <- "prompt_type_example" # character | Filter by prompt type (search intent) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_sort <- "total_responses" # character |  (Optional)
 var_query <- "query_example" # character | Filter domains by case-insensitive partial match (Optional)
@@ -494,13 +370,13 @@ Name | Type | Description  | Notes
  **project_id** | **integer**| Project ID | 
  **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
  **from** | **character**|  | [optional] 
- **to** | **character**|  | [optional] 
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collection_id** | **integer**|  | [optional] 
- **country_code** | **character**| ISO country code (e.g. US, GB, DE) | [optional] 
- **language_code** | **character**| ISO language code (e.g. en, es, de) | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
+ **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 
- **prompt_type** | Enum [informational, navigational, commercial, transactional] | Filter by prompt type (search intent) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **sort** | Enum [total_responses, avg_mention_rate, avg_visibility] |  | [optional] [default to &quot;total_responses&quot;]
  **query** | **character**| Filter domains by case-insensitive partial match | [optional] 

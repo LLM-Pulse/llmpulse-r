@@ -15,9 +15,11 @@
 #' @field matching_names  list(character) [optional]
 #' @field industry  character [optional]
 #' @field business_model  character [optional]
-#' @field primary_products  character [optional]
+#' @field business_model_other Set only when business_model is OTHER character [optional]
+#' @field primary_products  list(character) [optional]
 #' @field target_audience  character [optional]
 #' @field brand_voice  character [optional]
+#' @field goals  character [optional]
 #' @field country_code  character [optional]
 #' @field language_code  character [optional]
 #' @field paused  character [optional]
@@ -39,9 +41,11 @@ ProjectDetails <- R6::R6Class(
     `matching_names` = NULL,
     `industry` = NULL,
     `business_model` = NULL,
+    `business_model_other` = NULL,
     `primary_products` = NULL,
     `target_audience` = NULL,
     `brand_voice` = NULL,
+    `goals` = NULL,
     `country_code` = NULL,
     `language_code` = NULL,
     `paused` = NULL,
@@ -61,9 +65,11 @@ ProjectDetails <- R6::R6Class(
     #' @param matching_names matching_names
     #' @param industry industry
     #' @param business_model business_model
+    #' @param business_model_other Set only when business_model is OTHER
     #' @param primary_products primary_products
     #' @param target_audience target_audience
     #' @param brand_voice brand_voice
+    #' @param goals goals
     #' @param country_code country_code
     #' @param language_code language_code
     #' @param paused paused
@@ -72,7 +78,7 @@ ProjectDetails <- R6::R6Class(
     #' @param created_at created_at
     #' @param stats stats
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `industry` = NULL, `business_model` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `stats` = NULL, ...) {
+    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `stats` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -124,10 +130,15 @@ ProjectDetails <- R6::R6Class(
         }
         self$`business_model` <- `business_model`
       }
-      if (!is.null(`primary_products`)) {
-        if (!(is.character(`primary_products`) && length(`primary_products`) == 1)) {
-          stop(paste("Error! Invalid data for `primary_products`. Must be a string:", `primary_products`))
+      if (!is.null(`business_model_other`)) {
+        if (!(is.character(`business_model_other`) && length(`business_model_other`) == 1)) {
+          stop(paste("Error! Invalid data for `business_model_other`. Must be a string:", `business_model_other`))
         }
+        self$`business_model_other` <- `business_model_other`
+      }
+      if (!is.null(`primary_products`)) {
+        stopifnot(is.vector(`primary_products`), length(`primary_products`) != 0)
+        sapply(`primary_products`, function(x) stopifnot(is.character(x)))
         self$`primary_products` <- `primary_products`
       }
       if (!is.null(`target_audience`)) {
@@ -141,6 +152,12 @@ ProjectDetails <- R6::R6Class(
           stop(paste("Error! Invalid data for `brand_voice`. Must be a string:", `brand_voice`))
         }
         self$`brand_voice` <- `brand_voice`
+      }
+      if (!is.null(`goals`)) {
+        if (!(is.character(`goals`) && length(`goals`) == 1)) {
+          stop(paste("Error! Invalid data for `goals`. Must be a string:", `goals`))
+        }
+        self$`goals` <- `goals`
       }
       if (!is.null(`country_code`)) {
         if (!(is.character(`country_code`) && length(`country_code`) == 1)) {
@@ -247,6 +264,10 @@ ProjectDetails <- R6::R6Class(
         ProjectDetailsObject[["business_model"]] <-
           self$`business_model`
       }
+      if (!is.null(self$`business_model_other`)) {
+        ProjectDetailsObject[["business_model_other"]] <-
+          self$`business_model_other`
+      }
       if (!is.null(self$`primary_products`)) {
         ProjectDetailsObject[["primary_products"]] <-
           self$`primary_products`
@@ -258,6 +279,10 @@ ProjectDetails <- R6::R6Class(
       if (!is.null(self$`brand_voice`)) {
         ProjectDetailsObject[["brand_voice"]] <-
           self$`brand_voice`
+      }
+      if (!is.null(self$`goals`)) {
+        ProjectDetailsObject[["goals"]] <-
+          self$`goals`
       }
       if (!is.null(self$`country_code`)) {
         ProjectDetailsObject[["country_code"]] <-
@@ -348,14 +373,20 @@ ProjectDetails <- R6::R6Class(
       if (!is.null(this_object$`business_model`)) {
         self$`business_model` <- this_object$`business_model`
       }
+      if (!is.null(this_object$`business_model_other`)) {
+        self$`business_model_other` <- this_object$`business_model_other`
+      }
       if (!is.null(this_object$`primary_products`)) {
-        self$`primary_products` <- this_object$`primary_products`
+        self$`primary_products` <- ApiClient$new()$deserializeObj(this_object$`primary_products`, "array[character]", loadNamespace("llmpulse"))
       }
       if (!is.null(this_object$`target_audience`)) {
         self$`target_audience` <- this_object$`target_audience`
       }
       if (!is.null(this_object$`brand_voice`)) {
         self$`brand_voice` <- this_object$`brand_voice`
+      }
+      if (!is.null(this_object$`goals`)) {
+        self$`goals` <- this_object$`goals`
       }
       if (!is.null(this_object$`country_code`)) {
         self$`country_code` <- this_object$`country_code`
@@ -413,9 +444,11 @@ ProjectDetails <- R6::R6Class(
       self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       self$`industry` <- this_object$`industry`
       self$`business_model` <- this_object$`business_model`
-      self$`primary_products` <- this_object$`primary_products`
+      self$`business_model_other` <- this_object$`business_model_other`
+      self$`primary_products` <- ApiClient$new()$deserializeObj(this_object$`primary_products`, "array[character]", loadNamespace("llmpulse"))
       self$`target_audience` <- this_object$`target_audience`
       self$`brand_voice` <- this_object$`brand_voice`
+      self$`goals` <- this_object$`goals`
       self$`country_code` <- this_object$`country_code`
       self$`language_code` <- this_object$`language_code`
       self$`paused` <- this_object$`paused`

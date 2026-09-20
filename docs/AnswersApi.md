@@ -63,7 +63,7 @@ Name | Type | Description  | Notes
 | **404** | Resource not found |  -  |
 
 # **ListAnswers**
-> ListAnswers(project_id, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, mention_filter = var.mention_filter, citation_filter = var.citation_filter, competitors = var.competitors, from = var.from, to = var.to, page = 1, per_page = 20, query = var.query)
+> ListAnswers(project_id, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, mention_filter = var.mention_filter, citation_filter = var.citation_filter, competitors = var.competitors, from = var.from, to = var.to, page = 1, per_page = 20, query = var.query, no_result = var.no_result)
 
 List AI responses
 
@@ -78,23 +78,24 @@ library(llmpulse)
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-var_collection_id <- 56 # integer |  (Optional)
-var_country_code <- "country_code_example" # character | ISO country code (e.g. US, GB, DE) (Optional)
-var_language_code <- "language_code_example" # character | ISO language code (e.g. en, es, de) (Optional)
+var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 var_prompt <- 56 # integer | Filter by prompt ID (Optional)
 var_mention_filter <- "mention_filter_example" # character | Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space). Combine with 'competitors' to narrow the competitor side to specific rivals; on a negative cell that reads 'none of these'. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value 'competitors_only' is still accepted as an alias of competitor_not_you. (Optional)
 var_citation_filter <- "citation_filter_example" # character | Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (Optional)
 var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (Optional)
 var_from <- "from_example" # character |  (Optional)
-var_to <- "to_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_page <- 1 # integer |  (Optional)
 var_per_page <- 20 # integer |  (Optional)
 var_query <- "query_example" # character | Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (Optional)
+var_no_result <- "no_result_example" # character | Filter sentinel non-answers (provider returned nothing after retries; excluded from platform metrics). false = only real answers, true = only sentinels, omit = both. Every item carries its own no_result flag. (Optional)
 
 api_instance <- AnswersApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListAnswers(var_project_id, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, mention_filter = var_mention_filter, citation_filter = var_citation_filter, competitors = var_competitors, from = var_from, to = var_to, page = var_page, per_page = var_per_page, query = var_query)
+api_instance$ListAnswers(var_project_id, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, mention_filter = var_mention_filter, citation_filter = var_citation_filter, competitors = var_competitors, from = var_from, to = var_to, page = var_page, per_page = var_per_page, query = var_query, no_result = var_no_result)
 ```
 
 ### Parameters
@@ -102,19 +103,20 @@ api_instance$ListAnswers(var_project_id, model = var_model, collection_id = var_
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collection_id** | **integer**|  | [optional] 
- **country_code** | **character**| ISO country code (e.g. US, GB, DE) | [optional] 
- **language_code** | **character**| ISO language code (e.g. en, es, de) | [optional] 
+ **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 
  **mention_filter** | Enum [mentions_you, not_mentions_you, mentions_competitor, not_mentions_competitor, you_and_competitor, competitor_not_you, you_not_competitor, no_brands] | Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. | [optional] 
  **citation_filter** | Enum [cites_you, not_cites_you, cites_competitor, not_cites_competitor, you_and_competitor, competitor_not_you, you_not_competitor, cites_no_brands] | Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). | [optional] 
  **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **from** | **character**|  | [optional] 
- **to** | **character**|  | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
  **query** | **character**| Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. | [optional] 
+ **no_result** | **character**| Filter sentinel non-answers (provider returned nothing after retries; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag. | [optional] 
 
 ### Return type
 
