@@ -22,7 +22,7 @@
 #' var_page <- 1 # integer |  (Optional)
 #' var_per_page <- 20 # integer |  (Optional)
 #' var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_prompt <- 56 # integer | Filter by prompt ID (Optional)
 #' var_from <- "from_example" # character |  (Optional)
 #' var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
@@ -45,7 +45,7 @@
 #' var_page <- 1 # integer |  (Optional)
 #' var_per_page <- 20 # integer |  (Optional)
 #' var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_prompt <- 56 # integer | Filter by prompt ID (Optional)
 #' var_from <- "from_example" # character |  (Optional)
 #' var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
@@ -67,7 +67,7 @@
 #' var_page <- 1 # integer |  (Optional)
 #' var_per_page <- 20 # integer |  (Optional)
 #' var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 #' var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 #' var_prompt <- 56 # integer | Filter by prompt ID (Optional)
@@ -92,7 +92,7 @@
 #' var_page <- 1 # integer |  (Optional)
 #' var_per_page <- 20 # integer |  (Optional)
 #' var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_prompt <- 56 # integer | Filter by prompt ID (Optional)
 #' var_from <- "from_example" # character |  (Optional)
 #' var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
@@ -115,7 +115,7 @@
 #' var_page <- 1 # integer |  (Optional)
 #' var_per_page <- 20 # integer |  (Optional)
 #' var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_prompt <- 56 # integer | Filter by prompt ID (Optional)
 #' var_from <- "from_example" # character |  (Optional)
 #' var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
@@ -137,7 +137,7 @@
 #' var_page <- 1 # integer |  (Optional)
 #' var_per_page <- 20 # integer |  (Optional)
 #' var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 #' var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 #' var_prompt <- 56 # integer | Filter by prompt ID (Optional)
@@ -183,7 +183,7 @@ MentionsCitationsApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param prompt (optional) Filter by prompt ID
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
@@ -212,7 +212,7 @@ MentionsCitationsApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param prompt (optional) Filter by prompt ID
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
@@ -265,6 +265,9 @@ MentionsCitationsApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListAllCitations, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListAllCitations, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`prompt`) && is.null(`prompt`)) {
@@ -364,7 +367,7 @@ MentionsCitationsApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param prompt (optional) Filter by prompt ID
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
@@ -393,7 +396,7 @@ MentionsCitationsApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param prompt (optional) Filter by prompt ID
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
@@ -446,6 +449,9 @@ MentionsCitationsApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListAllMentions, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListAllMentions, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`prompt`) && is.null(`prompt`)) {
@@ -544,7 +550,7 @@ MentionsCitationsApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt (optional) Filter by prompt ID
@@ -574,7 +580,7 @@ MentionsCitationsApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt (optional) Filter by prompt ID
@@ -625,6 +631,9 @@ MentionsCitationsApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListCitations, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListCitations, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`country_code`) && is.null(`country_code`)) {
@@ -734,7 +743,7 @@ MentionsCitationsApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param prompt (optional) Filter by prompt ID
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
@@ -763,7 +772,7 @@ MentionsCitationsApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param prompt (optional) Filter by prompt ID
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
@@ -816,6 +825,9 @@ MentionsCitationsApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListCompetitorCitations, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListCompetitorCitations, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`prompt`) && is.null(`prompt`)) {
@@ -915,7 +927,7 @@ MentionsCitationsApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param prompt (optional) Filter by prompt ID
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
@@ -944,7 +956,7 @@ MentionsCitationsApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param prompt (optional) Filter by prompt ID
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
@@ -997,6 +1009,9 @@ MentionsCitationsApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListCompetitorMentions, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListCompetitorMentions, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`prompt`) && is.null(`prompt`)) {
@@ -1095,7 +1110,7 @@ MentionsCitationsApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt (optional) Filter by prompt ID
@@ -1125,7 +1140,7 @@ MentionsCitationsApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt (optional) Filter by prompt ID
@@ -1176,6 +1191,9 @@ MentionsCitationsApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListMentions, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListMentions, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`country_code`) && is.null(`country_code`)) {

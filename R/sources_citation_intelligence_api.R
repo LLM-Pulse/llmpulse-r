@@ -50,7 +50,7 @@
 #' var_project_id <- 56 # integer | Project ID
 #' var_domains <- c("inner_example") # array[character] | Source domains to analyze, e.g. domains[]=gmac.com&domains[]=educaweb.com
 #' var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 #' var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 #' var_prompt <- 56 # integer | Filter by prompt ID (Optional)
@@ -77,7 +77,7 @@
 #' var_order <- "order_example" # character |  (Optional)
 #' var_direction <- "direction_example" # character |  (Optional)
 #' var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 #' var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 #' var_prompt <- 56 # integer | Filter by prompt ID (Optional)
@@ -121,7 +121,7 @@
 #' var_page <- 1 # integer |  (Optional)
 #' var_per_page <- 20 # integer |  (Optional)
 #' var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 #' var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 #' var_prompt <- 56 # integer | Filter by prompt ID (Optional)
@@ -390,7 +390,7 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
     #' @param project_id Project ID
     #' @param domains Source domains to analyze, e.g. domains[]=gmac.com&domains[]=educaweb.com
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt (optional) Filter by prompt ID
@@ -419,7 +419,7 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
     #' @param project_id Project ID
     #' @param domains Source domains to analyze, e.g. domains[]=gmac.com&domains[]=educaweb.com
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt (optional) Filter by prompt ID
@@ -461,6 +461,9 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`country_code`) && is.null(`country_code`)) {
@@ -573,7 +576,7 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
     #' @param order (optional) No description
     #' @param direction (optional) No description
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt (optional) Filter by prompt ID
@@ -609,7 +612,7 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
     #' @param order (optional) No description
     #' @param direction (optional) No description
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt (optional) Filter by prompt ID
@@ -675,6 +678,9 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$ListCitationGroups, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`country_code`) && is.null(`country_code`)) {
@@ -958,7 +964,7 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt (optional) Filter by prompt ID
@@ -991,7 +997,7 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
     #' @param page (optional) No description (default value: 1)
     #' @param per_page (optional) No description (default value: 20)
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt (optional) Filter by prompt ID
@@ -1045,6 +1051,9 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$ListSources, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$ListSources, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`country_code`) && is.null(`country_code`)) {

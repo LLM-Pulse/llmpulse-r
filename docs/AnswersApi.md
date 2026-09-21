@@ -78,7 +78,7 @@ library(llmpulse)
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 var_prompt <- 56 # integer | Filter by prompt ID (Optional)
@@ -104,7 +104,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
  **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 

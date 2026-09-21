@@ -30,7 +30,7 @@ var_view <- "view_example" # character | Row shape; the allowed set depends on p
 var_store <- "google_play" # character | provider=mobile_apps only (Optional)
 var_owned <- "owned_example" # character | Return only rows belonging to the account's own connected profile (Optional)
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
@@ -57,7 +57,7 @@ Name | Type | Description  | Notes
  **store** | Enum [google_play, app_store] | provider&#x3D;mobile_apps only | [optional] [default to &quot;google_play&quot;]
  **owned** | **character**| Return only rows belonging to the account&#39;s own connected profile | [optional] 
  **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
@@ -111,7 +111,7 @@ var_brand <- "brand_example" # character | Filter to citations whose scraped Red
 var_order <- "order_example" # character | Sort field; the allowed set depends on view (Optional)
 var_direction <- "desc" # character |  (Optional)
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
@@ -142,7 +142,7 @@ Name | Type | Description  | Notes
  **order** | Enum [citations, subreddit, unique_authors, positive_pct, negative_pct, author, avg_position, upvotes, comments, sentiment] | Sort field; the allowed set depends on view | [optional] 
  **direction** | Enum [asc, desc] |  | [optional] [default to &quot;desc&quot;]
  **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 

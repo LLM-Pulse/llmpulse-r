@@ -38,7 +38,7 @@
 #' library(llmpulse)
 #' var_project_id <- 56 # integer | Project ID
 #' var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 #' var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 #' var_prompt <- 56 # integer | Filter by prompt ID (Optional)
@@ -222,7 +222,7 @@ AnswersApi <- R6::R6Class(
     #'
     #' @param project_id Project ID
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt (optional) Filter by prompt ID
@@ -256,7 +256,7 @@ AnswersApi <- R6::R6Class(
     #'
     #' @param project_id Project ID
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt (optional) Filter by prompt ID
@@ -296,6 +296,9 @@ AnswersApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling AnswersApi$ListAnswers, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling AnswersApi$ListAnswers, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`country_code`) && is.null(`country_code`)) {

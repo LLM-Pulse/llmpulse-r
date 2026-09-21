@@ -22,7 +22,7 @@
 #' var_from <- "from_example" # character |  (Optional)
 #' var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 #' var_granularity <- "granularity_example" # character |  (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 #' var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 #' var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
@@ -46,7 +46,7 @@
 #' var_from <- "from_example" # character |  (Optional)
 #' var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 #' var_granularity <- "granularity_example" # character |  (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 #' var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 #' var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
@@ -72,7 +72,7 @@
 #' var_from <- "from_example" # character |  (Optional)
 #' var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 #' var_granularity <- "granularity_example" # character |  (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 #' var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 #' var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
@@ -118,7 +118,7 @@ AIModelInsightsApi <- R6::R6Class(
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
     #' @param granularity (optional) No description
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt_type (optional) One prompt type or a comma-separated list: informational, navigational, commercial, transactional
@@ -148,7 +148,7 @@ AIModelInsightsApi <- R6::R6Class(
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
     #' @param granularity (optional) No description
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt_type (optional) One prompt type or a comma-separated list: informational, navigational, commercial, transactional
@@ -193,6 +193,9 @@ AIModelInsightsApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling AIModelInsightsApi$GetAiModelInsightsSummary, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling AIModelInsightsApi$GetAiModelInsightsSummary, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`country_code`) && is.null(`country_code`)) {
@@ -298,7 +301,7 @@ AIModelInsightsApi <- R6::R6Class(
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
     #' @param granularity (optional) No description
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt_type (optional) One prompt type or a comma-separated list: informational, navigational, commercial, transactional
@@ -330,7 +333,7 @@ AIModelInsightsApi <- R6::R6Class(
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
     #' @param granularity (optional) No description
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt_type (optional) One prompt type or a comma-separated list: informational, navigational, commercial, transactional
@@ -377,6 +380,9 @@ AIModelInsightsApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling AIModelInsightsApi$GetAiModelPositionDistribution, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling AIModelInsightsApi$GetAiModelPositionDistribution, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`country_code`) && is.null(`country_code`)) {
@@ -497,7 +503,7 @@ AIModelInsightsApi <- R6::R6Class(
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
     #' @param granularity (optional) No description
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt_type (optional) One prompt type or a comma-separated list: informational, navigational, commercial, transactional
@@ -528,7 +534,7 @@ AIModelInsightsApi <- R6::R6Class(
     #' @param from (optional) No description
     #' @param to (optional) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
     #' @param granularity (optional) No description
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param prompt_type (optional) One prompt type or a comma-separated list: informational, navigational, commercial, transactional
@@ -574,6 +580,9 @@ AIModelInsightsApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling AIModelInsightsApi$GetAiOverviewResults, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling AIModelInsightsApi$GetAiOverviewResults, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`country_code`) && is.null(`country_code`)) {

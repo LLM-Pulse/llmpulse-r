@@ -128,7 +128,7 @@ var_project_id <- 56 # integer | Project ID
 var_page <- 1 # integer |  (Optional)
 var_per_page <- 20 # integer |  (Optional)
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 var_prompt <- 56 # integer | Filter by prompt ID (Optional)
@@ -153,7 +153,7 @@ Name | Type | Description  | Notes
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
  **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 
@@ -198,7 +198,7 @@ var_project_id <- 56 # integer | Project ID
 var_page <- 1 # integer |  (Optional)
 var_per_page <- 20 # integer |  (Optional)
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
@@ -221,7 +221,7 @@ Name | Type | Description  | Notes
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
  **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
@@ -270,7 +270,7 @@ var_order <- "order_example" # character | Sort field; the allowed set depends o
 var_direction <- "desc" # character |  (Optional)
 var_query <- "query_example" # character | Case-insensitive substring filter on the sub-query text (Optional)
 var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 var_prompt <- 56 # integer | Filter by prompt ID (Optional)
@@ -299,7 +299,7 @@ Name | Type | Description  | Notes
  **direction** | Enum [asc, desc] |  | [optional] [default to &quot;desc&quot;]
  **query** | **character**| Case-insensitive substring filter on the sub-query text | [optional] 
  **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collection_id** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 

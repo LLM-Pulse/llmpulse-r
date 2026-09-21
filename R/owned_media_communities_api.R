@@ -25,7 +25,7 @@
 #' var_store <- "google_play" # character | provider=mobile_apps only (Optional)
 #' var_owned <- "owned_example" # character | Return only rows belonging to the account's own connected profile (Optional)
 #' var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 #' var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 #' var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
@@ -58,7 +58,7 @@
 #' var_order <- "order_example" # character | Sort field; the allowed set depends on view (Optional)
 #' var_direction <- "desc" # character |  (Optional)
 #' var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
-#' var_collection_id <- getTimeseries_collection_id_parameter$new() # GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (Optional)
+#' var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 #' var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 #' var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 #' var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
@@ -108,7 +108,7 @@ OwnedMediaCommunitiesApi <- R6::R6Class(
     #' @param store (optional) provider=mobile_apps only (default value: "google_play")
     #' @param owned (optional) Return only rows belonging to the account's own connected profile
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param brand_kind (optional) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
@@ -143,7 +143,7 @@ OwnedMediaCommunitiesApi <- R6::R6Class(
     #' @param store (optional) provider=mobile_apps only (default value: "google_play")
     #' @param owned (optional) Return only rows belonging to the account's own connected profile
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param brand_kind (optional) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
@@ -215,6 +215,9 @@ OwnedMediaCommunitiesApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`country_code`) && is.null(`country_code`)) {
@@ -357,7 +360,7 @@ OwnedMediaCommunitiesApi <- R6::R6Class(
     #' @param order (optional) Sort field; the allowed set depends on view
     #' @param direction (optional) No description (default value: "desc")
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param brand_kind (optional) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
@@ -396,7 +399,7 @@ OwnedMediaCommunitiesApi <- R6::R6Class(
     #' @param order (optional) Sort field; the allowed set depends on view
     #' @param direction (optional) No description (default value: "desc")
     #' @param model (optional) Filter by AI model. Models the API key's user has not enabled are silently dropped.
-    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs
+    #' @param collection_id (optional) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
     #' @param country_code (optional) One ISO country code or a comma-separated list (e.g. US,GB,DE)
     #' @param language_code (optional) One ISO language code or a comma-separated list (e.g. en,es,de)
     #' @param brand_kind (optional) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
@@ -480,6 +483,9 @@ OwnedMediaCommunitiesApi <- R6::R6Class(
 
       if (!missing(`collection_id`) && is.null(`collection_id`)) {
         stop("Invalid value for `collection_id` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `collection_id` is not nullable")
+      }
+      if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
+        stop("Invalid value for `collection_id` when calling OwnedMediaCommunitiesApi$ListRedditCitations, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
       if (!missing(`country_code`) && is.null(`country_code`)) {
