@@ -10,6 +10,7 @@
 #' @field project_id  integer
 #' @field url  character
 #' @field country_code Defaults to the project country character [optional]
+#' @field output_language_code ISO 639-1 code of the language the llms.txt files are written in (for example es). Defaults to the project language, else en. Only the llms.txt report of the bundle uses it; an unsupported code returns 422 ERR_INVALID_PARAM character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -19,6 +20,7 @@ CreateTechnicalGeoReportsRequest <- R6::R6Class(
     `project_id` = NULL,
     `url` = NULL,
     `country_code` = NULL,
+    `output_language_code` = NULL,
 
     #' @description
     #' Initialize a new CreateTechnicalGeoReportsRequest class.
@@ -26,8 +28,9 @@ CreateTechnicalGeoReportsRequest <- R6::R6Class(
     #' @param project_id project_id
     #' @param url url
     #' @param country_code Defaults to the project country
+    #' @param output_language_code ISO 639-1 code of the language the llms.txt files are written in (for example es). Defaults to the project language, else en. Only the llms.txt report of the bundle uses it; an unsupported code returns 422 ERR_INVALID_PARAM
     #' @param ... Other optional arguments.
-    initialize = function(`project_id`, `url`, `country_code` = NULL, ...) {
+    initialize = function(`project_id`, `url`, `country_code` = NULL, `output_language_code` = NULL, ...) {
       if (!missing(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -45,6 +48,12 @@ CreateTechnicalGeoReportsRequest <- R6::R6Class(
           stop(paste("Error! Invalid data for `country_code`. Must be a string:", `country_code`))
         }
         self$`country_code` <- `country_code`
+      }
+      if (!is.null(`output_language_code`)) {
+        if (!(is.character(`output_language_code`) && length(`output_language_code`) == 1)) {
+          stop(paste("Error! Invalid data for `output_language_code`. Must be a string:", `output_language_code`))
+        }
+        self$`output_language_code` <- `output_language_code`
       }
     },
 
@@ -91,6 +100,10 @@ CreateTechnicalGeoReportsRequest <- R6::R6Class(
         CreateTechnicalGeoReportsRequestObject[["country_code"]] <-
           self$`country_code`
       }
+      if (!is.null(self$`output_language_code`)) {
+        CreateTechnicalGeoReportsRequestObject[["output_language_code"]] <-
+          self$`output_language_code`
+      }
       return(CreateTechnicalGeoReportsRequestObject)
     },
 
@@ -109,6 +122,9 @@ CreateTechnicalGeoReportsRequest <- R6::R6Class(
       }
       if (!is.null(this_object$`country_code`)) {
         self$`country_code` <- this_object$`country_code`
+      }
+      if (!is.null(this_object$`output_language_code`)) {
+        self$`output_language_code` <- this_object$`output_language_code`
       }
       self
     },
@@ -134,6 +150,7 @@ CreateTechnicalGeoReportsRequest <- R6::R6Class(
       self$`project_id` <- this_object$`project_id`
       self$`url` <- this_object$`url`
       self$`country_code` <- this_object$`country_code`
+      self$`output_language_code` <- this_object$`output_language_code`
       self
     },
 
