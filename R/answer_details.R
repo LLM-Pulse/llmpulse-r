@@ -27,6 +27,7 @@
 #' @field brand_entities  list(object) [optional]
 #' @field local_businesses  list(object) [optional]
 #' @field locale  \link{AnswerDetailsLocale} [optional]
+#' @field app_url Opens this answer in the app. The link names its project, so it opens there for any user with access to that project character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -53,6 +54,7 @@ AnswerDetails <- R6::R6Class(
     `brand_entities` = NULL,
     `local_businesses` = NULL,
     `locale` = NULL,
+    `app_url` = NULL,
 
     #' @description
     #' Initialize a new AnswerDetails class.
@@ -77,8 +79,9 @@ AnswerDetails <- R6::R6Class(
     #' @param brand_entities brand_entities
     #' @param local_businesses local_businesses
     #' @param locale locale
+    #' @param app_url Opens this answer in the app. The link names its project, so it opens there for any user with access to that project
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `prompt_id` = NULL, `prompt_text` = NULL, `model` = NULL, `response` = NULL, `response_truncated` = NULL, `executed_at` = NULL, `duration_ms` = NULL, `success` = NULL, `fan_out_queries` = NULL, `mentions` = NULL, `citations` = NULL, `competitor_mentions` = NULL, `competitor_citations` = NULL, `sentiments` = NULL, `sources` = NULL, `shopping_products` = NULL, `brand_entities` = NULL, `local_businesses` = NULL, `locale` = NULL, ...) {
+    initialize = function(`id` = NULL, `prompt_id` = NULL, `prompt_text` = NULL, `model` = NULL, `response` = NULL, `response_truncated` = NULL, `executed_at` = NULL, `duration_ms` = NULL, `success` = NULL, `fan_out_queries` = NULL, `mentions` = NULL, `citations` = NULL, `competitor_mentions` = NULL, `competitor_citations` = NULL, `sentiments` = NULL, `sources` = NULL, `shopping_products` = NULL, `brand_entities` = NULL, `local_businesses` = NULL, `locale` = NULL, `app_url` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -186,6 +189,16 @@ AnswerDetails <- R6::R6Class(
       if (!is.null(`locale`)) {
         stopifnot(R6::is.R6(`locale`))
         self$`locale` <- `locale`
+      }
+      if (!is.null(`app_url`)) {
+        if (!(is.character(`app_url`) && length(`app_url`) == 1)) {
+          stop(paste("Error! Invalid data for `app_url`. Must be a string:", `app_url`))
+        }
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(`app_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+          stop(paste("Error! Invalid data for `app_url`. Must be a URL:", `app_url`))
+        }
+        self$`app_url` <- `app_url`
       }
     },
 
@@ -300,6 +313,10 @@ AnswerDetails <- R6::R6Class(
         AnswerDetailsObject[["locale"]] <-
           self$extractSimpleType(self$`locale`)
       }
+      if (!is.null(self$`app_url`)) {
+        AnswerDetailsObject[["app_url"]] <-
+          self$`app_url`
+      }
       return(AnswerDetailsObject)
     },
 
@@ -395,6 +412,13 @@ AnswerDetails <- R6::R6Class(
         `locale_object`$fromJSON(jsonlite::toJSON(this_object$`locale`, auto_unbox = TRUE, digits = NA))
         self$`locale` <- `locale_object`
       }
+      if (!is.null(this_object$`app_url`)) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(this_object$`app_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+          stop(paste("Error! Invalid data for `app_url`. Must be a URL:", this_object$`app_url`))
+        }
+        self$`app_url` <- this_object$`app_url`
+      }
       self
     },
 
@@ -436,6 +460,11 @@ AnswerDetails <- R6::R6Class(
       self$`brand_entities` <- ApiClient$new()$deserializeObj(this_object$`brand_entities`, "array[object]", loadNamespace("llmpulse"))
       self$`local_businesses` <- ApiClient$new()$deserializeObj(this_object$`local_businesses`, "array[object]", loadNamespace("llmpulse"))
       self$`locale` <- AnswerDetailsLocale$new()$fromJSON(jsonlite::toJSON(this_object$`locale`, auto_unbox = TRUE, digits = NA))
+      # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+      if (!stringr::str_detect(this_object$`app_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+        stop(paste("Error! Invalid data for `app_url`. Must be a URL:", this_object$`app_url`))
+      }
+      self$`app_url` <- this_object$`app_url`
       self
     },
 

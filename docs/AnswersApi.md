@@ -134,6 +134,6 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Paginated answers |  -  |
+| **200** | Paginated answers. Every item carries app_url, the link that opens the answer in the app |  -  |
 | **422** | Invalid parameters |  -  |
 

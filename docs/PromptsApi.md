@@ -180,7 +180,7 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Paginated executions |  -  |
+| **200** | Paginated executions. Every row carries app_url, the link that opens the answer in the app |  -  |
 
 # **ListPrompts**
 > ListPrompts(project_id, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, from = var.from, to = var.to, output = var.output)
@@ -246,7 +246,7 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Paginated prompts |  -  |
+| **200** | Paginated prompts. Every row carries app_url, the link that opens the prompt in the app |  -  |
 
 # **ListQueryFanOuts**
 > ListQueryFanOuts(project_id, page = 1, per_page = 20, view = "query", order = var.order, direction = "desc", query = var.query, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range, from = var.from, to = var.to, output = var.output)

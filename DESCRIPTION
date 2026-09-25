@@ -1,6 +1,6 @@
 Package: llmpulse
 Title: R Package Client for LLM Pulse API
-Version: 1.47.0
+Version: 1.48.0
 Author: person("LLM Pulse Support", email = "info@llmpulse.ai", role = c("aut", "cre"))
 Maintainer: LLM Pulse Support <info@llmpulse.ai>
 Description: REST API client for LLM Pulse AI visibility analytics.

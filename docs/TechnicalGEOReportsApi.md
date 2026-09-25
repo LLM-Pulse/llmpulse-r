@@ -53,7 +53,7 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Created |  -  |
+| **201** | Created. app_urls maps each created report type to the link that opens that report in the app |  -  |
 | **403** | API key lacks write permission |  -  |
 | **422** | Invalid parameters |  -  |
 
@@ -105,7 +105,7 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Report status and completed result data |  -  |
+| **200** | Report status and completed result data, plus app_url, the link that opens the report in the app |  -  |
 | **404** | Resource not found |  -  |
 | **422** | Invalid parameters |  -  |
 
@@ -163,6 +163,6 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Paginated technical GEO report summaries |  -  |
+| **200** | Paginated technical GEO report summaries. Every summary carries app_url, the link that opens the report in the app |  -  |
 | **422** | Invalid parameters |  -  |
 

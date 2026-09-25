@@ -18,6 +18,7 @@
 #' @field citation_rate  numeric [optional]
 #' @field avg_mention_position  numeric [optional]
 #' @field avg_position  numeric [optional]
+#' @field app_url Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -35,6 +36,7 @@ PromptSummaryRow <- R6::R6Class(
     `citation_rate` = NULL,
     `avg_mention_position` = NULL,
     `avg_position` = NULL,
+    `app_url` = NULL,
 
     #' @description
     #' Initialize a new PromptSummaryRow class.
@@ -50,8 +52,9 @@ PromptSummaryRow <- R6::R6Class(
     #' @param citation_rate citation_rate
     #' @param avg_mention_position avg_mention_position
     #' @param avg_position avg_position
+    #' @param app_url Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project
     #' @param ... Other optional arguments.
-    initialize = function(`prompt_id` = NULL, `prompt_text` = NULL, `model` = NULL, `responses` = NULL, `mentions` = NULL, `citations` = NULL, `visibility` = NULL, `mention_rate` = NULL, `citation_rate` = NULL, `avg_mention_position` = NULL, `avg_position` = NULL, ...) {
+    initialize = function(`prompt_id` = NULL, `prompt_text` = NULL, `model` = NULL, `responses` = NULL, `mentions` = NULL, `citations` = NULL, `visibility` = NULL, `mention_rate` = NULL, `citation_rate` = NULL, `avg_mention_position` = NULL, `avg_position` = NULL, `app_url` = NULL, ...) {
       if (!is.null(`prompt_id`)) {
         if (!(is.numeric(`prompt_id`) && length(`prompt_id`) == 1)) {
           stop(paste("Error! Invalid data for `prompt_id`. Must be an integer:", `prompt_id`))
@@ -102,6 +105,16 @@ PromptSummaryRow <- R6::R6Class(
       }
       if (!is.null(`avg_position`)) {
         self$`avg_position` <- `avg_position`
+      }
+      if (!is.null(`app_url`)) {
+        if (!(is.character(`app_url`) && length(`app_url`) == 1)) {
+          stop(paste("Error! Invalid data for `app_url`. Must be a string:", `app_url`))
+        }
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(`app_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+          stop(paste("Error! Invalid data for `app_url`. Must be a URL:", `app_url`))
+        }
+        self$`app_url` <- `app_url`
       }
     },
 
@@ -180,6 +193,10 @@ PromptSummaryRow <- R6::R6Class(
         PromptSummaryRowObject[["avg_position"]] <-
           self$`avg_position`
       }
+      if (!is.null(self$`app_url`)) {
+        PromptSummaryRowObject[["app_url"]] <-
+          self$`app_url`
+      }
       return(PromptSummaryRowObject)
     },
 
@@ -223,6 +240,13 @@ PromptSummaryRow <- R6::R6Class(
       if (!is.null(this_object$`avg_position`)) {
         self$`avg_position` <- this_object$`avg_position`
       }
+      if (!is.null(this_object$`app_url`)) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(this_object$`app_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+          stop(paste("Error! Invalid data for `app_url`. Must be a URL:", this_object$`app_url`))
+        }
+        self$`app_url` <- this_object$`app_url`
+      }
       self
     },
 
@@ -255,6 +279,11 @@ PromptSummaryRow <- R6::R6Class(
       self$`citation_rate` <- this_object$`citation_rate`
       self$`avg_mention_position` <- this_object$`avg_mention_position`
       self$`avg_position` <- this_object$`avg_position`
+      # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+      if (!stringr::str_detect(this_object$`app_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+        stop(paste("Error! Invalid data for `app_url`. Must be a URL:", this_object$`app_url`))
+      }
+      self$`app_url` <- this_object$`app_url`
       self
     },
 
