@@ -13,7 +13,7 @@
 #' @field url  character [optional]
 #' @field description  character [optional]
 #' @field matching_names  list(character) [optional]
-#' @field industry Industry as stored: one key as a string (e.g. SAAS), or an array of key strings when the project was created with a list or the in-app multi-select. Deliberately untyped so generated clients decode either shape \link{AnyType} [optional]
+#' @field industry Industry as stored: one key as a string (e.g. SAAS), or an array of key strings when the project was created with a list or the in-app multi-select. Deliberately untyped so generated clients decode either shape object [optional]
 #' @field business_model  character [optional]
 #' @field business_model_other Set only when business_model is OTHER character [optional]
 #' @field primary_products  list(character) [optional]
@@ -119,7 +119,6 @@ ProjectDetails <- R6::R6Class(
         self$`matching_names` <- `matching_names`
       }
       if (!is.null(`industry`)) {
-        stopifnot(R6::is.R6(`industry`))
         self$`industry` <- `industry`
       }
       if (!is.null(`business_model`)) {
@@ -256,7 +255,7 @@ ProjectDetails <- R6::R6Class(
       }
       if (!is.null(self$`industry`)) {
         ProjectDetailsObject[["industry"]] <-
-          self$extractSimpleType(self$`industry`)
+          self$`industry`
       }
       if (!is.null(self$`business_model`)) {
         ProjectDetailsObject[["business_model"]] <-
@@ -366,9 +365,7 @@ ProjectDetails <- R6::R6Class(
         self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       }
       if (!is.null(this_object$`industry`)) {
-        `industry_object` <- AnyType$new()
-        `industry_object`$fromJSON(jsonlite::toJSON(this_object$`industry`, auto_unbox = TRUE, digits = NA))
-        self$`industry` <- `industry_object`
+        self$`industry` <- this_object$`industry`
       }
       if (!is.null(this_object$`business_model`)) {
         self$`business_model` <- this_object$`business_model`
@@ -442,7 +439,7 @@ ProjectDetails <- R6::R6Class(
       self$`url` <- this_object$`url`
       self$`description` <- this_object$`description`
       self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
-      self$`industry` <- AnyType$new()$fromJSON(jsonlite::toJSON(this_object$`industry`, auto_unbox = TRUE, digits = NA))
+      self$`industry` <- this_object$`industry`
       self$`business_model` <- this_object$`business_model`
       self$`business_model_other` <- this_object$`business_model_other`
       self$`primary_products` <- ApiClient$new()$deserializeObj(this_object$`primary_products`, "array[character]", loadNamespace("llmpulse"))
