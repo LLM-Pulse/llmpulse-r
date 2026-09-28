@@ -7,9 +7,10 @@
 #' @title UpdateProjectRequest
 #' @description UpdateProjectRequest Class
 #' @format An \code{R6Class} generator object
+#' @field name Project name shown in the app. A label: it does not change mention detection unless brand_name is empty. Cannot be blank character [optional]
 #' @field brand_name Brand name used to detect mentions. Applies to future runs; it does not rewrite history character [optional]
 #' @field description What the brand does. Context for Recommendations and GEO Writer (Brand Book) character [optional]
-#' @field industry Single industry key (e.g. SAAS); unknown keys are rejected character [optional]
+#' @field industry Single industry key (e.g. SAAS), stored as sent; an array of keys is also accepted and stored as an array, like the in-app multi-select. Unknown keys are rejected with the valid keys listed character [optional]
 #' @field business_model Business model key (e.g. B2B_SAAS); unknown keys are rejected character [optional]
 #' @field business_model_other Free-text business model, only accepted when business_model is OTHER; rejected against any other key character [optional]
 #' @field target_audience Who the brand sells to (Brand Book) character [optional]
@@ -23,6 +24,7 @@
 UpdateProjectRequest <- R6::R6Class(
   "UpdateProjectRequest",
   public = list(
+    `name` = NULL,
     `brand_name` = NULL,
     `description` = NULL,
     `industry` = NULL,
@@ -37,9 +39,10 @@ UpdateProjectRequest <- R6::R6Class(
     #' @description
     #' Initialize a new UpdateProjectRequest class.
     #'
+    #' @param name Project name shown in the app. A label: it does not change mention detection unless brand_name is empty. Cannot be blank
     #' @param brand_name Brand name used to detect mentions. Applies to future runs; it does not rewrite history
     #' @param description What the brand does. Context for Recommendations and GEO Writer (Brand Book)
-    #' @param industry Single industry key (e.g. SAAS); unknown keys are rejected
+    #' @param industry Single industry key (e.g. SAAS), stored as sent; an array of keys is also accepted and stored as an array, like the in-app multi-select. Unknown keys are rejected with the valid keys listed
     #' @param business_model Business model key (e.g. B2B_SAAS); unknown keys are rejected
     #' @param business_model_other Free-text business model, only accepted when business_model is OTHER; rejected against any other key
     #' @param target_audience Who the brand sells to (Brand Book)
@@ -48,7 +51,13 @@ UpdateProjectRequest <- R6::R6Class(
     #' @param primary_products Full replacement list of the main products or services
     #' @param matching_names FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep
     #' @param ... Other optional arguments.
-    initialize = function(`brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, ...) {
+    initialize = function(`name` = NULL, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, ...) {
+      if (!is.null(`name`)) {
+        if (!(is.character(`name`) && length(`name`) == 1)) {
+          stop(paste("Error! Invalid data for `name`. Must be a string:", `name`))
+        }
+        self$`name` <- `name`
+      }
       if (!is.null(`brand_name`)) {
         if (!(is.character(`brand_name`) && length(`brand_name`) == 1)) {
           stop(paste("Error! Invalid data for `brand_name`. Must be a string:", `brand_name`))
@@ -140,6 +149,10 @@ UpdateProjectRequest <- R6::R6Class(
     #' @return A base R type, e.g. a list or numeric/character array.
     toSimpleType = function() {
       UpdateProjectRequestObject <- list()
+      if (!is.null(self$`name`)) {
+        UpdateProjectRequestObject[["name"]] <-
+          self$`name`
+      }
       if (!is.null(self$`brand_name`)) {
         UpdateProjectRequestObject[["brand_name"]] <-
           self$`brand_name`
@@ -190,6 +203,9 @@ UpdateProjectRequest <- R6::R6Class(
     #' @return the instance of UpdateProjectRequest
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`name`)) {
+        self$`name` <- this_object$`name`
+      }
       if (!is.null(this_object$`brand_name`)) {
         self$`brand_name` <- this_object$`brand_name`
       }
@@ -241,6 +257,7 @@ UpdateProjectRequest <- R6::R6Class(
     #' @return the instance of UpdateProjectRequest
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`name` <- this_object$`name`
       self$`brand_name` <- this_object$`brand_name`
       self$`description` <- this_object$`description`
       self$`industry` <- this_object$`industry`

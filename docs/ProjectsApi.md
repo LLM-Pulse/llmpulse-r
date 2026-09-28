@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 Create a project (fast mode)
 
-Create a complete project in one call: project fields, prompts (queued for execution and categorization), competitors, weekly email subscription. Idempotent via `external_identifier` (embed-enabled accounts only; replay returns 200 with the existing project). Requires a `read_write` scope API key.
+Create a complete project in one call: project fields, prompts (queued for execution and categorization), collections tagging those prompts, competitors, weekly email subscription. The response lists same_domain_projects so an accidental duplicate is visible; it never blocks the create. Idempotent via `external_identifier` (embed-enabled accounts only; replay returns 200 with the existing project). Requires a `read_write` scope API key.
 
 ### Example
 ```R
@@ -30,7 +30,7 @@ library(llmpulse)
 # Create a project (fast mode)
 #
 # prepare function argument(s)
-var_project_create_request <- ProjectCreateRequest$new("website_url_example", "name_example", "main_country_example", "main_language_example", "brand_name_example", "description_example", c("industry_example"), "business_model_example", "business_model_other_example", "target_audience_example", "brand_voice_example", "goals_example", c("primary_products_example"), c("matching_names_example"), c("prompts_example"), c(ProjectCreateRequest_competitors_inner$new("domain_example", "brand_name_example", c("matching_names_example"))), ProjectCreateRequest_owned_media$new("youtube_channel_url_example", "instagram_profile_url_example", "facebook_page_url_example", "tiktok_profile_url_example", "app_store_url_example", "google_play_url_example"), "use_subdomain_example", "weekly_email_subscribed_example", "external_identifier_example", "execute_prompts_immediately_example") # ProjectCreateRequest | 
+var_project_create_request <- ProjectCreateRequest$new("website_url_example", "name_example", "main_country_example", "main_language_example", "brand_name_example", "description_example", c("industry_example"), "business_model_example", "business_model_other_example", "target_audience_example", "brand_voice_example", "goals_example", c("primary_products_example"), c("matching_names_example"), c("prompts_example"), c(ProjectCreateRequest_collections_inner$new("name_example", c("prompts_example"))), c(ProjectCreateRequest_competitors_inner$new("domain_example", "brand_name_example", c("matching_names_example"))), ProjectCreateRequest_owned_media$new("youtube_channel_url_example", "instagram_profile_url_example", "facebook_page_url_example", "tiktok_profile_url_example", "app_store_url_example", "google_play_url_example"), "use_subdomain_example", "weekly_email_subscribed_example", "external_identifier_example", "execute_prompts_immediately_example") # ProjectCreateRequest | 
 
 api_instance <- ProjectsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
@@ -407,7 +407,7 @@ Name | Type | Description  | Notes
 
 Update a project profile (Brand Book)
 
-Updates the project profile, the same fields as Project Settings: brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names. Send only the fields to change; unknown fields are rejected. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background (rematching=true); further edits are rejected while that runs. Requires a `read_write` scope API key.
+Updates the project name and profile, the same fields as Project Settings: name, brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names. Send only the fields to change; unknown fields are rejected. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background (rematching=true); further edits are rejected while that runs. Requires a `read_write` scope API key.
 
 ### Example
 ```R
@@ -417,7 +417,7 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_id <- 56 # integer | 
-var_update_project_request <- updateProject_request$new("brand_name_example", "description_example", "industry_example", "business_model_example", "business_model_other_example", "target_audience_example", "brand_voice_example", "goals_example", c("primary_products_example"), c("matching_names_example")) # UpdateProjectRequest | 
+var_update_project_request <- updateProject_request$new("name_example", "brand_name_example", "description_example", "industry_example", "business_model_example", "business_model_other_example", "target_audience_example", "brand_voice_example", "goals_example", c("primary_products_example"), c("matching_names_example")) # UpdateProjectRequest | 
 
 api_instance <- ProjectsApi$new()
 # Configure HTTP bearer authorization: BearerAuth

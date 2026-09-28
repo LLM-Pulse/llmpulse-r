@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **plan** | **character** | Plan key (starter, growth, scale, ...) | [optional] 
+**plan_name** | **character** | Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key) | [optional] 
 **tracking_frequency** | **character** | How often prompts run (weekly, daily, monthly, ...) | [optional] 
 **role** | **character** | Whether the key belongs to the account owner or a team member | [optional] [Enum: [owner, member]] 
 **subscription** | [**GetAccount200ResponseSubscription**](getAccount_200_response_subscription.md) |  | [optional] 

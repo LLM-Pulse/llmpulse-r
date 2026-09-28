@@ -10,6 +10,8 @@
 #' @field project Same shape as GET /dimensions/projects/{id} object [optional]
 #' @field prompts  \link{ProjectCreateResponsePrompts} [optional]
 #' @field competitors  \link{ProjectCreateResponseCompetitors} [optional]
+#' @field collections Collections created from the request's collections field (empty when none were sent; absent on an idempotent replay) list(\link{ProjectCreateResponseCollectionsInner}) [optional]
+#' @field same_domain_projects Projects the caller can already see on the same domain (absent on an idempotent replay). Informational only: the create is never blocked, since one domain tracked per market is a normal setup. list(\link{ProjectCreateResponseSameDomainProjectsInner}) [optional]
 #' @field email_subscription  \link{ProjectCreateResponseEmailSubscription} [optional]
 #' @field limits  \link{ProjectCreateResponseLimits} [optional]
 #' @field idempotent Present and true only on external_identifier replays character [optional]
@@ -23,6 +25,8 @@ ProjectCreateResponse <- R6::R6Class(
     `project` = NULL,
     `prompts` = NULL,
     `competitors` = NULL,
+    `collections` = NULL,
+    `same_domain_projects` = NULL,
     `email_subscription` = NULL,
     `limits` = NULL,
     `idempotent` = NULL,
@@ -34,12 +38,14 @@ ProjectCreateResponse <- R6::R6Class(
     #' @param project Same shape as GET /dimensions/projects/{id}
     #' @param prompts prompts
     #' @param competitors competitors
+    #' @param collections Collections created from the request's collections field (empty when none were sent; absent on an idempotent replay)
+    #' @param same_domain_projects Projects the caller can already see on the same domain (absent on an idempotent replay). Informational only: the create is never blocked, since one domain tracked per market is a normal setup.
     #' @param email_subscription email_subscription
     #' @param limits limits
     #' @param idempotent Present and true only on external_identifier replays
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`project` = NULL, `prompts` = NULL, `competitors` = NULL, `email_subscription` = NULL, `limits` = NULL, `idempotent` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`project` = NULL, `prompts` = NULL, `competitors` = NULL, `collections` = NULL, `same_domain_projects` = NULL, `email_subscription` = NULL, `limits` = NULL, `idempotent` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`project`)) {
         self$`project` <- `project`
       }
@@ -50,6 +56,16 @@ ProjectCreateResponse <- R6::R6Class(
       if (!is.null(`competitors`)) {
         stopifnot(R6::is.R6(`competitors`))
         self$`competitors` <- `competitors`
+      }
+      if (!is.null(`collections`)) {
+        stopifnot(is.vector(`collections`), length(`collections`) != 0)
+        sapply(`collections`, function(x) stopifnot(R6::is.R6(x)))
+        self$`collections` <- `collections`
+      }
+      if (!is.null(`same_domain_projects`)) {
+        stopifnot(is.vector(`same_domain_projects`), length(`same_domain_projects`) != 0)
+        sapply(`same_domain_projects`, function(x) stopifnot(R6::is.R6(x)))
+        self$`same_domain_projects` <- `same_domain_projects`
       }
       if (!is.null(`email_subscription`)) {
         stopifnot(R6::is.R6(`email_subscription`))
@@ -116,6 +132,14 @@ ProjectCreateResponse <- R6::R6Class(
         ProjectCreateResponseObject[["competitors"]] <-
           self$extractSimpleType(self$`competitors`)
       }
+      if (!is.null(self$`collections`)) {
+        ProjectCreateResponseObject[["collections"]] <-
+          self$extractSimpleType(self$`collections`)
+      }
+      if (!is.null(self$`same_domain_projects`)) {
+        ProjectCreateResponseObject[["same_domain_projects"]] <-
+          self$extractSimpleType(self$`same_domain_projects`)
+      }
       if (!is.null(self$`email_subscription`)) {
         ProjectCreateResponseObject[["email_subscription"]] <-
           self$extractSimpleType(self$`email_subscription`)
@@ -178,6 +202,12 @@ ProjectCreateResponse <- R6::R6Class(
         `competitors_object`$fromJSON(jsonlite::toJSON(this_object$`competitors`, auto_unbox = TRUE, digits = NA))
         self$`competitors` <- `competitors_object`
       }
+      if (!is.null(this_object$`collections`)) {
+        self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "array[ProjectCreateResponseCollectionsInner]", loadNamespace("llmpulse"))
+      }
+      if (!is.null(this_object$`same_domain_projects`)) {
+        self$`same_domain_projects` <- ApiClient$new()$deserializeObj(this_object$`same_domain_projects`, "array[ProjectCreateResponseSameDomainProjectsInner]", loadNamespace("llmpulse"))
+      }
       if (!is.null(this_object$`email_subscription`)) {
         `email_subscription_object` <- ProjectCreateResponseEmailSubscription$new()
         `email_subscription_object`$fromJSON(jsonlite::toJSON(this_object$`email_subscription`, auto_unbox = TRUE, digits = NA))
@@ -218,6 +248,8 @@ ProjectCreateResponse <- R6::R6Class(
       self$`project` <- this_object$`project`
       self$`prompts` <- ProjectCreateResponsePrompts$new()$fromJSON(jsonlite::toJSON(this_object$`prompts`, auto_unbox = TRUE, digits = NA))
       self$`competitors` <- ProjectCreateResponseCompetitors$new()$fromJSON(jsonlite::toJSON(this_object$`competitors`, auto_unbox = TRUE, digits = NA))
+      self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "array[ProjectCreateResponseCollectionsInner]", loadNamespace("llmpulse"))
+      self$`same_domain_projects` <- ApiClient$new()$deserializeObj(this_object$`same_domain_projects`, "array[ProjectCreateResponseSameDomainProjectsInner]", loadNamespace("llmpulse"))
       self$`email_subscription` <- ProjectCreateResponseEmailSubscription$new()$fromJSON(jsonlite::toJSON(this_object$`email_subscription`, auto_unbox = TRUE, digits = NA))
       self$`limits` <- ProjectCreateResponseLimits$new()$fromJSON(jsonlite::toJSON(this_object$`limits`, auto_unbox = TRUE, digits = NA))
       self$`idempotent` <- this_object$`idempotent`

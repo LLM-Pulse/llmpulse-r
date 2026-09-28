@@ -8,6 +8,7 @@
 #' @description GetAccount200Response Class
 #' @format An \code{R6Class} generator object
 #' @field plan Plan key (starter, growth, scale, ...) character [optional]
+#' @field plan_name Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key) character [optional]
 #' @field tracking_frequency How often prompts run (weekly, daily, monthly, ...) character [optional]
 #' @field role Whether the key belongs to the account owner or a team member character [optional]
 #' @field subscription  \link{GetAccount200ResponseSubscription} [optional]
@@ -21,6 +22,7 @@ GetAccount200Response <- R6::R6Class(
   "GetAccount200Response",
   public = list(
     `plan` = NULL,
+    `plan_name` = NULL,
     `tracking_frequency` = NULL,
     `role` = NULL,
     `subscription` = NULL,
@@ -32,6 +34,7 @@ GetAccount200Response <- R6::R6Class(
     #' Initialize a new GetAccount200Response class.
     #'
     #' @param plan Plan key (starter, growth, scale, ...)
+    #' @param plan_name Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key)
     #' @param tracking_frequency How often prompts run (weekly, daily, monthly, ...)
     #' @param role Whether the key belongs to the account owner or a team member
     #' @param subscription subscription
@@ -39,12 +42,18 @@ GetAccount200Response <- R6::R6Class(
     #' @param rate_limits rate_limits
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`plan` = NULL, `tracking_frequency` = NULL, `role` = NULL, `subscription` = NULL, `limits` = NULL, `rate_limits` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`plan` = NULL, `plan_name` = NULL, `tracking_frequency` = NULL, `role` = NULL, `subscription` = NULL, `limits` = NULL, `rate_limits` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`plan`)) {
         if (!(is.character(`plan`) && length(`plan`) == 1)) {
           stop(paste("Error! Invalid data for `plan`. Must be a string:", `plan`))
         }
         self$`plan` <- `plan`
+      }
+      if (!is.null(`plan_name`)) {
+        if (!(is.character(`plan_name`) && length(`plan_name`) == 1)) {
+          stop(paste("Error! Invalid data for `plan_name`. Must be a string:", `plan_name`))
+        }
+        self$`plan_name` <- `plan_name`
       }
       if (!is.null(`tracking_frequency`)) {
         if (!(is.character(`tracking_frequency`) && length(`tracking_frequency`) == 1)) {
@@ -116,6 +125,10 @@ GetAccount200Response <- R6::R6Class(
         GetAccount200ResponseObject[["plan"]] <-
           self$`plan`
       }
+      if (!is.null(self$`plan_name`)) {
+        GetAccount200ResponseObject[["plan_name"]] <-
+          self$`plan_name`
+      }
       if (!is.null(self$`tracking_frequency`)) {
         GetAccount200ResponseObject[["tracking_frequency"]] <-
           self$`tracking_frequency`
@@ -176,6 +189,9 @@ GetAccount200Response <- R6::R6Class(
       if (!is.null(this_object$`plan`)) {
         self$`plan` <- this_object$`plan`
       }
+      if (!is.null(this_object$`plan_name`)) {
+        self$`plan_name` <- this_object$`plan_name`
+      }
       if (!is.null(this_object$`tracking_frequency`)) {
         self$`tracking_frequency` <- this_object$`tracking_frequency`
       }
@@ -225,6 +241,7 @@ GetAccount200Response <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`plan` <- this_object$`plan`
+      self$`plan_name` <- this_object$`plan_name`
       self$`tracking_frequency` <- this_object$`tracking_frequency`
       if (!is.null(this_object$`role`) && !(this_object$`role` %in% c("owner", "member"))) {
         stop(paste("Error! \"", this_object$`role`, "\" cannot be assigned to `role`. Must be \"owner\", \"member\".", sep = ""))

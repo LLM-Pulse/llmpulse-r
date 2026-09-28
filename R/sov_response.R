@@ -8,7 +8,8 @@
 #' @description SovResponse Class
 #' @format An \code{R6Class} generator object
 #' @field project_id  integer [optional]
-#' @field periods Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window. list(\link{SovResponsePeriodsInner}) [optional]
+#' @field periods Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window; confidence and margin_of_error read the sample size. list(\link{SovResponsePeriodsInner}) [optional]
+#' @field sample  \link{SovResponseSample} [optional]
 #' @field over_time  list(\link{SovResponseOverTimeInner}) [optional]
 #' @field current  list(\link{SovResponseCurrentInner}) [optional]
 #' @field breakdown  list(\link{SovResponseBreakdownInner}) [optional]
@@ -21,6 +22,7 @@ SovResponse <- R6::R6Class(
   public = list(
     `project_id` = NULL,
     `periods` = NULL,
+    `sample` = NULL,
     `over_time` = NULL,
     `current` = NULL,
     `breakdown` = NULL,
@@ -30,13 +32,14 @@ SovResponse <- R6::R6Class(
     #' Initialize a new SovResponse class.
     #'
     #' @param project_id project_id
-    #' @param periods Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window.
+    #' @param periods Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window; confidence and margin_of_error read the sample size.
+    #' @param sample sample
     #' @param over_time over_time
     #' @param current current
     #' @param breakdown breakdown
     #' @param others others
     #' @param ... Other optional arguments.
-    initialize = function(`project_id` = NULL, `periods` = NULL, `over_time` = NULL, `current` = NULL, `breakdown` = NULL, `others` = NULL, ...) {
+    initialize = function(`project_id` = NULL, `periods` = NULL, `sample` = NULL, `over_time` = NULL, `current` = NULL, `breakdown` = NULL, `others` = NULL, ...) {
       if (!is.null(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -47,6 +50,10 @@ SovResponse <- R6::R6Class(
         stopifnot(is.vector(`periods`), length(`periods`) != 0)
         sapply(`periods`, function(x) stopifnot(R6::is.R6(x)))
         self$`periods` <- `periods`
+      }
+      if (!is.null(`sample`)) {
+        stopifnot(R6::is.R6(`sample`))
+        self$`sample` <- `sample`
       }
       if (!is.null(`over_time`)) {
         stopifnot(is.vector(`over_time`), length(`over_time`) != 0)
@@ -109,6 +116,10 @@ SovResponse <- R6::R6Class(
         SovResponseObject[["periods"]] <-
           self$extractSimpleType(self$`periods`)
       }
+      if (!is.null(self$`sample`)) {
+        SovResponseObject[["sample"]] <-
+          self$extractSimpleType(self$`sample`)
+      }
       if (!is.null(self$`over_time`)) {
         SovResponseObject[["over_time"]] <-
           self$extractSimpleType(self$`over_time`)
@@ -164,6 +175,11 @@ SovResponse <- R6::R6Class(
       if (!is.null(this_object$`periods`)) {
         self$`periods` <- ApiClient$new()$deserializeObj(this_object$`periods`, "array[SovResponsePeriodsInner]", loadNamespace("llmpulse"))
       }
+      if (!is.null(this_object$`sample`)) {
+        `sample_object` <- SovResponseSample$new()
+        `sample_object`$fromJSON(jsonlite::toJSON(this_object$`sample`, auto_unbox = TRUE, digits = NA))
+        self$`sample` <- `sample_object`
+      }
       if (!is.null(this_object$`over_time`)) {
         self$`over_time` <- ApiClient$new()$deserializeObj(this_object$`over_time`, "array[SovResponseOverTimeInner]", loadNamespace("llmpulse"))
       }
@@ -199,6 +215,7 @@ SovResponse <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`project_id` <- this_object$`project_id`
       self$`periods` <- ApiClient$new()$deserializeObj(this_object$`periods`, "array[SovResponsePeriodsInner]", loadNamespace("llmpulse"))
+      self$`sample` <- SovResponseSample$new()$fromJSON(jsonlite::toJSON(this_object$`sample`, auto_unbox = TRUE, digits = NA))
       self$`over_time` <- ApiClient$new()$deserializeObj(this_object$`over_time`, "array[SovResponseOverTimeInner]", loadNamespace("llmpulse"))
       self$`current` <- ApiClient$new()$deserializeObj(this_object$`current`, "array[SovResponseCurrentInner]", loadNamespace("llmpulse"))
       self$`breakdown` <- ApiClient$new()$deserializeObj(this_object$`breakdown`, "array[SovResponseBreakdownInner]", loadNamespace("llmpulse"))

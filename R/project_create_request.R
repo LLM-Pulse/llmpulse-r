@@ -8,12 +8,12 @@
 #' @description ProjectCreateRequest Class
 #' @format An \code{R6Class} generator object
 #' @field website_url Public HTTP(S) URL with a DNS hostname or public IP address. Credentials, private and special IP addresses, localhost and internal hostnames are rejected. character
-#' @field name  character
+#' @field name Project name, as plain text. It can be changed later with PATCH /projects/{id} character
 #' @field main_country  character
 #' @field main_language  character
 #' @field brand_name  character [optional]
 #' @field description  character [optional]
-#' @field industry  list(character) [optional]
+#' @field industry Industry keys, case-insensitive; a single key string is also accepted. An unknown key returns ERR_INVALID_PARAM listing the valid keys (the same list as the in-app industry picker, e.g. TECHNOLOGY, SAAS, ECOMMERCE) list(character) [optional]
 #' @field business_model Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected character [optional]
 #' @field business_model_other Free-text business model, only accepted when business_model is OTHER; rejected against any other key character [optional]
 #' @field target_audience Who the brand sells to. Context for Recommendations and GEO Writer (Brand Book) character [optional]
@@ -22,6 +22,7 @@
 #' @field primary_products Main products or services list(character) [optional]
 #' @field matching_names  list(character) [optional]
 #' @field prompts  list(character) [optional]
+#' @field collections Collections (prompt tags) created with the project, each tagging prompts of this request by their exact text, so no separate tagging calls are needed. A text that is not in prompts returns ERR_INVALID_PARAM. A team member also needs Tags: Create permission. list(\link{ProjectCreateRequestCollectionsInner}) [optional]
 #' @field competitors  list(\link{ProjectCreateRequestCompetitorsInner}) [optional]
 #' @field owned_media  \link{ProjectCreateRequestOwnedMedia} [optional]
 #' @field use_subdomain  character [optional]
@@ -49,6 +50,7 @@ ProjectCreateRequest <- R6::R6Class(
     `primary_products` = NULL,
     `matching_names` = NULL,
     `prompts` = NULL,
+    `collections` = NULL,
     `competitors` = NULL,
     `owned_media` = NULL,
     `use_subdomain` = NULL,
@@ -60,12 +62,12 @@ ProjectCreateRequest <- R6::R6Class(
     #' Initialize a new ProjectCreateRequest class.
     #'
     #' @param website_url Public HTTP(S) URL with a DNS hostname or public IP address. Credentials, private and special IP addresses, localhost and internal hostnames are rejected.
-    #' @param name name
+    #' @param name Project name, as plain text. It can be changed later with PATCH /projects/{id}
     #' @param main_country main_country
     #' @param main_language main_language
     #' @param brand_name brand_name
     #' @param description description
-    #' @param industry industry
+    #' @param industry Industry keys, case-insensitive; a single key string is also accepted. An unknown key returns ERR_INVALID_PARAM listing the valid keys (the same list as the in-app industry picker, e.g. TECHNOLOGY, SAAS, ECOMMERCE)
     #' @param business_model Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected
     #' @param business_model_other Free-text business model, only accepted when business_model is OTHER; rejected against any other key
     #' @param target_audience Who the brand sells to. Context for Recommendations and GEO Writer (Brand Book)
@@ -74,6 +76,7 @@ ProjectCreateRequest <- R6::R6Class(
     #' @param primary_products Main products or services
     #' @param matching_names matching_names
     #' @param prompts prompts
+    #' @param collections Collections (prompt tags) created with the project, each tagging prompts of this request by their exact text, so no separate tagging calls are needed. A text that is not in prompts returns ERR_INVALID_PARAM. A team member also needs Tags: Create permission.
     #' @param competitors competitors
     #' @param owned_media owned_media
     #' @param use_subdomain use_subdomain. Default to FALSE.
@@ -81,7 +84,7 @@ ProjectCreateRequest <- R6::R6Class(
     #' @param external_identifier Embed-enabled (Enterprise) accounts only; other accounts receive ERR_PLAN_REQUIRED. Idempotency key and embed-session join key, unique per account
     #' @param execute_prompts_immediately execute_prompts_immediately. Default to TRUE.
     #' @param ... Other optional arguments.
-    initialize = function(`website_url`, `name`, `main_country`, `main_language`, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, `prompts` = NULL, `competitors` = NULL, `owned_media` = NULL, `use_subdomain` = FALSE, `weekly_email_subscribed` = FALSE, `external_identifier` = NULL, `execute_prompts_immediately` = TRUE, ...) {
+    initialize = function(`website_url`, `name`, `main_country`, `main_language`, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, `prompts` = NULL, `collections` = NULL, `competitors` = NULL, `owned_media` = NULL, `use_subdomain` = FALSE, `weekly_email_subscribed` = FALSE, `external_identifier` = NULL, `execute_prompts_immediately` = TRUE, ...) {
       if (!missing(`website_url`)) {
         if (!(is.character(`website_url`) && length(`website_url`) == 1)) {
           stop(paste("Error! Invalid data for `website_url`. Must be a string:", `website_url`))
@@ -171,6 +174,11 @@ ProjectCreateRequest <- R6::R6Class(
         stopifnot(is.vector(`prompts`), length(`prompts`) != 0)
         sapply(`prompts`, function(x) stopifnot(is.character(x)))
         self$`prompts` <- `prompts`
+      }
+      if (!is.null(`collections`)) {
+        stopifnot(is.vector(`collections`), length(`collections`) != 0)
+        sapply(`collections`, function(x) stopifnot(R6::is.R6(x)))
+        self$`collections` <- `collections`
       }
       if (!is.null(`competitors`)) {
         stopifnot(is.vector(`competitors`), length(`competitors`) != 0)
@@ -298,6 +306,10 @@ ProjectCreateRequest <- R6::R6Class(
         ProjectCreateRequestObject[["prompts"]] <-
           self$`prompts`
       }
+      if (!is.null(self$`collections`)) {
+        ProjectCreateRequestObject[["collections"]] <-
+          self$extractSimpleType(self$`collections`)
+      }
       if (!is.null(self$`competitors`)) {
         ProjectCreateRequestObject[["competitors"]] <-
           self$extractSimpleType(self$`competitors`)
@@ -404,6 +416,9 @@ ProjectCreateRequest <- R6::R6Class(
       if (!is.null(this_object$`prompts`)) {
         self$`prompts` <- ApiClient$new()$deserializeObj(this_object$`prompts`, "array[character]", loadNamespace("llmpulse"))
       }
+      if (!is.null(this_object$`collections`)) {
+        self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "array[ProjectCreateRequestCollectionsInner]", loadNamespace("llmpulse"))
+      }
       if (!is.null(this_object$`competitors`)) {
         self$`competitors` <- ApiClient$new()$deserializeObj(this_object$`competitors`, "array[ProjectCreateRequestCompetitorsInner]", loadNamespace("llmpulse"))
       }
@@ -464,6 +479,7 @@ ProjectCreateRequest <- R6::R6Class(
       self$`primary_products` <- ApiClient$new()$deserializeObj(this_object$`primary_products`, "array[character]", loadNamespace("llmpulse"))
       self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       self$`prompts` <- ApiClient$new()$deserializeObj(this_object$`prompts`, "array[character]", loadNamespace("llmpulse"))
+      self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "array[ProjectCreateRequestCollectionsInner]", loadNamespace("llmpulse"))
       self$`competitors` <- ApiClient$new()$deserializeObj(this_object$`competitors`, "array[ProjectCreateRequestCompetitorsInner]", loadNamespace("llmpulse"))
       self$`owned_media` <- ProjectCreateRequestOwnedMedia$new()$fromJSON(jsonlite::toJSON(this_object$`owned_media`, auto_unbox = TRUE, digits = NA))
       self$`use_subdomain` <- this_object$`use_subdomain`
@@ -554,6 +570,10 @@ ProjectCreateRequest <- R6::R6Class(
         return(FALSE)
       }
 
+      if (length(self$`collections`) > 50) {
+        return(FALSE)
+      }
+
       if (!str_detect(self$`external_identifier`, "^[a-z0-9_-]{1,64}$")) {
         return(FALSE)
       }
@@ -589,6 +609,10 @@ ProjectCreateRequest <- R6::R6Class(
 
       if (length(self$`prompts`) > 100) {
         invalid_fields["prompts"] <- "Invalid length for `prompts`, number of items must be less than or equal to 100."
+      }
+
+      if (length(self$`collections`) > 50) {
+        invalid_fields["collections"] <- "Invalid length for `collections`, number of items must be less than or equal to 50."
       }
 
       if (!str_detect(self$`external_identifier`, "^[a-z0-9_-]{1,64}$")) {

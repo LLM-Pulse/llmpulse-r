@@ -1,22 +1,22 @@
-#' Create a new SovResponsePeriodsInner
+#' Create a new SovResponseSample
 #'
 #' @description
-#' SovResponsePeriodsInner Class
+#' The period the current shares were computed on (the last one with mentions), same shape as a periods item; null when the window has no mentions.
 #'
 #' @docType class
-#' @title SovResponsePeriodsInner
-#' @description SovResponsePeriodsInner Class
+#' @title SovResponseSample
+#' @description SovResponseSample Class
 #' @format An \code{R6Class} generator object
 #' @field date  character [optional]
 #' @field mentions  integer [optional]
 #' @field partial  character [optional]
-#' @field confidence How far the shares of this period can be trusted, from its mentions: none (0), low (under 30), medium (under 100) or high (100 or more). character [optional]
-#' @field margin_of_error Worst-case 95\% margin of a share in percentage points, 98 / sqrt(mentions); mentions within one answer are not independent, so the real margin is at least this wide. null with no mentions. numeric [optional]
+#' @field confidence  character [optional]
+#' @field margin_of_error  numeric [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
-SovResponsePeriodsInner <- R6::R6Class(
-  "SovResponsePeriodsInner",
+SovResponseSample <- R6::R6Class(
+  "SovResponseSample",
   public = list(
     `date` = NULL,
     `mentions` = NULL,
@@ -25,13 +25,13 @@ SovResponsePeriodsInner <- R6::R6Class(
     `margin_of_error` = NULL,
 
     #' @description
-    #' Initialize a new SovResponsePeriodsInner class.
+    #' Initialize a new SovResponseSample class.
     #'
     #' @param date date
     #' @param mentions mentions
     #' @param partial partial
-    #' @param confidence How far the shares of this period can be trusted, from its mentions: none (0), low (under 30), medium (under 100) or high (100 or more).
-    #' @param margin_of_error Worst-case 95\% margin of a share in percentage points, 98 / sqrt(mentions); mentions within one answer are not independent, so the real margin is at least this wide. null with no mentions.
+    #' @param confidence confidence
+    #' @param margin_of_error margin_of_error
     #' @param ... Other optional arguments.
     initialize = function(`date` = NULL, `mentions` = NULL, `partial` = NULL, `confidence` = NULL, `margin_of_error` = NULL, ...) {
       if (!is.null(`date`)) {
@@ -75,9 +75,9 @@ SovResponsePeriodsInner <- R6::R6Class(
     #'
     #' Convert the R6 object to a list to work more easily with other tooling.
     #'
-    #' @return SovResponsePeriodsInner as a base R list.
+    #' @return SovResponseSample as a base R list.
     #' @examples
-    #' # convert array of SovResponsePeriodsInner (x) to a data frame
+    #' # convert array of SovResponseSample (x) to a data frame
     #' \dontrun{
     #' library(purrr)
     #' library(tibble)
@@ -89,39 +89,39 @@ SovResponsePeriodsInner <- R6::R6Class(
     },
 
     #' @description
-    #' Convert SovResponsePeriodsInner to a base R type
+    #' Convert SovResponseSample to a base R type
     #'
     #' @return A base R type, e.g. a list or numeric/character array.
     toSimpleType = function() {
-      SovResponsePeriodsInnerObject <- list()
+      SovResponseSampleObject <- list()
       if (!is.null(self$`date`)) {
-        SovResponsePeriodsInnerObject[["date"]] <-
+        SovResponseSampleObject[["date"]] <-
           self$`date`
       }
       if (!is.null(self$`mentions`)) {
-        SovResponsePeriodsInnerObject[["mentions"]] <-
+        SovResponseSampleObject[["mentions"]] <-
           self$`mentions`
       }
       if (!is.null(self$`partial`)) {
-        SovResponsePeriodsInnerObject[["partial"]] <-
+        SovResponseSampleObject[["partial"]] <-
           self$`partial`
       }
       if (!is.null(self$`confidence`)) {
-        SovResponsePeriodsInnerObject[["confidence"]] <-
+        SovResponseSampleObject[["confidence"]] <-
           self$`confidence`
       }
       if (!is.null(self$`margin_of_error`)) {
-        SovResponsePeriodsInnerObject[["margin_of_error"]] <-
+        SovResponseSampleObject[["margin_of_error"]] <-
           self$`margin_of_error`
       }
-      return(SovResponsePeriodsInnerObject)
+      return(SovResponseSampleObject)
     },
 
     #' @description
-    #' Deserialize JSON string into an instance of SovResponsePeriodsInner
+    #' Deserialize JSON string into an instance of SovResponseSample
     #'
     #' @param input_json the JSON input
-    #' @return the instance of SovResponsePeriodsInner
+    #' @return the instance of SovResponseSample
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`date`)) {
@@ -146,7 +146,7 @@ SovResponsePeriodsInner <- R6::R6Class(
     #' To JSON String
     #' 
     #' @param ... Parameters passed to `jsonlite::toJSON`
-    #' @return SovResponsePeriodsInner in JSON format
+    #' @return SovResponseSample in JSON format
     toJSONString = function(...) {
       simple <- self$toSimpleType()
       json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
@@ -154,10 +154,10 @@ SovResponsePeriodsInner <- R6::R6Class(
     },
 
     #' @description
-    #' Deserialize JSON string into an instance of SovResponsePeriodsInner
+    #' Deserialize JSON string into an instance of SovResponseSample
     #'
     #' @param input_json the JSON input
-    #' @return the instance of SovResponsePeriodsInner
+    #' @return the instance of SovResponseSample
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`date` <- this_object$`date`
@@ -169,7 +169,7 @@ SovResponsePeriodsInner <- R6::R6Class(
     },
 
     #' @description
-    #' Validate JSON input with respect to SovResponsePeriodsInner and throw an exception if invalid
+    #' Validate JSON input with respect to SovResponseSample and throw an exception if invalid
     #'
     #' @param input the JSON input
     validateJSON = function(input) {
@@ -179,7 +179,7 @@ SovResponsePeriodsInner <- R6::R6Class(
     #' @description
     #' To string (JSON format)
     #'
-    #' @return String representation of SovResponsePeriodsInner
+    #' @return String representation of SovResponseSample
     toString = function() {
       self$toJSONString()
     },
@@ -212,13 +212,13 @@ SovResponsePeriodsInner <- R6::R6Class(
   lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-# SovResponsePeriodsInner$unlock()
+# SovResponseSample$unlock()
 #
 ## Below is an example to define the print function
-# SovResponsePeriodsInner$set("public", "print", function(...) {
+# SovResponseSample$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)
 # })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-# SovResponsePeriodsInner$lock()
+# SovResponseSample$lock()
 
