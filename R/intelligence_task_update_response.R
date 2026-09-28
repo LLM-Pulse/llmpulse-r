@@ -20,7 +20,7 @@
 #' @field user_instructions  character [optional]
 #' @field output_language_code  character [optional]
 #' @field word_count  integer [optional]
-#' @field result_data Only present when status='completed' object [optional]
+#' @field result_data The generated content once status is completed; null before that object [optional]
 #' @field error_message  character [optional]
 #' @field estimated_time  character [optional]
 #' @field created_at  character [optional]
@@ -74,7 +74,7 @@ IntelligenceTaskUpdateResponse <- R6::R6Class(
     #' @param user_instructions user_instructions
     #' @param output_language_code output_language_code
     #' @param word_count word_count
-    #' @param result_data Only present when status='completed'
+    #' @param result_data The generated content once status is completed; null before that
     #' @param error_message error_message
     #' @param estimated_time estimated_time
     #' @param created_at created_at

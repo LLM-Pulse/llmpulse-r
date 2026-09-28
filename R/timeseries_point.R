@@ -7,8 +7,8 @@
 #' @title TimeseriesPoint
 #' @description TimeseriesPoint Class
 #' @format An \code{R6Class} generator object
-#' @field date  character [optional]
-#' @field value  numeric [optional]
+#' @field date Calendar day in Europe/Madrid (YYYY-MM-DD). With granularity week or month it is the first day of the bucket (the Monday, or the 1st of the month). character [optional]
+#' @field value Null when the metric has no value for the bucket, e.g. a rate, position or sentiment metric on a day without answers. numeric [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -21,8 +21,8 @@ TimeseriesPoint <- R6::R6Class(
     #' @description
     #' Initialize a new TimeseriesPoint class.
     #'
-    #' @param date date
-    #' @param value value
+    #' @param date Calendar day in Europe/Madrid (YYYY-MM-DD). With granularity week or month it is the first day of the bucket (the Monday, or the 1st of the month).
+    #' @param value Null when the metric has no value for the bucket, e.g. a rate, position or sentiment metric on a day without answers.
     #' @param ... Other optional arguments.
     initialize = function(`date` = NULL, `value` = NULL, ...) {
       if (!is.null(`date`)) {

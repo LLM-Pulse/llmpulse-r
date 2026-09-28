@@ -11,7 +11,7 @@
 #' @field id  integer [optional]
 #' @field competitor_id  integer [optional]
 #' @field name  character [optional]
-#' @field domain Bare (scheme-less) domain character [optional]
+#' @field domain Bare (scheme-less) domain. Null for the project actor when the project has no URL. character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -31,7 +31,7 @@ Actor <- R6::R6Class(
     #' @param id id
     #' @param competitor_id competitor_id
     #' @param name name
-    #' @param domain Bare (scheme-less) domain
+    #' @param domain Bare (scheme-less) domain. Null for the project actor when the project has no URL.
     #' @param ... Other optional arguments.
     initialize = function(`type` = NULL, `id` = NULL, `competitor_id` = NULL, `name` = NULL, `domain` = NULL, ...) {
       if (!is.null(`type`)) {

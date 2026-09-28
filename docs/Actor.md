@@ -8,6 +8,6 @@ Name | Type | Description | Notes
 **id** | **integer** |  | [optional] 
 **competitor_id** | **integer** |  | [optional] 
 **name** | **character** |  | [optional] 
-**domain** | **character** | Bare (scheme-less) domain | [optional] 
+**domain** | **character** | Bare (scheme-less) domain. Null for the project actor when the project has no URL. | [optional] 
 
 

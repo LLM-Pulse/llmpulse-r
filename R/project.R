@@ -9,7 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field id  integer [optional]
 #' @field name Internal project label (sidebar, settings, admin) character [optional]
-#' @field brand_name LLM-facing brand label (used in prompts and customer-facing charts). Defaults to `name` when not set. character [optional]
+#' @field brand_name LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`. character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -25,7 +25,7 @@ Project <- R6::R6Class(
     #'
     #' @param id id
     #' @param name Internal project label (sidebar, settings, admin)
-    #' @param brand_name LLM-facing brand label (used in prompts and customer-facing charts). Defaults to `name` when not set.
+    #' @param brand_name LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`.
     #' @param ... Other optional arguments.
     initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, ...) {
       if (!is.null(`id`)) {

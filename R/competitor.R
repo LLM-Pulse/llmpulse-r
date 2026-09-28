@@ -9,7 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field id  integer [optional]
 #' @field name  character [optional]
-#' @field domain  character [optional]
+#' @field domain Bare (scheme-less) domain. Null only on the own-brand row (include_project_brand=true) when the project has no URL. character [optional]
 #' @field actor_type Only present when include_project_brand=true character [optional]
 #' @field is_own Only present when include_project_brand=true character [optional]
 #' @importFrom R6 R6Class
@@ -29,7 +29,7 @@ Competitor <- R6::R6Class(
     #'
     #' @param id id
     #' @param name name
-    #' @param domain domain
+    #' @param domain Bare (scheme-less) domain. Null only on the own-brand row (include_project_brand=true) when the project has no URL.
     #' @param actor_type Only present when include_project_brand=true
     #' @param is_own Only present when include_project_brand=true
     #' @param ... Other optional arguments.

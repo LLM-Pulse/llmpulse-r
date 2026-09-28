@@ -4,22 +4,22 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ListSentimentCategories**](SentimentsApi.md#ListSentimentCategories) | **GET** /dimensions/sentiments | List sentiment categories
-[**ListSentimentRecords**](SentimentsApi.md#ListSentimentRecords) | **GET** /sentiments | List sentiment records
+[**ListSentimentCategories**](SentimentsApi.md#ListSentimentCategories) | **GET** /dimensions/sentiments | List sentiment categories (Growth plan or above)
+[**ListSentimentRecords**](SentimentsApi.md#ListSentimentRecords) | **GET** /sentiments | List sentiment records (Growth plan or above)
 
 
 # **ListSentimentCategories**
 > ListSentimentCategories(project_id, output = var.output)
 
-List sentiment categories
+List sentiment categories (Growth plan or above)
 
-Sentiment metric keys + labels + colors. For records, use /sentiments.
+Sentiment metric keys + labels + colors. For records, use /sentiments. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
 
 ### Example
 ```R
 library(llmpulse)
 
-# List sentiment categories
+# List sentiment categories (Growth plan or above)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
@@ -49,23 +49,26 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Sentiment buckets |  -  |
+| **403** | Endpoint requires the Growth plan or above |  -  |
 
 # **ListSentimentRecords**
 > ListSentimentRecords(project_id, competitor_id = var.competitor_id, brand_only = var.brand_only, analysis = var.analysis, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, from = var.from, to = var.to, page = 1, per_page = 20)
 
-List sentiment records
+List sentiment records (Growth plan or above)
+
+Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
 
 ### Example
 ```R
 library(llmpulse)
 
-# List sentiment records
+# List sentiment records (Growth plan or above)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
@@ -121,5 +124,6 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Paginated sentiments |  -  |
+| **403** | Endpoint requires the Growth plan or above |  -  |
 | **422** | Invalid parameters |  -  |
 

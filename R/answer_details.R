@@ -14,8 +14,8 @@
 #' @field response  character [optional]
 #' @field response_truncated  character [optional]
 #' @field executed_at  character [optional]
-#' @field duration_ms  integer [optional]
-#' @field success  character [optional]
+#' @field duration_ms Milliseconds, rounded to one decimal place numeric [optional]
+#' @field success Null while the answer is still pending character [optional]
 #' @field fan_out_queries  list(character) [optional]
 #' @field mentions  list(object) [optional]
 #' @field citations  list(object) [optional]
@@ -66,8 +66,8 @@ AnswerDetails <- R6::R6Class(
     #' @param response response
     #' @param response_truncated response_truncated
     #' @param executed_at executed_at
-    #' @param duration_ms duration_ms
-    #' @param success success
+    #' @param duration_ms Milliseconds, rounded to one decimal place
+    #' @param success Null while the answer is still pending
     #' @param fan_out_queries fan_out_queries
     #' @param mentions mentions
     #' @param citations citations
@@ -125,9 +125,6 @@ AnswerDetails <- R6::R6Class(
         self$`executed_at` <- `executed_at`
       }
       if (!is.null(`duration_ms`)) {
-        if (!(is.numeric(`duration_ms`) && length(`duration_ms`) == 1)) {
-          stop(paste("Error! Invalid data for `duration_ms`. Must be an integer:", `duration_ms`))
-        }
         self$`duration_ms` <- `duration_ms`
       }
       if (!is.null(`success`)) {
