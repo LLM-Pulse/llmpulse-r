@@ -10,7 +10,7 @@
 #' @field project_id  integer
 #' @field url  character
 #' @field country_code Defaults to the project country character [optional]
-#' @field output_language_code ISO 639-1 code of the language the llms.txt files are written in (for example es). Defaults to the project language, else en. Only the llms.txt report of the bundle uses it; an unsupported code returns 422 ERR_INVALID_PARAM character [optional]
+#' @field output_language_code ISO 639-1 code of the language the llms.txt files are written in (for example es), or auto to keep the language detected on the website. Defaults to the project language, else en. Only the llms.txt report of the bundle uses it; the response echoes the code used, or auto. An unsupported code returns 422 ERR_INVALID_PARAM character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -28,7 +28,7 @@ CreateTechnicalGeoReportsRequest <- R6::R6Class(
     #' @param project_id project_id
     #' @param url url
     #' @param country_code Defaults to the project country
-    #' @param output_language_code ISO 639-1 code of the language the llms.txt files are written in (for example es). Defaults to the project language, else en. Only the llms.txt report of the bundle uses it; an unsupported code returns 422 ERR_INVALID_PARAM
+    #' @param output_language_code ISO 639-1 code of the language the llms.txt files are written in (for example es), or auto to keep the language detected on the website. Defaults to the project language, else en. Only the llms.txt report of the bundle uses it; the response echoes the code used, or auto. An unsupported code returns 422 ERR_INVALID_PARAM
     #' @param ... Other optional arguments.
     initialize = function(`project_id`, `url`, `country_code` = NULL, `output_language_code` = NULL, ...) {
       if (!missing(`project_id`)) {

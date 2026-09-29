@@ -52,6 +52,8 @@ R/list_competitors200_response.R
 R/list_projects200_response.R
 R/list_webhooks200_response.R
 R/list_webhooks200_response_data_inner.R
+R/llms_txt_technical_geo_report.R
+R/llms_txt_technical_geo_report_result_data.R
 R/mentions_citations_api.R
 R/metrics_api.R
 R/owned_media_communities_api.R
@@ -95,6 +97,10 @@ R/sov_response_sample.R
 R/summary_response.R
 R/summary_response_all_of_position_distribution.R
 R/summary_response_all_of_summary_value_inner.R
+R/technical_geo_report_content_revert_request.R
+R/technical_geo_report_content_update_request.R
+R/technical_geo_report_content_update_request_edits.R
+R/technical_geo_report_content_update_response.R
 R/technical_geo_reports_api.R
 R/timeseries_point.R
 R/timeseries_response.R
@@ -152,6 +158,8 @@ docs/ListCompetitors200Response.md
 docs/ListProjects200Response.md
 docs/ListWebhooks200Response.md
 docs/ListWebhooks200ResponseDataInner.md
+docs/LlmsTxtTechnicalGeoReport.md
+docs/LlmsTxtTechnicalGeoReportResultData.md
 docs/MentionsCitationsApi.md
 docs/MetricsApi.md
 docs/OwnedMediaCommunitiesApi.md
@@ -196,6 +204,10 @@ docs/SummaryResponse.md
 docs/SummaryResponseAllOfPositionDistribution.md
 docs/SummaryResponseAllOfSummaryValueInner.md
 docs/TechnicalGEOReportsApi.md
+docs/TechnicalGeoReportContentRevertRequest.md
+docs/TechnicalGeoReportContentUpdateRequest.md
+docs/TechnicalGeoReportContentUpdateRequestEdits.md
+docs/TechnicalGeoReportContentUpdateResponse.md
 docs/TimeseriesPoint.md
 docs/TimeseriesResponse.md
 docs/TimeseriesSeries.md
