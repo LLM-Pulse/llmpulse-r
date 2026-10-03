@@ -5,6 +5,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ListAds**](ShoppingAdsApi.md#ListAds) | **GET** /dimensions/ads | List AI ad placements
+[**ListLocalBusinesses**](ShoppingAdsApi.md#ListLocalBusinesses) | **GET** /dimensions/local_businesses | List local businesses
 [**ListShopping**](ShoppingAdsApi.md#ListShopping) | **GET** /dimensions/shopping | List shopping results
 
 
@@ -89,6 +90,90 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Paginated ad rows plus totals |  -  |
+| **422** | Invalid parameters |  -  |
+
+# **ListLocalBusinesses**
+> LocalBusinessesResponse ListLocalBusinesses(project_id, page = 1, per_page = 20, owned = var.owned, order = "appearances", direction = "desc", query = var.query, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range, from = var.from, to = var.to, output = var.output)
+
+List local businesses
+
+Local businesses (shops, restaurants, services) listed inside AI answers, one row per business: its name at its address, so two locations of a chain are two rows. Each row carries its appearance count, the number of prompts that listed it, its average rating and average position in the list, its review count, and whether it is yours or a tracked competitor. Every response also carries a totals block matching the KPI cards in the app. Local business lists come from a subset of models and only for prompts with local intent. Available on every plan.
+
+### Example
+```R
+library(llmpulse)
+
+# List local businesses
+#
+# prepare function argument(s)
+var_project_id <- 56 # integer | Project ID
+var_page <- 1 # integer |  (Optional)
+var_per_page <- 20 # integer |  (Optional)
+var_owned <- "owned_example" # character | Return only listings identified as the tracked brand's own locations. The totals block stays account-wide. (Optional)
+var_order <- "appearances" # character | Sort field (Optional)
+var_direction <- "desc" # character |  (Optional)
+var_query <- "query_example" # character | Case-insensitive substring filter on the business name or address (Optional)
+var_model <- "model_example" # character | Filter by AI model. Models the API key's user has not enabled are silently dropped. (Optional)
+var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_prompt <- 56 # integer | Filter by prompt ID (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
+var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
+var_from <- "from_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
+var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
+
+api_instance <- ShoppingAdsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListLocalBusinesses(var_project_id, page = var_page, per_page = var_per_page, owned = var_owned, order = var_order, direction = var_direction, query = var_query, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListLocalBusinesses(var_project_id, page = var_page, per_page = var_per_page, owned = var_owned, order = var_order, direction = var_direction, query = var_query, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_output)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **project_id** | **integer**| Project ID | 
+ **page** | **integer**|  | [optional] [default to 1]
+ **per_page** | **integer**|  | [optional] [default to 20]
+ **owned** | **character**| Return only listings identified as the tracked brand&#39;s own locations. The totals block stays account-wide. | [optional] 
+ **order** | Enum [appearances, business, rating, reviews, avg_position, prompts] | Sort field | [optional] [default to &quot;appearances&quot;]
+ **direction** | Enum [asc, desc] |  | [optional] [default to &quot;desc&quot;]
+ **query** | **character**| Case-insensitive substring filter on the business name or address | [optional] 
+ **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt** | **integer**| Filter by prompt ID | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
+ **from** | **character**|  | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
+ **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+
+### Return type
+
+[**LocalBusinessesResponse**](LocalBusinessesResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Paginated local business rows plus totals |  -  |
 | **422** | Invalid parameters |  -  |
 
 # **ListShopping**
