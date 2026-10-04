@@ -7,10 +7,11 @@
 #' @title GetAccount200Response
 #' @description GetAccount200Response Class
 #' @format An \code{R6Class} generator object
-#' @field plan Plan key (starter, growth, scale, ...) character [optional]
-#' @field plan_name Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key) character [optional]
+#' @field plan Plan key (starter, growth, scale, ...). Absent for a key limited to some projects. character [optional]
+#' @field plan_name Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key). Absent for a key limited to some projects. character [optional]
 #' @field tracking_frequency How often prompts run (weekly, daily, monthly, ...) character [optional]
 #' @field role Whether the key belongs to the account owner or a team member character [optional]
+#' @field api_key_project_ids The projects the calling API key is limited to; null for a key that sees the whole account, and for OAuth list(integer) [optional]
 #' @field subscription  \link{GetAccount200ResponseSubscription} [optional]
 #' @field limits  \link{GetAccount200ResponseLimits} [optional]
 #' @field rate_limits  \link{GetAccount200ResponseRateLimits} [optional]
@@ -25,6 +26,7 @@ GetAccount200Response <- R6::R6Class(
     `plan_name` = NULL,
     `tracking_frequency` = NULL,
     `role` = NULL,
+    `api_key_project_ids` = NULL,
     `subscription` = NULL,
     `limits` = NULL,
     `rate_limits` = NULL,
@@ -33,16 +35,17 @@ GetAccount200Response <- R6::R6Class(
     #' @description
     #' Initialize a new GetAccount200Response class.
     #'
-    #' @param plan Plan key (starter, growth, scale, ...)
-    #' @param plan_name Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key)
+    #' @param plan Plan key (starter, growth, scale, ...). Absent for a key limited to some projects.
+    #' @param plan_name Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key). Absent for a key limited to some projects.
     #' @param tracking_frequency How often prompts run (weekly, daily, monthly, ...)
     #' @param role Whether the key belongs to the account owner or a team member
+    #' @param api_key_project_ids The projects the calling API key is limited to; null for a key that sees the whole account, and for OAuth
     #' @param subscription subscription
     #' @param limits limits
     #' @param rate_limits rate_limits
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`plan` = NULL, `plan_name` = NULL, `tracking_frequency` = NULL, `role` = NULL, `subscription` = NULL, `limits` = NULL, `rate_limits` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`plan` = NULL, `plan_name` = NULL, `tracking_frequency` = NULL, `role` = NULL, `api_key_project_ids` = NULL, `subscription` = NULL, `limits` = NULL, `rate_limits` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`plan`)) {
         if (!(is.character(`plan`) && length(`plan`) == 1)) {
           stop(paste("Error! Invalid data for `plan`. Must be a string:", `plan`))
@@ -69,6 +72,11 @@ GetAccount200Response <- R6::R6Class(
           stop(paste("Error! Invalid data for `role`. Must be a string:", `role`))
         }
         self$`role` <- `role`
+      }
+      if (!is.null(`api_key_project_ids`)) {
+        stopifnot(is.vector(`api_key_project_ids`), length(`api_key_project_ids`) != 0)
+        sapply(`api_key_project_ids`, function(x) stopifnot(is.character(x)))
+        self$`api_key_project_ids` <- `api_key_project_ids`
       }
       if (!is.null(`subscription`)) {
         stopifnot(R6::is.R6(`subscription`))
@@ -137,6 +145,10 @@ GetAccount200Response <- R6::R6Class(
         GetAccount200ResponseObject[["role"]] <-
           self$`role`
       }
+      if (!is.null(self$`api_key_project_ids`)) {
+        GetAccount200ResponseObject[["api_key_project_ids"]] <-
+          self$`api_key_project_ids`
+      }
       if (!is.null(self$`subscription`)) {
         GetAccount200ResponseObject[["subscription"]] <-
           self$extractSimpleType(self$`subscription`)
@@ -201,6 +213,9 @@ GetAccount200Response <- R6::R6Class(
         }
         self$`role` <- this_object$`role`
       }
+      if (!is.null(this_object$`api_key_project_ids`)) {
+        self$`api_key_project_ids` <- ApiClient$new()$deserializeObj(this_object$`api_key_project_ids`, "array[integer]", loadNamespace("llmpulse"))
+      }
       if (!is.null(this_object$`subscription`)) {
         `subscription_object` <- GetAccount200ResponseSubscription$new()
         `subscription_object`$fromJSON(jsonlite::toJSON(this_object$`subscription`, auto_unbox = TRUE, digits = NA))
@@ -247,6 +262,7 @@ GetAccount200Response <- R6::R6Class(
         stop(paste("Error! \"", this_object$`role`, "\" cannot be assigned to `role`. Must be \"owner\", \"member\".", sep = ""))
       }
       self$`role` <- this_object$`role`
+      self$`api_key_project_ids` <- ApiClient$new()$deserializeObj(this_object$`api_key_project_ids`, "array[integer]", loadNamespace("llmpulse"))
       self$`subscription` <- GetAccount200ResponseSubscription$new()$fromJSON(jsonlite::toJSON(this_object$`subscription`, auto_unbox = TRUE, digits = NA))
       self$`limits` <- GetAccount200ResponseLimits$new()$fromJSON(jsonlite::toJSON(this_object$`limits`, auto_unbox = TRUE, digits = NA))
       self$`rate_limits` <- GetAccount200ResponseRateLimits$new()$fromJSON(jsonlite::toJSON(this_object$`rate_limits`, auto_unbox = TRUE, digits = NA))

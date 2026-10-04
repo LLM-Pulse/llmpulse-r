@@ -8,13 +8,15 @@
 #' @description IntelligenceTaskCreateRequest Class
 #' @format An \code{R6Class} generator object
 #' @field project_id  integer
-#' @field task_type  character
-#' @field prompt_id  integer [optional]
+#' @field task_type product_listing is API-only: it needs product and returns ready-to-apply product page copy character
+#' @field prompt_id Not used by product_listing; send null or omit it integer [optional]
 #' @field custom_topic  character [optional]
 #' @field user_instructions  character [optional]
 #' @field output_language_code  character [optional]
 #' @field existing_content  character [optional]
 #' @field existing_content_url  character [optional]
+#' @field product  \link{IntelligenceTaskProduct} [optional]
+#' @field prompt_ids product_listing only: up to 20 project prompts the copy should answer list(integer) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -29,20 +31,24 @@ IntelligenceTaskCreateRequest <- R6::R6Class(
     `output_language_code` = NULL,
     `existing_content` = NULL,
     `existing_content_url` = NULL,
+    `product` = NULL,
+    `prompt_ids` = NULL,
 
     #' @description
     #' Initialize a new IntelligenceTaskCreateRequest class.
     #'
     #' @param project_id project_id
-    #' @param task_type task_type
-    #' @param prompt_id prompt_id
+    #' @param task_type product_listing is API-only: it needs product and returns ready-to-apply product page copy
+    #' @param prompt_id Not used by product_listing; send null or omit it
     #' @param custom_topic custom_topic
     #' @param user_instructions user_instructions
     #' @param output_language_code output_language_code
     #' @param existing_content existing_content
     #' @param existing_content_url existing_content_url
+    #' @param product product
+    #' @param prompt_ids product_listing only: up to 20 project prompts the copy should answer
     #' @param ... Other optional arguments.
-    initialize = function(`project_id`, `task_type`, `prompt_id` = NULL, `custom_topic` = NULL, `user_instructions` = NULL, `output_language_code` = NULL, `existing_content` = NULL, `existing_content_url` = NULL, ...) {
+    initialize = function(`project_id`, `task_type`, `prompt_id` = NULL, `custom_topic` = NULL, `user_instructions` = NULL, `output_language_code` = NULL, `existing_content` = NULL, `existing_content_url` = NULL, `product` = NULL, `prompt_ids` = NULL, ...) {
       if (!missing(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -50,8 +56,8 @@ IntelligenceTaskCreateRequest <- R6::R6Class(
         self$`project_id` <- `project_id`
       }
       if (!missing(`task_type`)) {
-        if (!(`task_type` %in% c("brief", "create", "update", "pr_insights", "custom"))) {
-          stop(paste("Error! \"", `task_type`, "\" cannot be assigned to `task_type`. Must be \"brief\", \"create\", \"update\", \"pr_insights\", \"custom\".", sep = ""))
+        if (!(`task_type` %in% c("brief", "create", "update", "pr_insights", "custom", "product_listing"))) {
+          stop(paste("Error! \"", `task_type`, "\" cannot be assigned to `task_type`. Must be \"brief\", \"create\", \"update\", \"pr_insights\", \"custom\", \"product_listing\".", sep = ""))
         }
         if (!(is.character(`task_type`) && length(`task_type`) == 1)) {
           stop(paste("Error! Invalid data for `task_type`. Must be a string:", `task_type`))
@@ -97,6 +103,15 @@ IntelligenceTaskCreateRequest <- R6::R6Class(
           stop(paste("Error! Invalid data for `existing_content_url`. Must be a URL:", `existing_content_url`))
         }
         self$`existing_content_url` <- `existing_content_url`
+      }
+      if (!is.null(`product`)) {
+        stopifnot(R6::is.R6(`product`))
+        self$`product` <- `product`
+      }
+      if (!is.null(`prompt_ids`)) {
+        stopifnot(is.vector(`prompt_ids`), length(`prompt_ids`) != 0)
+        sapply(`prompt_ids`, function(x) stopifnot(is.character(x)))
+        self$`prompt_ids` <- `prompt_ids`
       }
     },
 
@@ -163,7 +178,38 @@ IntelligenceTaskCreateRequest <- R6::R6Class(
         IntelligenceTaskCreateRequestObject[["existing_content_url"]] <-
           self$`existing_content_url`
       }
+      if (!is.null(self$`product`)) {
+        IntelligenceTaskCreateRequestObject[["product"]] <-
+          self$extractSimpleType(self$`product`)
+      }
+      if (!is.null(self$`prompt_ids`)) {
+        IntelligenceTaskCreateRequestObject[["prompt_ids"]] <-
+          self$`prompt_ids`
+      }
       return(IntelligenceTaskCreateRequestObject)
+    },
+
+    extractSimpleType = function(x) {
+      if (R6::is.R6(x)) {
+        return(x$toSimpleType())
+      } else if (!self$hasNestedR6(x)) {
+        return(x)
+      }
+      lapply(x, self$extractSimpleType)
+    },
+
+    hasNestedR6 = function(x) {
+      if (R6::is.R6(x)) {
+        return(TRUE)
+      }
+      if (is.list(x)) {
+        for (item in x) {
+          if (self$hasNestedR6(item)) {
+            return(TRUE)
+          }
+        }
+      }
+      FALSE
     },
 
     #' @description
@@ -177,8 +223,8 @@ IntelligenceTaskCreateRequest <- R6::R6Class(
         self$`project_id` <- this_object$`project_id`
       }
       if (!is.null(this_object$`task_type`)) {
-        if (!is.null(this_object$`task_type`) && !(this_object$`task_type` %in% c("brief", "create", "update", "pr_insights", "custom"))) {
-          stop(paste("Error! \"", this_object$`task_type`, "\" cannot be assigned to `task_type`. Must be \"brief\", \"create\", \"update\", \"pr_insights\", \"custom\".", sep = ""))
+        if (!is.null(this_object$`task_type`) && !(this_object$`task_type` %in% c("brief", "create", "update", "pr_insights", "custom", "product_listing"))) {
+          stop(paste("Error! \"", this_object$`task_type`, "\" cannot be assigned to `task_type`. Must be \"brief\", \"create\", \"update\", \"pr_insights\", \"custom\", \"product_listing\".", sep = ""))
         }
         self$`task_type` <- this_object$`task_type`
       }
@@ -204,6 +250,14 @@ IntelligenceTaskCreateRequest <- R6::R6Class(
         }
         self$`existing_content_url` <- this_object$`existing_content_url`
       }
+      if (!is.null(this_object$`product`)) {
+        `product_object` <- IntelligenceTaskProduct$new()
+        `product_object`$fromJSON(jsonlite::toJSON(this_object$`product`, auto_unbox = TRUE, digits = NA))
+        self$`product` <- `product_object`
+      }
+      if (!is.null(this_object$`prompt_ids`)) {
+        self$`prompt_ids` <- ApiClient$new()$deserializeObj(this_object$`prompt_ids`, "array[integer]", loadNamespace("llmpulse"))
+      }
       self
     },
 
@@ -226,8 +280,8 @@ IntelligenceTaskCreateRequest <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`project_id` <- this_object$`project_id`
-      if (!is.null(this_object$`task_type`) && !(this_object$`task_type` %in% c("brief", "create", "update", "pr_insights", "custom"))) {
-        stop(paste("Error! \"", this_object$`task_type`, "\" cannot be assigned to `task_type`. Must be \"brief\", \"create\", \"update\", \"pr_insights\", \"custom\".", sep = ""))
+      if (!is.null(this_object$`task_type`) && !(this_object$`task_type` %in% c("brief", "create", "update", "pr_insights", "custom", "product_listing"))) {
+        stop(paste("Error! \"", this_object$`task_type`, "\" cannot be assigned to `task_type`. Must be \"brief\", \"create\", \"update\", \"pr_insights\", \"custom\", \"product_listing\".", sep = ""))
       }
       self$`task_type` <- this_object$`task_type`
       self$`prompt_id` <- this_object$`prompt_id`
@@ -240,6 +294,8 @@ IntelligenceTaskCreateRequest <- R6::R6Class(
         stop(paste("Error! Invalid data for `existing_content_url`. Must be a URL:", this_object$`existing_content_url`))
       }
       self$`existing_content_url` <- this_object$`existing_content_url`
+      self$`product` <- IntelligenceTaskProduct$new()$fromJSON(jsonlite::toJSON(this_object$`product`, auto_unbox = TRUE, digits = NA))
+      self$`prompt_ids` <- ApiClient$new()$deserializeObj(this_object$`prompt_ids`, "array[integer]", loadNamespace("llmpulse"))
       self
     },
 
@@ -290,6 +346,10 @@ IntelligenceTaskCreateRequest <- R6::R6Class(
         return(FALSE)
       }
 
+      if (length(self$`prompt_ids`) > 20) {
+        return(FALSE)
+      }
+
       TRUE
     },
 
@@ -307,6 +367,10 @@ IntelligenceTaskCreateRequest <- R6::R6Class(
       # check if the required `task_type` is null
       if (is.null(self$`task_type`)) {
         invalid_fields["task_type"] <- "Non-nullable required field `task_type` cannot be null."
+      }
+
+      if (length(self$`prompt_ids`) > 20) {
+        invalid_fields["prompt_ids"] <- "Invalid length for `prompt_ids`, number of items must be less than or equal to 20."
       }
 
       invalid_fields

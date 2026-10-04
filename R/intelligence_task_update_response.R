@@ -20,7 +20,7 @@
 #' @field user_instructions  character [optional]
 #' @field output_language_code  character [optional]
 #' @field word_count  integer [optional]
-#' @field result_data The generated content once status is completed; null before that object [optional]
+#' @field result_data The generated content once status is completed; null before that. A product_listing task returns title, summary, description_html (p, ul, ol, li, strong, em, h3 and br only), faq (question and answer pairs), seo_title, seo_description, image_alts (image_id and alt), changes (field and reason) and labels object [optional]
 #' @field error_message  character [optional]
 #' @field estimated_time  character [optional]
 #' @field created_at  character [optional]
@@ -74,7 +74,7 @@ IntelligenceTaskUpdateResponse <- R6::R6Class(
     #' @param user_instructions user_instructions
     #' @param output_language_code output_language_code
     #' @param word_count word_count
-    #' @param result_data The generated content once status is completed; null before that
+    #' @param result_data The generated content once status is completed; null before that. A product_listing task returns title, summary, description_html (p, ul, ol, li, strong, em, h3 and br only), faq (question and answer pairs), seo_title, seo_description, image_alts (image_id and alt), changes (field and reason) and labels
     #' @param error_message error_message
     #' @param estimated_time estimated_time
     #' @param created_at created_at

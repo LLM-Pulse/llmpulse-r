@@ -16,6 +16,8 @@ Method | HTTP request | Description
 
 Create a GEO Writer task
 
+Creates a GEO Writer task, processed asynchronously: poll GET /intelligence_tasks/{id} until status is completed. Prompt-based mode takes prompt_id; agentic mode takes custom_topic and/or user_instructions. task_type product_listing is API-only and serves store apps: send a product object (title required) and optionally prompt_ids, and the completed result_data holds ready-to-apply product page copy. Edit and revert it with PATCH /intelligence_tasks/{id} and POST /intelligence_tasks/{id}/revert. Requires a `read_write` scope API key.
+
 ### Example
 ```R
 library(llmpulse)
@@ -23,7 +25,7 @@ library(llmpulse)
 # Create a GEO Writer task
 #
 # prepare function argument(s)
-var_intelligence_task_create_request <- IntelligenceTaskCreateRequest$new(123, "brief", 123, "custom_topic_example", "user_instructions_example", "output_language_code_example", "existing_content_example", "existing_content_url_example") # IntelligenceTaskCreateRequest | 
+var_intelligence_task_create_request <- IntelligenceTaskCreateRequest$new(123, "brief", 123, "custom_topic_example", "user_instructions_example", "output_language_code_example", "existing_content_example", "existing_content_url_example", IntelligenceTaskProduct$new("title_example", "external_id_example", "description_html_example", "seo_title_example", "seo_description_example", "url_example", "product_type_example", c(IntelligenceTaskProduct_images_inner$new("id_example", "alt_example"))), c(123)) # IntelligenceTaskCreateRequest | 
 
 api_instance <- GEOWriterApi$new()
 # Configure HTTP bearer authorization: BearerAuth
@@ -138,7 +140,7 @@ api_instance$ListIntelligenceTasks(var_project_id, task_type = var_task_type, st
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **task_type** | Enum [brief, create, update, pr_insights, custom] |  | [optional] 
+ **task_type** | Enum [brief, create, update, pr_insights, custom, product_listing] |  | [optional] 
  **status** | **character**|  | [optional] 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
