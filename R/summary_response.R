@@ -10,8 +10,8 @@
 #' @field project_id  integer [optional]
 #' @field from  character [optional]
 #' @field to  character [optional]
-#' @field granularity  character [optional]
-#' @field filters  object [optional]
+#' @field granularity day, week or month character [optional]
+#' @field filters  \link{MetricsFiltersEcho} [optional]
 #' @field series  named list(list(\link{TimeseriesSeries})) [optional]
 #' @field request_id  character [optional]
 #' @field summary  named list(list(\link{SummaryResponseAllOfSummaryValueInner})) [optional]
@@ -38,7 +38,7 @@ SummaryResponse <- R6::R6Class(
     #' @param project_id project_id
     #' @param from from
     #' @param to to
-    #' @param granularity granularity
+    #' @param granularity day, week or month
     #' @param filters filters
     #' @param series series
     #' @param request_id request_id
@@ -71,6 +71,7 @@ SummaryResponse <- R6::R6Class(
         self$`granularity` <- `granularity`
       }
       if (!is.null(`filters`)) {
+        stopifnot(R6::is.R6(`filters`))
         self$`filters` <- `filters`
       }
       if (!is.null(`series`)) {
@@ -144,7 +145,7 @@ SummaryResponse <- R6::R6Class(
       }
       if (!is.null(self$`filters`)) {
         SummaryResponseObject[["filters"]] <-
-          self$`filters`
+          self$extractSimpleType(self$`filters`)
       }
       if (!is.null(self$`series`)) {
         SummaryResponseObject[["series"]] <-
@@ -208,7 +209,9 @@ SummaryResponse <- R6::R6Class(
         self$`granularity` <- this_object$`granularity`
       }
       if (!is.null(this_object$`filters`)) {
-        self$`filters` <- this_object$`filters`
+        `filters_object` <- MetricsFiltersEcho$new()
+        `filters_object`$fromJSON(jsonlite::toJSON(this_object$`filters`, auto_unbox = TRUE, digits = NA))
+        self$`filters` <- `filters_object`
       }
       if (!is.null(this_object$`series`)) {
         self$`series` <- ApiClient$new()$deserializeObj(this_object$`series`, "map(array[TimeseriesSeries])", loadNamespace("llmpulse"))
@@ -249,7 +252,7 @@ SummaryResponse <- R6::R6Class(
       self$`from` <- this_object$`from`
       self$`to` <- this_object$`to`
       self$`granularity` <- this_object$`granularity`
-      self$`filters` <- this_object$`filters`
+      self$`filters` <- MetricsFiltersEcho$new()$fromJSON(jsonlite::toJSON(this_object$`filters`, auto_unbox = TRUE, digits = NA))
       self$`series` <- ApiClient$new()$deserializeObj(this_object$`series`, "map(array[TimeseriesSeries])", loadNamespace("llmpulse"))
       self$`request_id` <- this_object$`request_id`
       self$`summary` <- ApiClient$new()$deserializeObj(this_object$`summary`, "map(array[SummaryResponseAllOfSummaryValueInner])", loadNamespace("llmpulse"))

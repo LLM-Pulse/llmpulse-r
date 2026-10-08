@@ -267,7 +267,7 @@ void (empty response body)
 | **404** | Resource not found |  -  |
 
 # **ListLocales**
-> ListLocales(project_id)
+> LocalesResponse ListLocales(project_id)
 
 List locales with data
 
@@ -283,7 +283,10 @@ var_project_id <- 56 # integer | Project ID
 api_instance <- ProjectsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListLocales(var_project_id)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListLocales(var_project_iddata_file = "result.txt")
+result <- api_instance$ListLocales(var_project_id)
+dput(result)
 ```
 
 ### Parameters
@@ -294,7 +297,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**LocalesResponse**](LocalesResponse.md)
 
 ### Authorization
 
@@ -303,7 +306,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -311,7 +314,7 @@ void (empty response body)
 | **200** | Locales |  -  |
 
 # **ListModels**
-> ListModels(project_id)
+> ModelsResponse ListModels(project_id)
 
 List models with data
 
@@ -327,7 +330,10 @@ var_project_id <- 56 # integer | Project ID
 api_instance <- ProjectsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListModels(var_project_id)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListModels(var_project_iddata_file = "result.txt")
+result <- api_instance$ListModels(var_project_id)
+dput(result)
 ```
 
 ### Parameters
@@ -338,7 +344,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ModelsResponse**](ModelsResponse.md)
 
 ### Authorization
 
@@ -347,7 +353,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

@@ -10,7 +10,7 @@
 #' @field project_id  integer [optional]
 #' @field from  character [optional]
 #' @field to  character [optional]
-#' @field filters  object [optional]
+#' @field filters  \link{MetricsFiltersEcho} [optional]
 #' @field breakdown  character [optional]
 #' @field sort  character [optional]
 #' @field sort_dir  character [optional]
@@ -74,6 +74,7 @@ PromptSummaryResponse <- R6::R6Class(
         self$`to` <- `to`
       }
       if (!is.null(`filters`)) {
+        stopifnot(R6::is.R6(`filters`))
         self$`filters` <- `filters`
       }
       if (!is.null(`breakdown`)) {
@@ -170,7 +171,7 @@ PromptSummaryResponse <- R6::R6Class(
       }
       if (!is.null(self$`filters`)) {
         PromptSummaryResponseObject[["filters"]] <-
-          self$`filters`
+          self$extractSimpleType(self$`filters`)
       }
       if (!is.null(self$`breakdown`)) {
         PromptSummaryResponseObject[["breakdown"]] <-
@@ -247,7 +248,9 @@ PromptSummaryResponse <- R6::R6Class(
         self$`to` <- this_object$`to`
       }
       if (!is.null(this_object$`filters`)) {
-        self$`filters` <- this_object$`filters`
+        `filters_object` <- MetricsFiltersEcho$new()
+        `filters_object`$fromJSON(jsonlite::toJSON(this_object$`filters`, auto_unbox = TRUE, digits = NA))
+        self$`filters` <- `filters_object`
       }
       if (!is.null(this_object$`breakdown`)) {
         self$`breakdown` <- this_object$`breakdown`
@@ -297,7 +300,7 @@ PromptSummaryResponse <- R6::R6Class(
       self$`project_id` <- this_object$`project_id`
       self$`from` <- this_object$`from`
       self$`to` <- this_object$`to`
-      self$`filters` <- this_object$`filters`
+      self$`filters` <- MetricsFiltersEcho$new()$fromJSON(jsonlite::toJSON(this_object$`filters`, auto_unbox = TRUE, digits = NA))
       self$`breakdown` <- this_object$`breakdown`
       self$`sort` <- this_object$`sort`
       self$`sort_dir` <- this_object$`sort_dir`

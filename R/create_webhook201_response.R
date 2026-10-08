@@ -16,6 +16,7 @@
 #' @field last_delivered_at  character [optional]
 #' @field created_at  character [optional]
 #' @field secret HMAC signing secret (whsec_...). Only returned on create. character [optional]
+#' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -31,6 +32,7 @@ CreateWebhook201Response <- R6::R6Class(
     `last_delivered_at` = NULL,
     `created_at` = NULL,
     `secret` = NULL,
+    `request_id` = NULL,
 
     #' @description
     #' Initialize a new CreateWebhook201Response class.
@@ -44,8 +46,9 @@ CreateWebhook201Response <- R6::R6Class(
     #' @param last_delivered_at last_delivered_at
     #' @param created_at created_at
     #' @param secret HMAC signing secret (whsec_...). Only returned on create.
+    #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `project_id` = NULL, `event_type` = NULL, `target_url` = NULL, `disabled` = NULL, `failure_count` = NULL, `last_delivered_at` = NULL, `created_at` = NULL, `secret` = NULL, ...) {
+    initialize = function(`id` = NULL, `project_id` = NULL, `event_type` = NULL, `target_url` = NULL, `disabled` = NULL, `failure_count` = NULL, `last_delivered_at` = NULL, `created_at` = NULL, `secret` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -59,8 +62,8 @@ CreateWebhook201Response <- R6::R6Class(
         self$`project_id` <- `project_id`
       }
       if (!is.null(`event_type`)) {
-        if (!(`event_type` %in% c("mention.created", "competitor_mention.created", "citation.created", "prompt_execution.completed", "sentiment.negative_detected", "recommendation.completed", "intelligence_task.completed", "intelligence_task.updated"))) {
-          stop(paste("Error! \"", `event_type`, "\" cannot be assigned to `event_type`. Must be \"mention.created\", \"competitor_mention.created\", \"citation.created\", \"prompt_execution.completed\", \"sentiment.negative_detected\", \"recommendation.completed\", \"intelligence_task.completed\", \"intelligence_task.updated\".", sep = ""))
+        if (!(`event_type` %in% c("mention.created", "competitor_mention.created", "citation.created", "prompt_execution.completed", "sentiment.negative_detected", "recommendation.completed", "intelligence_task.completed", "intelligence_task.updated", "geo_audit_run.completed", "geo_audit_alert.triggered"))) {
+          stop(paste("Error! \"", `event_type`, "\" cannot be assigned to `event_type`. Must be \"mention.created\", \"competitor_mention.created\", \"citation.created\", \"prompt_execution.completed\", \"sentiment.negative_detected\", \"recommendation.completed\", \"intelligence_task.completed\", \"intelligence_task.updated\", \"geo_audit_run.completed\", \"geo_audit_alert.triggered\".", sep = ""))
         }
         if (!(is.character(`event_type`) && length(`event_type`) == 1)) {
           stop(paste("Error! Invalid data for `event_type`. Must be a string:", `event_type`))
@@ -102,6 +105,12 @@ CreateWebhook201Response <- R6::R6Class(
           stop(paste("Error! Invalid data for `secret`. Must be a string:", `secret`))
         }
         self$`secret` <- `secret`
+      }
+      if (!is.null(`request_id`)) {
+        if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
+          stop(paste("Error! Invalid data for `request_id`. Must be a string:", `request_id`))
+        }
+        self$`request_id` <- `request_id`
       }
     },
 
@@ -172,6 +181,10 @@ CreateWebhook201Response <- R6::R6Class(
         CreateWebhook201ResponseObject[["secret"]] <-
           self$`secret`
       }
+      if (!is.null(self$`request_id`)) {
+        CreateWebhook201ResponseObject[["request_id"]] <-
+          self$`request_id`
+      }
       return(CreateWebhook201ResponseObject)
     },
 
@@ -189,8 +202,8 @@ CreateWebhook201Response <- R6::R6Class(
         self$`project_id` <- this_object$`project_id`
       }
       if (!is.null(this_object$`event_type`)) {
-        if (!is.null(this_object$`event_type`) && !(this_object$`event_type` %in% c("mention.created", "competitor_mention.created", "citation.created", "prompt_execution.completed", "sentiment.negative_detected", "recommendation.completed", "intelligence_task.completed", "intelligence_task.updated"))) {
-          stop(paste("Error! \"", this_object$`event_type`, "\" cannot be assigned to `event_type`. Must be \"mention.created\", \"competitor_mention.created\", \"citation.created\", \"prompt_execution.completed\", \"sentiment.negative_detected\", \"recommendation.completed\", \"intelligence_task.completed\", \"intelligence_task.updated\".", sep = ""))
+        if (!is.null(this_object$`event_type`) && !(this_object$`event_type` %in% c("mention.created", "competitor_mention.created", "citation.created", "prompt_execution.completed", "sentiment.negative_detected", "recommendation.completed", "intelligence_task.completed", "intelligence_task.updated", "geo_audit_run.completed", "geo_audit_alert.triggered"))) {
+          stop(paste("Error! \"", this_object$`event_type`, "\" cannot be assigned to `event_type`. Must be \"mention.created\", \"competitor_mention.created\", \"citation.created\", \"prompt_execution.completed\", \"sentiment.negative_detected\", \"recommendation.completed\", \"intelligence_task.completed\", \"intelligence_task.updated\", \"geo_audit_run.completed\", \"geo_audit_alert.triggered\".", sep = ""))
         }
         self$`event_type` <- this_object$`event_type`
       }
@@ -211,6 +224,9 @@ CreateWebhook201Response <- R6::R6Class(
       }
       if (!is.null(this_object$`secret`)) {
         self$`secret` <- this_object$`secret`
+      }
+      if (!is.null(this_object$`request_id`)) {
+        self$`request_id` <- this_object$`request_id`
       }
       self
     },
@@ -235,8 +251,8 @@ CreateWebhook201Response <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`id` <- this_object$`id`
       self$`project_id` <- this_object$`project_id`
-      if (!is.null(this_object$`event_type`) && !(this_object$`event_type` %in% c("mention.created", "competitor_mention.created", "citation.created", "prompt_execution.completed", "sentiment.negative_detected", "recommendation.completed", "intelligence_task.completed", "intelligence_task.updated"))) {
-        stop(paste("Error! \"", this_object$`event_type`, "\" cannot be assigned to `event_type`. Must be \"mention.created\", \"competitor_mention.created\", \"citation.created\", \"prompt_execution.completed\", \"sentiment.negative_detected\", \"recommendation.completed\", \"intelligence_task.completed\", \"intelligence_task.updated\".", sep = ""))
+      if (!is.null(this_object$`event_type`) && !(this_object$`event_type` %in% c("mention.created", "competitor_mention.created", "citation.created", "prompt_execution.completed", "sentiment.negative_detected", "recommendation.completed", "intelligence_task.completed", "intelligence_task.updated", "geo_audit_run.completed", "geo_audit_alert.triggered"))) {
+        stop(paste("Error! \"", this_object$`event_type`, "\" cannot be assigned to `event_type`. Must be \"mention.created\", \"competitor_mention.created\", \"citation.created\", \"prompt_execution.completed\", \"sentiment.negative_detected\", \"recommendation.completed\", \"intelligence_task.completed\", \"intelligence_task.updated\", \"geo_audit_run.completed\", \"geo_audit_alert.triggered\".", sep = ""))
       }
       self$`event_type` <- this_object$`event_type`
       self$`target_url` <- this_object$`target_url`
@@ -245,6 +261,7 @@ CreateWebhook201Response <- R6::R6Class(
       self$`last_delivered_at` <- this_object$`last_delivered_at`
       self$`created_at` <- this_object$`created_at`
       self$`secret` <- this_object$`secret`
+      self$`request_id` <- this_object$`request_id`
       self
     },
 

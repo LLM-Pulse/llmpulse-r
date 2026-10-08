@@ -16,6 +16,7 @@
 #' @field executed_at  character [optional]
 #' @field duration_ms Milliseconds, rounded to one decimal place numeric [optional]
 #' @field success Null while the answer is still pending character [optional]
+#' @field no_result True for a sentinel non-answer (the provider returned nothing after retries); excluded from platform metrics character [optional]
 #' @field fan_out_queries  list(character) [optional]
 #' @field mentions  list(object) [optional]
 #' @field citations  list(object) [optional]
@@ -28,6 +29,7 @@
 #' @field local_businesses  list(object) [optional]
 #' @field locale  \link{AnswerDetailsLocale} [optional]
 #' @field app_url Opens this answer in the app. The link names its project, so it opens there for any user with access to that project character [optional]
+#' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -43,6 +45,7 @@ AnswerDetails <- R6::R6Class(
     `executed_at` = NULL,
     `duration_ms` = NULL,
     `success` = NULL,
+    `no_result` = NULL,
     `fan_out_queries` = NULL,
     `mentions` = NULL,
     `citations` = NULL,
@@ -55,6 +58,7 @@ AnswerDetails <- R6::R6Class(
     `local_businesses` = NULL,
     `locale` = NULL,
     `app_url` = NULL,
+    `request_id` = NULL,
 
     #' @description
     #' Initialize a new AnswerDetails class.
@@ -68,6 +72,7 @@ AnswerDetails <- R6::R6Class(
     #' @param executed_at executed_at
     #' @param duration_ms Milliseconds, rounded to one decimal place
     #' @param success Null while the answer is still pending
+    #' @param no_result True for a sentinel non-answer (the provider returned nothing after retries); excluded from platform metrics
     #' @param fan_out_queries fan_out_queries
     #' @param mentions mentions
     #' @param citations citations
@@ -80,8 +85,9 @@ AnswerDetails <- R6::R6Class(
     #' @param local_businesses local_businesses
     #' @param locale locale
     #' @param app_url Opens this answer in the app. The link names its project, so it opens there for any user with access to that project
+    #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `prompt_id` = NULL, `prompt_text` = NULL, `model` = NULL, `response` = NULL, `response_truncated` = NULL, `executed_at` = NULL, `duration_ms` = NULL, `success` = NULL, `fan_out_queries` = NULL, `mentions` = NULL, `citations` = NULL, `competitor_mentions` = NULL, `competitor_citations` = NULL, `sentiments` = NULL, `sources` = NULL, `shopping_products` = NULL, `brand_entities` = NULL, `local_businesses` = NULL, `locale` = NULL, `app_url` = NULL, ...) {
+    initialize = function(`id` = NULL, `prompt_id` = NULL, `prompt_text` = NULL, `model` = NULL, `response` = NULL, `response_truncated` = NULL, `executed_at` = NULL, `duration_ms` = NULL, `success` = NULL, `no_result` = NULL, `fan_out_queries` = NULL, `mentions` = NULL, `citations` = NULL, `competitor_mentions` = NULL, `competitor_citations` = NULL, `sentiments` = NULL, `sources` = NULL, `shopping_products` = NULL, `brand_entities` = NULL, `local_businesses` = NULL, `locale` = NULL, `app_url` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -132,6 +138,12 @@ AnswerDetails <- R6::R6Class(
           stop(paste("Error! Invalid data for `success`. Must be a boolean:", `success`))
         }
         self$`success` <- `success`
+      }
+      if (!is.null(`no_result`)) {
+        if (!(is.logical(`no_result`) && length(`no_result`) == 1)) {
+          stop(paste("Error! Invalid data for `no_result`. Must be a boolean:", `no_result`))
+        }
+        self$`no_result` <- `no_result`
       }
       if (!is.null(`fan_out_queries`)) {
         stopifnot(is.vector(`fan_out_queries`), length(`fan_out_queries`) != 0)
@@ -196,6 +208,12 @@ AnswerDetails <- R6::R6Class(
           stop(paste("Error! Invalid data for `app_url`. Must be a URL:", `app_url`))
         }
         self$`app_url` <- `app_url`
+      }
+      if (!is.null(`request_id`)) {
+        if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
+          stop(paste("Error! Invalid data for `request_id`. Must be a string:", `request_id`))
+        }
+        self$`request_id` <- `request_id`
       }
     },
 
@@ -266,6 +284,10 @@ AnswerDetails <- R6::R6Class(
         AnswerDetailsObject[["success"]] <-
           self$`success`
       }
+      if (!is.null(self$`no_result`)) {
+        AnswerDetailsObject[["no_result"]] <-
+          self$`no_result`
+      }
       if (!is.null(self$`fan_out_queries`)) {
         AnswerDetailsObject[["fan_out_queries"]] <-
           self$`fan_out_queries`
@@ -313,6 +335,10 @@ AnswerDetails <- R6::R6Class(
       if (!is.null(self$`app_url`)) {
         AnswerDetailsObject[["app_url"]] <-
           self$`app_url`
+      }
+      if (!is.null(self$`request_id`)) {
+        AnswerDetailsObject[["request_id"]] <-
+          self$`request_id`
       }
       return(AnswerDetailsObject)
     },
@@ -374,6 +400,9 @@ AnswerDetails <- R6::R6Class(
       if (!is.null(this_object$`success`)) {
         self$`success` <- this_object$`success`
       }
+      if (!is.null(this_object$`no_result`)) {
+        self$`no_result` <- this_object$`no_result`
+      }
       if (!is.null(this_object$`fan_out_queries`)) {
         self$`fan_out_queries` <- ApiClient$new()$deserializeObj(this_object$`fan_out_queries`, "array[character]", loadNamespace("llmpulse"))
       }
@@ -416,6 +445,9 @@ AnswerDetails <- R6::R6Class(
         }
         self$`app_url` <- this_object$`app_url`
       }
+      if (!is.null(this_object$`request_id`)) {
+        self$`request_id` <- this_object$`request_id`
+      }
       self
     },
 
@@ -446,6 +478,7 @@ AnswerDetails <- R6::R6Class(
       self$`executed_at` <- this_object$`executed_at`
       self$`duration_ms` <- this_object$`duration_ms`
       self$`success` <- this_object$`success`
+      self$`no_result` <- this_object$`no_result`
       self$`fan_out_queries` <- ApiClient$new()$deserializeObj(this_object$`fan_out_queries`, "array[character]", loadNamespace("llmpulse"))
       self$`mentions` <- ApiClient$new()$deserializeObj(this_object$`mentions`, "array[object]", loadNamespace("llmpulse"))
       self$`citations` <- ApiClient$new()$deserializeObj(this_object$`citations`, "array[object]", loadNamespace("llmpulse"))
@@ -462,6 +495,7 @@ AnswerDetails <- R6::R6Class(
         stop(paste("Error! Invalid data for `app_url`. Must be a URL:", this_object$`app_url`))
       }
       self$`app_url` <- this_object$`app_url`
+      self$`request_id` <- this_object$`request_id`
       self
     },
 

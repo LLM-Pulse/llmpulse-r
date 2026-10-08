@@ -10,6 +10,9 @@
 #' @field id  integer [optional]
 #' @field name  character [optional]
 #' @field domain Bare (scheme-less) domain. Null only on the own-brand row (include_project_brand=true) when the project has no URL. character [optional]
+#' @field matching_names Alternative names matched as this competitor. Absent on the own-brand row list(character) [optional]
+#' @field citation_match_mode  \link{CitationMatchMode} [optional]
+#' @field citation_match_path Set only when citation_match_mode is path_prefix character [optional]
 #' @field actor_type Only present when include_project_brand=true character [optional]
 #' @field is_own Only present when include_project_brand=true character [optional]
 #' @importFrom R6 R6Class
@@ -21,6 +24,9 @@ Competitor <- R6::R6Class(
     `id` = NULL,
     `name` = NULL,
     `domain` = NULL,
+    `matching_names` = NULL,
+    `citation_match_mode` = NULL,
+    `citation_match_path` = NULL,
     `actor_type` = NULL,
     `is_own` = NULL,
 
@@ -30,10 +36,13 @@ Competitor <- R6::R6Class(
     #' @param id id
     #' @param name name
     #' @param domain Bare (scheme-less) domain. Null only on the own-brand row (include_project_brand=true) when the project has no URL.
+    #' @param matching_names Alternative names matched as this competitor. Absent on the own-brand row
+    #' @param citation_match_mode citation_match_mode
+    #' @param citation_match_path Set only when citation_match_mode is path_prefix
     #' @param actor_type Only present when include_project_brand=true
     #' @param is_own Only present when include_project_brand=true
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `name` = NULL, `domain` = NULL, `actor_type` = NULL, `is_own` = NULL, ...) {
+    initialize = function(`id` = NULL, `name` = NULL, `domain` = NULL, `matching_names` = NULL, `citation_match_mode` = NULL, `citation_match_path` = NULL, `actor_type` = NULL, `is_own` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -51,6 +60,24 @@ Competitor <- R6::R6Class(
           stop(paste("Error! Invalid data for `domain`. Must be a string:", `domain`))
         }
         self$`domain` <- `domain`
+      }
+      if (!is.null(`matching_names`)) {
+        stopifnot(is.vector(`matching_names`), length(`matching_names`) != 0)
+        sapply(`matching_names`, function(x) stopifnot(is.character(x)))
+        self$`matching_names` <- `matching_names`
+      }
+      if (!is.null(`citation_match_mode`)) {
+        if (!(`citation_match_mode` %in% c())) {
+          stop(paste("Error! \"", `citation_match_mode`, "\" cannot be assigned to `citation_match_mode`. Must be .", sep = ""))
+        }
+        stopifnot(R6::is.R6(`citation_match_mode`))
+        self$`citation_match_mode` <- `citation_match_mode`
+      }
+      if (!is.null(`citation_match_path`)) {
+        if (!(is.character(`citation_match_path`) && length(`citation_match_path`) == 1)) {
+          stop(paste("Error! Invalid data for `citation_match_path`. Must be a string:", `citation_match_path`))
+        }
+        self$`citation_match_path` <- `citation_match_path`
       }
       if (!is.null(`actor_type`)) {
         if (!(`actor_type` %in% c("project", "competitor"))) {
@@ -112,6 +139,18 @@ Competitor <- R6::R6Class(
         CompetitorObject[["domain"]] <-
           self$`domain`
       }
+      if (!is.null(self$`matching_names`)) {
+        CompetitorObject[["matching_names"]] <-
+          self$`matching_names`
+      }
+      if (!is.null(self$`citation_match_mode`)) {
+        CompetitorObject[["citation_match_mode"]] <-
+          self$extractSimpleType(self$`citation_match_mode`)
+      }
+      if (!is.null(self$`citation_match_path`)) {
+        CompetitorObject[["citation_match_path"]] <-
+          self$`citation_match_path`
+      }
       if (!is.null(self$`actor_type`)) {
         CompetitorObject[["actor_type"]] <-
           self$`actor_type`
@@ -121,6 +160,29 @@ Competitor <- R6::R6Class(
           self$`is_own`
       }
       return(CompetitorObject)
+    },
+
+    extractSimpleType = function(x) {
+      if (R6::is.R6(x)) {
+        return(x$toSimpleType())
+      } else if (!self$hasNestedR6(x)) {
+        return(x)
+      }
+      lapply(x, self$extractSimpleType)
+    },
+
+    hasNestedR6 = function(x) {
+      if (R6::is.R6(x)) {
+        return(TRUE)
+      }
+      if (is.list(x)) {
+        for (item in x) {
+          if (self$hasNestedR6(item)) {
+            return(TRUE)
+          }
+        }
+      }
+      FALSE
     },
 
     #' @description
@@ -138,6 +200,17 @@ Competitor <- R6::R6Class(
       }
       if (!is.null(this_object$`domain`)) {
         self$`domain` <- this_object$`domain`
+      }
+      if (!is.null(this_object$`matching_names`)) {
+        self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
+      }
+      if (!is.null(this_object$`citation_match_mode`)) {
+        `citation_match_mode_object` <- CitationMatchMode$new()
+        `citation_match_mode_object`$fromJSON(jsonlite::toJSON(this_object$`citation_match_mode`, auto_unbox = TRUE, digits = NA))
+        self$`citation_match_mode` <- `citation_match_mode_object`
+      }
+      if (!is.null(this_object$`citation_match_path`)) {
+        self$`citation_match_path` <- this_object$`citation_match_path`
       }
       if (!is.null(this_object$`actor_type`)) {
         if (!is.null(this_object$`actor_type`) && !(this_object$`actor_type` %in% c("project", "competitor"))) {
@@ -172,6 +245,9 @@ Competitor <- R6::R6Class(
       self$`id` <- this_object$`id`
       self$`name` <- this_object$`name`
       self$`domain` <- this_object$`domain`
+      self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
+      self$`citation_match_mode` <- CitationMatchMode$new()$fromJSON(jsonlite::toJSON(this_object$`citation_match_mode`, auto_unbox = TRUE, digits = NA))
+      self$`citation_match_path` <- this_object$`citation_match_path`
       if (!is.null(this_object$`actor_type`) && !(this_object$`actor_type` %in% c("project", "competitor"))) {
         stop(paste("Error! \"", this_object$`actor_type`, "\" cannot be assigned to `actor_type`. Must be \"project\", \"competitor\".", sep = ""))
       }

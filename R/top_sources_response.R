@@ -10,11 +10,13 @@
 #' @field project_id  integer [optional]
 #' @field from  character [optional]
 #' @field to  character [optional]
+#' @field filters  \link{MetricsFiltersEcho} [optional]
 #' @field sort  character [optional]
 #' @field page  integer [optional]
 #' @field per_page  integer [optional]
 #' @field total  integer [optional]
 #' @field data  list(\link{TopSourcesResponseDataInner}) [optional]
+#' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -24,11 +26,13 @@ TopSourcesResponse <- R6::R6Class(
     `project_id` = NULL,
     `from` = NULL,
     `to` = NULL,
+    `filters` = NULL,
     `sort` = NULL,
     `page` = NULL,
     `per_page` = NULL,
     `total` = NULL,
     `data` = NULL,
+    `request_id` = NULL,
 
     #' @description
     #' Initialize a new TopSourcesResponse class.
@@ -36,13 +40,15 @@ TopSourcesResponse <- R6::R6Class(
     #' @param project_id project_id
     #' @param from from
     #' @param to to
+    #' @param filters filters
     #' @param sort sort
     #' @param page page
     #' @param per_page per_page
     #' @param total total
     #' @param data data
+    #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`project_id` = NULL, `from` = NULL, `to` = NULL, `sort` = NULL, `page` = NULL, `per_page` = NULL, `total` = NULL, `data` = NULL, ...) {
+    initialize = function(`project_id` = NULL, `from` = NULL, `to` = NULL, `filters` = NULL, `sort` = NULL, `page` = NULL, `per_page` = NULL, `total` = NULL, `data` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -60,6 +66,10 @@ TopSourcesResponse <- R6::R6Class(
           stop(paste("Error! Invalid data for `to`. Must be a string:", `to`))
         }
         self$`to` <- `to`
+      }
+      if (!is.null(`filters`)) {
+        stopifnot(R6::is.R6(`filters`))
+        self$`filters` <- `filters`
       }
       if (!is.null(`sort`)) {
         if (!(is.character(`sort`) && length(`sort`) == 1)) {
@@ -89,6 +99,12 @@ TopSourcesResponse <- R6::R6Class(
         stopifnot(is.vector(`data`), length(`data`) != 0)
         sapply(`data`, function(x) stopifnot(R6::is.R6(x)))
         self$`data` <- `data`
+      }
+      if (!is.null(`request_id`)) {
+        if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
+          stop(paste("Error! Invalid data for `request_id`. Must be a string:", `request_id`))
+        }
+        self$`request_id` <- `request_id`
       }
     },
 
@@ -135,6 +151,10 @@ TopSourcesResponse <- R6::R6Class(
         TopSourcesResponseObject[["to"]] <-
           self$`to`
       }
+      if (!is.null(self$`filters`)) {
+        TopSourcesResponseObject[["filters"]] <-
+          self$extractSimpleType(self$`filters`)
+      }
       if (!is.null(self$`sort`)) {
         TopSourcesResponseObject[["sort"]] <-
           self$`sort`
@@ -154,6 +174,10 @@ TopSourcesResponse <- R6::R6Class(
       if (!is.null(self$`data`)) {
         TopSourcesResponseObject[["data"]] <-
           self$extractSimpleType(self$`data`)
+      }
+      if (!is.null(self$`request_id`)) {
+        TopSourcesResponseObject[["request_id"]] <-
+          self$`request_id`
       }
       return(TopSourcesResponseObject)
     },
@@ -197,6 +221,11 @@ TopSourcesResponse <- R6::R6Class(
       if (!is.null(this_object$`to`)) {
         self$`to` <- this_object$`to`
       }
+      if (!is.null(this_object$`filters`)) {
+        `filters_object` <- MetricsFiltersEcho$new()
+        `filters_object`$fromJSON(jsonlite::toJSON(this_object$`filters`, auto_unbox = TRUE, digits = NA))
+        self$`filters` <- `filters_object`
+      }
       if (!is.null(this_object$`sort`)) {
         self$`sort` <- this_object$`sort`
       }
@@ -211,6 +240,9 @@ TopSourcesResponse <- R6::R6Class(
       }
       if (!is.null(this_object$`data`)) {
         self$`data` <- ApiClient$new()$deserializeObj(this_object$`data`, "array[TopSourcesResponseDataInner]", loadNamespace("llmpulse"))
+      }
+      if (!is.null(this_object$`request_id`)) {
+        self$`request_id` <- this_object$`request_id`
       }
       self
     },
@@ -236,11 +268,13 @@ TopSourcesResponse <- R6::R6Class(
       self$`project_id` <- this_object$`project_id`
       self$`from` <- this_object$`from`
       self$`to` <- this_object$`to`
+      self$`filters` <- MetricsFiltersEcho$new()$fromJSON(jsonlite::toJSON(this_object$`filters`, auto_unbox = TRUE, digits = NA))
       self$`sort` <- this_object$`sort`
       self$`page` <- this_object$`page`
       self$`per_page` <- this_object$`per_page`
       self$`total` <- this_object$`total`
       self$`data` <- ApiClient$new()$deserializeObj(this_object$`data`, "array[TopSourcesResponseDataInner]", loadNamespace("llmpulse"))
+      self$`request_id` <- this_object$`request_id`
       self
     },
 

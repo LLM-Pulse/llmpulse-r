@@ -8,7 +8,9 @@
 #' @description SummaryResponseAllOfSummaryValueInner Class
 #' @format An \code{R6Class} generator object
 #' @field actor  \link{Actor} [optional]
+#' @field metric  character [optional]
 #' @field total  numeric [optional]
+#' @field aggregation How total combines the buckets character [optional]
 #' @field min  numeric [optional]
 #' @field max  numeric [optional]
 #' @field last  numeric [optional]
@@ -19,7 +21,9 @@ SummaryResponseAllOfSummaryValueInner <- R6::R6Class(
   "SummaryResponseAllOfSummaryValueInner",
   public = list(
     `actor` = NULL,
+    `metric` = NULL,
     `total` = NULL,
+    `aggregation` = NULL,
     `min` = NULL,
     `max` = NULL,
     `last` = NULL,
@@ -28,18 +32,35 @@ SummaryResponseAllOfSummaryValueInner <- R6::R6Class(
     #' Initialize a new SummaryResponseAllOfSummaryValueInner class.
     #'
     #' @param actor actor
+    #' @param metric metric
     #' @param total total
+    #' @param aggregation How total combines the buckets
     #' @param min min
     #' @param max max
     #' @param last last
     #' @param ... Other optional arguments.
-    initialize = function(`actor` = NULL, `total` = NULL, `min` = NULL, `max` = NULL, `last` = NULL, ...) {
+    initialize = function(`actor` = NULL, `metric` = NULL, `total` = NULL, `aggregation` = NULL, `min` = NULL, `max` = NULL, `last` = NULL, ...) {
       if (!is.null(`actor`)) {
         stopifnot(R6::is.R6(`actor`))
         self$`actor` <- `actor`
       }
+      if (!is.null(`metric`)) {
+        if (!(is.character(`metric`) && length(`metric`) == 1)) {
+          stop(paste("Error! Invalid data for `metric`. Must be a string:", `metric`))
+        }
+        self$`metric` <- `metric`
+      }
       if (!is.null(`total`)) {
         self$`total` <- `total`
+      }
+      if (!is.null(`aggregation`)) {
+        if (!(`aggregation` %in% c("sum", "average"))) {
+          stop(paste("Error! \"", `aggregation`, "\" cannot be assigned to `aggregation`. Must be \"sum\", \"average\".", sep = ""))
+        }
+        if (!(is.character(`aggregation`) && length(`aggregation`) == 1)) {
+          stop(paste("Error! Invalid data for `aggregation`. Must be a string:", `aggregation`))
+        }
+        self$`aggregation` <- `aggregation`
       }
       if (!is.null(`min`)) {
         self$`min` <- `min`
@@ -87,9 +108,17 @@ SummaryResponseAllOfSummaryValueInner <- R6::R6Class(
         SummaryResponseAllOfSummaryValueInnerObject[["actor"]] <-
           self$extractSimpleType(self$`actor`)
       }
+      if (!is.null(self$`metric`)) {
+        SummaryResponseAllOfSummaryValueInnerObject[["metric"]] <-
+          self$`metric`
+      }
       if (!is.null(self$`total`)) {
         SummaryResponseAllOfSummaryValueInnerObject[["total"]] <-
           self$`total`
+      }
+      if (!is.null(self$`aggregation`)) {
+        SummaryResponseAllOfSummaryValueInnerObject[["aggregation"]] <-
+          self$`aggregation`
       }
       if (!is.null(self$`min`)) {
         SummaryResponseAllOfSummaryValueInnerObject[["min"]] <-
@@ -141,8 +170,17 @@ SummaryResponseAllOfSummaryValueInner <- R6::R6Class(
         `actor_object`$fromJSON(jsonlite::toJSON(this_object$`actor`, auto_unbox = TRUE, digits = NA))
         self$`actor` <- `actor_object`
       }
+      if (!is.null(this_object$`metric`)) {
+        self$`metric` <- this_object$`metric`
+      }
       if (!is.null(this_object$`total`)) {
         self$`total` <- this_object$`total`
+      }
+      if (!is.null(this_object$`aggregation`)) {
+        if (!is.null(this_object$`aggregation`) && !(this_object$`aggregation` %in% c("sum", "average"))) {
+          stop(paste("Error! \"", this_object$`aggregation`, "\" cannot be assigned to `aggregation`. Must be \"sum\", \"average\".", sep = ""))
+        }
+        self$`aggregation` <- this_object$`aggregation`
       }
       if (!is.null(this_object$`min`)) {
         self$`min` <- this_object$`min`
@@ -175,7 +213,12 @@ SummaryResponseAllOfSummaryValueInner <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`actor` <- Actor$new()$fromJSON(jsonlite::toJSON(this_object$`actor`, auto_unbox = TRUE, digits = NA))
+      self$`metric` <- this_object$`metric`
       self$`total` <- this_object$`total`
+      if (!is.null(this_object$`aggregation`) && !(this_object$`aggregation` %in% c("sum", "average"))) {
+        stop(paste("Error! \"", this_object$`aggregation`, "\" cannot be assigned to `aggregation`. Must be \"sum\", \"average\".", sep = ""))
+      }
+      self$`aggregation` <- this_object$`aggregation`
       self$`min` <- this_object$`min`
       self$`max` <- this_object$`max`
       self$`last` <- this_object$`last`

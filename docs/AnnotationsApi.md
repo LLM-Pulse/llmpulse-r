@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **CreateAnnotation**
-> CreateAnnotation(create_annotation_request)
+> AnnotationCreateResponse CreateAnnotation(create_annotation_request)
 
 Create a timeline annotation
 
@@ -29,7 +29,10 @@ var_create_annotation_request <- createAnnotation_request$new(123, "title_exampl
 api_instance <- AnnotationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$CreateAnnotation(var_create_annotation_request)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$CreateAnnotation(var_create_annotation_requestdata_file = "result.txt")
+result <- api_instance$CreateAnnotation(var_create_annotation_request)
+dput(result)
 ```
 
 ### Parameters
@@ -40,7 +43,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AnnotationCreateResponse**](AnnotationCreateResponse.md)
 
 ### Authorization
 

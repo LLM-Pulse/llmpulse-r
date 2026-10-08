@@ -8,12 +8,17 @@
 #' @description SovResponse Class
 #' @format An \code{R6Class} generator object
 #' @field project_id  integer [optional]
+#' @field from  character [optional]
+#' @field to  character [optional]
+#' @field granularity day, week or month character [optional]
+#' @field filters  \link{MetricsFiltersEcho} [optional]
 #' @field periods Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window; confidence and margin_of_error read the sample size. list(\link{SovResponsePeriodsInner}) [optional]
 #' @field sample  \link{SovResponseSample} [optional]
 #' @field over_time  list(\link{SovResponseOverTimeInner}) [optional]
 #' @field current  list(\link{SovResponseCurrentInner}) [optional]
 #' @field breakdown  list(\link{SovResponseBreakdownInner}) [optional]
-#' @field others  list(object) [optional]
+#' @field others Actors ranked fifth and below, folded into the Others share of breakdown list(\link{SovResponseOthersInner}) [optional]
+#' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -21,30 +26,62 @@ SovResponse <- R6::R6Class(
   "SovResponse",
   public = list(
     `project_id` = NULL,
+    `from` = NULL,
+    `to` = NULL,
+    `granularity` = NULL,
+    `filters` = NULL,
     `periods` = NULL,
     `sample` = NULL,
     `over_time` = NULL,
     `current` = NULL,
     `breakdown` = NULL,
     `others` = NULL,
+    `request_id` = NULL,
 
     #' @description
     #' Initialize a new SovResponse class.
     #'
     #' @param project_id project_id
+    #' @param from from
+    #' @param to to
+    #' @param granularity day, week or month
+    #' @param filters filters
     #' @param periods Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window; confidence and margin_of_error read the sample size.
     #' @param sample sample
     #' @param over_time over_time
     #' @param current current
     #' @param breakdown breakdown
-    #' @param others others
+    #' @param others Actors ranked fifth and below, folded into the Others share of breakdown
+    #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`project_id` = NULL, `periods` = NULL, `sample` = NULL, `over_time` = NULL, `current` = NULL, `breakdown` = NULL, `others` = NULL, ...) {
+    initialize = function(`project_id` = NULL, `from` = NULL, `to` = NULL, `granularity` = NULL, `filters` = NULL, `periods` = NULL, `sample` = NULL, `over_time` = NULL, `current` = NULL, `breakdown` = NULL, `others` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
         }
         self$`project_id` <- `project_id`
+      }
+      if (!is.null(`from`)) {
+        if (!is.character(`from`)) {
+          stop(paste("Error! Invalid data for `from`. Must be a string:", `from`))
+        }
+        self$`from` <- `from`
+      }
+      if (!is.null(`to`)) {
+        if (!is.character(`to`)) {
+          stop(paste("Error! Invalid data for `to`. Must be a string:", `to`))
+        }
+        self$`to` <- `to`
+      }
+      if (!is.null(`granularity`)) {
+        if (!(is.character(`granularity`) && length(`granularity`) == 1)) {
+          stop(paste("Error! Invalid data for `granularity`. Must be a string:", `granularity`))
+        }
+        self$`granularity` <- `granularity`
+      }
+      if (!is.null(`filters`)) {
+        stopifnot(R6::is.R6(`filters`))
+        self$`filters` <- `filters`
       }
       if (!is.null(`periods`)) {
         stopifnot(is.vector(`periods`), length(`periods`) != 0)
@@ -72,8 +109,14 @@ SovResponse <- R6::R6Class(
       }
       if (!is.null(`others`)) {
         stopifnot(is.vector(`others`), length(`others`) != 0)
-        sapply(`others`, function(x) stopifnot(is.character(x)))
+        sapply(`others`, function(x) stopifnot(R6::is.R6(x)))
         self$`others` <- `others`
+      }
+      if (!is.null(`request_id`)) {
+        if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
+          stop(paste("Error! Invalid data for `request_id`. Must be a string:", `request_id`))
+        }
+        self$`request_id` <- `request_id`
       }
     },
 
@@ -112,6 +155,22 @@ SovResponse <- R6::R6Class(
         SovResponseObject[["project_id"]] <-
           self$`project_id`
       }
+      if (!is.null(self$`from`)) {
+        SovResponseObject[["from"]] <-
+          self$`from`
+      }
+      if (!is.null(self$`to`)) {
+        SovResponseObject[["to"]] <-
+          self$`to`
+      }
+      if (!is.null(self$`granularity`)) {
+        SovResponseObject[["granularity"]] <-
+          self$`granularity`
+      }
+      if (!is.null(self$`filters`)) {
+        SovResponseObject[["filters"]] <-
+          self$extractSimpleType(self$`filters`)
+      }
       if (!is.null(self$`periods`)) {
         SovResponseObject[["periods"]] <-
           self$extractSimpleType(self$`periods`)
@@ -134,7 +193,11 @@ SovResponse <- R6::R6Class(
       }
       if (!is.null(self$`others`)) {
         SovResponseObject[["others"]] <-
-          self$`others`
+          self$extractSimpleType(self$`others`)
+      }
+      if (!is.null(self$`request_id`)) {
+        SovResponseObject[["request_id"]] <-
+          self$`request_id`
       }
       return(SovResponseObject)
     },
@@ -172,6 +235,20 @@ SovResponse <- R6::R6Class(
       if (!is.null(this_object$`project_id`)) {
         self$`project_id` <- this_object$`project_id`
       }
+      if (!is.null(this_object$`from`)) {
+        self$`from` <- this_object$`from`
+      }
+      if (!is.null(this_object$`to`)) {
+        self$`to` <- this_object$`to`
+      }
+      if (!is.null(this_object$`granularity`)) {
+        self$`granularity` <- this_object$`granularity`
+      }
+      if (!is.null(this_object$`filters`)) {
+        `filters_object` <- MetricsFiltersEcho$new()
+        `filters_object`$fromJSON(jsonlite::toJSON(this_object$`filters`, auto_unbox = TRUE, digits = NA))
+        self$`filters` <- `filters_object`
+      }
       if (!is.null(this_object$`periods`)) {
         self$`periods` <- ApiClient$new()$deserializeObj(this_object$`periods`, "array[SovResponsePeriodsInner]", loadNamespace("llmpulse"))
       }
@@ -190,7 +267,10 @@ SovResponse <- R6::R6Class(
         self$`breakdown` <- ApiClient$new()$deserializeObj(this_object$`breakdown`, "array[SovResponseBreakdownInner]", loadNamespace("llmpulse"))
       }
       if (!is.null(this_object$`others`)) {
-        self$`others` <- ApiClient$new()$deserializeObj(this_object$`others`, "array[object]", loadNamespace("llmpulse"))
+        self$`others` <- ApiClient$new()$deserializeObj(this_object$`others`, "array[SovResponseOthersInner]", loadNamespace("llmpulse"))
+      }
+      if (!is.null(this_object$`request_id`)) {
+        self$`request_id` <- this_object$`request_id`
       }
       self
     },
@@ -214,12 +294,17 @@ SovResponse <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`project_id` <- this_object$`project_id`
+      self$`from` <- this_object$`from`
+      self$`to` <- this_object$`to`
+      self$`granularity` <- this_object$`granularity`
+      self$`filters` <- MetricsFiltersEcho$new()$fromJSON(jsonlite::toJSON(this_object$`filters`, auto_unbox = TRUE, digits = NA))
       self$`periods` <- ApiClient$new()$deserializeObj(this_object$`periods`, "array[SovResponsePeriodsInner]", loadNamespace("llmpulse"))
       self$`sample` <- SovResponseSample$new()$fromJSON(jsonlite::toJSON(this_object$`sample`, auto_unbox = TRUE, digits = NA))
       self$`over_time` <- ApiClient$new()$deserializeObj(this_object$`over_time`, "array[SovResponseOverTimeInner]", loadNamespace("llmpulse"))
       self$`current` <- ApiClient$new()$deserializeObj(this_object$`current`, "array[SovResponseCurrentInner]", loadNamespace("llmpulse"))
       self$`breakdown` <- ApiClient$new()$deserializeObj(this_object$`breakdown`, "array[SovResponseBreakdownInner]", loadNamespace("llmpulse"))
-      self$`others` <- ApiClient$new()$deserializeObj(this_object$`others`, "array[object]", loadNamespace("llmpulse"))
+      self$`others` <- ApiClient$new()$deserializeObj(this_object$`others`, "array[SovResponseOthersInner]", loadNamespace("llmpulse"))
+      self$`request_id` <- this_object$`request_id`
       self
     },
 

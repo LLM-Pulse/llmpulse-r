@@ -7,6 +7,7 @@
 #' @title ProjectCreateResponse
 #' @description ProjectCreateResponse Class
 #' @format An \code{R6Class} generator object
+#' @field draft_id The finalized draft; only present on POST /project_drafts/{id}/finalize character [optional]
 #' @field project Same shape as GET /dimensions/projects/{id} object [optional]
 #' @field prompts  \link{ProjectCreateResponsePrompts} [optional]
 #' @field competitors  \link{ProjectCreateResponseCompetitors} [optional]
@@ -22,6 +23,7 @@
 ProjectCreateResponse <- R6::R6Class(
   "ProjectCreateResponse",
   public = list(
+    `draft_id` = NULL,
     `project` = NULL,
     `prompts` = NULL,
     `competitors` = NULL,
@@ -35,6 +37,7 @@ ProjectCreateResponse <- R6::R6Class(
     #' @description
     #' Initialize a new ProjectCreateResponse class.
     #'
+    #' @param draft_id The finalized draft; only present on POST /project_drafts/{id}/finalize
     #' @param project Same shape as GET /dimensions/projects/{id}
     #' @param prompts prompts
     #' @param competitors competitors
@@ -45,7 +48,13 @@ ProjectCreateResponse <- R6::R6Class(
     #' @param idempotent Present and true only on external_identifier replays
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`project` = NULL, `prompts` = NULL, `competitors` = NULL, `collections` = NULL, `same_domain_projects` = NULL, `email_subscription` = NULL, `limits` = NULL, `idempotent` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`draft_id` = NULL, `project` = NULL, `prompts` = NULL, `competitors` = NULL, `collections` = NULL, `same_domain_projects` = NULL, `email_subscription` = NULL, `limits` = NULL, `idempotent` = NULL, `request_id` = NULL, ...) {
+      if (!is.null(`draft_id`)) {
+        if (!(is.character(`draft_id`) && length(`draft_id`) == 1)) {
+          stop(paste("Error! Invalid data for `draft_id`. Must be a string:", `draft_id`))
+        }
+        self$`draft_id` <- `draft_id`
+      }
       if (!is.null(`project`)) {
         self$`project` <- `project`
       }
@@ -120,6 +129,10 @@ ProjectCreateResponse <- R6::R6Class(
     #' @return A base R type, e.g. a list or numeric/character array.
     toSimpleType = function() {
       ProjectCreateResponseObject <- list()
+      if (!is.null(self$`draft_id`)) {
+        ProjectCreateResponseObject[["draft_id"]] <-
+          self$`draft_id`
+      }
       if (!is.null(self$`project`)) {
         ProjectCreateResponseObject[["project"]] <-
           self$`project`
@@ -189,6 +202,9 @@ ProjectCreateResponse <- R6::R6Class(
     #' @return the instance of ProjectCreateResponse
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`draft_id`)) {
+        self$`draft_id` <- this_object$`draft_id`
+      }
       if (!is.null(this_object$`project`)) {
         self$`project` <- this_object$`project`
       }
@@ -245,6 +261,7 @@ ProjectCreateResponse <- R6::R6Class(
     #' @return the instance of ProjectCreateResponse
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`draft_id` <- this_object$`draft_id`
       self$`project` <- this_object$`project`
       self$`prompts` <- ProjectCreateResponsePrompts$new()$fromJSON(jsonlite::toJSON(this_object$`prompts`, auto_unbox = TRUE, digits = NA))
       self$`competitors` <- ProjectCreateResponseCompetitors$new()$fromJSON(jsonlite::toJSON(this_object$`competitors`, auto_unbox = TRUE, digits = NA))

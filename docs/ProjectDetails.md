@@ -24,5 +24,7 @@ Name | Type | Description | Notes
 **app_store_id** | **character** |  | [optional] 
 **created_at** | **character** |  | [optional] 
 **stats** | [**ProjectDetailsAllOfStats**](ProjectDetails_allOf_stats.md) |  | [optional] 
+**data_coverage** | [**ProjectDetailsAllOfDataCoverage**](ProjectDetails_allOf_data_coverage.md) |  | [optional] 
+**request_id** | **character** |  | [optional] 
 
 

@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 
 # **CreateCompetitor**
-> CreateCompetitor(create_competitor_request)
+> CompetitorCreateResponse CreateCompetitor(create_competitor_request)
 
 Add a competitor
 
@@ -30,7 +30,10 @@ var_create_competitor_request <- createCompetitor_request$new(123, "brand_name_e
 api_instance <- CompetitorsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$CreateCompetitor(var_create_competitor_request)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$CreateCompetitor(var_create_competitor_requestdata_file = "result.txt")
+result <- api_instance$CreateCompetitor(var_create_competitor_request)
+dput(result)
 ```
 
 ### Parameters
@@ -41,7 +44,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CompetitorCreateResponse**](CompetitorCreateResponse.md)
 
 ### Authorization
 

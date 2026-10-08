@@ -27,6 +27,8 @@
 #' @field app_store_id  character [optional]
 #' @field created_at  character [optional]
 #' @field stats  \link{ProjectDetailsAllOfStats} [optional]
+#' @field data_coverage  \link{ProjectDetailsAllOfDataCoverage} [optional]
+#' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -53,6 +55,8 @@ ProjectDetails <- R6::R6Class(
     `app_store_id` = NULL,
     `created_at` = NULL,
     `stats` = NULL,
+    `data_coverage` = NULL,
+    `request_id` = NULL,
 
     #' @description
     #' Initialize a new ProjectDetails class.
@@ -77,8 +81,10 @@ ProjectDetails <- R6::R6Class(
     #' @param app_store_id app_store_id
     #' @param created_at created_at
     #' @param stats stats
+    #' @param data_coverage data_coverage
+    #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `stats` = NULL, ...) {
+    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `stats` = NULL, `data_coverage` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -196,6 +202,16 @@ ProjectDetails <- R6::R6Class(
         stopifnot(R6::is.R6(`stats`))
         self$`stats` <- `stats`
       }
+      if (!is.null(`data_coverage`)) {
+        stopifnot(R6::is.R6(`data_coverage`))
+        self$`data_coverage` <- `data_coverage`
+      }
+      if (!is.null(`request_id`)) {
+        if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
+          stop(paste("Error! Invalid data for `request_id`. Must be a string:", `request_id`))
+        }
+        self$`request_id` <- `request_id`
+      }
     },
 
     #' @description
@@ -309,6 +325,14 @@ ProjectDetails <- R6::R6Class(
         ProjectDetailsObject[["stats"]] <-
           self$extractSimpleType(self$`stats`)
       }
+      if (!is.null(self$`data_coverage`)) {
+        ProjectDetailsObject[["data_coverage"]] <-
+          self$extractSimpleType(self$`data_coverage`)
+      }
+      if (!is.null(self$`request_id`)) {
+        ProjectDetailsObject[["request_id"]] <-
+          self$`request_id`
+      }
       return(ProjectDetailsObject)
     },
 
@@ -408,6 +432,14 @@ ProjectDetails <- R6::R6Class(
         `stats_object`$fromJSON(jsonlite::toJSON(this_object$`stats`, auto_unbox = TRUE, digits = NA))
         self$`stats` <- `stats_object`
       }
+      if (!is.null(this_object$`data_coverage`)) {
+        `data_coverage_object` <- ProjectDetailsAllOfDataCoverage$new()
+        `data_coverage_object`$fromJSON(jsonlite::toJSON(this_object$`data_coverage`, auto_unbox = TRUE, digits = NA))
+        self$`data_coverage` <- `data_coverage_object`
+      }
+      if (!is.null(this_object$`request_id`)) {
+        self$`request_id` <- this_object$`request_id`
+      }
       self
     },
 
@@ -453,6 +485,8 @@ ProjectDetails <- R6::R6Class(
       self$`app_store_id` <- this_object$`app_store_id`
       self$`created_at` <- this_object$`created_at`
       self$`stats` <- ProjectDetailsAllOfStats$new()$fromJSON(jsonlite::toJSON(this_object$`stats`, auto_unbox = TRUE, digits = NA))
+      self$`data_coverage` <- ProjectDetailsAllOfDataCoverage$new()$fromJSON(jsonlite::toJSON(this_object$`data_coverage`, auto_unbox = TRUE, digits = NA))
+      self$`request_id` <- this_object$`request_id`
       self
     },
 

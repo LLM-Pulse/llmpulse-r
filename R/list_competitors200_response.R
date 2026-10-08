@@ -9,6 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field project_id  integer [optional]
 #' @field competitors  list(\link{Competitor}) [optional]
+#' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -17,14 +18,16 @@ ListCompetitors200Response <- R6::R6Class(
   public = list(
     `project_id` = NULL,
     `competitors` = NULL,
+    `request_id` = NULL,
 
     #' @description
     #' Initialize a new ListCompetitors200Response class.
     #'
     #' @param project_id project_id
     #' @param competitors competitors
+    #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`project_id` = NULL, `competitors` = NULL, ...) {
+    initialize = function(`project_id` = NULL, `competitors` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -35,6 +38,12 @@ ListCompetitors200Response <- R6::R6Class(
         stopifnot(is.vector(`competitors`), length(`competitors`) != 0)
         sapply(`competitors`, function(x) stopifnot(R6::is.R6(x)))
         self$`competitors` <- `competitors`
+      }
+      if (!is.null(`request_id`)) {
+        if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
+          stop(paste("Error! Invalid data for `request_id`. Must be a string:", `request_id`))
+        }
+        self$`request_id` <- `request_id`
       }
     },
 
@@ -77,6 +86,10 @@ ListCompetitors200Response <- R6::R6Class(
         ListCompetitors200ResponseObject[["competitors"]] <-
           self$extractSimpleType(self$`competitors`)
       }
+      if (!is.null(self$`request_id`)) {
+        ListCompetitors200ResponseObject[["request_id"]] <-
+          self$`request_id`
+      }
       return(ListCompetitors200ResponseObject)
     },
 
@@ -116,6 +129,9 @@ ListCompetitors200Response <- R6::R6Class(
       if (!is.null(this_object$`competitors`)) {
         self$`competitors` <- ApiClient$new()$deserializeObj(this_object$`competitors`, "array[Competitor]", loadNamespace("llmpulse"))
       }
+      if (!is.null(this_object$`request_id`)) {
+        self$`request_id` <- this_object$`request_id`
+      }
       self
     },
 
@@ -139,6 +155,7 @@ ListCompetitors200Response <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`project_id` <- this_object$`project_id`
       self$`competitors` <- ApiClient$new()$deserializeObj(this_object$`competitors`, "array[Competitor]", loadNamespace("llmpulse"))
+      self$`request_id` <- this_object$`request_id`
       self
     },
 

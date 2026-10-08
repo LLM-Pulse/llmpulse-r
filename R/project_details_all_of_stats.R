@@ -8,6 +8,7 @@
 #' @description ProjectDetailsAllOfStats Class
 #' @format An \code{R6Class} generator object
 #' @field prompts_count  integer [optional]
+#' @field prompts_by_brand_kind  \link{ProjectDetailsAllOfStatsPromptsByBrandKind} [optional]
 #' @field competitors_count  integer [optional]
 #' @field collections_count  integer [optional]
 #' @importFrom R6 R6Class
@@ -17,6 +18,7 @@ ProjectDetailsAllOfStats <- R6::R6Class(
   "ProjectDetailsAllOfStats",
   public = list(
     `prompts_count` = NULL,
+    `prompts_by_brand_kind` = NULL,
     `competitors_count` = NULL,
     `collections_count` = NULL,
 
@@ -24,15 +26,20 @@ ProjectDetailsAllOfStats <- R6::R6Class(
     #' Initialize a new ProjectDetailsAllOfStats class.
     #'
     #' @param prompts_count prompts_count
+    #' @param prompts_by_brand_kind prompts_by_brand_kind
     #' @param competitors_count competitors_count
     #' @param collections_count collections_count
     #' @param ... Other optional arguments.
-    initialize = function(`prompts_count` = NULL, `competitors_count` = NULL, `collections_count` = NULL, ...) {
+    initialize = function(`prompts_count` = NULL, `prompts_by_brand_kind` = NULL, `competitors_count` = NULL, `collections_count` = NULL, ...) {
       if (!is.null(`prompts_count`)) {
         if (!(is.numeric(`prompts_count`) && length(`prompts_count`) == 1)) {
           stop(paste("Error! Invalid data for `prompts_count`. Must be an integer:", `prompts_count`))
         }
         self$`prompts_count` <- `prompts_count`
+      }
+      if (!is.null(`prompts_by_brand_kind`)) {
+        stopifnot(R6::is.R6(`prompts_by_brand_kind`))
+        self$`prompts_by_brand_kind` <- `prompts_by_brand_kind`
       }
       if (!is.null(`competitors_count`)) {
         if (!(is.numeric(`competitors_count`) && length(`competitors_count`) == 1)) {
@@ -83,6 +90,10 @@ ProjectDetailsAllOfStats <- R6::R6Class(
         ProjectDetailsAllOfStatsObject[["prompts_count"]] <-
           self$`prompts_count`
       }
+      if (!is.null(self$`prompts_by_brand_kind`)) {
+        ProjectDetailsAllOfStatsObject[["prompts_by_brand_kind"]] <-
+          self$extractSimpleType(self$`prompts_by_brand_kind`)
+      }
       if (!is.null(self$`competitors_count`)) {
         ProjectDetailsAllOfStatsObject[["competitors_count"]] <-
           self$`competitors_count`
@@ -94,6 +105,29 @@ ProjectDetailsAllOfStats <- R6::R6Class(
       return(ProjectDetailsAllOfStatsObject)
     },
 
+    extractSimpleType = function(x) {
+      if (R6::is.R6(x)) {
+        return(x$toSimpleType())
+      } else if (!self$hasNestedR6(x)) {
+        return(x)
+      }
+      lapply(x, self$extractSimpleType)
+    },
+
+    hasNestedR6 = function(x) {
+      if (R6::is.R6(x)) {
+        return(TRUE)
+      }
+      if (is.list(x)) {
+        for (item in x) {
+          if (self$hasNestedR6(item)) {
+            return(TRUE)
+          }
+        }
+      }
+      FALSE
+    },
+
     #' @description
     #' Deserialize JSON string into an instance of ProjectDetailsAllOfStats
     #'
@@ -103,6 +137,11 @@ ProjectDetailsAllOfStats <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`prompts_count`)) {
         self$`prompts_count` <- this_object$`prompts_count`
+      }
+      if (!is.null(this_object$`prompts_by_brand_kind`)) {
+        `prompts_by_brand_kind_object` <- ProjectDetailsAllOfStatsPromptsByBrandKind$new()
+        `prompts_by_brand_kind_object`$fromJSON(jsonlite::toJSON(this_object$`prompts_by_brand_kind`, auto_unbox = TRUE, digits = NA))
+        self$`prompts_by_brand_kind` <- `prompts_by_brand_kind_object`
       }
       if (!is.null(this_object$`competitors_count`)) {
         self$`competitors_count` <- this_object$`competitors_count`
@@ -132,6 +171,7 @@ ProjectDetailsAllOfStats <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`prompts_count` <- this_object$`prompts_count`
+      self$`prompts_by_brand_kind` <- ProjectDetailsAllOfStatsPromptsByBrandKind$new()$fromJSON(jsonlite::toJSON(this_object$`prompts_by_brand_kind`, auto_unbox = TRUE, digits = NA))
       self$`competitors_count` <- this_object$`competitors_count`
       self$`collections_count` <- this_object$`collections_count`
       self

@@ -51,7 +51,7 @@ Name | Type | Description  | Notes
  **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 
  **from** | **character**|  | [optional] 
@@ -115,7 +115,7 @@ Name | Type | Description  | Notes
  **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 
  **from** | **character**|  | [optional] 
@@ -141,7 +141,7 @@ void (empty response body)
 | **200** | Paginated mentions with actor_type discriminator |  -  |
 
 # **ListCitations**
-> ListCitations(project_id, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, from = var.from, to = var.to, output = var.output)
+> CitationsResponse ListCitations(project_id, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, from = var.from, to = var.to, output = var.output)
 
 List brand citations
 
@@ -169,7 +169,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- MentionsCitationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListCitations(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListCitations(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListCitations(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -179,7 +182,7 @@ Name | Type | Description  | Notes
  **project_id** | **integer**| Project ID | 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
@@ -190,7 +193,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CitationsResponse**](CitationsResponse.md)
 
 ### Authorization
 
@@ -199,7 +202,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -245,7 +248,7 @@ Name | Type | Description  | Notes
  **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 
  **from** | **character**|  | [optional] 
@@ -271,7 +274,7 @@ void (empty response body)
 | **200** | Paginated competitor citations |  -  |
 
 # **ListCompetitorMentions**
-> ListCompetitorMentions(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output)
+> CompetitorMentionsResponse ListCompetitorMentions(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output)
 
 List competitor mentions
 
@@ -296,7 +299,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- MentionsCitationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListCompetitorMentions(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListCompetitorMentions(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListCompetitorMentions(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -307,7 +313,7 @@ Name | Type | Description  | Notes
  **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **prompt** | **integer**| Filter by prompt ID | [optional] 
  **from** | **character**|  | [optional] 
@@ -316,7 +322,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CompetitorMentionsResponse**](CompetitorMentionsResponse.md)
 
 ### Authorization
 
@@ -325,7 +331,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -333,7 +339,7 @@ void (empty response body)
 | **200** | Paginated competitor mentions |  -  |
 
 # **ListMentions**
-> ListMentions(project_id, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, from = var.from, to = var.to, output = var.output)
+> MentionsResponse ListMentions(project_id, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, from = var.from, to = var.to, output = var.output)
 
 List brand mentions
 
@@ -359,7 +365,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- MentionsCitationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListMentions(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListMentions(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListMentions(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -369,7 +378,7 @@ Name | Type | Description  | Notes
  **project_id** | **integer**| Project ID | 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
@@ -380,7 +389,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**MentionsResponse**](MentionsResponse.md)
 
 ### Authorization
 
@@ -389,7 +398,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

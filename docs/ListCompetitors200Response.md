@@ -6,5 +6,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **project_id** | **integer** |  | [optional] 
 **competitors** | [**array[Competitor]**](Competitor.md) |  | [optional] 
+**request_id** | **character** |  | [optional] 
 
 

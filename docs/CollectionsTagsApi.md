@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **AssignPromptTags**
-> AssignPromptTags(assign_prompt_tags_request)
+> PromptTagsAssignResponse AssignPromptTags(assign_prompt_tags_request)
 
 Bulk-attach tags to prompts
 
@@ -31,7 +31,10 @@ var_assign_prompt_tags_request <- assignPromptTags_request$new(123, c(123), c(12
 api_instance <- CollectionsTagsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$AssignPromptTags(var_assign_prompt_tags_request)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$AssignPromptTags(var_assign_prompt_tags_requestdata_file = "result.txt")
+result <- api_instance$AssignPromptTags(var_assign_prompt_tags_request)
+dput(result)
 ```
 
 ### Parameters
@@ -42,7 +45,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**PromptTagsAssignResponse**](PromptTagsAssignResponse.md)
 
 ### Authorization
 
@@ -61,7 +64,7 @@ void (empty response body)
 | **422** | Invalid parameters |  -  |
 
 # **CreateCollection**
-> CreateCollection(create_collection_request)
+> CollectionCreateResponse CreateCollection(create_collection_request)
 
 Create a tag
 
@@ -79,7 +82,10 @@ var_create_collection_request <- createCollection_request$new(123, "name_example
 api_instance <- CollectionsTagsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$CreateCollection(var_create_collection_request)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$CreateCollection(var_create_collection_requestdata_file = "result.txt")
+result <- api_instance$CreateCollection(var_create_collection_request)
+dput(result)
 ```
 
 ### Parameters
@@ -90,7 +96,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CollectionCreateResponse**](CollectionCreateResponse.md)
 
 ### Authorization
 
@@ -159,7 +165,7 @@ void (empty response body)
 | **404** | Resource not found |  -  |
 
 # **ListCollections**
-> ListCollections(project_id, output = var.output)
+> CollectionsResponse ListCollections(project_id, output = var.output)
 
 List tags/collections
 
@@ -176,7 +182,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- CollectionsTagsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListCollections(var_project_id, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListCollections(var_project_id, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListCollections(var_project_id, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -188,7 +197,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CollectionsResponse**](CollectionsResponse.md)
 
 ### Authorization
 
@@ -197,7 +206,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -205,7 +214,7 @@ void (empty response body)
 | **200** | Collections |  -  |
 
 # **ListTags**
-> ListTags(project_id, output = var.output)
+> CollectionsResponse ListTags(project_id, output = var.output)
 
 List tags (alias for /collections)
 
@@ -222,7 +231,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- CollectionsTagsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListTags(var_project_id, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListTags(var_project_id, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListTags(var_project_id, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -234,7 +246,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CollectionsResponse**](CollectionsResponse.md)
 
 ### Authorization
 
@@ -243,7 +255,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

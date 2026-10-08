@@ -58,7 +58,7 @@ void (empty response body)
 | **403** | Endpoint requires the Growth plan or above |  -  |
 
 # **ListSentimentRecords**
-> ListSentimentRecords(project_id, competitor_id = var.competitor_id, brand_only = var.brand_only, analysis = var.analysis, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, from = var.from, to = var.to, page = 1, per_page = 20)
+> SentimentsResponse ListSentimentRecords(project_id, competitor_id = var.competitor_id, brand_only = var.brand_only, analysis = var.analysis, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, from = var.from, to = var.to, page = 1, per_page = 20)
 
 List sentiment records (Growth plan or above)
 
@@ -87,7 +87,10 @@ var_per_page <- 20 # integer |  (Optional)
 api_instance <- SentimentsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListSentimentRecords(var_project_id, competitor_id = var_competitor_id, brand_only = var_brand_only, analysis = var_analysis, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, from = var_from, to = var_to, page = var_page, per_page = var_per_page)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListSentimentRecords(var_project_id, competitor_id = var_competitor_id, brand_only = var_brand_only, analysis = var_analysis, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, from = var_from, to = var_to, page = var_page, per_page = var_per_pagedata_file = "result.txt")
+result <- api_instance$ListSentimentRecords(var_project_id, competitor_id = var_competitor_id, brand_only = var_brand_only, analysis = var_analysis, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, from = var_from, to = var_to, page = var_page, per_page = var_per_page)
+dput(result)
 ```
 
 ### Parameters
@@ -98,7 +101,7 @@ Name | Type | Description  | Notes
  **competitor_id** | **integer**|  | [optional] 
  **brand_only** | **character**|  | [optional] 
  **analysis** | **character**| One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative | [optional] 
- **model** | Enum [chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
@@ -109,7 +112,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**SentimentsResponse**](SentimentsResponse.md)
 
 ### Authorization
 

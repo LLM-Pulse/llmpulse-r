@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **project_id** | **integer** |  | [optional] 
 **from** | **character** |  | [optional] 
 **to** | **character** |  | [optional] 
-**filters** | **object** |  | [optional] 
+**filters** | [**MetricsFiltersEcho**](MetricsFiltersEcho.md) |  | [optional] 
 **breakdown** | **character** |  | [optional] 
 **sort** | **character** |  | [optional] 
 **sort_dir** | **character** |  | [optional] 

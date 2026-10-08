@@ -109,7 +109,7 @@ void (empty response body)
 | **422** | Invalid parameters |  -  |
 
 # **ListRecommendations**
-> ListRecommendations(project_id, recommendation_type = var.recommendation_type, status = var.status, page = 1, per_page = 20)
+> RecommendationsResponse ListRecommendations(project_id, recommendation_type = var.recommendation_type, status = var.status, page = 1, per_page = 20)
 
 List recommendation runs
 
@@ -129,7 +129,10 @@ var_per_page <- 20 # integer |  (Optional)
 api_instance <- RecommendationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListRecommendations(var_project_id, recommendation_type = var_recommendation_type, status = var_status, page = var_page, per_page = var_per_page)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListRecommendations(var_project_id, recommendation_type = var_recommendation_type, status = var_status, page = var_page, per_page = var_per_pagedata_file = "result.txt")
+result <- api_instance$ListRecommendations(var_project_id, recommendation_type = var_recommendation_type, status = var_status, page = var_page, per_page = var_per_page)
+dput(result)
 ```
 
 ### Parameters
@@ -144,7 +147,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**RecommendationsResponse**](RecommendationsResponse.md)
 
 ### Authorization
 
@@ -153,7 +156,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

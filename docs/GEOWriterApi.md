@@ -112,7 +112,7 @@ Name | Type | Description  | Notes
 | **200** | Task with result_data when completed |  -  |
 
 # **ListIntelligenceTasks**
-> ListIntelligenceTasks(project_id, task_type = var.task_type, status = var.status, page = 1, per_page = 20)
+> IntelligenceTasksResponse ListIntelligenceTasks(project_id, task_type = var.task_type, status = var.status, page = 1, per_page = 20)
 
 List GEO Writer tasks
 
@@ -132,7 +132,10 @@ var_per_page <- 20 # integer |  (Optional)
 api_instance <- GEOWriterApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListIntelligenceTasks(var_project_id, task_type = var_task_type, status = var_status, page = var_page, per_page = var_per_page)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListIntelligenceTasks(var_project_id, task_type = var_task_type, status = var_status, page = var_page, per_page = var_per_pagedata_file = "result.txt")
+result <- api_instance$ListIntelligenceTasks(var_project_id, task_type = var_task_type, status = var_status, page = var_page, per_page = var_per_page)
+dput(result)
 ```
 
 ### Parameters
@@ -147,7 +150,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**IntelligenceTasksResponse**](IntelligenceTasksResponse.md)
 
 ### Authorization
 
@@ -156,7 +159,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

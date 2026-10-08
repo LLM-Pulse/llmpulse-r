@@ -14,8 +14,16 @@
 #' @field matching_names  list(character) [optional]
 #' @field google_play_id  character [optional]
 #' @field app_store_id  character [optional]
+#' @field citation_match_mode  \link{CitationMatchMode} [optional]
+#' @field citation_match_path Set only when citation_match_mode is path_prefix character [optional]
+#' @field google_play_name English app name on Google Play, when the competitor has an Android app character [optional]
+#' @field app_store_name English app name on the App Store, when the competitor has an iOS app character [optional]
+#' @field google_play_icon_url  character [optional]
+#' @field app_store_icon_url  character [optional]
 #' @field color  character [optional]
+#' @field processing True while the competitor's historical mentions are being recalculated character [optional]
 #' @field created_at  character [optional]
+#' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -29,8 +37,16 @@ CompetitorDetails <- R6::R6Class(
     `matching_names` = NULL,
     `google_play_id` = NULL,
     `app_store_id` = NULL,
+    `citation_match_mode` = NULL,
+    `citation_match_path` = NULL,
+    `google_play_name` = NULL,
+    `app_store_name` = NULL,
+    `google_play_icon_url` = NULL,
+    `app_store_icon_url` = NULL,
     `color` = NULL,
+    `processing` = NULL,
     `created_at` = NULL,
+    `request_id` = NULL,
 
     #' @description
     #' Initialize a new CompetitorDetails class.
@@ -42,10 +58,18 @@ CompetitorDetails <- R6::R6Class(
     #' @param matching_names matching_names
     #' @param google_play_id google_play_id
     #' @param app_store_id app_store_id
+    #' @param citation_match_mode citation_match_mode
+    #' @param citation_match_path Set only when citation_match_mode is path_prefix
+    #' @param google_play_name English app name on Google Play, when the competitor has an Android app
+    #' @param app_store_name English app name on the App Store, when the competitor has an iOS app
+    #' @param google_play_icon_url google_play_icon_url
+    #' @param app_store_icon_url app_store_icon_url
     #' @param color color
+    #' @param processing True while the competitor's historical mentions are being recalculated
     #' @param created_at created_at
+    #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `project_id` = NULL, `brand_name` = NULL, `domain` = NULL, `matching_names` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `color` = NULL, `created_at` = NULL, ...) {
+    initialize = function(`id` = NULL, `project_id` = NULL, `brand_name` = NULL, `domain` = NULL, `matching_names` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `citation_match_mode` = NULL, `citation_match_path` = NULL, `google_play_name` = NULL, `app_store_name` = NULL, `google_play_icon_url` = NULL, `app_store_icon_url` = NULL, `color` = NULL, `processing` = NULL, `created_at` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -87,17 +111,66 @@ CompetitorDetails <- R6::R6Class(
         }
         self$`app_store_id` <- `app_store_id`
       }
+      if (!is.null(`citation_match_mode`)) {
+        if (!(`citation_match_mode` %in% c())) {
+          stop(paste("Error! \"", `citation_match_mode`, "\" cannot be assigned to `citation_match_mode`. Must be .", sep = ""))
+        }
+        stopifnot(R6::is.R6(`citation_match_mode`))
+        self$`citation_match_mode` <- `citation_match_mode`
+      }
+      if (!is.null(`citation_match_path`)) {
+        if (!(is.character(`citation_match_path`) && length(`citation_match_path`) == 1)) {
+          stop(paste("Error! Invalid data for `citation_match_path`. Must be a string:", `citation_match_path`))
+        }
+        self$`citation_match_path` <- `citation_match_path`
+      }
+      if (!is.null(`google_play_name`)) {
+        if (!(is.character(`google_play_name`) && length(`google_play_name`) == 1)) {
+          stop(paste("Error! Invalid data for `google_play_name`. Must be a string:", `google_play_name`))
+        }
+        self$`google_play_name` <- `google_play_name`
+      }
+      if (!is.null(`app_store_name`)) {
+        if (!(is.character(`app_store_name`) && length(`app_store_name`) == 1)) {
+          stop(paste("Error! Invalid data for `app_store_name`. Must be a string:", `app_store_name`))
+        }
+        self$`app_store_name` <- `app_store_name`
+      }
+      if (!is.null(`google_play_icon_url`)) {
+        if (!(is.character(`google_play_icon_url`) && length(`google_play_icon_url`) == 1)) {
+          stop(paste("Error! Invalid data for `google_play_icon_url`. Must be a string:", `google_play_icon_url`))
+        }
+        self$`google_play_icon_url` <- `google_play_icon_url`
+      }
+      if (!is.null(`app_store_icon_url`)) {
+        if (!(is.character(`app_store_icon_url`) && length(`app_store_icon_url`) == 1)) {
+          stop(paste("Error! Invalid data for `app_store_icon_url`. Must be a string:", `app_store_icon_url`))
+        }
+        self$`app_store_icon_url` <- `app_store_icon_url`
+      }
       if (!is.null(`color`)) {
         if (!(is.character(`color`) && length(`color`) == 1)) {
           stop(paste("Error! Invalid data for `color`. Must be a string:", `color`))
         }
         self$`color` <- `color`
       }
+      if (!is.null(`processing`)) {
+        if (!(is.logical(`processing`) && length(`processing`) == 1)) {
+          stop(paste("Error! Invalid data for `processing`. Must be a boolean:", `processing`))
+        }
+        self$`processing` <- `processing`
+      }
       if (!is.null(`created_at`)) {
         if (!is.character(`created_at`)) {
           stop(paste("Error! Invalid data for `created_at`. Must be a string:", `created_at`))
         }
         self$`created_at` <- `created_at`
+      }
+      if (!is.null(`request_id`)) {
+        if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
+          stop(paste("Error! Invalid data for `request_id`. Must be a string:", `request_id`))
+        }
+        self$`request_id` <- `request_id`
       }
     },
 
@@ -160,15 +233,70 @@ CompetitorDetails <- R6::R6Class(
         CompetitorDetailsObject[["app_store_id"]] <-
           self$`app_store_id`
       }
+      if (!is.null(self$`citation_match_mode`)) {
+        CompetitorDetailsObject[["citation_match_mode"]] <-
+          self$extractSimpleType(self$`citation_match_mode`)
+      }
+      if (!is.null(self$`citation_match_path`)) {
+        CompetitorDetailsObject[["citation_match_path"]] <-
+          self$`citation_match_path`
+      }
+      if (!is.null(self$`google_play_name`)) {
+        CompetitorDetailsObject[["google_play_name"]] <-
+          self$`google_play_name`
+      }
+      if (!is.null(self$`app_store_name`)) {
+        CompetitorDetailsObject[["app_store_name"]] <-
+          self$`app_store_name`
+      }
+      if (!is.null(self$`google_play_icon_url`)) {
+        CompetitorDetailsObject[["google_play_icon_url"]] <-
+          self$`google_play_icon_url`
+      }
+      if (!is.null(self$`app_store_icon_url`)) {
+        CompetitorDetailsObject[["app_store_icon_url"]] <-
+          self$`app_store_icon_url`
+      }
       if (!is.null(self$`color`)) {
         CompetitorDetailsObject[["color"]] <-
           self$`color`
+      }
+      if (!is.null(self$`processing`)) {
+        CompetitorDetailsObject[["processing"]] <-
+          self$`processing`
       }
       if (!is.null(self$`created_at`)) {
         CompetitorDetailsObject[["created_at"]] <-
           self$`created_at`
       }
+      if (!is.null(self$`request_id`)) {
+        CompetitorDetailsObject[["request_id"]] <-
+          self$`request_id`
+      }
       return(CompetitorDetailsObject)
+    },
+
+    extractSimpleType = function(x) {
+      if (R6::is.R6(x)) {
+        return(x$toSimpleType())
+      } else if (!self$hasNestedR6(x)) {
+        return(x)
+      }
+      lapply(x, self$extractSimpleType)
+    },
+
+    hasNestedR6 = function(x) {
+      if (R6::is.R6(x)) {
+        return(TRUE)
+      }
+      if (is.list(x)) {
+        for (item in x) {
+          if (self$hasNestedR6(item)) {
+            return(TRUE)
+          }
+        }
+      }
+      FALSE
     },
 
     #' @description
@@ -199,11 +327,37 @@ CompetitorDetails <- R6::R6Class(
       if (!is.null(this_object$`app_store_id`)) {
         self$`app_store_id` <- this_object$`app_store_id`
       }
+      if (!is.null(this_object$`citation_match_mode`)) {
+        `citation_match_mode_object` <- CitationMatchMode$new()
+        `citation_match_mode_object`$fromJSON(jsonlite::toJSON(this_object$`citation_match_mode`, auto_unbox = TRUE, digits = NA))
+        self$`citation_match_mode` <- `citation_match_mode_object`
+      }
+      if (!is.null(this_object$`citation_match_path`)) {
+        self$`citation_match_path` <- this_object$`citation_match_path`
+      }
+      if (!is.null(this_object$`google_play_name`)) {
+        self$`google_play_name` <- this_object$`google_play_name`
+      }
+      if (!is.null(this_object$`app_store_name`)) {
+        self$`app_store_name` <- this_object$`app_store_name`
+      }
+      if (!is.null(this_object$`google_play_icon_url`)) {
+        self$`google_play_icon_url` <- this_object$`google_play_icon_url`
+      }
+      if (!is.null(this_object$`app_store_icon_url`)) {
+        self$`app_store_icon_url` <- this_object$`app_store_icon_url`
+      }
       if (!is.null(this_object$`color`)) {
         self$`color` <- this_object$`color`
       }
+      if (!is.null(this_object$`processing`)) {
+        self$`processing` <- this_object$`processing`
+      }
       if (!is.null(this_object$`created_at`)) {
         self$`created_at` <- this_object$`created_at`
+      }
+      if (!is.null(this_object$`request_id`)) {
+        self$`request_id` <- this_object$`request_id`
       }
       self
     },
@@ -233,8 +387,16 @@ CompetitorDetails <- R6::R6Class(
       self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       self$`google_play_id` <- this_object$`google_play_id`
       self$`app_store_id` <- this_object$`app_store_id`
+      self$`citation_match_mode` <- CitationMatchMode$new()$fromJSON(jsonlite::toJSON(this_object$`citation_match_mode`, auto_unbox = TRUE, digits = NA))
+      self$`citation_match_path` <- this_object$`citation_match_path`
+      self$`google_play_name` <- this_object$`google_play_name`
+      self$`app_store_name` <- this_object$`app_store_name`
+      self$`google_play_icon_url` <- this_object$`google_play_icon_url`
+      self$`app_store_icon_url` <- this_object$`app_store_icon_url`
       self$`color` <- this_object$`color`
+      self$`processing` <- this_object$`processing`
       self$`created_at` <- this_object$`created_at`
+      self$`request_id` <- this_object$`request_id`
       self
     },
 
