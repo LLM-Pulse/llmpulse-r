@@ -153,6 +153,7 @@ R/prompts_create_request.R
 R/prompts_create_response.R
 R/prompts_create_response_data_inner.R
 R/prompts_response.R
+R/query_web_analytics_request.R
 R/recommendation_summary.R
 R/recommendation_summary_summary.R
 R/recommendations_api.R
@@ -198,6 +199,9 @@ R/update_collection_request.R
 R/update_competitor_request.R
 R/update_project_draft_request.R
 R/update_project_request.R
+R/web_analytics_query_response.R
+R/web_analytics_query_response_columns_inner.R
+R/web_analytics_schema_response.R
 R/webhooks_api.R
 README.md
 docs/AIAgentTrafficApi.md
@@ -345,6 +349,7 @@ docs/PromptsCreateRequest.md
 docs/PromptsCreateResponse.md
 docs/PromptsCreateResponseDataInner.md
 docs/PromptsResponse.md
+docs/QueryWebAnalyticsRequest.md
 docs/RecommendationSummary.md
 docs/RecommendationSummarySummary.md
 docs/RecommendationsApi.md
@@ -390,6 +395,9 @@ docs/UpdateCollectionRequest.md
 docs/UpdateCompetitorRequest.md
 docs/UpdateProjectDraftRequest.md
 docs/UpdateProjectRequest.md
+docs/WebAnalyticsQueryResponse.md
+docs/WebAnalyticsQueryResponseColumnsInner.md
+docs/WebAnalyticsSchemaResponse.md
 docs/WebhooksApi.md
 git_push.sh
 tests/testthat.R
