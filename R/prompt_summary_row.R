@@ -19,6 +19,18 @@
 #' @field avg_mention_position  numeric [optional]
 #' @field avg_position  numeric [optional]
 #' @field app_url Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project character [optional]
+#' @field country_code Country of the prompt, as in /dimensions/prompts character [optional]
+#' @field language_code Language of the prompt, as in /dimensions/prompts character [optional]
+#' @field prompt_type Search intent: informational, navigational, commercial or transactional. Null until the prompt is classified character [optional]
+#' @field brand_kind Brand focus: brand, brand_other or non_brand. Null until the prompt is classified character [optional]
+#' @field tags Every tag the prompt belongs to list(\link{TagRef}) [optional]
+#' @field sentiment_responses Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries) integer [optional]
+#' @field sentiment_very_positive Percentage (0-100) of sentiment_responses whose brand verdict is very positive; null when sentiment_responses is 0 numeric [optional]
+#' @field sentiment_positive Percentage (0-100) of sentiment_responses whose brand verdict is positive; null when sentiment_responses is 0 numeric [optional]
+#' @field sentiment_neutral Percentage (0-100) of sentiment_responses whose brand verdict is neutral; null when sentiment_responses is 0 numeric [optional]
+#' @field sentiment_negative Percentage (0-100) of sentiment_responses whose brand verdict is negative; null when sentiment_responses is 0 numeric [optional]
+#' @field sentiment_very_negative Percentage (0-100) of sentiment_responses whose brand verdict is very negative; null when sentiment_responses is 0 numeric [optional]
+#' @field net_sentiment Positive minus negative percentages (-100 to 100), neutral counted in the base; null when sentiment_responses is 0 numeric [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -37,6 +49,18 @@ PromptSummaryRow <- R6::R6Class(
     `avg_mention_position` = NULL,
     `avg_position` = NULL,
     `app_url` = NULL,
+    `country_code` = NULL,
+    `language_code` = NULL,
+    `prompt_type` = NULL,
+    `brand_kind` = NULL,
+    `tags` = NULL,
+    `sentiment_responses` = NULL,
+    `sentiment_very_positive` = NULL,
+    `sentiment_positive` = NULL,
+    `sentiment_neutral` = NULL,
+    `sentiment_negative` = NULL,
+    `sentiment_very_negative` = NULL,
+    `net_sentiment` = NULL,
 
     #' @description
     #' Initialize a new PromptSummaryRow class.
@@ -53,8 +77,20 @@ PromptSummaryRow <- R6::R6Class(
     #' @param avg_mention_position avg_mention_position
     #' @param avg_position avg_position
     #' @param app_url Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project
+    #' @param country_code Country of the prompt, as in /dimensions/prompts
+    #' @param language_code Language of the prompt, as in /dimensions/prompts
+    #' @param prompt_type Search intent: informational, navigational, commercial or transactional. Null until the prompt is classified
+    #' @param brand_kind Brand focus: brand, brand_other or non_brand. Null until the prompt is classified
+    #' @param tags Every tag the prompt belongs to
+    #' @param sentiment_responses Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries)
+    #' @param sentiment_very_positive Percentage (0-100) of sentiment_responses whose brand verdict is very positive; null when sentiment_responses is 0
+    #' @param sentiment_positive Percentage (0-100) of sentiment_responses whose brand verdict is positive; null when sentiment_responses is 0
+    #' @param sentiment_neutral Percentage (0-100) of sentiment_responses whose brand verdict is neutral; null when sentiment_responses is 0
+    #' @param sentiment_negative Percentage (0-100) of sentiment_responses whose brand verdict is negative; null when sentiment_responses is 0
+    #' @param sentiment_very_negative Percentage (0-100) of sentiment_responses whose brand verdict is very negative; null when sentiment_responses is 0
+    #' @param net_sentiment Positive minus negative percentages (-100 to 100), neutral counted in the base; null when sentiment_responses is 0
     #' @param ... Other optional arguments.
-    initialize = function(`prompt_id` = NULL, `prompt_text` = NULL, `model` = NULL, `responses` = NULL, `mentions` = NULL, `citations` = NULL, `visibility` = NULL, `mention_rate` = NULL, `citation_rate` = NULL, `avg_mention_position` = NULL, `avg_position` = NULL, `app_url` = NULL, ...) {
+    initialize = function(`prompt_id` = NULL, `prompt_text` = NULL, `model` = NULL, `responses` = NULL, `mentions` = NULL, `citations` = NULL, `visibility` = NULL, `mention_rate` = NULL, `citation_rate` = NULL, `avg_mention_position` = NULL, `avg_position` = NULL, `app_url` = NULL, `country_code` = NULL, `language_code` = NULL, `prompt_type` = NULL, `brand_kind` = NULL, `tags` = NULL, `sentiment_responses` = NULL, `sentiment_very_positive` = NULL, `sentiment_positive` = NULL, `sentiment_neutral` = NULL, `sentiment_negative` = NULL, `sentiment_very_negative` = NULL, `net_sentiment` = NULL, ...) {
       if (!is.null(`prompt_id`)) {
         if (!(is.numeric(`prompt_id`) && length(`prompt_id`) == 1)) {
           stop(paste("Error! Invalid data for `prompt_id`. Must be an integer:", `prompt_id`))
@@ -115,6 +151,59 @@ PromptSummaryRow <- R6::R6Class(
           stop(paste("Error! Invalid data for `app_url`. Must be a URL:", `app_url`))
         }
         self$`app_url` <- `app_url`
+      }
+      if (!is.null(`country_code`)) {
+        if (!(is.character(`country_code`) && length(`country_code`) == 1)) {
+          stop(paste("Error! Invalid data for `country_code`. Must be a string:", `country_code`))
+        }
+        self$`country_code` <- `country_code`
+      }
+      if (!is.null(`language_code`)) {
+        if (!(is.character(`language_code`) && length(`language_code`) == 1)) {
+          stop(paste("Error! Invalid data for `language_code`. Must be a string:", `language_code`))
+        }
+        self$`language_code` <- `language_code`
+      }
+      if (!is.null(`prompt_type`)) {
+        if (!(is.character(`prompt_type`) && length(`prompt_type`) == 1)) {
+          stop(paste("Error! Invalid data for `prompt_type`. Must be a string:", `prompt_type`))
+        }
+        self$`prompt_type` <- `prompt_type`
+      }
+      if (!is.null(`brand_kind`)) {
+        if (!(is.character(`brand_kind`) && length(`brand_kind`) == 1)) {
+          stop(paste("Error! Invalid data for `brand_kind`. Must be a string:", `brand_kind`))
+        }
+        self$`brand_kind` <- `brand_kind`
+      }
+      if (!is.null(`tags`)) {
+        stopifnot(is.vector(`tags`), length(`tags`) != 0)
+        sapply(`tags`, function(x) stopifnot(R6::is.R6(x)))
+        self$`tags` <- `tags`
+      }
+      if (!is.null(`sentiment_responses`)) {
+        if (!(is.numeric(`sentiment_responses`) && length(`sentiment_responses`) == 1)) {
+          stop(paste("Error! Invalid data for `sentiment_responses`. Must be an integer:", `sentiment_responses`))
+        }
+        self$`sentiment_responses` <- `sentiment_responses`
+      }
+      if (!is.null(`sentiment_very_positive`)) {
+        self$`sentiment_very_positive` <- `sentiment_very_positive`
+      }
+      if (!is.null(`sentiment_positive`)) {
+        self$`sentiment_positive` <- `sentiment_positive`
+      }
+      if (!is.null(`sentiment_neutral`)) {
+        self$`sentiment_neutral` <- `sentiment_neutral`
+      }
+      if (!is.null(`sentiment_negative`)) {
+        self$`sentiment_negative` <- `sentiment_negative`
+      }
+      if (!is.null(`sentiment_very_negative`)) {
+        self$`sentiment_very_negative` <- `sentiment_very_negative`
+      }
+      if (!is.null(`net_sentiment`)) {
+        self$`net_sentiment` <- `net_sentiment`
       }
     },
 
@@ -197,7 +286,78 @@ PromptSummaryRow <- R6::R6Class(
         PromptSummaryRowObject[["app_url"]] <-
           self$`app_url`
       }
+      if (!is.null(self$`country_code`)) {
+        PromptSummaryRowObject[["country_code"]] <-
+          self$`country_code`
+      }
+      if (!is.null(self$`language_code`)) {
+        PromptSummaryRowObject[["language_code"]] <-
+          self$`language_code`
+      }
+      if (!is.null(self$`prompt_type`)) {
+        PromptSummaryRowObject[["prompt_type"]] <-
+          self$`prompt_type`
+      }
+      if (!is.null(self$`brand_kind`)) {
+        PromptSummaryRowObject[["brand_kind"]] <-
+          self$`brand_kind`
+      }
+      if (!is.null(self$`tags`)) {
+        PromptSummaryRowObject[["tags"]] <-
+          self$extractSimpleType(self$`tags`)
+      }
+      if (!is.null(self$`sentiment_responses`)) {
+        PromptSummaryRowObject[["sentiment_responses"]] <-
+          self$`sentiment_responses`
+      }
+      if (!is.null(self$`sentiment_very_positive`)) {
+        PromptSummaryRowObject[["sentiment_very_positive"]] <-
+          self$`sentiment_very_positive`
+      }
+      if (!is.null(self$`sentiment_positive`)) {
+        PromptSummaryRowObject[["sentiment_positive"]] <-
+          self$`sentiment_positive`
+      }
+      if (!is.null(self$`sentiment_neutral`)) {
+        PromptSummaryRowObject[["sentiment_neutral"]] <-
+          self$`sentiment_neutral`
+      }
+      if (!is.null(self$`sentiment_negative`)) {
+        PromptSummaryRowObject[["sentiment_negative"]] <-
+          self$`sentiment_negative`
+      }
+      if (!is.null(self$`sentiment_very_negative`)) {
+        PromptSummaryRowObject[["sentiment_very_negative"]] <-
+          self$`sentiment_very_negative`
+      }
+      if (!is.null(self$`net_sentiment`)) {
+        PromptSummaryRowObject[["net_sentiment"]] <-
+          self$`net_sentiment`
+      }
       return(PromptSummaryRowObject)
+    },
+
+    extractSimpleType = function(x) {
+      if (R6::is.R6(x)) {
+        return(x$toSimpleType())
+      } else if (!self$hasNestedR6(x)) {
+        return(x)
+      }
+      lapply(x, self$extractSimpleType)
+    },
+
+    hasNestedR6 = function(x) {
+      if (R6::is.R6(x)) {
+        return(TRUE)
+      }
+      if (is.list(x)) {
+        for (item in x) {
+          if (self$hasNestedR6(item)) {
+            return(TRUE)
+          }
+        }
+      }
+      FALSE
     },
 
     #' @description
@@ -247,6 +407,42 @@ PromptSummaryRow <- R6::R6Class(
         }
         self$`app_url` <- this_object$`app_url`
       }
+      if (!is.null(this_object$`country_code`)) {
+        self$`country_code` <- this_object$`country_code`
+      }
+      if (!is.null(this_object$`language_code`)) {
+        self$`language_code` <- this_object$`language_code`
+      }
+      if (!is.null(this_object$`prompt_type`)) {
+        self$`prompt_type` <- this_object$`prompt_type`
+      }
+      if (!is.null(this_object$`brand_kind`)) {
+        self$`brand_kind` <- this_object$`brand_kind`
+      }
+      if (!is.null(this_object$`tags`)) {
+        self$`tags` <- ApiClient$new()$deserializeObj(this_object$`tags`, "array[TagRef]", loadNamespace("llmpulse"))
+      }
+      if (!is.null(this_object$`sentiment_responses`)) {
+        self$`sentiment_responses` <- this_object$`sentiment_responses`
+      }
+      if (!is.null(this_object$`sentiment_very_positive`)) {
+        self$`sentiment_very_positive` <- this_object$`sentiment_very_positive`
+      }
+      if (!is.null(this_object$`sentiment_positive`)) {
+        self$`sentiment_positive` <- this_object$`sentiment_positive`
+      }
+      if (!is.null(this_object$`sentiment_neutral`)) {
+        self$`sentiment_neutral` <- this_object$`sentiment_neutral`
+      }
+      if (!is.null(this_object$`sentiment_negative`)) {
+        self$`sentiment_negative` <- this_object$`sentiment_negative`
+      }
+      if (!is.null(this_object$`sentiment_very_negative`)) {
+        self$`sentiment_very_negative` <- this_object$`sentiment_very_negative`
+      }
+      if (!is.null(this_object$`net_sentiment`)) {
+        self$`net_sentiment` <- this_object$`net_sentiment`
+      }
       self
     },
 
@@ -284,6 +480,18 @@ PromptSummaryRow <- R6::R6Class(
         stop(paste("Error! Invalid data for `app_url`. Must be a URL:", this_object$`app_url`))
       }
       self$`app_url` <- this_object$`app_url`
+      self$`country_code` <- this_object$`country_code`
+      self$`language_code` <- this_object$`language_code`
+      self$`prompt_type` <- this_object$`prompt_type`
+      self$`brand_kind` <- this_object$`brand_kind`
+      self$`tags` <- ApiClient$new()$deserializeObj(this_object$`tags`, "array[TagRef]", loadNamespace("llmpulse"))
+      self$`sentiment_responses` <- this_object$`sentiment_responses`
+      self$`sentiment_very_positive` <- this_object$`sentiment_very_positive`
+      self$`sentiment_positive` <- this_object$`sentiment_positive`
+      self$`sentiment_neutral` <- this_object$`sentiment_neutral`
+      self$`sentiment_negative` <- this_object$`sentiment_negative`
+      self$`sentiment_very_negative` <- this_object$`sentiment_very_negative`
+      self$`net_sentiment` <- this_object$`net_sentiment`
       self
     },
 

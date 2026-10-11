@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 AI bot crawler traffic (Scale plan or above, Beta)
 
-Aggregated AI bot traffic hitting the project's origin server (GPTBot, PerplexityBot, ClaudeBot, OAI-SearchBot, Google-Extended, etc.). Sourced from Cloudflare or CSV uploads. Requires the Scale plan; lower tiers receive ERR_PLAN_REQUIRED.
+Aggregated AI bot traffic hitting the project's origin server (GPTBot, PerplexityBot, ClaudeBot, OAI-SearchBot, Google-Extended, etc.). Sourced from Cloudflare or CSV uploads. Requires the Scale plan; lower tiers receive ERR_PLAN_REQUIRED. A range below 1, or a window whose from is later than its to, returns ERR_INVALID_PARAM.
 
 ### Example
 ```R
@@ -74,13 +74,14 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 | **200** | Agent traffic data |  -  |
 | **403** | Endpoint requires a higher plan tier |  -  |
+| **422** | Invalid parameters |  -  |
 
 # **GetAiTraffic**
 > GetAiTraffic(project_id, range = var.range, from = var.from, to = var.to, source = var.source, granularity = var.granularity)
 
 AI referral traffic (Scale plan or above)
 
-AI referral traffic for a project: human visits arriving from AI assistants (ChatGPT, Perplexity, Gemini, Claude, etc.), measured from the connected web analytics provider (Google Analytics 4, Adobe Analytics, PostHog, Plausible, Matomo or Piano). Returns per-source users, sessions and conversions with totals and a conversion rate. Requires a connected provider and the Scale plan; otherwise returns ERR_AI_TRAFFIC_NOT_CONNECTED or ERR_PLAN_REQUIRED.
+AI referral traffic for a project: human visits arriving from AI assistants (ChatGPT, Perplexity, Gemini, Claude, etc.), measured from the connected web analytics provider (Google Analytics 4, Adobe Analytics, PostHog, Plausible, Matomo or Piano). Returns per-source users, sessions and conversions with totals and a conversion rate. Requires a connected provider and the Scale plan; otherwise returns ERR_AI_TRAFFIC_NOT_CONNECTED or ERR_PLAN_REQUIRED. A range below 1, or a window whose from is later than its to, returns ERR_INVALID_PARAM.
 
 ### Example
 ```R
@@ -132,6 +133,7 @@ void (empty response body)
 | **200** | AI referral traffic data |  -  |
 | **403** | Endpoint requires a higher plan tier |  -  |
 | **404** | Resource not found |  -  |
+| **422** | Invalid parameters |  -  |
 
 # **GetWebAnalyticsSchema**
 > WebAnalyticsSchemaResponse GetWebAnalyticsSchema(project_id)

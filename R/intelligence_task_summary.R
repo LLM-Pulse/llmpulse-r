@@ -18,6 +18,7 @@
 #' @field manually_edited_at When the content was last edited by hand; null while the output is as generated character
 #' @field created_at  character
 #' @field processed_at  character
+#' @field result_version Concurrency token for content edits: send it back as result_version on PATCH /intelligence_tasks/{id} so an edit composed before a regeneration is refused with ERR_STALE_CONTENT (409). It is \"0\" until the task first completes, then changes each time a generation or regeneration replaces result_data, never on a manual edit or a revert. Treat it as opaque text character
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -35,6 +36,7 @@ IntelligenceTaskSummary <- R6::R6Class(
     `manually_edited_at` = NULL,
     `created_at` = NULL,
     `processed_at` = NULL,
+    `result_version` = NULL,
 
     #' @description
     #' Initialize a new IntelligenceTaskSummary class.
@@ -50,8 +52,9 @@ IntelligenceTaskSummary <- R6::R6Class(
     #' @param manually_edited_at When the content was last edited by hand; null while the output is as generated
     #' @param created_at created_at
     #' @param processed_at processed_at
+    #' @param result_version Concurrency token for content edits: send it back as result_version on PATCH /intelligence_tasks/{id} so an edit composed before a regeneration is refused with ERR_STALE_CONTENT (409). It is \"0\" until the task first completes, then changes each time a generation or regeneration replaces result_data, never on a manual edit or a revert. Treat it as opaque text
     #' @param ... Other optional arguments.
-    initialize = function(`id`, `public_id`, `task_type`, `title`, `status`, `prompt_id`, `prompt_text`, `word_count`, `manually_edited_at`, `created_at`, `processed_at`, ...) {
+    initialize = function(`id`, `public_id`, `task_type`, `title`, `status`, `prompt_id`, `prompt_text`, `word_count`, `manually_edited_at`, `created_at`, `processed_at`, `result_version`, ...) {
       if (!missing(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -117,6 +120,12 @@ IntelligenceTaskSummary <- R6::R6Class(
           stop(paste("Error! Invalid data for `processed_at`. Must be a string:", `processed_at`))
         }
         self$`processed_at` <- `processed_at`
+      }
+      if (!missing(`result_version`)) {
+        if (!(is.character(`result_version`) && length(`result_version`) == 1)) {
+          stop(paste("Error! Invalid data for `result_version`. Must be a string:", `result_version`))
+        }
+        self$`result_version` <- `result_version`
       }
     },
 
@@ -195,6 +204,10 @@ IntelligenceTaskSummary <- R6::R6Class(
         IntelligenceTaskSummaryObject[["processed_at"]] <-
           self$`processed_at`
       }
+      if (!is.null(self$`result_version`)) {
+        IntelligenceTaskSummaryObject[["result_version"]] <-
+          self$`result_version`
+      }
       return(IntelligenceTaskSummaryObject)
     },
 
@@ -238,6 +251,9 @@ IntelligenceTaskSummary <- R6::R6Class(
       if (!is.null(this_object$`processed_at`)) {
         self$`processed_at` <- this_object$`processed_at`
       }
+      if (!is.null(this_object$`result_version`)) {
+        self$`result_version` <- this_object$`result_version`
+      }
       self
     },
 
@@ -270,6 +286,7 @@ IntelligenceTaskSummary <- R6::R6Class(
       self$`manually_edited_at` <- this_object$`manually_edited_at`
       self$`created_at` <- this_object$`created_at`
       self$`processed_at` <- this_object$`processed_at`
+      self$`result_version` <- this_object$`result_version`
       self
     },
 
@@ -367,6 +384,14 @@ IntelligenceTaskSummary <- R6::R6Class(
       } else {
         stop(paste("The JSON input `", input, "` is invalid for IntelligenceTaskSummary: the required field `processed_at` is missing."))
       }
+      # check the required field `result_version`
+      if (!is.null(input_json$`result_version`)) {
+        if (!(is.character(input_json$`result_version`) && length(input_json$`result_version`) == 1)) {
+          stop(paste("Error! Invalid data for `result_version`. Must be a string:", input_json$`result_version`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for IntelligenceTaskSummary: the required field `result_version` is missing."))
+      }
     },
 
     #' @description
@@ -412,6 +437,11 @@ IntelligenceTaskSummary <- R6::R6Class(
         return(FALSE)
       }
 
+      # check if the required `result_version` is null
+      if (is.null(self$`result_version`)) {
+        return(FALSE)
+      }
+
       TRUE
     },
 
@@ -449,6 +479,11 @@ IntelligenceTaskSummary <- R6::R6Class(
       # check if the required `created_at` is null
       if (is.null(self$`created_at`)) {
         invalid_fields["created_at"] <- "Non-nullable required field `created_at` cannot be null."
+      }
+
+      # check if the required `result_version` is null
+      if (is.null(self$`result_version`)) {
+        invalid_fields["result_version"] <- "Non-nullable required field `result_version` cannot be null."
       }
 
       invalid_fields

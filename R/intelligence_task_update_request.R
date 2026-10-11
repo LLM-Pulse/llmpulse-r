@@ -9,6 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field project_id  integer
 #' @field edits Dotted result_data paths (title, sections.0.content, key_points.2) mapped to their replacement text. Only string fields that already exist are editable; sections cannot be added or removed. named list(character)
+#' @field result_version Optional. The result_version of the task as last read. When sent, the edit is refused with ERR_STALE_CONTENT (409) and nothing is written if the task was regenerated since. Omitted, null or empty, the edits apply to whatever the task holds now character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -17,14 +18,16 @@ IntelligenceTaskUpdateRequest <- R6::R6Class(
   public = list(
     `project_id` = NULL,
     `edits` = NULL,
+    `result_version` = NULL,
 
     #' @description
     #' Initialize a new IntelligenceTaskUpdateRequest class.
     #'
     #' @param project_id project_id
     #' @param edits Dotted result_data paths (title, sections.0.content, key_points.2) mapped to their replacement text. Only string fields that already exist are editable; sections cannot be added or removed.
+    #' @param result_version Optional. The result_version of the task as last read. When sent, the edit is refused with ERR_STALE_CONTENT (409) and nothing is written if the task was regenerated since. Omitted, null or empty, the edits apply to whatever the task holds now
     #' @param ... Other optional arguments.
-    initialize = function(`project_id`, `edits`, ...) {
+    initialize = function(`project_id`, `edits`, `result_version` = NULL, ...) {
       if (!missing(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -35,6 +38,12 @@ IntelligenceTaskUpdateRequest <- R6::R6Class(
         stopifnot(is.vector(`edits`), length(`edits`) != 0)
         sapply(`edits`, function(x) stopifnot(is.character(x)))
         self$`edits` <- `edits`
+      }
+      if (!is.null(`result_version`)) {
+        if (!(is.character(`result_version`) && length(`result_version`) == 1)) {
+          stop(paste("Error! Invalid data for `result_version`. Must be a string:", `result_version`))
+        }
+        self$`result_version` <- `result_version`
       }
     },
 
@@ -77,6 +86,10 @@ IntelligenceTaskUpdateRequest <- R6::R6Class(
         IntelligenceTaskUpdateRequestObject[["edits"]] <-
           self$`edits`
       }
+      if (!is.null(self$`result_version`)) {
+        IntelligenceTaskUpdateRequestObject[["result_version"]] <-
+          self$`result_version`
+      }
       return(IntelligenceTaskUpdateRequestObject)
     },
 
@@ -92,6 +105,9 @@ IntelligenceTaskUpdateRequest <- R6::R6Class(
       }
       if (!is.null(this_object$`edits`)) {
         self$`edits` <- ApiClient$new()$deserializeObj(this_object$`edits`, "map(character)", loadNamespace("llmpulse"))
+      }
+      if (!is.null(this_object$`result_version`)) {
+        self$`result_version` <- this_object$`result_version`
       }
       self
     },
@@ -116,6 +132,7 @@ IntelligenceTaskUpdateRequest <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`project_id` <- this_object$`project_id`
       self$`edits` <- ApiClient$new()$deserializeObj(this_object$`edits`, "map(character)", loadNamespace("llmpulse"))
+      self$`result_version` <- this_object$`result_version`
       self
     },
 
