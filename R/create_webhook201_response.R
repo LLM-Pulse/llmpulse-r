@@ -11,7 +11,7 @@
 #' @field project_id  integer [optional]
 #' @field event_type  character [optional]
 #' @field target_url  character [optional]
-#' @field disabled  character [optional]
+#' @field disabled True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked. Creating it again with the same project, event and URL replaces it with a new subscription and secret. character [optional]
 #' @field failure_count  integer [optional]
 #' @field last_delivered_at  character [optional]
 #' @field created_at  character [optional]
@@ -41,7 +41,7 @@ CreateWebhook201Response <- R6::R6Class(
     #' @param project_id project_id
     #' @param event_type event_type
     #' @param target_url target_url
-    #' @param disabled disabled
+    #' @param disabled True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked. Creating it again with the same project, event and URL replaces it with a new subscription and secret.
     #' @param failure_count failure_count
     #' @param last_delivered_at last_delivered_at
     #' @param created_at created_at

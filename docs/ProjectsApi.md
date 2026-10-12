@@ -173,7 +173,7 @@ void (empty response body)
 
 Project details
 
-Detailed info for one project: matching_names, industry, business model, primary products, target audience, brand voice, locale, app store IDs, stats (incl. prompts_by_brand_kind counts) and data_coverage (models, countries and languages with data).
+Detailed info for one project: matching_names, additional_owned_domains, industry, business model, primary products, target audience, brand voice, locale, app store IDs, stats (incl. prompts_by_brand_kind counts) and data_coverage (models, countries and languages with data).
 
 ### Example
 ```R
@@ -410,11 +410,11 @@ Name | Type | Description  | Notes
 | **200** | Projects |  -  |
 
 # **UpdateProject**
-> UpdateProject(id, update_project_request)
+> ProjectUpdateResponse UpdateProject(id, update_project_request)
 
 Update a project profile (Brand Book)
 
-Updates the project name and profile, the same fields as Project Settings: name, brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names. Send only the fields to change; unknown fields are rejected. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background (rematching=true); further edits are rejected while that runs. Requires a `read_write` scope API key.
+Updates the project name and profile, the same fields as Project Settings: name, brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names, and the additional owned domains (additional_owned_domains). Send only the fields to change; unknown fields are rejected, and a request is applied whole or not at all. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background, and an additional_owned_domains change reprocesses the past answers that cite an added or removed domain (rematching=true); further edits are rejected while that runs. Only the account owner can send additional_owned_domains: a team member key gets ERR_INSUFFICIENT_PERMISSION and nothing is applied. Requires a `read_write` scope API key.
 
 ### Example
 ```R
@@ -424,12 +424,15 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_id <- 56 # integer | 
-var_update_project_request <- updateProject_request$new("name_example", "brand_name_example", "description_example", "industry_example", "business_model_example", "business_model_other_example", "target_audience_example", "brand_voice_example", "goals_example", c("primary_products_example"), c("matching_names_example")) # UpdateProjectRequest | 
+var_update_project_request <- updateProject_request$new("name_example", "brand_name_example", "description_example", "industry_example", "business_model_example", "business_model_other_example", "target_audience_example", "brand_voice_example", "goals_example", c("primary_products_example"), c("matching_names_example"), c("additional_owned_domains_example")) # UpdateProjectRequest | 
 
 api_instance <- ProjectsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$UpdateProject(var_id, var_update_project_request)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$UpdateProject(var_id, var_update_project_requestdata_file = "result.txt")
+result <- api_instance$UpdateProject(var_id, var_update_project_request)
+dput(result)
 ```
 
 ### Parameters
@@ -441,7 +444,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ProjectUpdateResponse**](ProjectUpdateResponse.md)
 
 ### Authorization
 
@@ -455,8 +458,8 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Updated: { project, updated_fields, rematching, note, request_id } |  -  |
-| **403** | API key lacks write permission |  -  |
+| **200** | Updated |  -  |
+| **403** | A write with a read-only key answers ERR_INSUFFICIENT_SCOPE. A team member whose permissions do not grant Projects update, or who sends additional_owned_domains, answers ERR_INSUFFICIENT_PERMISSION, with the same status |  -  |
 | **404** | Resource not found |  -  |
 | **422** | Invalid parameters |  -  |
 

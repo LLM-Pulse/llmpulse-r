@@ -201,7 +201,7 @@ library(llmpulse)
 # AI bot catalog (Scale plan or above)
 #
 # prepare function argument(s)
-var_project_id <- 56 # integer | Project ID
+var_project_id <- 56 # integer | Accepted for compatibility and ignored. The catalog is the same for every project, so any value returns the same list and the project is not checked.
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
 
 api_instance <- AIAgentTrafficApi$new()
@@ -217,7 +217,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **project_id** | **integer**| Project ID | 
+ **project_id** | **integer**| Accepted for compatibility and ignored. The catalog is the same for every project, so any value returns the same list and the project is not checked. | 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
 
 ### Return type

@@ -13,6 +13,7 @@
 #' @field url  character [optional]
 #' @field description  character [optional]
 #' @field matching_names  list(character) [optional]
+#' @field additional_owned_domains Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none list(character) [optional]
 #' @field industry Industry as stored: one key as a string (e.g. SAAS), or an array of key strings when the project was created with a list or the in-app multi-select. Deliberately untyped so generated clients decode either shape object [optional]
 #' @field business_model  character [optional]
 #' @field business_model_other Set only when business_model is OTHER character [optional]
@@ -42,6 +43,7 @@ ProjectDetails <- R6::R6Class(
     `url` = NULL,
     `description` = NULL,
     `matching_names` = NULL,
+    `additional_owned_domains` = NULL,
     `industry` = NULL,
     `business_model` = NULL,
     `business_model_other` = NULL,
@@ -69,6 +71,7 @@ ProjectDetails <- R6::R6Class(
     #' @param url url
     #' @param description description
     #' @param matching_names matching_names
+    #' @param additional_owned_domains Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none
     #' @param industry Industry as stored: one key as a string (e.g. SAAS), or an array of key strings when the project was created with a list or the in-app multi-select. Deliberately untyped so generated clients decode either shape
     #' @param business_model business_model
     #' @param business_model_other Set only when business_model is OTHER
@@ -87,7 +90,7 @@ ProjectDetails <- R6::R6Class(
     #' @param search_console search_console
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `stats` = NULL, `data_coverage` = NULL, `search_console` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `stats` = NULL, `data_coverage` = NULL, `search_console` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -126,6 +129,11 @@ ProjectDetails <- R6::R6Class(
         stopifnot(is.vector(`matching_names`), length(`matching_names`) != 0)
         sapply(`matching_names`, function(x) stopifnot(is.character(x)))
         self$`matching_names` <- `matching_names`
+      }
+      if (!is.null(`additional_owned_domains`)) {
+        stopifnot(is.vector(`additional_owned_domains`), length(`additional_owned_domains`) != 0)
+        sapply(`additional_owned_domains`, function(x) stopifnot(is.character(x)))
+        self$`additional_owned_domains` <- `additional_owned_domains`
       }
       if (!is.null(`industry`)) {
         self$`industry` <- `industry`
@@ -276,6 +284,10 @@ ProjectDetails <- R6::R6Class(
         ProjectDetailsObject[["matching_names"]] <-
           self$`matching_names`
       }
+      if (!is.null(self$`additional_owned_domains`)) {
+        ProjectDetailsObject[["additional_owned_domains"]] <-
+          self$`additional_owned_domains`
+      }
       if (!is.null(self$`industry`)) {
         ProjectDetailsObject[["industry"]] <-
           self$`industry`
@@ -399,6 +411,9 @@ ProjectDetails <- R6::R6Class(
       if (!is.null(this_object$`matching_names`)) {
         self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       }
+      if (!is.null(this_object$`additional_owned_domains`)) {
+        self$`additional_owned_domains` <- ApiClient$new()$deserializeObj(this_object$`additional_owned_domains`, "array[character]", loadNamespace("llmpulse"))
+      }
       if (!is.null(this_object$`industry`)) {
         self$`industry` <- this_object$`industry`
       }
@@ -487,6 +502,7 @@ ProjectDetails <- R6::R6Class(
       self$`url` <- this_object$`url`
       self$`description` <- this_object$`description`
       self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
+      self$`additional_owned_domains` <- ApiClient$new()$deserializeObj(this_object$`additional_owned_domains`, "array[character]", loadNamespace("llmpulse"))
       self$`industry` <- this_object$`industry`
       self$`business_model` <- this_object$`business_model`
       self$`business_model_other` <- this_object$`business_model_other`

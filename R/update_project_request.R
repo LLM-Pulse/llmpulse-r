@@ -18,6 +18,7 @@
 #' @field goals What the brand wants to achieve. Context for GEO Writer and prompt suggestions character [optional]
 #' @field primary_products Full replacement list of the main products or services list(character) [optional]
 #' @field matching_names FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep list(character) [optional]
+#' @field additional_owned_domains FULL replacement list (at most 10) of other domains the brand owns, such as a blog or a country site; [] clears it. Citations from them count as owned, like the project website. Each entry is a website's own domain and covers its subdomains; a pasted URL is stored as its domain (https://www.acme.co.uk/x becomes acme.co.uk). A list the domain editor would refuse (a subdomain such as blog.acme.com, a platform many companies share such as youtube.com, amazon.com or wordpress.com, the project website, a tracked competitor domain, a duplicate or an entry that is not a domain) is rejected with ERR_INVALID_PARAM and the reason. Order does not matter, and an unchanged list starts nothing. Account owner only, on every plan list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -35,6 +36,7 @@ UpdateProjectRequest <- R6::R6Class(
     `goals` = NULL,
     `primary_products` = NULL,
     `matching_names` = NULL,
+    `additional_owned_domains` = NULL,
 
     #' @description
     #' Initialize a new UpdateProjectRequest class.
@@ -50,8 +52,9 @@ UpdateProjectRequest <- R6::R6Class(
     #' @param goals What the brand wants to achieve. Context for GEO Writer and prompt suggestions
     #' @param primary_products Full replacement list of the main products or services
     #' @param matching_names FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep
+    #' @param additional_owned_domains FULL replacement list (at most 10) of other domains the brand owns, such as a blog or a country site; [] clears it. Citations from them count as owned, like the project website. Each entry is a website's own domain and covers its subdomains; a pasted URL is stored as its domain (https://www.acme.co.uk/x becomes acme.co.uk). A list the domain editor would refuse (a subdomain such as blog.acme.com, a platform many companies share such as youtube.com, amazon.com or wordpress.com, the project website, a tracked competitor domain, a duplicate or an entry that is not a domain) is rejected with ERR_INVALID_PARAM and the reason. Order does not matter, and an unchanged list starts nothing. Account owner only, on every plan
     #' @param ... Other optional arguments.
-    initialize = function(`name` = NULL, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, ...) {
+    initialize = function(`name` = NULL, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, ...) {
       if (!is.null(`name`)) {
         if (!(is.character(`name`) && length(`name`) == 1)) {
           stop(paste("Error! Invalid data for `name`. Must be a string:", `name`))
@@ -115,6 +118,11 @@ UpdateProjectRequest <- R6::R6Class(
         stopifnot(is.vector(`matching_names`), length(`matching_names`) != 0)
         sapply(`matching_names`, function(x) stopifnot(is.character(x)))
         self$`matching_names` <- `matching_names`
+      }
+      if (!is.null(`additional_owned_domains`)) {
+        stopifnot(is.vector(`additional_owned_domains`), length(`additional_owned_domains`) != 0)
+        sapply(`additional_owned_domains`, function(x) stopifnot(is.character(x)))
+        self$`additional_owned_domains` <- `additional_owned_domains`
       }
     },
 
@@ -193,6 +201,10 @@ UpdateProjectRequest <- R6::R6Class(
         UpdateProjectRequestObject[["matching_names"]] <-
           self$`matching_names`
       }
+      if (!is.null(self$`additional_owned_domains`)) {
+        UpdateProjectRequestObject[["additional_owned_domains"]] <-
+          self$`additional_owned_domains`
+      }
       return(UpdateProjectRequestObject)
     },
 
@@ -236,6 +248,9 @@ UpdateProjectRequest <- R6::R6Class(
       if (!is.null(this_object$`matching_names`)) {
         self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       }
+      if (!is.null(this_object$`additional_owned_domains`)) {
+        self$`additional_owned_domains` <- ApiClient$new()$deserializeObj(this_object$`additional_owned_domains`, "array[character]", loadNamespace("llmpulse"))
+      }
       self
     },
 
@@ -268,6 +283,7 @@ UpdateProjectRequest <- R6::R6Class(
       self$`goals` <- this_object$`goals`
       self$`primary_products` <- ApiClient$new()$deserializeObj(this_object$`primary_products`, "array[character]", loadNamespace("llmpulse"))
       self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
+      self$`additional_owned_domains` <- ApiClient$new()$deserializeObj(this_object$`additional_owned_domains`, "array[character]", loadNamespace("llmpulse"))
       self
     },
 
