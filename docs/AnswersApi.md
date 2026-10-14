@@ -90,7 +90,7 @@ var_to <- "to_example" # character | End of the window. A date-only value such a
 var_page <- 1 # integer |  (Optional)
 var_per_page <- 20 # integer |  (Optional)
 var_query <- "query_example" # character | Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (Optional)
-var_no_result <- "no_result_example" # character | Filter sentinel non-answers (provider returned nothing after retries; excluded from platform metrics). false = only real answers, true = only sentinels, omit = both. Every item carries its own no_result flag. (Optional)
+var_no_result <- "no_result_example" # character | Filter sentinel non-answers (the provider returned nothing after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false = only real answers, true = only sentinels, omit = both. Every item carries its own no_result flag. (Optional)
 
 api_instance <- AnswersApi$new()
 # Configure HTTP bearer authorization: BearerAuth
@@ -116,7 +116,7 @@ Name | Type | Description  | Notes
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
  **query** | **character**| Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. | [optional] 
- **no_result** | **character**| Filter sentinel non-answers (provider returned nothing after retries; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag. | [optional] 
+ **no_result** | **character**| Filter sentinel non-answers (the provider returned nothing after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag. | [optional] 
 
 ### Return type
 

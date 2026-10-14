@@ -16,7 +16,7 @@
 #' @field executed_at  character [optional]
 #' @field duration_ms Milliseconds, rounded to one decimal place numeric [optional]
 #' @field success Null while the answer is still pending character [optional]
-#' @field no_result True for a sentinel non-answer (the provider returned nothing after retries); excluded from platform metrics character [optional]
+#' @field no_result True for a sentinel non-answer (the provider returned nothing after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics character [optional]
 #' @field fan_out_queries  list(character) [optional]
 #' @field mentions  list(object) [optional]
 #' @field citations  list(object) [optional]
@@ -72,7 +72,7 @@ AnswerDetails <- R6::R6Class(
     #' @param executed_at executed_at
     #' @param duration_ms Milliseconds, rounded to one decimal place
     #' @param success Null while the answer is still pending
-    #' @param no_result True for a sentinel non-answer (the provider returned nothing after retries); excluded from platform metrics
+    #' @param no_result True for a sentinel non-answer (the provider returned nothing after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics
     #' @param fan_out_queries fan_out_queries
     #' @param mentions mentions
     #' @param citations citations
