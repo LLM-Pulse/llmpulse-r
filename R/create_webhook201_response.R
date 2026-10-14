@@ -15,7 +15,7 @@
 #' @field failure_count  integer [optional]
 #' @field last_delivered_at  character [optional]
 #' @field created_at  character [optional]
-#' @field secret HMAC signing secret (whsec_...). Only returned on create. character [optional]
+#' @field secret HMAC signing secret (whsec_...). Returned when the subscription is created, and on a re-post only to the API key or OAuth connection that created it; absent for any other credential. character [optional]
 #' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -45,7 +45,7 @@ CreateWebhook201Response <- R6::R6Class(
     #' @param failure_count failure_count
     #' @param last_delivered_at last_delivered_at
     #' @param created_at created_at
-    #' @param secret HMAC signing secret (whsec_...). Only returned on create.
+    #' @param secret HMAC signing secret (whsec_...). Returned when the subscription is created, and on a re-post only to the API key or OAuth connection that created it; absent for any other credential.
     #' @param request_id request_id
     #' @param ... Other optional arguments.
     initialize = function(`id` = NULL, `project_id` = NULL, `event_type` = NULL, `target_url` = NULL, `disabled` = NULL, `failure_count` = NULL, `last_delivered_at` = NULL, `created_at` = NULL, `secret` = NULL, `request_id` = NULL, ...) {
