@@ -87,7 +87,7 @@ Name | Type | Description  | Notes
 | **403** | Plan below Growth (ERR_PLAN_REQUIRED), or Google revoked the project&#39;s Search Console access (ERR_SEARCH_CONSOLE_ACCESS_REVOKED): reconnect the property |  -  |
 | **404** | Resource not found |  -  |
 | **422** | Invalid parameters |  -  |
-| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds to wait before retrying: Google&#39;s own value when it sent one, otherwise 900 after a quota error and 60 after an outage <br>  |
+| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds until the report can be sent again <br>  |
 
 # **GetSearchConsoleQueries**
 > SearchConsoleListResponse GetSearchConsoleQueries(project_id, range = var.range, from = var.from, to = var.to, sort = "impressions", page = 1, per_page = 20, start_row = 0, output = var.output, search_type = "web", filters = var.filters, data_state = "final", aggregation_type = "auto")
@@ -165,7 +165,7 @@ Name | Type | Description  | Notes
 | **403** | Plan below Growth (ERR_PLAN_REQUIRED), or Google revoked the project&#39;s Search Console access (ERR_SEARCH_CONSOLE_ACCESS_REVOKED): reconnect the property |  -  |
 | **404** | Resource not found |  -  |
 | **422** | Invalid parameters |  -  |
-| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds to wait before retrying: Google&#39;s own value when it sent one, otherwise 900 after a quota error and 60 after an outage <br>  |
+| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds until the report can be sent again <br>  |
 
 # **GetSearchConsoleRows**
 > SearchConsoleRowsResponse GetSearchConsoleRows(project_id, dimensions, range = var.range, from = var.from, to = var.to, sort = "impressions", page = 1, per_page = 20, start_row = 0, output = var.output, search_type = "web", filters = var.filters, data_state = "final", aggregation_type = "auto")
@@ -245,7 +245,7 @@ Name | Type | Description  | Notes
 | **403** | Plan below Growth (ERR_PLAN_REQUIRED), or Google revoked the project&#39;s Search Console access (ERR_SEARCH_CONSOLE_ACCESS_REVOKED): reconnect the property |  -  |
 | **404** | Resource not found |  -  |
 | **422** | Invalid parameters |  -  |
-| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds to wait before retrying: Google&#39;s own value when it sent one, otherwise 900 after a quota error and 60 after an outage <br>  |
+| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds until the report can be sent again <br>  |
 
 # **GetSearchConsoleSummary**
 > SearchConsoleSummaryResponse GetSearchConsoleSummary(project_id, range = var.range, from = var.from, to = var.to, dimension = var.dimension, limit = var.limit, search_type = "web", filters = var.filters, data_state = "final", aggregation_type = "auto")
@@ -317,7 +317,7 @@ Name | Type | Description  | Notes
 | **403** | Plan below Growth (ERR_PLAN_REQUIRED), or Google revoked the project&#39;s Search Console access (ERR_SEARCH_CONSOLE_ACCESS_REVOKED): reconnect the property |  -  |
 | **404** | Resource not found |  -  |
 | **422** | Invalid parameters |  -  |
-| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds to wait before retrying: Google&#39;s own value when it sent one, otherwise 900 after a quota error and 60 after an outage <br>  |
+| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds until the report can be sent again <br>  |
 
 # **GetSearchConsoleTimeseries**
 > SearchConsoleTimeseriesResponse GetSearchConsoleTimeseries(project_id, range = var.range, from = var.from, to = var.to, granularity = var.granularity, output = var.output, search_type = "web", filters = var.filters, data_state = "final", aggregation_type = "auto")
@@ -389,5 +389,5 @@ Name | Type | Description  | Notes
 | **403** | Plan below Growth (ERR_PLAN_REQUIRED), or Google revoked the project&#39;s Search Console access (ERR_SEARCH_CONSOLE_ACCESS_REVOKED): reconnect the property |  -  |
 | **404** | Resource not found |  -  |
 | **422** | Invalid parameters |  -  |
-| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds to wait before retrying: Google&#39;s own value when it sent one, otherwise 900 after a quota error and 60 after an outage <br>  |
+| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds until the report can be sent again <br>  |
 

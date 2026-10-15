@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**CreateCompetitor**](CompetitorsApi.md#CreateCompetitor) | **POST** /competitors | Add a competitor
 [**DeleteCompetitor**](CompetitorsApi.md#DeleteCompetitor) | **DELETE** /competitors/{id} | Delete a competitor
 [**GetCompetitorDetails**](CompetitorsApi.md#GetCompetitorDetails) | **GET** /dimensions/competitors/{id} | Competitor details
+[**ListCompetitorSuggestions**](CompetitorsApi.md#ListCompetitorSuggestions) | **GET** /competitors/suggestions | List competitor suggestions
 [**ListCompetitors**](CompetitorsApi.md#ListCompetitors) | **GET** /dimensions/competitors | List competitors
 [**UpdateCompetitor**](CompetitorsApi.md#UpdateCompetitor) | **PATCH** /competitors/{id} | Update a competitor
 
@@ -160,6 +161,66 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Competitor details |  -  |
+
+# **ListCompetitorSuggestions**
+> CompetitorSuggestionsResponse ListCompetitorSuggestions(project_id, basis = "brands", query = var.query, page = 1, per_page = 20, output = var.output)
+
+List competitor suggestions
+
+The two lists of the Suggested tab of the Competitors page. `basis=brands` (default) returns the competing brands the AI discovery proposed that are not tracked or rejected yet, with the names it would match and, when counted, how many answers name it (`mentions`). `basis=citations` returns the domains AI answers cite most that are not your own or tracked yet, with how many answers cite each (`citations`). `discovery` tells whether a discovery run is still loading. Read-only: it never starts a discovery run, which the page starts from its Discover button. Add a suggestion with POST /competitors.
+
+### Example
+```R
+library(llmpulse)
+
+# List competitor suggestions
+#
+# prepare function argument(s)
+var_project_id <- 56 # integer | Project ID
+var_basis <- "brands" # character |  (Optional)
+var_query <- "query_example" # character | Only suggestions whose brand name or domain contains this text (Optional)
+var_page <- 1 # integer |  (Optional)
+var_per_page <- 20 # integer |  (Optional)
+var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
+
+api_instance <- CompetitorsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListCompetitorSuggestions(var_project_id, basis = var_basis, query = var_query, page = var_page, per_page = var_per_page, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListCompetitorSuggestions(var_project_id, basis = var_basis, query = var_query, page = var_page, per_page = var_per_page, output = var_output)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **project_id** | **integer**| Project ID | 
+ **basis** | Enum [brands, citations] |  | [optional] [default to &quot;brands&quot;]
+ **query** | **character**| Only suggestions whose brand name or domain contains this text | [optional] 
+ **page** | **integer**|  | [optional] [default to 1]
+ **per_page** | **integer**|  | [optional] [default to 20]
+ **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+
+### Return type
+
+[**CompetitorSuggestionsResponse**](CompetitorSuggestionsResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Paginated suggestions |  -  |
+| **422** | Invalid parameters |  -  |
 
 # **ListCompetitors**
 > ListCompetitors200Response ListCompetitors(project_id, include_project_brand = FALSE, output = var.output)

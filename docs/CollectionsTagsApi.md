@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**DeleteCollection**](CollectionsTagsApi.md#DeleteCollection) | **DELETE** /collections/{id} | Delete a tag
 [**ListCollections**](CollectionsTagsApi.md#ListCollections) | **GET** /dimensions/collections | List tags/collections
 [**ListTags**](CollectionsTagsApi.md#ListTags) | **GET** /dimensions/tags | List tags (alias for /collections)
+[**RemovePromptTags**](CollectionsTagsApi.md#RemovePromptTags) | **POST** /prompts/remove_tags | Bulk-detach tags from prompts
 [**UpdateCollection**](CollectionsTagsApi.md#UpdateCollection) | **PATCH** /collections/{id} | Update a tag
 
 
@@ -261,6 +262,57 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Tags |  -  |
+
+# **RemovePromptTags**
+> PromptTagsRemoveResponse RemovePromptTags(remove_prompt_tags_request)
+
+Bulk-detach tags from prompts
+
+Idempotent bulk removal of tags (Collections) from existing prompts: up to 500 prompt_ids and 50 tags, resolved by id or by name (case-insensitive). Only the prompt-tag links are removed; tags and prompts stay. Links that did not exist are counted in skipped_not_linked. Requires a `read_write` scope API key and, for team members, update access to Prompts.
+
+### Example
+```R
+library(llmpulse)
+
+# Bulk-detach tags from prompts
+#
+# prepare function argument(s)
+var_remove_prompt_tags_request <- removePromptTags_request$new(123, c(123), c(123), c("tag_names_example")) # RemovePromptTagsRequest | 
+
+api_instance <- CollectionsTagsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$RemovePromptTags(var_remove_prompt_tags_requestdata_file = "result.txt")
+result <- api_instance$RemovePromptTags(var_remove_prompt_tags_request)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **remove_prompt_tags_request** | [**RemovePromptTagsRequest**](RemovePromptTagsRequest.md)|  | 
+
+### Return type
+
+[**PromptTagsRemoveResponse**](PromptTagsRemoveResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Tags detached |  -  |
+| **403** | API key lacks write permission |  -  |
+| **422** | Invalid parameters |  -  |
 
 # **UpdateCollection**
 > UpdateCollection(id, update_collection_request)

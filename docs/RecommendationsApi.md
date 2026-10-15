@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**GetRecommendation**](RecommendationsApi.md#GetRecommendation) | **GET** /recommendations/{id} | Get recommendation run with items
 [**LaunchRecommendations**](RecommendationsApi.md#LaunchRecommendations) | **POST** /recommendations | Launch a recommendations generation
 [**ListRecommendations**](RecommendationsApi.md#ListRecommendations) | **GET** /recommendations | List recommendation runs
+[**UpdateRecommendationItem**](RecommendationsApi.md#UpdateRecommendationItem) | **PATCH** /recommendations/{id}/items/{item_id} | Complete, archive or restore a recommendation item
 
 
 # **GetRecommendation**
@@ -162,4 +163,60 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Paginated recommendations |  -  |
+
+# **UpdateRecommendationItem**
+> RecommendationItemUpdateResponse UpdateRecommendationItem(id, item_id, update_recommendation_item_request)
+
+Complete, archive or restore a recommendation item
+
+Moves one item of a recommendation run between `active`, `completed` and `archived`, exactly like the complete, archive and restore buttons on the Recommendations page, and stamps `status_changed_at`. Returns the item in the shape `GET /recommendations/{id}` lists items. Requires a `read_write` scope API key and, for team members, create permission on Recommendations (the permission the page uses for these buttons).
+
+### Example
+```R
+library(llmpulse)
+
+# Complete, archive or restore a recommendation item
+#
+# prepare function argument(s)
+var_id <- 56 # integer | Recommendation run id
+var_item_id <- 56 # integer | Item id, from the items of GET /recommendations/{id}
+var_update_recommendation_item_request <- updateRecommendationItem_request$new(123, "active") # UpdateRecommendationItemRequest | 
+
+api_instance <- RecommendationsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$UpdateRecommendationItem(var_id, var_item_id, var_update_recommendation_item_requestdata_file = "result.txt")
+result <- api_instance$UpdateRecommendationItem(var_id, var_item_id, var_update_recommendation_item_request)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **integer**| Recommendation run id | 
+ **item_id** | **integer**| Item id, from the items of GET /recommendations/{id} | 
+ **update_recommendation_item_request** | [**UpdateRecommendationItemRequest**](UpdateRecommendationItemRequest.md)|  | 
+
+### Return type
+
+[**RecommendationItemUpdateResponse**](RecommendationItemUpdateResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The updated item |  -  |
+| **403** | API key lacks write permission |  -  |
+| **404** | Resource not found |  -  |
+| **422** | Invalid parameters |  -  |
 

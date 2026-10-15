@@ -185,7 +185,7 @@ Name | Type | Description  | Notes
 | **200** | Query format for the connected provider |  -  |
 | **403** | Access forbidden |  -  |
 | **404** | Resource not found |  -  |
-| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds to wait before retrying: Google&#39;s own value when it sent one, otherwise 900 after a quota error and 60 after an outage <br>  |
+| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds until the report can be sent again <br>  |
 
 # **ListAgentBots**
 > AgentBotsResponse ListAgentBots(project_id, output = var.output)
@@ -290,5 +290,5 @@ Name | Type | Description  | Notes
 | **403** | Access forbidden |  -  |
 | **404** | Resource not found |  -  |
 | **422** | Invalid parameters |  -  |
-| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds to wait before retrying: Google&#39;s own value when it sent one, otherwise 900 after a quota error and 60 after an outage <br>  |
+| **503** | Upstream provider unavailable, retry after the number of seconds in the Retry-After header |  * Retry-After - Seconds until the report can be sent again <br>  |
 

@@ -4,12 +4,123 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**AcceptSuggestedPrompts**](PromptsApi.md#AcceptSuggestedPrompts) | **POST** /suggested_prompts/accept | Accept suggested prompts
+[**CreatePromptGeneration**](PromptsApi.md#CreatePromptGeneration) | **POST** /prompt_generations | Generate prompt suggestions
 [**CreatePrompts**](PromptsApi.md#CreatePrompts) | **POST** /prompts | Bulk-create prompts
 [**DeletePrompt**](PromptsApi.md#DeletePrompt) | **DELETE** /prompts/{id} | Delete a prompt
+[**GetPromptGeneration**](PromptsApi.md#GetPromptGeneration) | **GET** /prompt_generations/{id} | Get a prompt generation run
+[**ImportPrompts**](PromptsApi.md#ImportPrompts) | **POST** /prompts/import | Import prompts
 [**ListPromptExecutions**](PromptsApi.md#ListPromptExecutions) | **GET** /dimensions/prompt_executions | List prompt executions
 [**ListPrompts**](PromptsApi.md#ListPrompts) | **GET** /dimensions/prompts | List prompts
 [**ListQueryFanOuts**](PromptsApi.md#ListQueryFanOuts) | **GET** /dimensions/query_fan_outs | List query fan-out
+[**ListSuggestedPrompts**](PromptsApi.md#ListSuggestedPrompts) | **GET** /suggested_prompts | List suggested prompts
+[**RejectSuggestedPrompts**](PromptsApi.md#RejectSuggestedPrompts) | **POST** /suggested_prompts/reject | Reject suggested prompts
+[**UpdatePrompt**](PromptsApi.md#UpdatePrompt) | **PATCH** /prompts/{id} | Edit a prompt&#39;s categorization
 
+
+# **AcceptSuggestedPrompts**
+> SuggestedPromptsAcceptResponse AcceptSuggestedPrompts(suggested_prompts_accept_request)
+
+Accept suggested prompts
+
+Starts tracking up to 100 pending suggestions: each becomes a prompt in its own country and language, optionally put in one tag (tag_ids or tag_names; create_missing creates a missing name when the team member may create tags). Suggestions that are no longer pending come back in skipped. When the new prompts would exceed the plan the call returns ERR_LIMIT_REACHED and accepts nothing. Requires a `read_write` scope API key and, for team members, create access to Prompts.
+
+### Example
+```R
+library(llmpulse)
+
+# Accept suggested prompts
+#
+# prepare function argument(s)
+var_suggested_prompts_accept_request <- SuggestedPromptsAcceptRequest$new(123, c(123), c(123), c("tag_names_example"), "create_missing_example") # SuggestedPromptsAcceptRequest | 
+
+api_instance <- PromptsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$AcceptSuggestedPrompts(var_suggested_prompts_accept_requestdata_file = "result.txt")
+result <- api_instance$AcceptSuggestedPrompts(var_suggested_prompts_accept_request)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **suggested_prompts_accept_request** | [**SuggestedPromptsAcceptRequest**](SuggestedPromptsAcceptRequest.md)|  | 
+
+### Return type
+
+[**SuggestedPromptsAcceptResponse**](SuggestedPromptsAcceptResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Accepted and skipped suggestions |  -  |
+| **403** | API key lacks write permission |  -  |
+| **404** | Resource not found |  -  |
+| **422** | Invalid parameters |  -  |
+
+# **CreatePromptGeneration**
+> PromptGenerationResponse CreatePromptGeneration(prompt_generation_request)
+
+Generate prompt suggestions
+
+Starts a suggestion run with one of the generators behind the app's Add prompts wizards and answers 202 with the run. website writes suggestions from the scraped website (80% non-brand, 20% brand), keyword from a keyword or the project profile (optionally around a competitor), topic from a topic, reddit from Reddit discussions of a topic or brand, paa from Google People Also Ask (up to 5 keywords, counted against the account's 24-hour lookup allowance), reputational from brand reputation questions, translate from the project's prompts of another locale, search_console from the connected property's top queries of the last 28 days (Growth plan or above, ERR_PLAN_REQUIRED). The suggestions land in the Suggested prompts queue; poll GET /prompt_generations/{id}, then accept the ones you want with POST /suggested_prompts/accept. Nothing is tracked until accepted. The request is validated before the run starts, and refused with ERR_LIMIT_REACHED when the plan has no prompt slot left. Requires a `read_write` scope API key and, for team members, create access to Prompts.
+
+### Example
+```R
+library(llmpulse)
+
+# Generate prompt suggestions
+#
+# prepare function argument(s)
+var_prompt_generation_request <- PromptGenerationRequest$new(123, "website", "query_example", 123, "country_code_example", "language_code_example", 123, "topic", c("keywords_example"), "source_country_code_example", "source_language_code_example", 123, "all_countries_example") # PromptGenerationRequest | 
+
+api_instance <- PromptsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$CreatePromptGeneration(var_prompt_generation_requestdata_file = "result.txt")
+result <- api_instance$CreatePromptGeneration(var_prompt_generation_request)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **prompt_generation_request** | [**PromptGenerationRequest**](PromptGenerationRequest.md)|  | 
+
+### Return type
+
+[**PromptGenerationResponse**](PromptGenerationResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **202** | The run, status processing |  -  |
+| **403** | API key lacks write permission |  -  |
+| **404** | Resource not found |  -  |
+| **422** | Invalid parameters |  -  |
 
 # **CreatePrompts**
 > PromptsCreateResponse CreatePrompts(prompts_create_request)
@@ -111,6 +222,112 @@ void (empty response body)
 | **200** | Deleted |  -  |
 | **403** | API key lacks write permission |  -  |
 | **404** | Resource not found |  -  |
+
+# **GetPromptGeneration**
+> PromptGenerationResponse GetPromptGeneration(project_id, id)
+
+Get a prompt generation run
+
+Returns a run started with POST /prompt_generations: processing while the generator works, then completed with the suggestions it saved to the Suggested prompts queue, or failed with an error code and message. Poll every few seconds; most runs finish within a minute. Runs are kept for 24 hours, their suggestions stay in the queue.
+
+### Example
+```R
+library(llmpulse)
+
+# Get a prompt generation run
+#
+# prepare function argument(s)
+var_project_id <- 56 # integer | Project ID
+var_id <- "id_example" # character | 
+
+api_instance <- PromptsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetPromptGeneration(var_project_id, var_iddata_file = "result.txt")
+result <- api_instance$GetPromptGeneration(var_project_id, var_id)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **project_id** | **integer**| Project ID | 
+ **id** | **character**|  | 
+
+### Return type
+
+[**PromptGenerationResponse**](PromptGenerationResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The run |  -  |
+| **403** | API key belongs to a team member whose permission matrix does not grant this feature |  -  |
+| **404** | Resource not found |  -  |
+
+# **ImportPrompts**
+> PromptsImportResponse ImportPrompts(prompts_import_request)
+
+Import prompts
+
+The app's CSV import as JSON: up to 500 rows, each with its own prompt, country_code, language_code (codes or names; both default to the project's) and tags, created when missing. Duplicates are skipped and existing prompts still get the row's tags. The prompt limits are checked before anything is written: when the new prompts would exceed the plan the call returns ERR_LIMIT_REACHED and imports nothing. Rows with an unknown country or language come back in row_errors. Responds 201 when it created prompts, 200 otherwise. Requires a `read_write` scope API key and, for team members, create access to Prompts.
+
+### Example
+```R
+library(llmpulse)
+
+# Import prompts
+#
+# prepare function argument(s)
+var_prompts_import_request <- PromptsImportRequest$new(123, c(PromptsImportRequest_rows_inner$new("prompt_example", "country_code_example", "language_code_example", c("tags_example")))) # PromptsImportRequest | 
+
+api_instance <- PromptsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ImportPrompts(var_prompts_import_requestdata_file = "result.txt")
+result <- api_instance$ImportPrompts(var_prompts_import_request)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **prompts_import_request** | [**PromptsImportRequest**](PromptsImportRequest.md)|  | 
+
+### Return type
+
+[**PromptsImportResponse**](PromptsImportResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Nothing new was created (every row was a duplicate) |  -  |
+| **201** | Prompts imported |  -  |
+| **403** | API key lacks write permission |  -  |
+| **404** | Resource not found |  -  |
+| **422** | Invalid parameters |  -  |
 
 # **ListPromptExecutions**
 > PromptExecutionsResponse ListPromptExecutions(project_id, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, from = var.from, to = var.to, mention_filter = var.mention_filter, citation_filter = var.citation_filter, competitors = var.competitors, output = var.output)
@@ -335,5 +552,171 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Paginated fan-out rows |  -  |
+| **422** | Invalid parameters |  -  |
+
+# **ListSuggestedPrompts**
+> SuggestedPromptsResponse ListSuggestedPrompts(project_id, source = var.source, status = "pending", page = 1, per_page = 50)
+
+List suggested prompts
+
+Lists the project's Suggested prompts queue, the same list the app's Suggested Prompts tab shows, oldest first. It holds the suggestions of every generator (website, magic for keyword runs, topic, reddit, paa, reputational, translate, gsc for Search Console, catalog). Pending suggestions by default; status=all also returns accepted (with the prompt they became) and rejected ones. Team members need create access to Prompts, like the app's tab.
+
+### Example
+```R
+library(llmpulse)
+
+# List suggested prompts
+#
+# prepare function argument(s)
+var_project_id <- 56 # integer | Project ID
+var_source <- "source_example" # character | Only suggestions from this generator (Optional)
+var_status <- "pending" # character | Only suggestions in this status (Optional)
+var_page <- 1 # integer |  (Optional)
+var_per_page <- 50 # integer |  (Optional)
+
+api_instance <- PromptsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListSuggestedPrompts(var_project_id, source = var_source, status = var_status, page = var_page, per_page = var_per_pagedata_file = "result.txt")
+result <- api_instance$ListSuggestedPrompts(var_project_id, source = var_source, status = var_status, page = var_page, per_page = var_per_page)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **project_id** | **integer**| Project ID | 
+ **source** | Enum [website, magic, paa, topic, reddit, reputational, gsc, translate, catalog] | Only suggestions from this generator | [optional] 
+ **status** | Enum [pending, accepted, rejected, all] | Only suggestions in this status | [optional] [default to &quot;pending&quot;]
+ **page** | **integer**|  | [optional] [default to 1]
+ **per_page** | **integer**|  | [optional] [default to 50]
+
+### Return type
+
+[**SuggestedPromptsResponse**](SuggestedPromptsResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Paginated suggestions |  -  |
+| **403** | API key belongs to a team member whose permission matrix does not grant this feature |  -  |
+| **404** | Resource not found |  -  |
+| **422** | Invalid parameters |  -  |
+
+# **RejectSuggestedPrompts**
+> SuggestedPromptsRejectResponse RejectSuggestedPrompts(suggested_prompt_ids_request)
+
+Reject suggested prompts
+
+Marks up to 100 pending suggestions as rejected, so they leave the pending list; suggestions that are no longer pending stay as they are. Tracks and deletes nothing. Requires a `read_write` scope API key and, for team members, create access to Prompts.
+
+### Example
+```R
+library(llmpulse)
+
+# Reject suggested prompts
+#
+# prepare function argument(s)
+var_suggested_prompt_ids_request <- SuggestedPromptIdsRequest$new(123, c(123)) # SuggestedPromptIdsRequest | 
+
+api_instance <- PromptsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$RejectSuggestedPrompts(var_suggested_prompt_ids_requestdata_file = "result.txt")
+result <- api_instance$RejectSuggestedPrompts(var_suggested_prompt_ids_request)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **suggested_prompt_ids_request** | [**SuggestedPromptIdsRequest**](SuggestedPromptIdsRequest.md)|  | 
+
+### Return type
+
+[**SuggestedPromptsRejectResponse**](SuggestedPromptsRejectResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The suggestions rejected |  -  |
+| **403** | API key lacks write permission |  -  |
+| **404** | Resource not found |  -  |
+| **422** | Invalid parameters |  -  |
+
+# **UpdatePrompt**
+> PromptCategorizationResponse UpdatePrompt(id, update_prompt_request)
+
+Edit a prompt's categorization
+
+Manual categorization, exactly like editing the intent and brand badges on the prompt page: send `prompt_type`, `brand_kind` or both. The prompt is marked as manually categorized (`categorization_source` becomes `manual`), so automatic categorization no longer changes it; the prompt page can revert it to automatic. Any other field returns ERR_INVALID_PARAM. Not available from a white-label portal (ERR_INTEGRATION_UNAVAILABLE), where the page hides the editor. Requires a `read_write` scope API key and, for team members, update permission on Prompts.
+
+### Example
+```R
+library(llmpulse)
+
+# Edit a prompt's categorization
+#
+# prepare function argument(s)
+var_id <- 56 # integer | 
+var_update_prompt_request <- updatePrompt_request$new(123, "informational", "brand") # UpdatePromptRequest | 
+
+api_instance <- PromptsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$UpdatePrompt(var_id, var_update_prompt_requestdata_file = "result.txt")
+result <- api_instance$UpdatePrompt(var_id, var_update_prompt_request)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **integer**|  | 
+ **update_prompt_request** | [**UpdatePromptRequest**](UpdatePromptRequest.md)|  | 
+
+### Return type
+
+[**PromptCategorizationResponse**](PromptCategorizationResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The prompt with its new categorization |  -  |
+| **403** | Writes with a read-only key answer ERR_INSUFFICIENT_SCOPE, a team member without the permission ERR_INSUFFICIENT_PERMISSION, and a request made on a white-label portal host, where the app does not offer this action, ERR_INTEGRATION_UNAVAILABLE, with the same status |  -  |
+| **404** | Resource not found |  -  |
 | **422** | Invalid parameters |  -  |
 
