@@ -19,6 +19,7 @@
 #' @field primary_products Full replacement list of the main products or services list(character) [optional]
 #' @field matching_names FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep list(character) [optional]
 #' @field additional_owned_domains FULL replacement list (at most 10) of other domains the brand owns, such as a blog or a country site; [] clears it. Citations from them count as owned, like the project website. Each entry is a website's own domain and covers its subdomains; a pasted URL is stored as its domain (https://www.acme.co.uk/x becomes acme.co.uk). A list the domain editor would refuse (a subdomain such as blog.acme.com, a platform many companies share such as youtube.com, amazon.com or wordpress.com, the project website, a tracked competitor domain, a duplicate or an entry that is not a domain) is rejected with ERR_INVALID_PARAM and the reason. Order does not matter, and an unchanged list starts nothing. Account owner only, on every plan list(character) [optional]
+#' @field prompt_limit Maximum number of active prompts this project may hold, within the account prompt quota; null removes the project limit so it can use any prompts left in the account. A limit below the current count keeps every existing prompt and refuses new ones. Account owner or co-owner only; a key limited to some projects cannot send it integer [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -37,6 +38,7 @@ UpdateProjectRequest <- R6::R6Class(
     `primary_products` = NULL,
     `matching_names` = NULL,
     `additional_owned_domains` = NULL,
+    `prompt_limit` = NULL,
 
     #' @description
     #' Initialize a new UpdateProjectRequest class.
@@ -53,8 +55,9 @@ UpdateProjectRequest <- R6::R6Class(
     #' @param primary_products Full replacement list of the main products or services
     #' @param matching_names FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep
     #' @param additional_owned_domains FULL replacement list (at most 10) of other domains the brand owns, such as a blog or a country site; [] clears it. Citations from them count as owned, like the project website. Each entry is a website's own domain and covers its subdomains; a pasted URL is stored as its domain (https://www.acme.co.uk/x becomes acme.co.uk). A list the domain editor would refuse (a subdomain such as blog.acme.com, a platform many companies share such as youtube.com, amazon.com or wordpress.com, the project website, a tracked competitor domain, a duplicate or an entry that is not a domain) is rejected with ERR_INVALID_PARAM and the reason. Order does not matter, and an unchanged list starts nothing. Account owner only, on every plan
+    #' @param prompt_limit Maximum number of active prompts this project may hold, within the account prompt quota; null removes the project limit so it can use any prompts left in the account. A limit below the current count keeps every existing prompt and refuses new ones. Account owner or co-owner only; a key limited to some projects cannot send it
     #' @param ... Other optional arguments.
-    initialize = function(`name` = NULL, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, ...) {
+    initialize = function(`name` = NULL, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `prompt_limit` = NULL, ...) {
       if (!is.null(`name`)) {
         if (!(is.character(`name`) && length(`name`) == 1)) {
           stop(paste("Error! Invalid data for `name`. Must be a string:", `name`))
@@ -123,6 +126,12 @@ UpdateProjectRequest <- R6::R6Class(
         stopifnot(is.vector(`additional_owned_domains`), length(`additional_owned_domains`) != 0)
         sapply(`additional_owned_domains`, function(x) stopifnot(is.character(x)))
         self$`additional_owned_domains` <- `additional_owned_domains`
+      }
+      if (!is.null(`prompt_limit`)) {
+        if (!(is.numeric(`prompt_limit`) && length(`prompt_limit`) == 1)) {
+          stop(paste("Error! Invalid data for `prompt_limit`. Must be an integer:", `prompt_limit`))
+        }
+        self$`prompt_limit` <- `prompt_limit`
       }
     },
 
@@ -205,6 +214,10 @@ UpdateProjectRequest <- R6::R6Class(
         UpdateProjectRequestObject[["additional_owned_domains"]] <-
           self$`additional_owned_domains`
       }
+      if (!is.null(self$`prompt_limit`)) {
+        UpdateProjectRequestObject[["prompt_limit"]] <-
+          self$`prompt_limit`
+      }
       return(UpdateProjectRequestObject)
     },
 
@@ -251,6 +264,9 @@ UpdateProjectRequest <- R6::R6Class(
       if (!is.null(this_object$`additional_owned_domains`)) {
         self$`additional_owned_domains` <- ApiClient$new()$deserializeObj(this_object$`additional_owned_domains`, "array[character]", loadNamespace("llmpulse"))
       }
+      if (!is.null(this_object$`prompt_limit`)) {
+        self$`prompt_limit` <- this_object$`prompt_limit`
+      }
       self
     },
 
@@ -284,6 +300,7 @@ UpdateProjectRequest <- R6::R6Class(
       self$`primary_products` <- ApiClient$new()$deserializeObj(this_object$`primary_products`, "array[character]", loadNamespace("llmpulse"))
       self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       self$`additional_owned_domains` <- ApiClient$new()$deserializeObj(this_object$`additional_owned_domains`, "array[character]", loadNamespace("llmpulse"))
+      self$`prompt_limit` <- this_object$`prompt_limit`
       self
     },
 
@@ -308,6 +325,13 @@ UpdateProjectRequest <- R6::R6Class(
     #'
     #' @return true if the values in all fields are valid.
     isValid = function() {
+      if (self$`prompt_limit` > 2147483647) {
+        return(FALSE)
+      }
+      if (self$`prompt_limit` < 1) {
+        return(FALSE)
+      }
+
       TRUE
     },
 
@@ -317,6 +341,13 @@ UpdateProjectRequest <- R6::R6Class(
     #' @return A list of invalid fields (if any).
     getInvalidFields = function() {
       invalid_fields <- list()
+      if (self$`prompt_limit` > 2147483647) {
+        invalid_fields["prompt_limit"] <- "Invalid value for `prompt_limit`, must be smaller than or equal to 2147483647."
+      }
+      if (self$`prompt_limit` < 1) {
+        invalid_fields["prompt_limit"] <- "Invalid value for `prompt_limit`, must be bigger than or equal to 1."
+      }
+
       invalid_fields
     },
 

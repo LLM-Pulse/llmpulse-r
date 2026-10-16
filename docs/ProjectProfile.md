@@ -18,5 +18,6 @@ Name | Type | Description | Notes
 **goals** | **character** |  | [optional] 
 **matching_names** | **array[character]** |  | 
 **additional_owned_domains** | **array[character]** | Other domains the brand owns (at most 10, each a website&#39;s own domain covering its subdomains), whose citations count as owned like the project website. Empty when none | 
+**prompt_limit** | **integer** | Maximum number of active prompts this project may hold; null when only the account quota applies | 
 
 

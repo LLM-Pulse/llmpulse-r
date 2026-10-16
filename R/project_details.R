@@ -27,6 +27,7 @@
 #' @field google_play_id  character [optional]
 #' @field app_store_id  character [optional]
 #' @field created_at  character [optional]
+#' @field prompt_limit Maximum number of active prompts this project may hold, set by the account owner or a co-owner in Account Settings > Prompt Limits; null when the project has no limit of its own and only the account quota applies integer [optional]
 #' @field stats  \link{ProjectDetailsAllOfStats} [optional]
 #' @field data_coverage  \link{ProjectDetailsAllOfDataCoverage} [optional]
 #' @field search_console  \link{ProjectDetailsAllOfSearchConsole} [optional]
@@ -57,6 +58,7 @@ ProjectDetails <- R6::R6Class(
     `google_play_id` = NULL,
     `app_store_id` = NULL,
     `created_at` = NULL,
+    `prompt_limit` = NULL,
     `stats` = NULL,
     `data_coverage` = NULL,
     `search_console` = NULL,
@@ -85,12 +87,13 @@ ProjectDetails <- R6::R6Class(
     #' @param google_play_id google_play_id
     #' @param app_store_id app_store_id
     #' @param created_at created_at
+    #' @param prompt_limit Maximum number of active prompts this project may hold, set by the account owner or a co-owner in Account Settings > Prompt Limits; null when the project has no limit of its own and only the account quota applies
     #' @param stats stats
     #' @param data_coverage data_coverage
     #' @param search_console search_console
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `stats` = NULL, `data_coverage` = NULL, `search_console` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `prompt_limit` = NULL, `stats` = NULL, `data_coverage` = NULL, `search_console` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -208,6 +211,12 @@ ProjectDetails <- R6::R6Class(
           stop(paste("Error! Invalid data for `created_at`. Must be a string:", `created_at`))
         }
         self$`created_at` <- `created_at`
+      }
+      if (!is.null(`prompt_limit`)) {
+        if (!(is.numeric(`prompt_limit`) && length(`prompt_limit`) == 1)) {
+          stop(paste("Error! Invalid data for `prompt_limit`. Must be an integer:", `prompt_limit`))
+        }
+        self$`prompt_limit` <- `prompt_limit`
       }
       if (!is.null(`stats`)) {
         stopifnot(R6::is.R6(`stats`))
@@ -340,6 +349,10 @@ ProjectDetails <- R6::R6Class(
         ProjectDetailsObject[["created_at"]] <-
           self$`created_at`
       }
+      if (!is.null(self$`prompt_limit`)) {
+        ProjectDetailsObject[["prompt_limit"]] <-
+          self$`prompt_limit`
+      }
       if (!is.null(self$`stats`)) {
         ProjectDetailsObject[["stats"]] <-
           self$extractSimpleType(self$`stats`)
@@ -453,6 +466,9 @@ ProjectDetails <- R6::R6Class(
       if (!is.null(this_object$`created_at`)) {
         self$`created_at` <- this_object$`created_at`
       }
+      if (!is.null(this_object$`prompt_limit`)) {
+        self$`prompt_limit` <- this_object$`prompt_limit`
+      }
       if (!is.null(this_object$`stats`)) {
         `stats_object` <- ProjectDetailsAllOfStats$new()
         `stats_object`$fromJSON(jsonlite::toJSON(this_object$`stats`, auto_unbox = TRUE, digits = NA))
@@ -516,6 +532,7 @@ ProjectDetails <- R6::R6Class(
       self$`google_play_id` <- this_object$`google_play_id`
       self$`app_store_id` <- this_object$`app_store_id`
       self$`created_at` <- this_object$`created_at`
+      self$`prompt_limit` <- this_object$`prompt_limit`
       self$`stats` <- ProjectDetailsAllOfStats$new()$fromJSON(jsonlite::toJSON(this_object$`stats`, auto_unbox = TRUE, digits = NA))
       self$`data_coverage` <- ProjectDetailsAllOfDataCoverage$new()$fromJSON(jsonlite::toJSON(this_object$`data_coverage`, auto_unbox = TRUE, digits = NA))
       self$`search_console` <- ProjectDetailsAllOfSearchConsole$new()$fromJSON(jsonlite::toJSON(this_object$`search_console`, auto_unbox = TRUE, digits = NA))
