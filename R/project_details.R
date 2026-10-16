@@ -27,7 +27,7 @@
 #' @field google_play_id  character [optional]
 #' @field app_store_id  character [optional]
 #' @field created_at  character [optional]
-#' @field prompt_limit Maximum number of active prompts this project may hold, set by the account owner or a co-owner in Account Settings > Prompt Limits; null when the project has no limit of its own and only the account quota applies integer [optional]
+#' @field prompt_limit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way integer [optional]
 #' @field stats  \link{ProjectDetailsAllOfStats} [optional]
 #' @field data_coverage  \link{ProjectDetailsAllOfDataCoverage} [optional]
 #' @field search_console  \link{ProjectDetailsAllOfSearchConsole} [optional]
@@ -87,7 +87,7 @@ ProjectDetails <- R6::R6Class(
     #' @param google_play_id google_play_id
     #' @param app_store_id app_store_id
     #' @param created_at created_at
-    #' @param prompt_limit Maximum number of active prompts this project may hold, set by the account owner or a co-owner in Account Settings > Prompt Limits; null when the project has no limit of its own and only the account quota applies
+    #' @param prompt_limit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way
     #' @param stats stats
     #' @param data_coverage data_coverage
     #' @param search_console search_console

@@ -20,7 +20,7 @@
 #' @field goals  character [optional]
 #' @field matching_names  list(character)
 #' @field additional_owned_domains Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none list(character)
-#' @field prompt_limit Maximum number of active prompts this project may hold; null when only the account quota applies integer
+#' @field prompt_limit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way integer
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -49,7 +49,7 @@ ProjectProfile <- R6::R6Class(
     #' @param name name
     #' @param matching_names matching_names
     #' @param additional_owned_domains Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none
-    #' @param prompt_limit Maximum number of active prompts this project may hold; null when only the account quota applies
+    #' @param prompt_limit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way
     #' @param brand_name brand_name
     #' @param description description
     #' @param industry Industry as stored: one key as a string (e.g. SAAS), or an array of key strings. Deliberately untyped so generated clients decode either shape

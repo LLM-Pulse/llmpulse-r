@@ -7,11 +7,11 @@
 #' @title ProjectDetailsAllOfStats
 #' @description ProjectDetailsAllOfStats Class
 #' @format An \code{R6Class} generator object
-#' @field prompts_count Active prompts in the project integer [optional]
-#' @field prompts_available Prompts that can still be added to this project, the lower of its free slots under prompt_limit and the prompts left in the account quota; null when neither caps it integer [optional]
+#' @field prompts_count  integer [optional]
 #' @field prompts_by_brand_kind  \link{ProjectDetailsAllOfStatsPromptsByBrandKind} [optional]
 #' @field competitors_count  integer [optional]
 #' @field collections_count  integer [optional]
+#' @field prompts_available How many prompts can still be added to this project now, the same number the Prompts page offers. The lower of the project's free slots under prompt_limit and the account's remaining prompts; 0 when either is full (a project over its limit keeps its prompts). Null when neither caps it integer [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -19,32 +19,26 @@ ProjectDetailsAllOfStats <- R6::R6Class(
   "ProjectDetailsAllOfStats",
   public = list(
     `prompts_count` = NULL,
-    `prompts_available` = NULL,
     `prompts_by_brand_kind` = NULL,
     `competitors_count` = NULL,
     `collections_count` = NULL,
+    `prompts_available` = NULL,
 
     #' @description
     #' Initialize a new ProjectDetailsAllOfStats class.
     #'
-    #' @param prompts_count Active prompts in the project
-    #' @param prompts_available Prompts that can still be added to this project, the lower of its free slots under prompt_limit and the prompts left in the account quota; null when neither caps it
+    #' @param prompts_count prompts_count
     #' @param prompts_by_brand_kind prompts_by_brand_kind
     #' @param competitors_count competitors_count
     #' @param collections_count collections_count
+    #' @param prompts_available How many prompts can still be added to this project now, the same number the Prompts page offers. The lower of the project's free slots under prompt_limit and the account's remaining prompts; 0 when either is full (a project over its limit keeps its prompts). Null when neither caps it
     #' @param ... Other optional arguments.
-    initialize = function(`prompts_count` = NULL, `prompts_available` = NULL, `prompts_by_brand_kind` = NULL, `competitors_count` = NULL, `collections_count` = NULL, ...) {
+    initialize = function(`prompts_count` = NULL, `prompts_by_brand_kind` = NULL, `competitors_count` = NULL, `collections_count` = NULL, `prompts_available` = NULL, ...) {
       if (!is.null(`prompts_count`)) {
         if (!(is.numeric(`prompts_count`) && length(`prompts_count`) == 1)) {
           stop(paste("Error! Invalid data for `prompts_count`. Must be an integer:", `prompts_count`))
         }
         self$`prompts_count` <- `prompts_count`
-      }
-      if (!is.null(`prompts_available`)) {
-        if (!(is.numeric(`prompts_available`) && length(`prompts_available`) == 1)) {
-          stop(paste("Error! Invalid data for `prompts_available`. Must be an integer:", `prompts_available`))
-        }
-        self$`prompts_available` <- `prompts_available`
       }
       if (!is.null(`prompts_by_brand_kind`)) {
         stopifnot(R6::is.R6(`prompts_by_brand_kind`))
@@ -61,6 +55,12 @@ ProjectDetailsAllOfStats <- R6::R6Class(
           stop(paste("Error! Invalid data for `collections_count`. Must be an integer:", `collections_count`))
         }
         self$`collections_count` <- `collections_count`
+      }
+      if (!is.null(`prompts_available`)) {
+        if (!(is.numeric(`prompts_available`) && length(`prompts_available`) == 1)) {
+          stop(paste("Error! Invalid data for `prompts_available`. Must be an integer:", `prompts_available`))
+        }
+        self$`prompts_available` <- `prompts_available`
       }
     },
 
@@ -99,10 +99,6 @@ ProjectDetailsAllOfStats <- R6::R6Class(
         ProjectDetailsAllOfStatsObject[["prompts_count"]] <-
           self$`prompts_count`
       }
-      if (!is.null(self$`prompts_available`)) {
-        ProjectDetailsAllOfStatsObject[["prompts_available"]] <-
-          self$`prompts_available`
-      }
       if (!is.null(self$`prompts_by_brand_kind`)) {
         ProjectDetailsAllOfStatsObject[["prompts_by_brand_kind"]] <-
           self$extractSimpleType(self$`prompts_by_brand_kind`)
@@ -114,6 +110,10 @@ ProjectDetailsAllOfStats <- R6::R6Class(
       if (!is.null(self$`collections_count`)) {
         ProjectDetailsAllOfStatsObject[["collections_count"]] <-
           self$`collections_count`
+      }
+      if (!is.null(self$`prompts_available`)) {
+        ProjectDetailsAllOfStatsObject[["prompts_available"]] <-
+          self$`prompts_available`
       }
       return(ProjectDetailsAllOfStatsObject)
     },
@@ -151,9 +151,6 @@ ProjectDetailsAllOfStats <- R6::R6Class(
       if (!is.null(this_object$`prompts_count`)) {
         self$`prompts_count` <- this_object$`prompts_count`
       }
-      if (!is.null(this_object$`prompts_available`)) {
-        self$`prompts_available` <- this_object$`prompts_available`
-      }
       if (!is.null(this_object$`prompts_by_brand_kind`)) {
         `prompts_by_brand_kind_object` <- ProjectDetailsAllOfStatsPromptsByBrandKind$new()
         `prompts_by_brand_kind_object`$fromJSON(jsonlite::toJSON(this_object$`prompts_by_brand_kind`, auto_unbox = TRUE, digits = NA))
@@ -164,6 +161,9 @@ ProjectDetailsAllOfStats <- R6::R6Class(
       }
       if (!is.null(this_object$`collections_count`)) {
         self$`collections_count` <- this_object$`collections_count`
+      }
+      if (!is.null(this_object$`prompts_available`)) {
+        self$`prompts_available` <- this_object$`prompts_available`
       }
       self
     },
@@ -187,10 +187,10 @@ ProjectDetailsAllOfStats <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`prompts_count` <- this_object$`prompts_count`
-      self$`prompts_available` <- this_object$`prompts_available`
       self$`prompts_by_brand_kind` <- ProjectDetailsAllOfStatsPromptsByBrandKind$new()$fromJSON(jsonlite::toJSON(this_object$`prompts_by_brand_kind`, auto_unbox = TRUE, digits = NA))
       self$`competitors_count` <- this_object$`competitors_count`
       self$`collections_count` <- this_object$`collections_count`
+      self$`prompts_available` <- this_object$`prompts_available`
       self
     },
 

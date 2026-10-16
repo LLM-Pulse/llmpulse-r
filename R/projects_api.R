@@ -149,7 +149,7 @@
 #' var_id <- 56 # integer | 
 #' var_update_project_request <- updateProject_request$new("name_example", "brand_name_example", "description_example", "industry_example", "business_model_example", "business_model_other_example", "target_audience_example", "brand_voice_example", "goals_example", c("primary_products_example"), c("matching_names_example"), c("additional_owned_domains_example"), 123) # UpdateProjectRequest | 
 #'
-#' #Update a project profile (Brand Book) or prompt limit
+#' #Update a project profile (Brand Book)
 #' api_instance <- ProjectsApi$new()
 #'
 #' # Configure HTTP bearer authorization: BearerAuth
@@ -1078,7 +1078,7 @@ ProjectsApi <- R6::R6Class(
     },
 
     #' @description
-    #' Update a project profile (Brand Book) or prompt limit
+    #' Update a project profile (Brand Book)
     #'
     #' @param id 
     #' @param update_project_request 
@@ -1101,7 +1101,7 @@ ProjectsApi <- R6::R6Class(
     },
 
     #' @description
-    #' Update a project profile (Brand Book) or prompt limit
+    #' Update a project profile (Brand Book)
     #'
     #' @param id 
     #' @param update_project_request 
