@@ -20,6 +20,7 @@
 #' @field goals  character [optional]
 #' @field matching_names  list(character)
 #' @field additional_owned_domains Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none list(character)
+#' @field prompt_limit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way integer
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -39,6 +40,7 @@ ProjectProfile <- R6::R6Class(
     `goals` = NULL,
     `matching_names` = NULL,
     `additional_owned_domains` = NULL,
+    `prompt_limit` = NULL,
 
     #' @description
     #' Initialize a new ProjectProfile class.
@@ -47,6 +49,7 @@ ProjectProfile <- R6::R6Class(
     #' @param name name
     #' @param matching_names matching_names
     #' @param additional_owned_domains Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none
+    #' @param prompt_limit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way
     #' @param brand_name brand_name
     #' @param description description
     #' @param industry Industry as stored: one key as a string (e.g. SAAS), or an array of key strings. Deliberately untyped so generated clients decode either shape
@@ -57,7 +60,7 @@ ProjectProfile <- R6::R6Class(
     #' @param brand_voice brand_voice
     #' @param goals goals
     #' @param ... Other optional arguments.
-    initialize = function(`id`, `name`, `matching_names`, `additional_owned_domains`, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `primary_products` = NULL, `brand_voice` = NULL, `goals` = NULL, ...) {
+    initialize = function(`id`, `name`, `matching_names`, `additional_owned_domains`, `prompt_limit`, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `primary_products` = NULL, `brand_voice` = NULL, `goals` = NULL, ...) {
       if (!missing(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -79,6 +82,12 @@ ProjectProfile <- R6::R6Class(
         stopifnot(is.vector(`additional_owned_domains`), length(`additional_owned_domains`) != 0)
         sapply(`additional_owned_domains`, function(x) stopifnot(is.character(x)))
         self$`additional_owned_domains` <- `additional_owned_domains`
+      }
+      if (!missing(`prompt_limit`)) {
+        if (!(is.numeric(`prompt_limit`) && length(`prompt_limit`) == 1)) {
+          stop(paste("Error! Invalid data for `prompt_limit`. Must be an integer:", `prompt_limit`))
+        }
+        self$`prompt_limit` <- `prompt_limit`
       }
       if (!is.null(`brand_name`)) {
         if (!(is.character(`brand_name`) && length(`brand_name`) == 1)) {
@@ -215,6 +224,10 @@ ProjectProfile <- R6::R6Class(
         ProjectProfileObject[["additional_owned_domains"]] <-
           self$`additional_owned_domains`
       }
+      if (!is.null(self$`prompt_limit`)) {
+        ProjectProfileObject[["prompt_limit"]] <-
+          self$`prompt_limit`
+      }
       return(ProjectProfileObject)
     },
 
@@ -264,6 +277,9 @@ ProjectProfile <- R6::R6Class(
       if (!is.null(this_object$`additional_owned_domains`)) {
         self$`additional_owned_domains` <- ApiClient$new()$deserializeObj(this_object$`additional_owned_domains`, "array[character]", loadNamespace("llmpulse"))
       }
+      if (!is.null(this_object$`prompt_limit`)) {
+        self$`prompt_limit` <- this_object$`prompt_limit`
+      }
       self
     },
 
@@ -298,6 +314,7 @@ ProjectProfile <- R6::R6Class(
       self$`goals` <- this_object$`goals`
       self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       self$`additional_owned_domains` <- ApiClient$new()$deserializeObj(this_object$`additional_owned_domains`, "array[character]", loadNamespace("llmpulse"))
+      self$`prompt_limit` <- this_object$`prompt_limit`
       self
     },
 
@@ -336,6 +353,14 @@ ProjectProfile <- R6::R6Class(
         tmp <- sapply(input_json$`additional_owned_domains`, function(x) stopifnot(is.character(x)))
       } else {
         stop(paste("The JSON input `", input, "` is invalid for ProjectProfile: the required field `additional_owned_domains` is missing."))
+      }
+      # check the required field `prompt_limit`
+      if (!is.null(input_json$`prompt_limit`)) {
+        if (!(is.numeric(input_json$`prompt_limit`) && length(input_json$`prompt_limit`) == 1)) {
+          stop(paste("Error! Invalid data for `prompt_limit`. Must be an integer:", input_json$`prompt_limit`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for ProjectProfile: the required field `prompt_limit` is missing."))
       }
     },
 

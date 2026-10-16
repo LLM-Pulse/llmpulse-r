@@ -13,13 +13,13 @@
 #' @field instagram_profile_url The main Instagram profile URL. An empty string or null clears it character [optional]
 #' @field facebook_page_url The main Facebook Page URL. An empty string or null clears it character [optional]
 #' @field tiktok_profile_url The main TikTok profile URL. An empty string or null clears it character [optional]
-#' @field linkedin_company_url The main LinkedIn Company Page URL (/company/...). An empty string or null clears it character [optional]
+#' @field linkedin_company_url The main LinkedIn page URL: a company (/company/...), school (/school/...) or showcase (/showcase/...) page. An empty string or null clears it character [optional]
 #' @field youtube_extra_profile_urls FULL replacement list of extra YouTube channel URLs (at most 10); [] clears it list(character) [optional]
 #' @field mobile_apps_extra_profile_urls FULL replacement list of extra App Store or Google Play app URLs (at most 10); [] clears it list(character) [optional]
 #' @field instagram_extra_profile_urls FULL replacement list of extra Instagram profile URLs (at most 10); [] clears it list(character) [optional]
 #' @field facebook_extra_profile_urls FULL replacement list of extra Facebook Page URLs (at most 10); [] clears it list(character) [optional]
 #' @field tiktok_extra_profile_urls FULL replacement list of extra TikTok profile URLs (at most 10); [] clears it list(character) [optional]
-#' @field linkedin_extra_profile_urls FULL replacement list of extra LinkedIn Company Page URLs (at most 10); [] clears it list(character) [optional]
+#' @field linkedin_extra_profile_urls FULL replacement list of extra LinkedIn company, school or showcase page URLs (at most 10); [] clears it list(character) [optional]
 #' @field reddit_subreddits FULL replacement list (at most 10) of subreddit names the brand owns, without r/; [] clears it list(character) [optional]
 #' @field reddit_usernames FULL replacement list (at most 25) of Reddit usernames the brand owns, without u/; [] clears it list(character) [optional]
 #' @importFrom R6 R6Class
@@ -53,13 +53,13 @@ UpdateOwnedMediaProfilesRequest <- R6::R6Class(
     #' @param instagram_profile_url The main Instagram profile URL. An empty string or null clears it
     #' @param facebook_page_url The main Facebook Page URL. An empty string or null clears it
     #' @param tiktok_profile_url The main TikTok profile URL. An empty string or null clears it
-    #' @param linkedin_company_url The main LinkedIn Company Page URL (/company/...). An empty string or null clears it
+    #' @param linkedin_company_url The main LinkedIn page URL: a company (/company/...), school (/school/...) or showcase (/showcase/...) page. An empty string or null clears it
     #' @param youtube_extra_profile_urls FULL replacement list of extra YouTube channel URLs (at most 10); [] clears it
     #' @param mobile_apps_extra_profile_urls FULL replacement list of extra App Store or Google Play app URLs (at most 10); [] clears it
     #' @param instagram_extra_profile_urls FULL replacement list of extra Instagram profile URLs (at most 10); [] clears it
     #' @param facebook_extra_profile_urls FULL replacement list of extra Facebook Page URLs (at most 10); [] clears it
     #' @param tiktok_extra_profile_urls FULL replacement list of extra TikTok profile URLs (at most 10); [] clears it
-    #' @param linkedin_extra_profile_urls FULL replacement list of extra LinkedIn Company Page URLs (at most 10); [] clears it
+    #' @param linkedin_extra_profile_urls FULL replacement list of extra LinkedIn company, school or showcase page URLs (at most 10); [] clears it
     #' @param reddit_subreddits FULL replacement list (at most 10) of subreddit names the brand owns, without r/; [] clears it
     #' @param reddit_usernames FULL replacement list (at most 25) of Reddit usernames the brand owns, without u/; [] clears it
     #' @param ... Other optional arguments.
