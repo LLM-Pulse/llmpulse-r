@@ -19,12 +19,13 @@ Name | Type | Description | Notes
 **citations** | **array[object]** |  | [optional] 
 **competitor_mentions** | **array[object]** |  | [optional] 
 **competitor_citations** | **array[object]** |  | [optional] 
-**sentiments** | **array[object]** |  | [optional] 
+**sentiments** | **array[object]** | Needs the Growth plan or above; left out below it and named in plan_required_fields | [optional] 
 **sources** | **array[object]** |  | [optional] 
-**shopping_products** | **array[object]** |  | [optional] 
+**shopping_products** | **array[object]** | Needs the Scale plan or above; left out below it and named in plan_required_fields | [optional] 
 **brand_entities** | **array[object]** |  | [optional] 
 **local_businesses** | **array[object]** |  | [optional] 
 **locale** | [**AnswerDetailsLocale**](AnswerDetails_locale.md) |  | [optional] 
+**plan_required_fields** | **array[character]** | The fields left out of this answer because the account&#39;s plan does not include them (sentiments below Growth, shopping_products below Scale). Always present, empty when nothing is left out | 
 **app_url** | **character** | Opens this answer in the app. The link names its project, so it opens there for any user with access to that project | [optional] 
 **request_id** | **character** |  | [optional] 
 

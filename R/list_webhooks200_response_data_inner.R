@@ -10,8 +10,8 @@
 #' @field id  integer [optional]
 #' @field project_id  integer [optional]
 #' @field event_type  character [optional]
-#' @field target_url  character [optional]
-#' @field disabled True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked. Creating it again with the same project, event and URL replaces it with a new subscription and secret. character [optional]
+#' @field target_url The URL deliveries are sent to. A read-only API key receives only its scheme, host and any non-default port followed by `/…` (for example `https://hook.eu1.make.com/…`); a `read_write` scope key receives the full URL. character [optional]
+#' @field disabled True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked, or when that API key is limited to some projects and no longer covers the subscription's project. Creating it again with the same project, event and URL replaces it with a new subscription and secret. character [optional]
 #' @field failure_count  integer [optional]
 #' @field last_delivered_at  character [optional]
 #' @field created_at  character [optional]
@@ -36,8 +36,8 @@ ListWebhooks200ResponseDataInner <- R6::R6Class(
     #' @param id id
     #' @param project_id project_id
     #' @param event_type event_type
-    #' @param target_url target_url
-    #' @param disabled True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked. Creating it again with the same project, event and URL replaces it with a new subscription and secret.
+    #' @param target_url The URL deliveries are sent to. A read-only API key receives only its scheme, host and any non-default port followed by `/…` (for example `https://hook.eu1.make.com/…`); a `read_write` scope key receives the full URL.
+    #' @param disabled True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked, or when that API key is limited to some projects and no longer covers the subscription's project. Creating it again with the same project, event and URL replaces it with a new subscription and secret.
     #' @param failure_count failure_count
     #' @param last_delivered_at last_delivered_at
     #' @param created_at created_at

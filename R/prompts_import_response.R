@@ -10,10 +10,10 @@
 #' @field project_id  integer
 #' @field processed_rows Distinct rows imported or matched to an existing prompt integer
 #' @field created  integer
-#' @field duplicates Rows that matched an existing prompt (they still get the row's tags) integer
+#' @field duplicates Rows that matched an existing prompt (they still get the row's tags, unless a team member lacks update access to Prompts) integer
 #' @field tagged New prompt-tag links integer
 #' @field created_tags  integer
-#' @field row_errors Rows that were skipped, by their index in rows list(\link{PromptsImportResponseRowErrorsInner})
+#' @field row_errors Rows that were skipped or whose tags were not added, by their index in rows list(\link{PromptsImportResponseRowErrorsInner})
 #' @field length_warning Which tracked AI models will skip new prompts that are too long for them character
 #' @field prompts_available Prompt slots left on the plan; null when unlimited integer
 #' @field request_id  character
@@ -40,10 +40,10 @@ PromptsImportResponse <- R6::R6Class(
     #' @param project_id project_id
     #' @param processed_rows Distinct rows imported or matched to an existing prompt
     #' @param created created
-    #' @param duplicates Rows that matched an existing prompt (they still get the row's tags)
+    #' @param duplicates Rows that matched an existing prompt (they still get the row's tags, unless a team member lacks update access to Prompts)
     #' @param tagged New prompt-tag links
     #' @param created_tags created_tags
-    #' @param row_errors Rows that were skipped, by their index in rows
+    #' @param row_errors Rows that were skipped or whose tags were not added, by their index in rows
     #' @param length_warning Which tracked AI models will skip new prompts that are too long for them
     #' @param prompts_available Prompt slots left on the plan; null when unlimited
     #' @param request_id request_id

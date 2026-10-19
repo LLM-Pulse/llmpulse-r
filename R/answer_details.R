@@ -22,12 +22,13 @@
 #' @field citations  list(object) [optional]
 #' @field competitor_mentions  list(object) [optional]
 #' @field competitor_citations  list(object) [optional]
-#' @field sentiments  list(object) [optional]
+#' @field sentiments Needs the Growth plan or above; left out below it and named in plan_required_fields list(object) [optional]
 #' @field sources  list(object) [optional]
-#' @field shopping_products  list(object) [optional]
+#' @field shopping_products Needs the Scale plan or above; left out below it and named in plan_required_fields list(object) [optional]
 #' @field brand_entities  list(object) [optional]
 #' @field local_businesses  list(object) [optional]
 #' @field locale  \link{AnswerDetailsLocale} [optional]
+#' @field plan_required_fields The fields left out of this answer because the account's plan does not include them (sentiments below Growth, shopping_products below Scale). Always present, empty when nothing is left out list(character)
 #' @field app_url Opens this answer in the app. The link names its project, so it opens there for any user with access to that project character [optional]
 #' @field request_id  character [optional]
 #' @importFrom R6 R6Class
@@ -57,12 +58,14 @@ AnswerDetails <- R6::R6Class(
     `brand_entities` = NULL,
     `local_businesses` = NULL,
     `locale` = NULL,
+    `plan_required_fields` = NULL,
     `app_url` = NULL,
     `request_id` = NULL,
 
     #' @description
     #' Initialize a new AnswerDetails class.
     #'
+    #' @param plan_required_fields The fields left out of this answer because the account's plan does not include them (sentiments below Growth, shopping_products below Scale). Always present, empty when nothing is left out
     #' @param id id
     #' @param prompt_id prompt_id
     #' @param prompt_text prompt_text
@@ -78,16 +81,21 @@ AnswerDetails <- R6::R6Class(
     #' @param citations citations
     #' @param competitor_mentions competitor_mentions
     #' @param competitor_citations competitor_citations
-    #' @param sentiments sentiments
+    #' @param sentiments Needs the Growth plan or above; left out below it and named in plan_required_fields
     #' @param sources sources
-    #' @param shopping_products shopping_products
+    #' @param shopping_products Needs the Scale plan or above; left out below it and named in plan_required_fields
     #' @param brand_entities brand_entities
     #' @param local_businesses local_businesses
     #' @param locale locale
     #' @param app_url Opens this answer in the app. The link names its project, so it opens there for any user with access to that project
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `prompt_id` = NULL, `prompt_text` = NULL, `model` = NULL, `response` = NULL, `response_truncated` = NULL, `executed_at` = NULL, `duration_ms` = NULL, `success` = NULL, `no_result` = NULL, `fan_out_queries` = NULL, `mentions` = NULL, `citations` = NULL, `competitor_mentions` = NULL, `competitor_citations` = NULL, `sentiments` = NULL, `sources` = NULL, `shopping_products` = NULL, `brand_entities` = NULL, `local_businesses` = NULL, `locale` = NULL, `app_url` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`plan_required_fields`, `id` = NULL, `prompt_id` = NULL, `prompt_text` = NULL, `model` = NULL, `response` = NULL, `response_truncated` = NULL, `executed_at` = NULL, `duration_ms` = NULL, `success` = NULL, `no_result` = NULL, `fan_out_queries` = NULL, `mentions` = NULL, `citations` = NULL, `competitor_mentions` = NULL, `competitor_citations` = NULL, `sentiments` = NULL, `sources` = NULL, `shopping_products` = NULL, `brand_entities` = NULL, `local_businesses` = NULL, `locale` = NULL, `app_url` = NULL, `request_id` = NULL, ...) {
+      if (!missing(`plan_required_fields`)) {
+        stopifnot(is.vector(`plan_required_fields`), length(`plan_required_fields`) != 0)
+        sapply(`plan_required_fields`, function(x) stopifnot(is.character(x)))
+        self$`plan_required_fields` <- `plan_required_fields`
+      }
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -332,6 +340,10 @@ AnswerDetails <- R6::R6Class(
         AnswerDetailsObject[["locale"]] <-
           self$extractSimpleType(self$`locale`)
       }
+      if (!is.null(self$`plan_required_fields`)) {
+        AnswerDetailsObject[["plan_required_fields"]] <-
+          self$`plan_required_fields`
+      }
       if (!is.null(self$`app_url`)) {
         AnswerDetailsObject[["app_url"]] <-
           self$`app_url`
@@ -438,6 +450,9 @@ AnswerDetails <- R6::R6Class(
         `locale_object`$fromJSON(jsonlite::toJSON(this_object$`locale`, auto_unbox = TRUE, digits = NA))
         self$`locale` <- `locale_object`
       }
+      if (!is.null(this_object$`plan_required_fields`)) {
+        self$`plan_required_fields` <- ApiClient$new()$deserializeObj(this_object$`plan_required_fields`, "array[character]", loadNamespace("llmpulse"))
+      }
       if (!is.null(this_object$`app_url`)) {
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
         if (!stringr::str_detect(this_object$`app_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
@@ -490,6 +505,7 @@ AnswerDetails <- R6::R6Class(
       self$`brand_entities` <- ApiClient$new()$deserializeObj(this_object$`brand_entities`, "array[object]", loadNamespace("llmpulse"))
       self$`local_businesses` <- ApiClient$new()$deserializeObj(this_object$`local_businesses`, "array[object]", loadNamespace("llmpulse"))
       self$`locale` <- AnswerDetailsLocale$new()$fromJSON(jsonlite::toJSON(this_object$`locale`, auto_unbox = TRUE, digits = NA))
+      self$`plan_required_fields` <- ApiClient$new()$deserializeObj(this_object$`plan_required_fields`, "array[character]", loadNamespace("llmpulse"))
       # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
       if (!stringr::str_detect(this_object$`app_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
         stop(paste("Error! Invalid data for `app_url`. Must be a URL:", this_object$`app_url`))
@@ -505,6 +521,13 @@ AnswerDetails <- R6::R6Class(
     #' @param input the JSON input
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
+      # check the required field `plan_required_fields`
+      if (!is.null(input_json$`plan_required_fields`)) {
+        stopifnot(is.vector(input_json$`plan_required_fields`), length(input_json$`plan_required_fields`) != 0)
+        tmp <- sapply(input_json$`plan_required_fields`, function(x) stopifnot(is.character(x)))
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for AnswerDetails: the required field `plan_required_fields` is missing."))
+      }
     },
 
     #' @description
@@ -520,6 +543,11 @@ AnswerDetails <- R6::R6Class(
     #'
     #' @return true if the values in all fields are valid.
     isValid = function() {
+      # check if the required `plan_required_fields` is null
+      if (is.null(self$`plan_required_fields`)) {
+        return(FALSE)
+      }
+
       TRUE
     },
 
@@ -529,6 +557,11 @@ AnswerDetails <- R6::R6Class(
     #' @return A list of invalid fields (if any).
     getInvalidFields = function() {
       invalid_fields <- list()
+      # check if the required `plan_required_fields` is null
+      if (is.null(self$`plan_required_fields`)) {
+        invalid_fields["plan_required_fields"] <- "Non-nullable required field `plan_required_fields` cannot be null."
+      }
+
       invalid_fields
     },
 
