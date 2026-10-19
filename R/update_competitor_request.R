@@ -10,7 +10,7 @@
 #' @field project_id  integer
 #' @field brand_name  character [optional]
 #' @field domain Website domain or host used for citation matching. A full URL is accepted and normalised to its host. character [optional]
-#' @field matching_names  list(character) [optional]
+#' @field matching_names FULL replacement list of the names this competitor is matched by; brand_name is added automatically. At most 50 names in all, brand_name included, of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing in the request is applied list(character) [optional]
 #' @field color Hex color, e.g. #1a2b3c character [optional]
 #' @field citation_match_mode  character [optional]
 #' @field citation_match_path Required when changing citation_match_mode to path_prefix character [optional]
@@ -34,7 +34,7 @@ UpdateCompetitorRequest <- R6::R6Class(
     #' @param project_id project_id
     #' @param brand_name brand_name
     #' @param domain Website domain or host used for citation matching. A full URL is accepted and normalised to its host.
-    #' @param matching_names matching_names
+    #' @param matching_names FULL replacement list of the names this competitor is matched by; brand_name is added automatically. At most 50 names in all, brand_name included, of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing in the request is applied
     #' @param color Hex color, e.g. #1a2b3c
     #' @param citation_match_mode citation_match_mode
     #' @param citation_match_path Required when changing citation_match_mode to path_prefix
@@ -247,6 +247,10 @@ UpdateCompetitorRequest <- R6::R6Class(
         return(FALSE)
       }
 
+      if (length(self$`matching_names`) > 50) {
+        return(FALSE)
+      }
+
       TRUE
     },
 
@@ -259,6 +263,10 @@ UpdateCompetitorRequest <- R6::R6Class(
       # check if the required `project_id` is null
       if (is.null(self$`project_id`)) {
         invalid_fields["project_id"] <- "Non-nullable required field `project_id` cannot be null."
+      }
+
+      if (length(self$`matching_names`) > 50) {
+        invalid_fields["matching_names"] <- "Invalid length for `matching_names`, number of items must be less than or equal to 50."
       }
 
       invalid_fields

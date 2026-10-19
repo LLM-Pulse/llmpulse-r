@@ -12,10 +12,10 @@
 #' @field brand_name  character [optional]
 #' @field description  character [optional]
 #' @field industry  list(character) [optional]
-#' @field matching_names  list(character) [optional]
+#' @field matching_names Brand-name variants used to detect mentions (details step). At most 50 names of up to 100 characters each; the step stores the list as sent, and finalize refuses a longer list or name with ERR_INVALID_PARAM (422) list(character) [optional]
 #' @field external_identifier  character [optional]
 #' @field prompts  list(character) [optional]
-#' @field competitors  list(object) [optional]
+#' @field competitors Competitors step: objects {domain, brand_name, matching_names}, capped by plan. Each competitor's matching_names takes at most 50 names of up to 100 characters, checked at finalize like POST /projects list(object) [optional]
 #' @field youtube_channel_url  character [optional]
 #' @field instagram_profile_url  character [optional]
 #' @field facebook_page_url  character [optional]
@@ -54,10 +54,10 @@ UpdateProjectDraftRequest <- R6::R6Class(
     #' @param brand_name brand_name
     #' @param description description
     #' @param industry industry
-    #' @param matching_names matching_names
+    #' @param matching_names Brand-name variants used to detect mentions (details step). At most 50 names of up to 100 characters each; the step stores the list as sent, and finalize refuses a longer list or name with ERR_INVALID_PARAM (422)
     #' @param external_identifier external_identifier
     #' @param prompts prompts
-    #' @param competitors competitors
+    #' @param competitors Competitors step: objects {domain, brand_name, matching_names}, capped by plan. Each competitor's matching_names takes at most 50 names of up to 100 characters, checked at finalize like POST /projects
     #' @param youtube_channel_url youtube_channel_url
     #' @param instagram_profile_url instagram_profile_url
     #' @param facebook_page_url facebook_page_url
@@ -397,6 +397,10 @@ UpdateProjectDraftRequest <- R6::R6Class(
         return(FALSE)
       }
 
+      if (length(self$`matching_names`) > 50) {
+        return(FALSE)
+      }
+
       if (length(self$`prompts`) > 100) {
         return(FALSE)
       }
@@ -413,6 +417,10 @@ UpdateProjectDraftRequest <- R6::R6Class(
       # check if the required `step` is null
       if (is.null(self$`step`)) {
         invalid_fields["step"] <- "Non-nullable required field `step` cannot be null."
+      }
+
+      if (length(self$`matching_names`) > 50) {
+        invalid_fields["matching_names"] <- "Invalid length for `matching_names`, number of items must be less than or equal to 50."
       }
 
       if (length(self$`prompts`) > 100) {

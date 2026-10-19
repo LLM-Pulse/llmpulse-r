@@ -10,7 +10,7 @@
 #' @field project_id  integer
 #' @field brand_name  character
 #' @field domain URL is accepted and normalised to host (e.g. https://www.openai.com → openai.com) character
-#' @field matching_names  list(character) [optional]
+#' @field matching_names Extra names this competitor is matched by; brand_name is added automatically. At most 50 names in all, brand_name included, of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) list(character) [optional]
 #' @field citation_match_mode domain includes the registrable domain and all subdomains; host requires the exact hostname; path_prefix also requires citation_match_path character [optional]
 #' @field citation_match_path Required when citation_match_mode=path_prefix, e.g. /es. Case-sensitive; trailing slash is optional; query and fragment are ignored character [optional]
 #' @importFrom R6 R6Class
@@ -32,7 +32,7 @@ CreateCompetitorRequest <- R6::R6Class(
     #' @param project_id project_id
     #' @param brand_name brand_name
     #' @param domain URL is accepted and normalised to host (e.g. https://www.openai.com → openai.com)
-    #' @param matching_names matching_names
+    #' @param matching_names Extra names this competitor is matched by; brand_name is added automatically. At most 50 names in all, brand_name included, of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422)
     #' @param citation_match_mode domain includes the registrable domain and all subdomains; host requires the exact hostname; path_prefix also requires citation_match_path. Default to "domain".
     #' @param citation_match_path Required when citation_match_mode=path_prefix, e.g. /es. Case-sensitive; trailing slash is optional; query and fragment are ignored
     #' @param ... Other optional arguments.
@@ -256,6 +256,10 @@ CreateCompetitorRequest <- R6::R6Class(
         return(FALSE)
       }
 
+      if (length(self$`matching_names`) > 50) {
+        return(FALSE)
+      }
+
       TRUE
     },
 
@@ -278,6 +282,10 @@ CreateCompetitorRequest <- R6::R6Class(
       # check if the required `domain` is null
       if (is.null(self$`domain`)) {
         invalid_fields["domain"] <- "Non-nullable required field `domain` cannot be null."
+      }
+
+      if (length(self$`matching_names`) > 50) {
+        invalid_fields["matching_names"] <- "Invalid length for `matching_names`, number of items must be less than or equal to 50."
       }
 
       invalid_fields

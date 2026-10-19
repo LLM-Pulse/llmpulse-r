@@ -9,7 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field domain  character
 #' @field brand_name  character [optional]
-#' @field matching_names  list(character) [optional]
+#' @field matching_names Names this competitor is matched by. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing is created list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -25,7 +25,7 @@ ProjectCreateRequestCompetitorsInner <- R6::R6Class(
     #'
     #' @param domain domain
     #' @param brand_name brand_name
-    #' @param matching_names matching_names
+    #' @param matching_names Names this competitor is matched by. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing is created
     #' @param ... Other optional arguments.
     initialize = function(`domain`, `brand_name` = NULL, `matching_names` = NULL, ...) {
       if (!missing(`domain`)) {
@@ -170,6 +170,10 @@ ProjectCreateRequestCompetitorsInner <- R6::R6Class(
         return(FALSE)
       }
 
+      if (length(self$`matching_names`) > 50) {
+        return(FALSE)
+      }
+
       TRUE
     },
 
@@ -182,6 +186,10 @@ ProjectCreateRequestCompetitorsInner <- R6::R6Class(
       # check if the required `domain` is null
       if (is.null(self$`domain`)) {
         invalid_fields["domain"] <- "Non-nullable required field `domain` cannot be null."
+      }
+
+      if (length(self$`matching_names`) > 50) {
+        invalid_fields["matching_names"] <- "Invalid length for `matching_names`, number of items must be less than or equal to 50."
       }
 
       invalid_fields

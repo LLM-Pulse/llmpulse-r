@@ -20,7 +20,7 @@
 #' @field brand_voice Tone of voice guidance for generated content (Brand Book) character [optional]
 #' @field goals What the brand wants to achieve. Context for GEO Writer and prompt suggestions character [optional]
 #' @field primary_products Main products or services list(character) [optional]
-#' @field matching_names  list(character) [optional]
+#' @field matching_names Brand-name variants used to detect mentions. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing is created list(character) [optional]
 #' @field prompts  list(character) [optional]
 #' @field collections Collections (prompt tags) created with the project, each tagging prompts of this request by their exact text, so no separate tagging calls are needed. A text that is not in prompts returns ERR_INVALID_PARAM. A team member also needs Tags: Create permission. list(\link{ProjectCreateRequestCollectionsInner}) [optional]
 #' @field competitors  list(\link{ProjectCreateRequestCompetitorsInner}) [optional]
@@ -74,7 +74,7 @@ ProjectCreateRequest <- R6::R6Class(
     #' @param brand_voice Tone of voice guidance for generated content (Brand Book)
     #' @param goals What the brand wants to achieve. Context for GEO Writer and prompt suggestions
     #' @param primary_products Main products or services
-    #' @param matching_names matching_names
+    #' @param matching_names Brand-name variants used to detect mentions. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing is created
     #' @param prompts prompts
     #' @param collections Collections (prompt tags) created with the project, each tagging prompts of this request by their exact text, so no separate tagging calls are needed. A text that is not in prompts returns ERR_INVALID_PARAM. A team member also needs Tags: Create permission.
     #' @param competitors competitors
@@ -566,6 +566,10 @@ ProjectCreateRequest <- R6::R6Class(
         return(FALSE)
       }
 
+      if (length(self$`matching_names`) > 50) {
+        return(FALSE)
+      }
+
       if (length(self$`prompts`) > 100) {
         return(FALSE)
       }
@@ -605,6 +609,10 @@ ProjectCreateRequest <- R6::R6Class(
       # check if the required `main_language` is null
       if (is.null(self$`main_language`)) {
         invalid_fields["main_language"] <- "Non-nullable required field `main_language` cannot be null."
+      }
+
+      if (length(self$`matching_names`) > 50) {
+        invalid_fields["matching_names"] <- "Invalid length for `matching_names`, number of items must be less than or equal to 50."
       }
 
       if (length(self$`prompts`) > 100) {

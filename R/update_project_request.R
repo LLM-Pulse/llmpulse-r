@@ -17,7 +17,7 @@
 #' @field brand_voice Tone of voice guidance for generated content (Brand Book) character [optional]
 #' @field goals What the brand wants to achieve. Context for GEO Writer and prompt suggestions character [optional]
 #' @field primary_products Full replacement list of the main products or services list(character) [optional]
-#' @field matching_names FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep list(character) [optional]
+#' @field matching_names FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing in the request is applied list(character) [optional]
 #' @field additional_owned_domains FULL replacement list (at most 10) of other domains the brand owns, such as a blog or a country site; [] clears it. Citations from them count as owned, like the project website. Each entry is a website's own domain and covers its subdomains; a pasted URL is stored as its domain (https://www.acme.co.uk/x becomes acme.co.uk). A list the domain editor would refuse (a subdomain such as blog.acme.com, a platform many companies share such as youtube.com, amazon.com or wordpress.com, the project website, a tracked competitor domain, a duplicate or an entry that is not a domain) is rejected with ERR_INVALID_PARAM and the reason. Order does not matter, and an unchanged list starts nothing. Account owner only, on every plan list(character) [optional]
 #' @field prompt_limit The most prompts this project can hold, a JSON integer from 1 to 2147483647; null removes the project's limit. A string, a decimal, 0 or a negative number is rejected with ERR_INVALID_PARAM. The account's plan allowance still applies, so the lower of the two wins (GET /dimensions/projects/{id} returns prompt_limit and stats.prompts_available). A limit below the current count keeps every prompt and refuses new ones until the project is under it; note says what the project can now hold. Account owner or a co-owner with Projects update permission only; a key limited to some projects answers ERR_KEY_PROJECT_SCOPED. The Swift, Kotlin, Dart and R clients leave a null field out of the request body, so they can set a limit but not remove one: remove it with a plain HTTP request that sends prompt_limit as null integer [optional]
 #' @importFrom R6 R6Class
@@ -53,7 +53,7 @@ UpdateProjectRequest <- R6::R6Class(
     #' @param brand_voice Tone of voice guidance for generated content (Brand Book)
     #' @param goals What the brand wants to achieve. Context for GEO Writer and prompt suggestions
     #' @param primary_products Full replacement list of the main products or services
-    #' @param matching_names FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep
+    #' @param matching_names FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing in the request is applied
     #' @param additional_owned_domains FULL replacement list (at most 10) of other domains the brand owns, such as a blog or a country site; [] clears it. Citations from them count as owned, like the project website. Each entry is a website's own domain and covers its subdomains; a pasted URL is stored as its domain (https://www.acme.co.uk/x becomes acme.co.uk). A list the domain editor would refuse (a subdomain such as blog.acme.com, a platform many companies share such as youtube.com, amazon.com or wordpress.com, the project website, a tracked competitor domain, a duplicate or an entry that is not a domain) is rejected with ERR_INVALID_PARAM and the reason. Order does not matter, and an unchanged list starts nothing. Account owner only, on every plan
     #' @param prompt_limit The most prompts this project can hold, a JSON integer from 1 to 2147483647; null removes the project's limit. A string, a decimal, 0 or a negative number is rejected with ERR_INVALID_PARAM. The account's plan allowance still applies, so the lower of the two wins (GET /dimensions/projects/{id} returns prompt_limit and stats.prompts_available). A limit below the current count keeps every prompt and refuses new ones until the project is under it; note says what the project can now hold. Account owner or a co-owner with Projects update permission only; a key limited to some projects answers ERR_KEY_PROJECT_SCOPED. The Swift, Kotlin, Dart and R clients leave a null field out of the request body, so they can set a limit but not remove one: remove it with a plain HTTP request that sends prompt_limit as null
     #' @param ... Other optional arguments.
@@ -325,6 +325,10 @@ UpdateProjectRequest <- R6::R6Class(
     #'
     #' @return true if the values in all fields are valid.
     isValid = function() {
+      if (length(self$`matching_names`) > 50) {
+        return(FALSE)
+      }
+
       if (self$`prompt_limit` > 2147483647) {
         return(FALSE)
       }
@@ -341,6 +345,10 @@ UpdateProjectRequest <- R6::R6Class(
     #' @return A list of invalid fields (if any).
     getInvalidFields = function() {
       invalid_fields <- list()
+      if (length(self$`matching_names`) > 50) {
+        invalid_fields["matching_names"] <- "Invalid length for `matching_names`, number of items must be less than or equal to 50."
+      }
+
       if (self$`prompt_limit` > 2147483647) {
         invalid_fields["prompt_limit"] <- "Invalid value for `prompt_limit`, must be smaller than or equal to 2147483647."
       }
