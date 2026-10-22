@@ -1,15 +1,16 @@
 #' Create a new ProjectDetailsAllOfSearchConsole
 #'
 #' @description
-#' Google Search Console connection of the project. connected means the Search Console endpoints can answer; reconnect_required means Google refused the stored access, so the endpoints return ERR_SEARCH_CONSOLE_ACCESS_REVOKED until the property is reconnected at connect_url; not_connected means the endpoints return ERR_SEARCH_CONSOLE_NOT_CONNECTED.
+#' Google Search Console connection of the project, judged by its primary property. connected means the Search Console endpoints can answer; reconnect_required means Google refused the primary property's stored access, so reads without property return ERR_SEARCH_CONSOLE_ACCESS_REVOKED until it is reconnected at connect_url, while a property GET /search_console/properties lists as connected, or property=all, still answers; not_connected means the endpoints return ERR_SEARCH_CONSOLE_NOT_CONNECTED.
 #'
 #' @docType class
 #' @title ProjectDetailsAllOfSearchConsole
 #' @description ProjectDetailsAllOfSearchConsole Class
 #' @format An \code{R6Class} generator object
 #' @field status  character [optional]
-#' @field property The connected property (e.g. sc-domain:example.com), null when not connected character [optional]
+#' @field property The primary property (e.g. sc-domain:example.com), null when not connected character [optional]
 #' @field connect_url The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections) character [optional]
+#' @field properties_count Connected properties Google still accepts (reconnect_required ones excluded); GET /search_console/properties lists every property with its status integer [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -19,15 +20,17 @@ ProjectDetailsAllOfSearchConsole <- R6::R6Class(
     `status` = NULL,
     `property` = NULL,
     `connect_url` = NULL,
+    `properties_count` = NULL,
 
     #' @description
     #' Initialize a new ProjectDetailsAllOfSearchConsole class.
     #'
     #' @param status status
-    #' @param property The connected property (e.g. sc-domain:example.com), null when not connected
+    #' @param property The primary property (e.g. sc-domain:example.com), null when not connected
     #' @param connect_url The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections)
+    #' @param properties_count Connected properties Google still accepts (reconnect_required ones excluded); GET /search_console/properties lists every property with its status
     #' @param ... Other optional arguments.
-    initialize = function(`status` = NULL, `property` = NULL, `connect_url` = NULL, ...) {
+    initialize = function(`status` = NULL, `property` = NULL, `connect_url` = NULL, `properties_count` = NULL, ...) {
       if (!is.null(`status`)) {
         if (!(`status` %in% c("connected", "reconnect_required", "not_connected"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"connected\", \"reconnect_required\", \"not_connected\".", sep = ""))
@@ -52,6 +55,12 @@ ProjectDetailsAllOfSearchConsole <- R6::R6Class(
           stop(paste("Error! Invalid data for `connect_url`. Must be a URL:", `connect_url`))
         }
         self$`connect_url` <- `connect_url`
+      }
+      if (!is.null(`properties_count`)) {
+        if (!(is.numeric(`properties_count`) && length(`properties_count`) == 1)) {
+          stop(paste("Error! Invalid data for `properties_count`. Must be an integer:", `properties_count`))
+        }
+        self$`properties_count` <- `properties_count`
       }
     },
 
@@ -98,6 +107,10 @@ ProjectDetailsAllOfSearchConsole <- R6::R6Class(
         ProjectDetailsAllOfSearchConsoleObject[["connect_url"]] <-
           self$`connect_url`
       }
+      if (!is.null(self$`properties_count`)) {
+        ProjectDetailsAllOfSearchConsoleObject[["properties_count"]] <-
+          self$`properties_count`
+      }
       return(ProjectDetailsAllOfSearchConsoleObject)
     },
 
@@ -123,6 +136,9 @@ ProjectDetailsAllOfSearchConsole <- R6::R6Class(
           stop(paste("Error! Invalid data for `connect_url`. Must be a URL:", this_object$`connect_url`))
         }
         self$`connect_url` <- this_object$`connect_url`
+      }
+      if (!is.null(this_object$`properties_count`)) {
+        self$`properties_count` <- this_object$`properties_count`
       }
       self
     },
@@ -155,6 +171,7 @@ ProjectDetailsAllOfSearchConsole <- R6::R6Class(
         stop(paste("Error! Invalid data for `connect_url`. Must be a URL:", this_object$`connect_url`))
       }
       self$`connect_url` <- this_object$`connect_url`
+      self$`properties_count` <- this_object$`properties_count`
       self
     },
 

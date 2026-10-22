@@ -16,5 +16,6 @@ Name | Type | Description | Notes
 **source_language_code** | **character** |  | [optional] 
 **min_words** | **integer** |  | [optional] 
 **all_countries** | **character** |  | [optional] 
+**property** | **character** |  | [optional] 
 
 

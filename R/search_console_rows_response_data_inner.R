@@ -17,6 +17,7 @@
 #' @field clicks  integer [optional]
 #' @field ctr 0..1 fraction numeric [optional]
 #' @field position Impression-weighted average position numeric [optional]
+#' @field property Present when grouped by property character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -33,6 +34,7 @@ SearchConsoleRowsResponseDataInner <- R6::R6Class(
     `clicks` = NULL,
     `ctr` = NULL,
     `position` = NULL,
+    `property` = NULL,
 
     #' @description
     #' Initialize a new SearchConsoleRowsResponseDataInner class.
@@ -47,8 +49,9 @@ SearchConsoleRowsResponseDataInner <- R6::R6Class(
     #' @param clicks clicks
     #' @param ctr 0..1 fraction
     #' @param position Impression-weighted average position
+    #' @param property Present when grouped by property
     #' @param ... Other optional arguments.
-    initialize = function(`date` = NULL, `country` = NULL, `device` = NULL, `page` = NULL, `query` = NULL, `searchAppearance` = NULL, `impressions` = NULL, `clicks` = NULL, `ctr` = NULL, `position` = NULL, ...) {
+    initialize = function(`date` = NULL, `country` = NULL, `device` = NULL, `page` = NULL, `query` = NULL, `searchAppearance` = NULL, `impressions` = NULL, `clicks` = NULL, `ctr` = NULL, `position` = NULL, `property` = NULL, ...) {
       if (!is.null(`date`)) {
         if (!is.character(`date`)) {
           stop(paste("Error! Invalid data for `date`. Must be a string:", `date`))
@@ -102,6 +105,12 @@ SearchConsoleRowsResponseDataInner <- R6::R6Class(
       }
       if (!is.null(`position`)) {
         self$`position` <- `position`
+      }
+      if (!is.null(`property`)) {
+        if (!(is.character(`property`) && length(`property`) == 1)) {
+          stop(paste("Error! Invalid data for `property`. Must be a string:", `property`))
+        }
+        self$`property` <- `property`
       }
     },
 
@@ -176,6 +185,10 @@ SearchConsoleRowsResponseDataInner <- R6::R6Class(
         SearchConsoleRowsResponseDataInnerObject[["position"]] <-
           self$`position`
       }
+      if (!is.null(self$`property`)) {
+        SearchConsoleRowsResponseDataInnerObject[["property"]] <-
+          self$`property`
+      }
       return(SearchConsoleRowsResponseDataInnerObject)
     },
 
@@ -216,6 +229,9 @@ SearchConsoleRowsResponseDataInner <- R6::R6Class(
       if (!is.null(this_object$`position`)) {
         self$`position` <- this_object$`position`
       }
+      if (!is.null(this_object$`property`)) {
+        self$`property` <- this_object$`property`
+      }
       self
     },
 
@@ -247,6 +263,7 @@ SearchConsoleRowsResponseDataInner <- R6::R6Class(
       self$`clicks` <- this_object$`clicks`
       self$`ctr` <- this_object$`ctr`
       self$`position` <- this_object$`position`
+      self$`property` <- this_object$`property`
       self
     },
 

@@ -11,7 +11,7 @@
 #' @field property  \link{SearchConsoleProperty} [optional]
 #' @field from  character [optional]
 #' @field to  character [optional]
-#' @field data_through Latest date Google has published for the property (it lags 2-3 days). Later days are missing, not zero. character [optional]
+#' @field data_through Latest date Google has published for the property, or for every combined property (it lags 2-3 days). Later days are missing, not zero. character [optional]
 #' @field page  integer [optional]
 #' @field per_page  integer [optional]
 #' @field total Rows in this window (one Google request, at most 25,000) integer [optional]
@@ -20,6 +20,9 @@
 #' @field truncated Present (true) when Google returned 25,000 rows, so more rows exist past this window character [optional]
 #' @field data  list(\link{SearchConsoleListResponseDataInner}) [optional]
 #' @field request_id  character [optional]
+#' @field properties With a list or all in the property parameter, the properties whose data the response holds (instead of property) list(\link{SearchConsoleProperty}) [optional]
+#' @field excluded_properties With a list or all, selected properties left out because another selected property already counts them list(\link{SearchConsoleExcludedProperty}) [optional]
+#' @field property_errors With a list or all, selected properties Google refused, left out of the figures list(\link{SearchConsolePropertyError}) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -39,6 +42,9 @@ SearchConsoleListResponse <- R6::R6Class(
     `truncated` = NULL,
     `data` = NULL,
     `request_id` = NULL,
+    `properties` = NULL,
+    `excluded_properties` = NULL,
+    `property_errors` = NULL,
 
     #' @description
     #' Initialize a new SearchConsoleListResponse class.
@@ -47,7 +53,7 @@ SearchConsoleListResponse <- R6::R6Class(
     #' @param property property
     #' @param from from
     #' @param to to
-    #' @param data_through Latest date Google has published for the property (it lags 2-3 days). Later days are missing, not zero.
+    #' @param data_through Latest date Google has published for the property, or for every combined property (it lags 2-3 days). Later days are missing, not zero.
     #' @param page page
     #' @param per_page per_page
     #' @param total Rows in this window (one Google request, at most 25,000)
@@ -56,8 +62,11 @@ SearchConsoleListResponse <- R6::R6Class(
     #' @param truncated Present (true) when Google returned 25,000 rows, so more rows exist past this window
     #' @param data data
     #' @param request_id request_id
+    #' @param properties With a list or all in the property parameter, the properties whose data the response holds (instead of property)
+    #' @param excluded_properties With a list or all, selected properties left out because another selected property already counts them
+    #' @param property_errors With a list or all, selected properties Google refused, left out of the figures
     #' @param ... Other optional arguments.
-    initialize = function(`project_id` = NULL, `property` = NULL, `from` = NULL, `to` = NULL, `data_through` = NULL, `page` = NULL, `per_page` = NULL, `total` = NULL, `sort` = NULL, `start_row` = NULL, `truncated` = NULL, `data` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`project_id` = NULL, `property` = NULL, `from` = NULL, `to` = NULL, `data_through` = NULL, `page` = NULL, `per_page` = NULL, `total` = NULL, `sort` = NULL, `start_row` = NULL, `truncated` = NULL, `data` = NULL, `request_id` = NULL, `properties` = NULL, `excluded_properties` = NULL, `property_errors` = NULL, ...) {
       if (!is.null(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -132,6 +141,21 @@ SearchConsoleListResponse <- R6::R6Class(
           stop(paste("Error! Invalid data for `request_id`. Must be a string:", `request_id`))
         }
         self$`request_id` <- `request_id`
+      }
+      if (!is.null(`properties`)) {
+        stopifnot(is.vector(`properties`), length(`properties`) != 0)
+        sapply(`properties`, function(x) stopifnot(R6::is.R6(x)))
+        self$`properties` <- `properties`
+      }
+      if (!is.null(`excluded_properties`)) {
+        stopifnot(is.vector(`excluded_properties`), length(`excluded_properties`) != 0)
+        sapply(`excluded_properties`, function(x) stopifnot(R6::is.R6(x)))
+        self$`excluded_properties` <- `excluded_properties`
+      }
+      if (!is.null(`property_errors`)) {
+        stopifnot(is.vector(`property_errors`), length(`property_errors`) != 0)
+        sapply(`property_errors`, function(x) stopifnot(R6::is.R6(x)))
+        self$`property_errors` <- `property_errors`
       }
     },
 
@@ -218,6 +242,18 @@ SearchConsoleListResponse <- R6::R6Class(
         SearchConsoleListResponseObject[["request_id"]] <-
           self$`request_id`
       }
+      if (!is.null(self$`properties`)) {
+        SearchConsoleListResponseObject[["properties"]] <-
+          self$extractSimpleType(self$`properties`)
+      }
+      if (!is.null(self$`excluded_properties`)) {
+        SearchConsoleListResponseObject[["excluded_properties"]] <-
+          self$extractSimpleType(self$`excluded_properties`)
+      }
+      if (!is.null(self$`property_errors`)) {
+        SearchConsoleListResponseObject[["property_errors"]] <-
+          self$extractSimpleType(self$`property_errors`)
+      }
       return(SearchConsoleListResponseObject)
     },
 
@@ -292,6 +328,15 @@ SearchConsoleListResponse <- R6::R6Class(
       if (!is.null(this_object$`request_id`)) {
         self$`request_id` <- this_object$`request_id`
       }
+      if (!is.null(this_object$`properties`)) {
+        self$`properties` <- ApiClient$new()$deserializeObj(this_object$`properties`, "array[SearchConsoleProperty]", loadNamespace("llmpulse"))
+      }
+      if (!is.null(this_object$`excluded_properties`)) {
+        self$`excluded_properties` <- ApiClient$new()$deserializeObj(this_object$`excluded_properties`, "array[SearchConsoleExcludedProperty]", loadNamespace("llmpulse"))
+      }
+      if (!is.null(this_object$`property_errors`)) {
+        self$`property_errors` <- ApiClient$new()$deserializeObj(this_object$`property_errors`, "array[SearchConsolePropertyError]", loadNamespace("llmpulse"))
+      }
       self
     },
 
@@ -326,6 +371,9 @@ SearchConsoleListResponse <- R6::R6Class(
       self$`truncated` <- this_object$`truncated`
       self$`data` <- ApiClient$new()$deserializeObj(this_object$`data`, "array[SearchConsoleListResponseDataInner]", loadNamespace("llmpulse"))
       self$`request_id` <- this_object$`request_id`
+      self$`properties` <- ApiClient$new()$deserializeObj(this_object$`properties`, "array[SearchConsoleProperty]", loadNamespace("llmpulse"))
+      self$`excluded_properties` <- ApiClient$new()$deserializeObj(this_object$`excluded_properties`, "array[SearchConsoleExcludedProperty]", loadNamespace("llmpulse"))
+      self$`property_errors` <- ApiClient$new()$deserializeObj(this_object$`property_errors`, "array[SearchConsolePropertyError]", loadNamespace("llmpulse"))
       self
     },
 

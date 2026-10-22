@@ -17,5 +17,6 @@ Name | Type | Description | Notes
 **source_language_code** | **character** | translate: language of the prompts to translate | [optional] 
 **min_words** | **integer** | search_console: skip queries shorter than this many words | [optional] [default to 0] [Max: 10] [Min: 0] 
 **all_countries** | **character** | search_console: include queries from every country instead of country_code only | [optional] [default to FALSE] 
+**property** | **character** | search_console: the property id to read queries from (GET /search_console/properties lists them); the primary property when omitted | [optional] 
 
 

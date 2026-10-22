@@ -84,7 +84,7 @@ library(llmpulse)
 # Generate prompt suggestions
 #
 # prepare function argument(s)
-var_prompt_generation_request <- PromptGenerationRequest$new(123, "website", "query_example", 123, "country_code_example", "language_code_example", 123, "topic", c("keywords_example"), "source_country_code_example", "source_language_code_example", 123, "all_countries_example") # PromptGenerationRequest | 
+var_prompt_generation_request <- PromptGenerationRequest$new(123, "website", "query_example", 123, "country_code_example", "language_code_example", 123, "topic", c("keywords_example"), "source_country_code_example", "source_language_code_example", 123, "all_countries_example", "property_example") # PromptGenerationRequest | 
 
 api_instance <- PromptsApi$new()
 # Configure HTTP bearer authorization: BearerAuth

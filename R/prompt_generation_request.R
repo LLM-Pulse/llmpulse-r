@@ -20,6 +20,7 @@
 #' @field source_language_code translate: language of the prompts to translate character [optional]
 #' @field min_words search_console: skip queries shorter than this many words integer [optional]
 #' @field all_countries search_console: include queries from every country instead of country_code only character [optional]
+#' @field property search_console: the property id to read queries from (GET /search_console/properties lists them); the primary property when omitted character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -39,6 +40,7 @@ PromptGenerationRequest <- R6::R6Class(
     `source_language_code` = NULL,
     `min_words` = NULL,
     `all_countries` = NULL,
+    `property` = NULL,
 
     #' @description
     #' Initialize a new PromptGenerationRequest class.
@@ -56,8 +58,9 @@ PromptGenerationRequest <- R6::R6Class(
     #' @param source_language_code translate: language of the prompts to translate
     #' @param min_words search_console: skip queries shorter than this many words. Default to 0.
     #' @param all_countries search_console: include queries from every country instead of country_code only. Default to FALSE.
+    #' @param property search_console: the property id to read queries from (GET /search_console/properties lists them); the primary property when omitted
     #' @param ... Other optional arguments.
-    initialize = function(`project_id`, `source`, `query` = NULL, `count` = 20, `country_code` = NULL, `language_code` = NULL, `competitor_id` = NULL, `search_type` = "topic", `keywords` = NULL, `source_country_code` = NULL, `source_language_code` = NULL, `min_words` = 0, `all_countries` = FALSE, ...) {
+    initialize = function(`project_id`, `source`, `query` = NULL, `count` = 20, `country_code` = NULL, `language_code` = NULL, `competitor_id` = NULL, `search_type` = "topic", `keywords` = NULL, `source_country_code` = NULL, `source_language_code` = NULL, `min_words` = 0, `all_countries` = FALSE, `property` = NULL, ...) {
       if (!missing(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -140,6 +143,12 @@ PromptGenerationRequest <- R6::R6Class(
           stop(paste("Error! Invalid data for `all_countries`. Must be a boolean:", `all_countries`))
         }
         self$`all_countries` <- `all_countries`
+      }
+      if (!is.null(`property`)) {
+        if (!(is.character(`property`) && length(`property`) == 1)) {
+          stop(paste("Error! Invalid data for `property`. Must be a string:", `property`))
+        }
+        self$`property` <- `property`
       }
     },
 
@@ -226,6 +235,10 @@ PromptGenerationRequest <- R6::R6Class(
         PromptGenerationRequestObject[["all_countries"]] <-
           self$`all_countries`
       }
+      if (!is.null(self$`property`)) {
+        PromptGenerationRequestObject[["property"]] <-
+          self$`property`
+      }
       return(PromptGenerationRequestObject)
     },
 
@@ -281,6 +294,9 @@ PromptGenerationRequest <- R6::R6Class(
       if (!is.null(this_object$`all_countries`)) {
         self$`all_countries` <- this_object$`all_countries`
       }
+      if (!is.null(this_object$`property`)) {
+        self$`property` <- this_object$`property`
+      }
       self
     },
 
@@ -321,6 +337,7 @@ PromptGenerationRequest <- R6::R6Class(
       self$`source_language_code` <- this_object$`source_language_code`
       self$`min_words` <- this_object$`min_words`
       self$`all_countries` <- this_object$`all_countries`
+      self$`property` <- this_object$`property`
       self
     },
 

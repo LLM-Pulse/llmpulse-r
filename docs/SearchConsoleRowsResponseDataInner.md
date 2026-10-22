@@ -14,5 +14,6 @@ Name | Type | Description | Notes
 **clicks** | **integer** |  | [optional] 
 **ctr** | **numeric** | 0..1 fraction | [optional] 
 **position** | **numeric** | Impression-weighted average position | [optional] 
+**property** | **character** | Present when grouped by property | [optional] 
 
 

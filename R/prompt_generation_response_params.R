@@ -18,6 +18,7 @@
 #' @field source_language_code  character [optional]
 #' @field min_words  integer [optional]
 #' @field all_countries  character [optional]
+#' @field property  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -35,6 +36,7 @@ PromptGenerationResponseParams <- R6::R6Class(
     `source_language_code` = NULL,
     `min_words` = NULL,
     `all_countries` = NULL,
+    `property` = NULL,
 
     #' @description
     #' Initialize a new PromptGenerationResponseParams class.
@@ -50,8 +52,9 @@ PromptGenerationResponseParams <- R6::R6Class(
     #' @param source_language_code source_language_code
     #' @param min_words min_words
     #' @param all_countries all_countries
+    #' @param property property
     #' @param ... Other optional arguments.
-    initialize = function(`country_code` = NULL, `language_code` = NULL, `query` = NULL, `count` = NULL, `competitor_id` = NULL, `search_type` = NULL, `keywords` = NULL, `source_country_code` = NULL, `source_language_code` = NULL, `min_words` = NULL, `all_countries` = NULL, ...) {
+    initialize = function(`country_code` = NULL, `language_code` = NULL, `query` = NULL, `count` = NULL, `competitor_id` = NULL, `search_type` = NULL, `keywords` = NULL, `source_country_code` = NULL, `source_language_code` = NULL, `min_words` = NULL, `all_countries` = NULL, `property` = NULL, ...) {
       if (!is.null(`country_code`)) {
         if (!(is.character(`country_code`) && length(`country_code`) == 1)) {
           stop(paste("Error! Invalid data for `country_code`. Must be a string:", `country_code`))
@@ -116,6 +119,12 @@ PromptGenerationResponseParams <- R6::R6Class(
           stop(paste("Error! Invalid data for `all_countries`. Must be a boolean:", `all_countries`))
         }
         self$`all_countries` <- `all_countries`
+      }
+      if (!is.null(`property`)) {
+        if (!(is.character(`property`) && length(`property`) == 1)) {
+          stop(paste("Error! Invalid data for `property`. Must be a string:", `property`))
+        }
+        self$`property` <- `property`
       }
     },
 
@@ -194,6 +203,10 @@ PromptGenerationResponseParams <- R6::R6Class(
         PromptGenerationResponseParamsObject[["all_countries"]] <-
           self$`all_countries`
       }
+      if (!is.null(self$`property`)) {
+        PromptGenerationResponseParamsObject[["property"]] <-
+          self$`property`
+      }
       return(PromptGenerationResponseParamsObject)
     },
 
@@ -237,6 +250,9 @@ PromptGenerationResponseParams <- R6::R6Class(
       if (!is.null(this_object$`all_countries`)) {
         self$`all_countries` <- this_object$`all_countries`
       }
+      if (!is.null(this_object$`property`)) {
+        self$`property` <- this_object$`property`
+      }
       self
     },
 
@@ -269,6 +285,7 @@ PromptGenerationResponseParams <- R6::R6Class(
       self$`source_language_code` <- this_object$`source_language_code`
       self$`min_words` <- this_object$`min_words`
       self$`all_countries` <- this_object$`all_countries`
+      self$`property` <- this_object$`property`
       self
     },
 
