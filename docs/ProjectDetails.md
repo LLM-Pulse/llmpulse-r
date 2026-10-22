@@ -28,6 +28,8 @@ Name | Type | Description | Notes
 **stats** | [**ProjectDetailsAllOfStats**](ProjectDetails_allOf_stats.md) |  | [optional] 
 **data_coverage** | [**ProjectDetailsAllOfDataCoverage**](ProjectDetails_allOf_data_coverage.md) |  | [optional] 
 **search_console** | [**ProjectDetailsAllOfSearchConsole**](ProjectDetails_allOf_search_console.md) |  | [optional] 
+**ai_traffic** | [**ProjectDetailsAllOfAiTraffic**](ProjectDetails_allOf_ai_traffic.md) |  | [optional] 
+**agent_traffic** | [**ProjectDetailsAllOfAgentTraffic**](ProjectDetails_allOf_agent_traffic.md) |  | [optional] 
 **request_id** | **character** |  | [optional] 
 
 

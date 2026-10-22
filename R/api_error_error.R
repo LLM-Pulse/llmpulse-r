@@ -9,7 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field code  character [optional]
 #' @field message  character [optional]
-#' @field meta  object [optional]
+#' @field meta Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. object [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -25,7 +25,7 @@ ApiErrorError <- R6::R6Class(
     #'
     #' @param code code
     #' @param message message
-    #' @param meta meta
+    #' @param meta Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source.
     #' @param ... Other optional arguments.
     initialize = function(`code` = NULL, `message` = NULL, `meta` = NULL, ...) {
       if (!is.null(`code`)) {

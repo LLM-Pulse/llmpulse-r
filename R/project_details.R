@@ -31,6 +31,8 @@
 #' @field stats  \link{ProjectDetailsAllOfStats} [optional]
 #' @field data_coverage  \link{ProjectDetailsAllOfDataCoverage} [optional]
 #' @field search_console  \link{ProjectDetailsAllOfSearchConsole} [optional]
+#' @field ai_traffic  \link{ProjectDetailsAllOfAiTraffic} [optional]
+#' @field agent_traffic  \link{ProjectDetailsAllOfAgentTraffic} [optional]
 #' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -62,6 +64,8 @@ ProjectDetails <- R6::R6Class(
     `stats` = NULL,
     `data_coverage` = NULL,
     `search_console` = NULL,
+    `ai_traffic` = NULL,
+    `agent_traffic` = NULL,
     `request_id` = NULL,
 
     #' @description
@@ -91,9 +95,11 @@ ProjectDetails <- R6::R6Class(
     #' @param stats stats
     #' @param data_coverage data_coverage
     #' @param search_console search_console
+    #' @param ai_traffic ai_traffic
+    #' @param agent_traffic agent_traffic
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `prompt_limit` = NULL, `stats` = NULL, `data_coverage` = NULL, `search_console` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `prompt_limit` = NULL, `stats` = NULL, `data_coverage` = NULL, `search_console` = NULL, `ai_traffic` = NULL, `agent_traffic` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -230,6 +236,14 @@ ProjectDetails <- R6::R6Class(
         stopifnot(R6::is.R6(`search_console`))
         self$`search_console` <- `search_console`
       }
+      if (!is.null(`ai_traffic`)) {
+        stopifnot(R6::is.R6(`ai_traffic`))
+        self$`ai_traffic` <- `ai_traffic`
+      }
+      if (!is.null(`agent_traffic`)) {
+        stopifnot(R6::is.R6(`agent_traffic`))
+        self$`agent_traffic` <- `agent_traffic`
+      }
       if (!is.null(`request_id`)) {
         if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
           stop(paste("Error! Invalid data for `request_id`. Must be a string:", `request_id`))
@@ -365,6 +379,14 @@ ProjectDetails <- R6::R6Class(
         ProjectDetailsObject[["search_console"]] <-
           self$extractSimpleType(self$`search_console`)
       }
+      if (!is.null(self$`ai_traffic`)) {
+        ProjectDetailsObject[["ai_traffic"]] <-
+          self$extractSimpleType(self$`ai_traffic`)
+      }
+      if (!is.null(self$`agent_traffic`)) {
+        ProjectDetailsObject[["agent_traffic"]] <-
+          self$extractSimpleType(self$`agent_traffic`)
+      }
       if (!is.null(self$`request_id`)) {
         ProjectDetailsObject[["request_id"]] <-
           self$`request_id`
@@ -484,6 +506,16 @@ ProjectDetails <- R6::R6Class(
         `search_console_object`$fromJSON(jsonlite::toJSON(this_object$`search_console`, auto_unbox = TRUE, digits = NA))
         self$`search_console` <- `search_console_object`
       }
+      if (!is.null(this_object$`ai_traffic`)) {
+        `ai_traffic_object` <- ProjectDetailsAllOfAiTraffic$new()
+        `ai_traffic_object`$fromJSON(jsonlite::toJSON(this_object$`ai_traffic`, auto_unbox = TRUE, digits = NA))
+        self$`ai_traffic` <- `ai_traffic_object`
+      }
+      if (!is.null(this_object$`agent_traffic`)) {
+        `agent_traffic_object` <- ProjectDetailsAllOfAgentTraffic$new()
+        `agent_traffic_object`$fromJSON(jsonlite::toJSON(this_object$`agent_traffic`, auto_unbox = TRUE, digits = NA))
+        self$`agent_traffic` <- `agent_traffic_object`
+      }
       if (!is.null(this_object$`request_id`)) {
         self$`request_id` <- this_object$`request_id`
       }
@@ -536,6 +568,8 @@ ProjectDetails <- R6::R6Class(
       self$`stats` <- ProjectDetailsAllOfStats$new()$fromJSON(jsonlite::toJSON(this_object$`stats`, auto_unbox = TRUE, digits = NA))
       self$`data_coverage` <- ProjectDetailsAllOfDataCoverage$new()$fromJSON(jsonlite::toJSON(this_object$`data_coverage`, auto_unbox = TRUE, digits = NA))
       self$`search_console` <- ProjectDetailsAllOfSearchConsole$new()$fromJSON(jsonlite::toJSON(this_object$`search_console`, auto_unbox = TRUE, digits = NA))
+      self$`ai_traffic` <- ProjectDetailsAllOfAiTraffic$new()$fromJSON(jsonlite::toJSON(this_object$`ai_traffic`, auto_unbox = TRUE, digits = NA))
+      self$`agent_traffic` <- ProjectDetailsAllOfAgentTraffic$new()$fromJSON(jsonlite::toJSON(this_object$`agent_traffic`, auto_unbox = TRUE, digits = NA))
       self$`request_id` <- this_object$`request_id`
       self
     },

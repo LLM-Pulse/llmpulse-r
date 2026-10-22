@@ -1,7 +1,7 @@
 #' Create a new ProjectDetailsAllOfSearchConsole
 #'
 #' @description
-#' Google Search Console connection of the project. connected means the Search Console endpoints can answer; reconnect_required means Google refused the stored access and the property must be reconnected in Preferences > Project Settings > Data Connections.
+#' Google Search Console connection of the project. connected means the Search Console endpoints can answer; reconnect_required means Google refused the stored access, so the endpoints return ERR_SEARCH_CONSOLE_ACCESS_REVOKED until the property is reconnected at connect_url; not_connected means the endpoints return ERR_SEARCH_CONSOLE_NOT_CONNECTED.
 #'
 #' @docType class
 #' @title ProjectDetailsAllOfSearchConsole
@@ -9,6 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field status  character [optional]
 #' @field property The connected property (e.g. sc-domain:example.com), null when not connected character [optional]
+#' @field connect_url The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections) character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -17,14 +18,16 @@ ProjectDetailsAllOfSearchConsole <- R6::R6Class(
   public = list(
     `status` = NULL,
     `property` = NULL,
+    `connect_url` = NULL,
 
     #' @description
     #' Initialize a new ProjectDetailsAllOfSearchConsole class.
     #'
     #' @param status status
     #' @param property The connected property (e.g. sc-domain:example.com), null when not connected
+    #' @param connect_url The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections)
     #' @param ... Other optional arguments.
-    initialize = function(`status` = NULL, `property` = NULL, ...) {
+    initialize = function(`status` = NULL, `property` = NULL, `connect_url` = NULL, ...) {
       if (!is.null(`status`)) {
         if (!(`status` %in% c("connected", "reconnect_required", "not_connected"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"connected\", \"reconnect_required\", \"not_connected\".", sep = ""))
@@ -39,6 +42,16 @@ ProjectDetailsAllOfSearchConsole <- R6::R6Class(
           stop(paste("Error! Invalid data for `property`. Must be a string:", `property`))
         }
         self$`property` <- `property`
+      }
+      if (!is.null(`connect_url`)) {
+        if (!(is.character(`connect_url`) && length(`connect_url`) == 1)) {
+          stop(paste("Error! Invalid data for `connect_url`. Must be a string:", `connect_url`))
+        }
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(`connect_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+          stop(paste("Error! Invalid data for `connect_url`. Must be a URL:", `connect_url`))
+        }
+        self$`connect_url` <- `connect_url`
       }
     },
 
@@ -81,6 +94,10 @@ ProjectDetailsAllOfSearchConsole <- R6::R6Class(
         ProjectDetailsAllOfSearchConsoleObject[["property"]] <-
           self$`property`
       }
+      if (!is.null(self$`connect_url`)) {
+        ProjectDetailsAllOfSearchConsoleObject[["connect_url"]] <-
+          self$`connect_url`
+      }
       return(ProjectDetailsAllOfSearchConsoleObject)
     },
 
@@ -99,6 +116,13 @@ ProjectDetailsAllOfSearchConsole <- R6::R6Class(
       }
       if (!is.null(this_object$`property`)) {
         self$`property` <- this_object$`property`
+      }
+      if (!is.null(this_object$`connect_url`)) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(this_object$`connect_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+          stop(paste("Error! Invalid data for `connect_url`. Must be a URL:", this_object$`connect_url`))
+        }
+        self$`connect_url` <- this_object$`connect_url`
       }
       self
     },
@@ -126,6 +150,11 @@ ProjectDetailsAllOfSearchConsole <- R6::R6Class(
       }
       self$`status` <- this_object$`status`
       self$`property` <- this_object$`property`
+      # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+      if (!stringr::str_detect(this_object$`connect_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+        stop(paste("Error! Invalid data for `connect_url`. Must be a URL:", this_object$`connect_url`))
+      }
+      self$`connect_url` <- this_object$`connect_url`
       self
     },
 
