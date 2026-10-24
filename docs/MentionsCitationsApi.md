@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **ListAllCitations**
-> ListAllCitations(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output)
+> ListAllCitations(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
 
 List all citations (brand + competitor)
 
@@ -36,11 +36,16 @@ var_prompt <- 56 # integer | Filter by prompt ID (Optional)
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
+var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 
 api_instance <- MentionsCitationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListAllCitations(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output)
+api_instance$ListAllCitations(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
 ```
 
 ### Parameters
@@ -57,6 +62,11 @@ Name | Type | Description  | Notes
  **from** | **character**|  | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
 
 ### Return type
 
@@ -77,7 +87,7 @@ void (empty response body)
 | **200** | Paginated citations with actor_type discriminator |  -  |
 
 # **ListAllMentions**
-> ListAllMentions(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output)
+> ListAllMentions(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
 
 List all mentions (brand + competitor)
 
@@ -100,11 +110,16 @@ var_prompt <- 56 # integer | Filter by prompt ID (Optional)
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
+var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 
 api_instance <- MentionsCitationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListAllMentions(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output)
+api_instance$ListAllMentions(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
 ```
 
 ### Parameters
@@ -121,6 +136,11 @@ Name | Type | Description  | Notes
  **from** | **character**|  | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
 
 ### Return type
 
@@ -141,7 +161,7 @@ void (empty response body)
 | **200** | Paginated mentions with actor_type discriminator |  -  |
 
 # **ListCitations**
-> CitationsResponse ListCitations(project_id, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, from = var.from, to = var.to, output = var.output)
+> CitationsResponse ListCitations(project_id, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, from = var.from, to = var.to, output = var.output, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
 
 List brand citations
 
@@ -165,13 +185,16 @@ var_prompt <- 56 # integer | Filter by prompt ID (Optional)
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
+var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 
 api_instance <- MentionsCitationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
 # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-# result <- api_instance$ListCitations(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_outputdata_file = "result.txt")
-result <- api_instance$ListCitations(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_output)
+# result <- api_instance$ListCitations(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_output, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_rangedata_file = "result.txt")
+result <- api_instance$ListCitations(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_output, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
 dput(result)
 ```
 
@@ -190,6 +213,9 @@ Name | Type | Description  | Notes
  **from** | **character**|  | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
 
 ### Return type
 
@@ -210,7 +236,7 @@ Name | Type | Description  | Notes
 | **200** | Paginated brand citations |  -  |
 
 # **ListCompetitorCitations**
-> ListCompetitorCitations(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output)
+> ListCompetitorCitations(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
 
 List competitor citations
 
@@ -233,11 +259,16 @@ var_prompt <- 56 # integer | Filter by prompt ID (Optional)
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
+var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 
 api_instance <- MentionsCitationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListCompetitorCitations(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output)
+api_instance$ListCompetitorCitations(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
 ```
 
 ### Parameters
@@ -254,6 +285,11 @@ Name | Type | Description  | Notes
  **from** | **character**|  | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
 
 ### Return type
 
@@ -274,7 +310,7 @@ void (empty response body)
 | **200** | Paginated competitor citations |  -  |
 
 # **ListCompetitorMentions**
-> CompetitorMentionsResponse ListCompetitorMentions(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output)
+> CompetitorMentionsResponse ListCompetitorMentions(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
 
 List competitor mentions
 
@@ -295,13 +331,18 @@ var_prompt <- 56 # integer | Filter by prompt ID (Optional)
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
+var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 
 api_instance <- MentionsCitationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
 # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-# result <- api_instance$ListCompetitorMentions(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_outputdata_file = "result.txt")
-result <- api_instance$ListCompetitorMentions(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output)
+# result <- api_instance$ListCompetitorMentions(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_rangedata_file = "result.txt")
+result <- api_instance$ListCompetitorMentions(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
 dput(result)
 ```
 
@@ -319,6 +360,11 @@ Name | Type | Description  | Notes
  **from** | **character**|  | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
 
 ### Return type
 
@@ -339,7 +385,7 @@ Name | Type | Description  | Notes
 | **200** | Paginated competitor mentions |  -  |
 
 # **ListMentions**
-> MentionsResponse ListMentions(project_id, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, from = var.from, to = var.to, output = var.output)
+> MentionsResponse ListMentions(project_id, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, from = var.from, to = var.to, output = var.output, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
 
 List brand mentions
 
@@ -361,13 +407,16 @@ var_prompt <- 56 # integer | Filter by prompt ID (Optional)
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
+var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
 
 api_instance <- MentionsCitationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
 # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-# result <- api_instance$ListMentions(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_outputdata_file = "result.txt")
-result <- api_instance$ListMentions(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_output)
+# result <- api_instance$ListMentions(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_output, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_rangedata_file = "result.txt")
+result <- api_instance$ListMentions(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, output = var_output, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
 dput(result)
 ```
 
@@ -386,6 +435,9 @@ Name | Type | Description  | Notes
  **from** | **character**|  | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
 
 ### Return type
 

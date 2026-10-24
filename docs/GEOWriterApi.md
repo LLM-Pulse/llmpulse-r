@@ -125,7 +125,7 @@ library(llmpulse)
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
 var_task_type <- "task_type_example" # character |  (Optional)
-var_status <- "status_example" # character |  (Optional)
+var_status <- "status_example" # character | Keep only the tasks in this status. Discarded tasks are never listed, so discarded returns an empty page. (Optional)
 var_page <- 1 # integer |  (Optional)
 var_per_page <- 20 # integer |  (Optional)
 
@@ -144,7 +144,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
  **task_type** | Enum [brief, create, update, pr_insights, custom, product_listing] |  | [optional] 
- **status** | **character**|  | [optional] 
+ **status** | Enum [pending, processing, review, completed, in_progress, blocked, discarded] | Keep only the tasks in this status. Discarded tasks are never listed, so discarded returns an empty page. | [optional] 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
 

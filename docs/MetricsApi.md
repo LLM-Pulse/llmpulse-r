@@ -94,7 +94,7 @@ Name | Type | Description  | Notes
 | **401** | Authentication failed |  -  |
 
 # **GetShareOfVoice**
-> SovResponse GetShareOfVoice(project_id, range = var.range, from = var.from, to = var.to, granularity = var.granularity, competitors = var.competitors, model = var.model, collection_id = var.collection_id, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, output = var.output, view = "over_time")
+> SovResponse GetShareOfVoice(project_id, range = var.range, from = var.from, to = var.to, granularity = var.granularity, competitors = var.competitors, model = var.model, collection_id = var.collection_id, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, output = var.output, view = "over_time", country_code = var.country_code, language_code = var.language_code, include_project = TRUE)
 
 Share of Voice
 
@@ -120,13 +120,16 @@ var_prompt_type <- "prompt_type_example" # character | One prompt type or a comm
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
 var_view <- "over_time" # character | Which Share of Voice projection to flatten. Only valid together with 'output'. 'over_time' (default) is one row per date and actor, 'current' the ranked snapshot, 'breakdown' the Top 4 plus Others. (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_include_project <- TRUE # character |  (Optional)
 
 api_instance <- MetricsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
 # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-# result <- api_instance$GetShareOfVoice(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, competitors = var_competitors, model = var_model, collection_id = var_collection_id, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, output = var_output, view = var_viewdata_file = "result.txt")
-result <- api_instance$GetShareOfVoice(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, competitors = var_competitors, model = var_model, collection_id = var_collection_id, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, output = var_output, view = var_view)
+# result <- api_instance$GetShareOfVoice(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, competitors = var_competitors, model = var_model, collection_id = var_collection_id, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, output = var_output, view = var_view, country_code = var_country_code, language_code = var_language_code, include_project = var_include_projectdata_file = "result.txt")
+result <- api_instance$GetShareOfVoice(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, competitors = var_competitors, model = var_model, collection_id = var_collection_id, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, output = var_output, view = var_view, country_code = var_country_code, language_code = var_language_code, include_project = var_include_project)
 dput(result)
 ```
 
@@ -147,6 +150,9 @@ Name | Type | Description  | Notes
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
  **view** | Enum [over_time, current, breakdown] | Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. | [optional] [default to &quot;over_time&quot;]
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **include_project** | **character**|  | [optional] [default to TRUE]
 
 ### Return type
 
@@ -167,7 +173,7 @@ Name | Type | Description  | Notes
 | **200** | Share of voice data |  -  |
 
 # **GetSummary**
-> SummaryResponse GetSummary(project_id, metrics = var.metrics, granularity = var.granularity, range = var.range, from = var.from, to = var.to, competitors = var.competitors, model = var.model, collection_id = var.collection_id, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, output = var.output)
+> SummaryResponse GetSummary(project_id, metrics = var.metrics, granularity = var.granularity, range = var.range, from = var.from, to = var.to, competitors = var.competitors, model = var.model, collection_id = var.collection_id, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, output = var.output, country_code = var.country_code, language_code = var.language_code, include_project = TRUE)
 
 Aggregated metrics summary
 
@@ -193,13 +199,16 @@ var_prompt <- 56 # integer | Filter by prompt ID (Optional)
 var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_include_project <- TRUE # character |  (Optional)
 
 api_instance <- MetricsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
 # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-# result <- api_instance$GetSummary(var_project_id, metrics = var_metrics, granularity = var_granularity, range = var_range, from = var_from, to = var_to, competitors = var_competitors, model = var_model, collection_id = var_collection_id, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, output = var_outputdata_file = "result.txt")
-result <- api_instance$GetSummary(var_project_id, metrics = var_metrics, granularity = var_granularity, range = var_range, from = var_from, to = var_to, competitors = var_competitors, model = var_model, collection_id = var_collection_id, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, output = var_output)
+# result <- api_instance$GetSummary(var_project_id, metrics = var_metrics, granularity = var_granularity, range = var_range, from = var_from, to = var_to, competitors = var_competitors, model = var_model, collection_id = var_collection_id, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, output = var_output, country_code = var_country_code, language_code = var_language_code, include_project = var_include_projectdata_file = "result.txt")
+result <- api_instance$GetSummary(var_project_id, metrics = var_metrics, granularity = var_granularity, range = var_range, from = var_from, to = var_to, competitors = var_competitors, model = var_model, collection_id = var_collection_id, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, output = var_output, country_code = var_country_code, language_code = var_language_code, include_project = var_include_project)
 dput(result)
 ```
 
@@ -220,6 +229,9 @@ Name | Type | Description  | Notes
  **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **include_project** | **character**|  | [optional] [default to TRUE]
 
 ### Return type
 
@@ -324,7 +336,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **GetTopSources**
-> TopSourcesResponse GetTopSources(project_id, range = var.range, from = var.from, to = var.to, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, sort = "total_responses", query = var.query, page = 1, per_page = 20, output = var.output)
+> TopSourcesResponse GetTopSources(project_id, range = var.range, from = var.from, to = var.to, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, sort = "total_responses", query = var.query, page = 1, per_page = 20, output = var.output, collection_ids = var.collection_ids, domains = var.domains)
 
 Top cited sources
 
@@ -353,13 +365,15 @@ var_query <- "query_example" # character | Filter domains by case-insensitive pa
 var_page <- 1 # integer |  (Optional)
 var_per_page <- 20 # integer |  (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
+var_collection_ids <- c(123) # array[integer] | Tags (collections) to include at once, as a union: one ID or a comma-separated list, e.g. collection_ids=12,15 (collection_ids[]=12&collection_ids[]=15 is also accepted). Combines with collection_id. An ID outside the project returns 422 ERR_INVALID_PARAM. (Optional)
+var_domains <- c("inner_example") # array[character] | Restrict the result to these exact domains, case-insensitive: one domain or a comma-separated list, e.g. domains=wikipedia.org,reddit.com. The bracket form domains[]=wikipedia.org&domains[]=reddit.com is also accepted. (Optional)
 
 api_instance <- MetricsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
 # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-# result <- api_instance$GetTopSources(var_project_id, range = var_range, from = var_from, to = var_to, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, sort = var_sort, query = var_query, page = var_page, per_page = var_per_page, output = var_outputdata_file = "result.txt")
-result <- api_instance$GetTopSources(var_project_id, range = var_range, from = var_from, to = var_to, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, sort = var_sort, query = var_query, page = var_page, per_page = var_per_page, output = var_output)
+# result <- api_instance$GetTopSources(var_project_id, range = var_range, from = var_from, to = var_to, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, sort = var_sort, query = var_query, page = var_page, per_page = var_per_page, output = var_output, collection_ids = var_collection_ids, domains = var_domainsdata_file = "result.txt")
+result <- api_instance$GetTopSources(var_project_id, range = var_range, from = var_from, to = var_to, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, sort = var_sort, query = var_query, page = var_page, per_page = var_per_page, output = var_output, collection_ids = var_collection_ids, domains = var_domains)
 dput(result)
 ```
 
@@ -383,6 +397,8 @@ Name | Type | Description  | Notes
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **collection_ids** | list( **integer** )| Tags (collections) to include at once, as a union: one ID or a comma-separated list, e.g. collection_ids&#x3D;12,15 (collection_ids[]&#x3D;12&amp;collection_ids[]&#x3D;15 is also accepted). Combines with collection_id. An ID outside the project returns 422 ERR_INVALID_PARAM. | [optional] 
+ **domains** | list( **character** )| Restrict the result to these exact domains, case-insensitive: one domain or a comma-separated list, e.g. domains&#x3D;wikipedia.org,reddit.com. The bracket form domains[]&#x3D;wikipedia.org&amp;domains[]&#x3D;reddit.com is also accepted. | [optional] 
 
 ### Return type
 
