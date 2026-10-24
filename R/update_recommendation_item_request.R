@@ -9,6 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field project_id  integer
 #' @field status completed, archived, or active to restore the item character
+#' @field reason Optional, with status archived only. competitor only on a PR & Citation Building item that targets a domain. character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -17,14 +18,16 @@ UpdateRecommendationItemRequest <- R6::R6Class(
   public = list(
     `project_id` = NULL,
     `status` = NULL,
+    `reason` = NULL,
 
     #' @description
     #' Initialize a new UpdateRecommendationItemRequest class.
     #'
     #' @param project_id project_id
     #' @param status completed, archived, or active to restore the item
+    #' @param reason Optional, with status archived only. competitor only on a PR & Citation Building item that targets a domain.
     #' @param ... Other optional arguments.
-    initialize = function(`project_id`, `status`, ...) {
+    initialize = function(`project_id`, `status`, `reason` = NULL, ...) {
       if (!missing(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -39,6 +42,15 @@ UpdateRecommendationItemRequest <- R6::R6Class(
           stop(paste("Error! Invalid data for `status`. Must be a string:", `status`))
         }
         self$`status` <- `status`
+      }
+      if (!is.null(`reason`)) {
+        if (!(`reason` %in% c("not_relevant", "too_complex", "competitor"))) {
+          stop(paste("Error! \"", `reason`, "\" cannot be assigned to `reason`. Must be \"not_relevant\", \"too_complex\", \"competitor\".", sep = ""))
+        }
+        if (!(is.character(`reason`) && length(`reason`) == 1)) {
+          stop(paste("Error! Invalid data for `reason`. Must be a string:", `reason`))
+        }
+        self$`reason` <- `reason`
       }
     },
 
@@ -81,6 +93,10 @@ UpdateRecommendationItemRequest <- R6::R6Class(
         UpdateRecommendationItemRequestObject[["status"]] <-
           self$`status`
       }
+      if (!is.null(self$`reason`)) {
+        UpdateRecommendationItemRequestObject[["reason"]] <-
+          self$`reason`
+      }
       return(UpdateRecommendationItemRequestObject)
     },
 
@@ -99,6 +115,12 @@ UpdateRecommendationItemRequest <- R6::R6Class(
           stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"active\", \"completed\", \"archived\".", sep = ""))
         }
         self$`status` <- this_object$`status`
+      }
+      if (!is.null(this_object$`reason`)) {
+        if (!is.null(this_object$`reason`) && !(this_object$`reason` %in% c("not_relevant", "too_complex", "competitor"))) {
+          stop(paste("Error! \"", this_object$`reason`, "\" cannot be assigned to `reason`. Must be \"not_relevant\", \"too_complex\", \"competitor\".", sep = ""))
+        }
+        self$`reason` <- this_object$`reason`
       }
       self
     },
@@ -126,6 +148,10 @@ UpdateRecommendationItemRequest <- R6::R6Class(
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"active\", \"completed\", \"archived\".", sep = ""))
       }
       self$`status` <- this_object$`status`
+      if (!is.null(this_object$`reason`) && !(this_object$`reason` %in% c("not_relevant", "too_complex", "competitor"))) {
+        stop(paste("Error! \"", this_object$`reason`, "\" cannot be assigned to `reason`. Must be \"not_relevant\", \"too_complex\", \"competitor\".", sep = ""))
+      }
+      self$`reason` <- this_object$`reason`
       self
     },
 

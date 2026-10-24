@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **status** | **character** |  | [Enum: [active, completed, archived]] 
 **status_changed_at** | **character** |  | [optional] 
 **position** | **integer** |  | 
-**metadata** | **map(object)** |  | [optional] 
+**metadata** | **map(object)** | Free-form details. Carries effort (low, medium or high) when the generator rated it, archive_reason (not_relevant, too_complex or competitor) on an item archived with a reason, and domain on PR &amp; Citation Building items. | [optional] 
 **created_at** | **character** |  | 
 **updated_at** | **character** |  | 
 **resolved_source_refs** | [**array[map(object)]**](map.md) | The evidence each source_refs code points to (prompt, citation or own page) | [optional] 

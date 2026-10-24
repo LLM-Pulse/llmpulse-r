@@ -20,7 +20,7 @@
 #' @field status  character
 #' @field status_changed_at  character [optional]
 #' @field position  integer
-#' @field metadata  named list(object) [optional]
+#' @field metadata Free-form details. Carries effort (low, medium or high) when the generator rated it, archive_reason (not_relevant, too_complex or competitor) on an item archived with a reason, and domain on PR & Citation Building items. named list(object) [optional]
 #' @field created_at  character
 #' @field updated_at  character
 #' @field resolved_source_refs The evidence each source_refs code points to (prompt, citation or own page) list(named list(object)) [optional]
@@ -68,7 +68,7 @@ RecommendationItem <- R6::R6Class(
     #' @param description description
     #' @param estimated_impact estimated_impact
     #' @param status_changed_at status_changed_at
-    #' @param metadata metadata
+    #' @param metadata Free-form details. Carries effort (low, medium or high) when the generator rated it, archive_reason (not_relevant, too_complex or competitor) on an item archived with a reason, and domain on PR & Citation Building items.
     #' @param resolved_source_refs The evidence each source_refs code points to (prompt, citation or own page)
     #' @param unresolved_source_refs Present only when a code points to no stored evidence
     #' @param ... Other optional arguments.
