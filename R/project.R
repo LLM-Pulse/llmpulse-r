@@ -10,6 +10,8 @@
 #' @field id  integer [optional]
 #' @field name Internal project label (sidebar, settings, admin) character [optional]
 #' @field brand_name LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`. character [optional]
+#' @field tracked Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run character [optional]
+#' @field untracked_reason Why tracked is false: paused or project_limit. Null when tracked character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -19,6 +21,8 @@ Project <- R6::R6Class(
     `id` = NULL,
     `name` = NULL,
     `brand_name` = NULL,
+    `tracked` = NULL,
+    `untracked_reason` = NULL,
 
     #' @description
     #' Initialize a new Project class.
@@ -26,8 +30,10 @@ Project <- R6::R6Class(
     #' @param id id
     #' @param name Internal project label (sidebar, settings, admin)
     #' @param brand_name LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`.
+    #' @param tracked Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run
+    #' @param untracked_reason Why tracked is false: paused or project_limit. Null when tracked
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, ...) {
+    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `tracked` = NULL, `untracked_reason` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -45,6 +51,18 @@ Project <- R6::R6Class(
           stop(paste("Error! Invalid data for `brand_name`. Must be a string:", `brand_name`))
         }
         self$`brand_name` <- `brand_name`
+      }
+      if (!is.null(`tracked`)) {
+        if (!(is.logical(`tracked`) && length(`tracked`) == 1)) {
+          stop(paste("Error! Invalid data for `tracked`. Must be a boolean:", `tracked`))
+        }
+        self$`tracked` <- `tracked`
+      }
+      if (!is.null(`untracked_reason`)) {
+        if (!(is.character(`untracked_reason`) && length(`untracked_reason`) == 1)) {
+          stop(paste("Error! Invalid data for `untracked_reason`. Must be a string:", `untracked_reason`))
+        }
+        self$`untracked_reason` <- `untracked_reason`
       }
     },
 
@@ -91,6 +109,14 @@ Project <- R6::R6Class(
         ProjectObject[["brand_name"]] <-
           self$`brand_name`
       }
+      if (!is.null(self$`tracked`)) {
+        ProjectObject[["tracked"]] <-
+          self$`tracked`
+      }
+      if (!is.null(self$`untracked_reason`)) {
+        ProjectObject[["untracked_reason"]] <-
+          self$`untracked_reason`
+      }
       return(ProjectObject)
     },
 
@@ -109,6 +135,12 @@ Project <- R6::R6Class(
       }
       if (!is.null(this_object$`brand_name`)) {
         self$`brand_name` <- this_object$`brand_name`
+      }
+      if (!is.null(this_object$`tracked`)) {
+        self$`tracked` <- this_object$`tracked`
+      }
+      if (!is.null(this_object$`untracked_reason`)) {
+        self$`untracked_reason` <- this_object$`untracked_reason`
       }
       self
     },
@@ -134,6 +166,8 @@ Project <- R6::R6Class(
       self$`id` <- this_object$`id`
       self$`name` <- this_object$`name`
       self$`brand_name` <- this_object$`brand_name`
+      self$`tracked` <- this_object$`tracked`
+      self$`untracked_reason` <- this_object$`untracked_reason`
       self
     },
 

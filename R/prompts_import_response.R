@@ -16,6 +16,9 @@
 #' @field row_errors Rows that were skipped or whose tags were not added, by their index in rows list(\link{PromptsImportResponseRowErrorsInner})
 #' @field length_warning Which tracked AI models will skip new prompts that are too long for them character
 #' @field prompts_available Prompt slots left on the plan; null when unlimited integer
+#' @field tracked Whether scheduled runs include the project the prompts were imported into. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes character
+#' @field untracked_reason Why tracked is false: paused or project_limit. Null when tracked character
+#' @field warning What to do when tracked is false. Null when tracked character
 #' @field request_id  character
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -32,6 +35,9 @@ PromptsImportResponse <- R6::R6Class(
     `row_errors` = NULL,
     `length_warning` = NULL,
     `prompts_available` = NULL,
+    `tracked` = NULL,
+    `untracked_reason` = NULL,
+    `warning` = NULL,
     `request_id` = NULL,
 
     #' @description
@@ -46,9 +52,12 @@ PromptsImportResponse <- R6::R6Class(
     #' @param row_errors Rows that were skipped or whose tags were not added, by their index in rows
     #' @param length_warning Which tracked AI models will skip new prompts that are too long for them
     #' @param prompts_available Prompt slots left on the plan; null when unlimited
+    #' @param tracked Whether scheduled runs include the project the prompts were imported into. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes
+    #' @param untracked_reason Why tracked is false: paused or project_limit. Null when tracked
+    #' @param warning What to do when tracked is false. Null when tracked
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`project_id`, `processed_rows`, `created`, `duplicates`, `tagged`, `created_tags`, `row_errors`, `length_warning`, `prompts_available`, `request_id`, ...) {
+    initialize = function(`project_id`, `processed_rows`, `created`, `duplicates`, `tagged`, `created_tags`, `row_errors`, `length_warning`, `prompts_available`, `tracked`, `untracked_reason`, `warning`, `request_id`, ...) {
       if (!missing(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -101,6 +110,24 @@ PromptsImportResponse <- R6::R6Class(
           stop(paste("Error! Invalid data for `prompts_available`. Must be an integer:", `prompts_available`))
         }
         self$`prompts_available` <- `prompts_available`
+      }
+      if (!missing(`tracked`)) {
+        if (!(is.logical(`tracked`) && length(`tracked`) == 1)) {
+          stop(paste("Error! Invalid data for `tracked`. Must be a boolean:", `tracked`))
+        }
+        self$`tracked` <- `tracked`
+      }
+      if (!missing(`untracked_reason`)) {
+        if (!(is.character(`untracked_reason`) && length(`untracked_reason`) == 1)) {
+          stop(paste("Error! Invalid data for `untracked_reason`. Must be a string:", `untracked_reason`))
+        }
+        self$`untracked_reason` <- `untracked_reason`
+      }
+      if (!missing(`warning`)) {
+        if (!(is.character(`warning`) && length(`warning`) == 1)) {
+          stop(paste("Error! Invalid data for `warning`. Must be a string:", `warning`))
+        }
+        self$`warning` <- `warning`
       }
       if (!missing(`request_id`)) {
         if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
@@ -177,6 +204,18 @@ PromptsImportResponse <- R6::R6Class(
         PromptsImportResponseObject[["prompts_available"]] <-
           self$`prompts_available`
       }
+      if (!is.null(self$`tracked`)) {
+        PromptsImportResponseObject[["tracked"]] <-
+          self$`tracked`
+      }
+      if (!is.null(self$`untracked_reason`)) {
+        PromptsImportResponseObject[["untracked_reason"]] <-
+          self$`untracked_reason`
+      }
+      if (!is.null(self$`warning`)) {
+        PromptsImportResponseObject[["warning"]] <-
+          self$`warning`
+      }
       if (!is.null(self$`request_id`)) {
         PromptsImportResponseObject[["request_id"]] <-
           self$`request_id`
@@ -241,6 +280,15 @@ PromptsImportResponse <- R6::R6Class(
       if (!is.null(this_object$`prompts_available`)) {
         self$`prompts_available` <- this_object$`prompts_available`
       }
+      if (!is.null(this_object$`tracked`)) {
+        self$`tracked` <- this_object$`tracked`
+      }
+      if (!is.null(this_object$`untracked_reason`)) {
+        self$`untracked_reason` <- this_object$`untracked_reason`
+      }
+      if (!is.null(this_object$`warning`)) {
+        self$`warning` <- this_object$`warning`
+      }
       if (!is.null(this_object$`request_id`)) {
         self$`request_id` <- this_object$`request_id`
       }
@@ -274,6 +322,9 @@ PromptsImportResponse <- R6::R6Class(
       self$`row_errors` <- ApiClient$new()$deserializeObj(this_object$`row_errors`, "array[PromptsImportResponseRowErrorsInner]", loadNamespace("llmpulse"))
       self$`length_warning` <- this_object$`length_warning`
       self$`prompts_available` <- this_object$`prompts_available`
+      self$`tracked` <- this_object$`tracked`
+      self$`untracked_reason` <- this_object$`untracked_reason`
+      self$`warning` <- this_object$`warning`
       self$`request_id` <- this_object$`request_id`
       self
     },
@@ -355,6 +406,30 @@ PromptsImportResponse <- R6::R6Class(
       } else {
         stop(paste("The JSON input `", input, "` is invalid for PromptsImportResponse: the required field `prompts_available` is missing."))
       }
+      # check the required field `tracked`
+      if (!is.null(input_json$`tracked`)) {
+        if (!(is.logical(input_json$`tracked`) && length(input_json$`tracked`) == 1)) {
+          stop(paste("Error! Invalid data for `tracked`. Must be a boolean:", input_json$`tracked`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for PromptsImportResponse: the required field `tracked` is missing."))
+      }
+      # check the required field `untracked_reason`
+      if (!is.null(input_json$`untracked_reason`)) {
+        if (!(is.character(input_json$`untracked_reason`) && length(input_json$`untracked_reason`) == 1)) {
+          stop(paste("Error! Invalid data for `untracked_reason`. Must be a string:", input_json$`untracked_reason`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for PromptsImportResponse: the required field `untracked_reason` is missing."))
+      }
+      # check the required field `warning`
+      if (!is.null(input_json$`warning`)) {
+        if (!(is.character(input_json$`warning`) && length(input_json$`warning`) == 1)) {
+          stop(paste("Error! Invalid data for `warning`. Must be a string:", input_json$`warning`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for PromptsImportResponse: the required field `warning` is missing."))
+      }
       # check the required field `request_id`
       if (!is.null(input_json$`request_id`)) {
         if (!(is.character(input_json$`request_id`) && length(input_json$`request_id`) == 1)) {
@@ -413,6 +488,11 @@ PromptsImportResponse <- R6::R6Class(
         return(FALSE)
       }
 
+      # check if the required `tracked` is null
+      if (is.null(self$`tracked`)) {
+        return(FALSE)
+      }
+
       # check if the required `request_id` is null
       if (is.null(self$`request_id`)) {
         return(FALSE)
@@ -460,6 +540,11 @@ PromptsImportResponse <- R6::R6Class(
       # check if the required `row_errors` is null
       if (is.null(self$`row_errors`)) {
         invalid_fields["row_errors"] <- "Non-nullable required field `row_errors` cannot be null."
+      }
+
+      # check if the required `tracked` is null
+      if (is.null(self$`tracked`)) {
+        invalid_fields["tracked"] <- "Non-nullable required field `tracked` cannot be null."
       }
 
       # check if the required `request_id` is null

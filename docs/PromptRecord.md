@@ -14,6 +14,8 @@ Name | Type | Description | Notes
 **prompt_type** | **character** | Search intent: informational, navigational, commercial or transactional. Null until the prompt is classified | 
 **brand_kind** | **character** | Brand focus: brand, brand_other or non_brand. Null until the prompt is classified | 
 **last_executed_at** | **character** | Null until the prompt has run | 
+**tracked** | **character** | Whether scheduled runs include this prompt. False when its project is paused or beyond the plan&#39;s project limit, or when the prompt is beyond the plan&#39;s prompt limit (the oldest prompts up to the limit run) | 
+**untracked_reason** | **character** | Why tracked is false: paused, project_limit or prompt_limit. Null when tracked | 
 **app_url** | **character** | Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project | 
 
 

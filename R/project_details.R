@@ -10,6 +10,8 @@
 #' @field id  integer [optional]
 #' @field name Internal project label (sidebar, settings, admin) character [optional]
 #' @field brand_name LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`. character [optional]
+#' @field tracked Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run character
+#' @field untracked_reason Why tracked is false: paused or project_limit. Null when tracked character
 #' @field url  character [optional]
 #' @field description  character [optional]
 #' @field matching_names  list(character) [optional]
@@ -43,6 +45,8 @@ ProjectDetails <- R6::R6Class(
     `id` = NULL,
     `name` = NULL,
     `brand_name` = NULL,
+    `tracked` = NULL,
+    `untracked_reason` = NULL,
     `url` = NULL,
     `description` = NULL,
     `matching_names` = NULL,
@@ -71,6 +75,8 @@ ProjectDetails <- R6::R6Class(
     #' @description
     #' Initialize a new ProjectDetails class.
     #'
+    #' @param tracked Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run
+    #' @param untracked_reason Why tracked is false: paused or project_limit. Null when tracked
     #' @param id id
     #' @param name Internal project label (sidebar, settings, admin)
     #' @param brand_name LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`.
@@ -99,7 +105,19 @@ ProjectDetails <- R6::R6Class(
     #' @param agent_traffic agent_traffic
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `prompt_limit` = NULL, `stats` = NULL, `data_coverage` = NULL, `search_console` = NULL, `ai_traffic` = NULL, `agent_traffic` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`tracked`, `untracked_reason`, `id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `prompt_limit` = NULL, `stats` = NULL, `data_coverage` = NULL, `search_console` = NULL, `ai_traffic` = NULL, `agent_traffic` = NULL, `request_id` = NULL, ...) {
+      if (!missing(`tracked`)) {
+        if (!(is.logical(`tracked`) && length(`tracked`) == 1)) {
+          stop(paste("Error! Invalid data for `tracked`. Must be a boolean:", `tracked`))
+        }
+        self$`tracked` <- `tracked`
+      }
+      if (!missing(`untracked_reason`)) {
+        if (!(is.character(`untracked_reason`) && length(`untracked_reason`) == 1)) {
+          stop(paste("Error! Invalid data for `untracked_reason`. Must be a string:", `untracked_reason`))
+        }
+        self$`untracked_reason` <- `untracked_reason`
+      }
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -295,6 +313,14 @@ ProjectDetails <- R6::R6Class(
         ProjectDetailsObject[["brand_name"]] <-
           self$`brand_name`
       }
+      if (!is.null(self$`tracked`)) {
+        ProjectDetailsObject[["tracked"]] <-
+          self$`tracked`
+      }
+      if (!is.null(self$`untracked_reason`)) {
+        ProjectDetailsObject[["untracked_reason"]] <-
+          self$`untracked_reason`
+      }
       if (!is.null(self$`url`)) {
         ProjectDetailsObject[["url"]] <-
           self$`url`
@@ -433,6 +459,12 @@ ProjectDetails <- R6::R6Class(
       if (!is.null(this_object$`brand_name`)) {
         self$`brand_name` <- this_object$`brand_name`
       }
+      if (!is.null(this_object$`tracked`)) {
+        self$`tracked` <- this_object$`tracked`
+      }
+      if (!is.null(this_object$`untracked_reason`)) {
+        self$`untracked_reason` <- this_object$`untracked_reason`
+      }
       if (!is.null(this_object$`url`)) {
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
         if (!stringr::str_detect(this_object$`url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
@@ -543,6 +575,8 @@ ProjectDetails <- R6::R6Class(
       self$`id` <- this_object$`id`
       self$`name` <- this_object$`name`
       self$`brand_name` <- this_object$`brand_name`
+      self$`tracked` <- this_object$`tracked`
+      self$`untracked_reason` <- this_object$`untracked_reason`
       # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
       if (!stringr::str_detect(this_object$`url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
         stop(paste("Error! Invalid data for `url`. Must be a URL:", this_object$`url`))
@@ -580,6 +614,22 @@ ProjectDetails <- R6::R6Class(
     #' @param input the JSON input
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
+      # check the required field `tracked`
+      if (!is.null(input_json$`tracked`)) {
+        if (!(is.logical(input_json$`tracked`) && length(input_json$`tracked`) == 1)) {
+          stop(paste("Error! Invalid data for `tracked`. Must be a boolean:", input_json$`tracked`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for ProjectDetails: the required field `tracked` is missing."))
+      }
+      # check the required field `untracked_reason`
+      if (!is.null(input_json$`untracked_reason`)) {
+        if (!(is.character(input_json$`untracked_reason`) && length(input_json$`untracked_reason`) == 1)) {
+          stop(paste("Error! Invalid data for `untracked_reason`. Must be a string:", input_json$`untracked_reason`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for ProjectDetails: the required field `untracked_reason` is missing."))
+      }
     },
 
     #' @description
@@ -595,6 +645,11 @@ ProjectDetails <- R6::R6Class(
     #'
     #' @return true if the values in all fields are valid.
     isValid = function() {
+      # check if the required `tracked` is null
+      if (is.null(self$`tracked`)) {
+        return(FALSE)
+      }
+
       TRUE
     },
 
@@ -604,6 +659,11 @@ ProjectDetails <- R6::R6Class(
     #' @return A list of invalid fields (if any).
     getInvalidFields = function() {
       invalid_fields <- list()
+      # check if the required `tracked` is null
+      if (is.null(self$`tracked`)) {
+        invalid_fields["tracked"] <- "Non-nullable required field `tracked` cannot be null."
+      }
+
       invalid_fields
     },
 

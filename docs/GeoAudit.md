@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **country_code** | **character** |  | [optional] 
 **cadence** | **character** |  | [optional] [Enum: [once, weekly, monthly]] 
 **status** | **character** |  | [optional] [Enum: [active, paused, archived]] 
-**paused_reason** | **character** | user, or unreachable when three runs in a row could not reach the site | [optional] 
+**paused_reason** | **character** | Null unless status is paused. user (paused by hand), unreachable (three runs in a row could not reach the site) or quota (the account has more active recurring audits than its plan allows; resume it once there is room) | [optional] 
 **schedule** | [**GeoAuditSchedule**](GeoAuditSchedule.md) |  | [optional] 
 **next_run_at** | **character** |  | [optional] 
 **email_alerts** | **character** |  | [optional] 

@@ -13,7 +13,7 @@
 #' @field schedule  \link{CustomReportSchedule}
 #' @field recipients_count  integer
 #' @field published Whether the shared link is published character
-#' @field public_link_active Whether the shared link opens (published and not made inside a client portal) character
+#' @field public_link_active Whether the shared link opens (published, not made inside a client portal, and the account is active on the Scale tier or higher) character
 #' @field password_protected  character
 #' @field portal_only Made inside a client portal, so it cannot be shared or emailed character
 #' @field widget_count  integer
@@ -51,7 +51,7 @@ CustomReportSummary <- R6::R6Class(
     #' @param schedule schedule
     #' @param recipients_count recipients_count
     #' @param published Whether the shared link is published
-    #' @param public_link_active Whether the shared link opens (published and not made inside a client portal)
+    #' @param public_link_active Whether the shared link opens (published, not made inside a client portal, and the account is active on the Scale tier or higher)
     #' @param password_protected password_protected
     #' @param portal_only Made inside a client portal, so it cannot be shared or emailed
     #' @param widget_count widget_count

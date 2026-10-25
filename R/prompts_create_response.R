@@ -12,6 +12,9 @@
 #' @field skipped  integer [optional]
 #' @field total_after  integer [optional]
 #' @field prompts_available  integer [optional]
+#' @field tracked Whether scheduled runs include the project the prompts were added to. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes character [optional]
+#' @field untracked_reason Why tracked is false: paused or project_limit. Null when tracked character [optional]
+#' @field warning What to do when tracked is false. Null when tracked character [optional]
 #' @field data  list(\link{PromptsCreateResponseDataInner}) [optional]
 #' @field request_id  character [optional]
 #' @importFrom R6 R6Class
@@ -25,6 +28,9 @@ PromptsCreateResponse <- R6::R6Class(
     `skipped` = NULL,
     `total_after` = NULL,
     `prompts_available` = NULL,
+    `tracked` = NULL,
+    `untracked_reason` = NULL,
+    `warning` = NULL,
     `data` = NULL,
     `request_id` = NULL,
 
@@ -36,10 +42,13 @@ PromptsCreateResponse <- R6::R6Class(
     #' @param skipped skipped
     #' @param total_after total_after
     #' @param prompts_available prompts_available
+    #' @param tracked Whether scheduled runs include the project the prompts were added to. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes
+    #' @param untracked_reason Why tracked is false: paused or project_limit. Null when tracked
+    #' @param warning What to do when tracked is false. Null when tracked
     #' @param data data
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`project_id` = NULL, `created` = NULL, `skipped` = NULL, `total_after` = NULL, `prompts_available` = NULL, `data` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`project_id` = NULL, `created` = NULL, `skipped` = NULL, `total_after` = NULL, `prompts_available` = NULL, `tracked` = NULL, `untracked_reason` = NULL, `warning` = NULL, `data` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -69,6 +78,24 @@ PromptsCreateResponse <- R6::R6Class(
           stop(paste("Error! Invalid data for `prompts_available`. Must be an integer:", `prompts_available`))
         }
         self$`prompts_available` <- `prompts_available`
+      }
+      if (!is.null(`tracked`)) {
+        if (!(is.logical(`tracked`) && length(`tracked`) == 1)) {
+          stop(paste("Error! Invalid data for `tracked`. Must be a boolean:", `tracked`))
+        }
+        self$`tracked` <- `tracked`
+      }
+      if (!is.null(`untracked_reason`)) {
+        if (!(is.character(`untracked_reason`) && length(`untracked_reason`) == 1)) {
+          stop(paste("Error! Invalid data for `untracked_reason`. Must be a string:", `untracked_reason`))
+        }
+        self$`untracked_reason` <- `untracked_reason`
+      }
+      if (!is.null(`warning`)) {
+        if (!(is.character(`warning`) && length(`warning`) == 1)) {
+          stop(paste("Error! Invalid data for `warning`. Must be a string:", `warning`))
+        }
+        self$`warning` <- `warning`
       }
       if (!is.null(`data`)) {
         stopifnot(is.vector(`data`), length(`data`) != 0)
@@ -134,6 +161,18 @@ PromptsCreateResponse <- R6::R6Class(
         PromptsCreateResponseObject[["prompts_available"]] <-
           self$`prompts_available`
       }
+      if (!is.null(self$`tracked`)) {
+        PromptsCreateResponseObject[["tracked"]] <-
+          self$`tracked`
+      }
+      if (!is.null(self$`untracked_reason`)) {
+        PromptsCreateResponseObject[["untracked_reason"]] <-
+          self$`untracked_reason`
+      }
+      if (!is.null(self$`warning`)) {
+        PromptsCreateResponseObject[["warning"]] <-
+          self$`warning`
+      }
       if (!is.null(self$`data`)) {
         PromptsCreateResponseObject[["data"]] <-
           self$extractSimpleType(self$`data`)
@@ -190,6 +229,15 @@ PromptsCreateResponse <- R6::R6Class(
       if (!is.null(this_object$`prompts_available`)) {
         self$`prompts_available` <- this_object$`prompts_available`
       }
+      if (!is.null(this_object$`tracked`)) {
+        self$`tracked` <- this_object$`tracked`
+      }
+      if (!is.null(this_object$`untracked_reason`)) {
+        self$`untracked_reason` <- this_object$`untracked_reason`
+      }
+      if (!is.null(this_object$`warning`)) {
+        self$`warning` <- this_object$`warning`
+      }
       if (!is.null(this_object$`data`)) {
         self$`data` <- ApiClient$new()$deserializeObj(this_object$`data`, "array[PromptsCreateResponseDataInner]", loadNamespace("llmpulse"))
       }
@@ -222,6 +270,9 @@ PromptsCreateResponse <- R6::R6Class(
       self$`skipped` <- this_object$`skipped`
       self$`total_after` <- this_object$`total_after`
       self$`prompts_available` <- this_object$`prompts_available`
+      self$`tracked` <- this_object$`tracked`
+      self$`untracked_reason` <- this_object$`untracked_reason`
+      self$`warning` <- this_object$`warning`
       self$`data` <- ApiClient$new()$deserializeObj(this_object$`data`, "array[PromptsCreateResponseDataInner]", loadNamespace("llmpulse"))
       self$`request_id` <- this_object$`request_id`
       self

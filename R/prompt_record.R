@@ -17,6 +17,8 @@
 #' @field prompt_type Search intent: informational, navigational, commercial or transactional. Null until the prompt is classified character
 #' @field brand_kind Brand focus: brand, brand_other or non_brand. Null until the prompt is classified character
 #' @field last_executed_at Null until the prompt has run character
+#' @field tracked Whether scheduled runs include this prompt. False when its project is paused or beyond the plan's project limit, or when the prompt is beyond the plan's prompt limit (the oldest prompts up to the limit run) character
+#' @field untracked_reason Why tracked is false: paused, project_limit or prompt_limit. Null when tracked character
 #' @field app_url Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project character
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -34,6 +36,8 @@ PromptRecord <- R6::R6Class(
     `prompt_type` = NULL,
     `brand_kind` = NULL,
     `last_executed_at` = NULL,
+    `tracked` = NULL,
+    `untracked_reason` = NULL,
     `app_url` = NULL,
 
     #' @description
@@ -49,9 +53,11 @@ PromptRecord <- R6::R6Class(
     #' @param prompt_type Search intent: informational, navigational, commercial or transactional. Null until the prompt is classified
     #' @param brand_kind Brand focus: brand, brand_other or non_brand. Null until the prompt is classified
     #' @param last_executed_at Null until the prompt has run
+    #' @param tracked Whether scheduled runs include this prompt. False when its project is paused or beyond the plan's project limit, or when the prompt is beyond the plan's prompt limit (the oldest prompts up to the limit run)
+    #' @param untracked_reason Why tracked is false: paused, project_limit or prompt_limit. Null when tracked
     #' @param app_url Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project
     #' @param ... Other optional arguments.
-    initialize = function(`id`, `prompt_text`, `collection_id`, `collection_ids`, `tags`, `country_code`, `language_code`, `prompt_type`, `brand_kind`, `last_executed_at`, `app_url`, ...) {
+    initialize = function(`id`, `prompt_text`, `collection_id`, `collection_ids`, `tags`, `country_code`, `language_code`, `prompt_type`, `brand_kind`, `last_executed_at`, `tracked`, `untracked_reason`, `app_url`, ...) {
       if (!missing(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -109,6 +115,18 @@ PromptRecord <- R6::R6Class(
           stop(paste("Error! Invalid data for `last_executed_at`. Must be a string:", `last_executed_at`))
         }
         self$`last_executed_at` <- `last_executed_at`
+      }
+      if (!missing(`tracked`)) {
+        if (!(is.logical(`tracked`) && length(`tracked`) == 1)) {
+          stop(paste("Error! Invalid data for `tracked`. Must be a boolean:", `tracked`))
+        }
+        self$`tracked` <- `tracked`
+      }
+      if (!missing(`untracked_reason`)) {
+        if (!(is.character(`untracked_reason`) && length(`untracked_reason`) == 1)) {
+          stop(paste("Error! Invalid data for `untracked_reason`. Must be a string:", `untracked_reason`))
+        }
+        self$`untracked_reason` <- `untracked_reason`
       }
       if (!missing(`app_url`)) {
         if (!(is.character(`app_url`) && length(`app_url`) == 1)) {
@@ -193,6 +211,14 @@ PromptRecord <- R6::R6Class(
         PromptRecordObject[["last_executed_at"]] <-
           self$`last_executed_at`
       }
+      if (!is.null(self$`tracked`)) {
+        PromptRecordObject[["tracked"]] <-
+          self$`tracked`
+      }
+      if (!is.null(self$`untracked_reason`)) {
+        PromptRecordObject[["untracked_reason"]] <-
+          self$`untracked_reason`
+      }
       if (!is.null(self$`app_url`)) {
         PromptRecordObject[["app_url"]] <-
           self$`app_url`
@@ -260,6 +286,12 @@ PromptRecord <- R6::R6Class(
       if (!is.null(this_object$`last_executed_at`)) {
         self$`last_executed_at` <- this_object$`last_executed_at`
       }
+      if (!is.null(this_object$`tracked`)) {
+        self$`tracked` <- this_object$`tracked`
+      }
+      if (!is.null(this_object$`untracked_reason`)) {
+        self$`untracked_reason` <- this_object$`untracked_reason`
+      }
       if (!is.null(this_object$`app_url`)) {
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
         if (!stringr::str_detect(this_object$`app_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
@@ -298,6 +330,8 @@ PromptRecord <- R6::R6Class(
       self$`prompt_type` <- this_object$`prompt_type`
       self$`brand_kind` <- this_object$`brand_kind`
       self$`last_executed_at` <- this_object$`last_executed_at`
+      self$`tracked` <- this_object$`tracked`
+      self$`untracked_reason` <- this_object$`untracked_reason`
       # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
       if (!stringr::str_detect(this_object$`app_url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
         stop(paste("Error! Invalid data for `app_url`. Must be a URL:", this_object$`app_url`))
@@ -390,6 +424,22 @@ PromptRecord <- R6::R6Class(
       } else {
         stop(paste("The JSON input `", input, "` is invalid for PromptRecord: the required field `last_executed_at` is missing."))
       }
+      # check the required field `tracked`
+      if (!is.null(input_json$`tracked`)) {
+        if (!(is.logical(input_json$`tracked`) && length(input_json$`tracked`) == 1)) {
+          stop(paste("Error! Invalid data for `tracked`. Must be a boolean:", input_json$`tracked`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for PromptRecord: the required field `tracked` is missing."))
+      }
+      # check the required field `untracked_reason`
+      if (!is.null(input_json$`untracked_reason`)) {
+        if (!(is.character(input_json$`untracked_reason`) && length(input_json$`untracked_reason`) == 1)) {
+          stop(paste("Error! Invalid data for `untracked_reason`. Must be a string:", input_json$`untracked_reason`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for PromptRecord: the required field `untracked_reason` is missing."))
+      }
       # check the required field `app_url`
       if (!is.null(input_json$`app_url`)) {
         if (!(is.character(input_json$`app_url`) && length(input_json$`app_url`) == 1)) {
@@ -437,6 +487,11 @@ PromptRecord <- R6::R6Class(
         return(FALSE)
       }
 
+      # check if the required `tracked` is null
+      if (is.null(self$`tracked`)) {
+        return(FALSE)
+      }
+
       # check if the required `app_url` is null
       if (is.null(self$`app_url`)) {
         return(FALSE)
@@ -469,6 +524,11 @@ PromptRecord <- R6::R6Class(
       # check if the required `tags` is null
       if (is.null(self$`tags`)) {
         invalid_fields["tags"] <- "Non-nullable required field `tags` cannot be null."
+      }
+
+      # check if the required `tracked` is null
+      if (is.null(self$`tracked`)) {
+        invalid_fields["tracked"] <- "Non-nullable required field `tracked` cannot be null."
       }
 
       # check if the required `app_url` is null

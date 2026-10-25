@@ -13,7 +13,7 @@
 #' @field country_code  character [optional]
 #' @field cadence  character [optional]
 #' @field status  character [optional]
-#' @field paused_reason user, or unreachable when three runs in a row could not reach the site character [optional]
+#' @field paused_reason Null unless status is paused. user (paused by hand), unreachable (three runs in a row could not reach the site) or quota (the account has more active recurring audits than its plan allows; resume it once there is room) character [optional]
 #' @field schedule  \link{GeoAuditSchedule} [optional]
 #' @field next_run_at  character [optional]
 #' @field email_alerts  character [optional]
@@ -61,7 +61,7 @@ GeoAuditResponse <- R6::R6Class(
     #' @param country_code country_code
     #' @param cadence cadence
     #' @param status status
-    #' @param paused_reason user, or unreachable when three runs in a row could not reach the site
+    #' @param paused_reason Null unless status is paused. user (paused by hand), unreachable (three runs in a row could not reach the site) or quota (the account has more active recurring audits than its plan allows; resume it once there is room)
     #' @param schedule schedule
     #' @param next_run_at next_run_at
     #' @param email_alerts email_alerts
