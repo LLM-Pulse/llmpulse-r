@@ -40,7 +40,7 @@ ApiClient <- R6::R6Class(
     # base path of all requests
     base_path = "https://api.llmpulse.ai/api/v1",
     # user agent in the HTTP request
-    user_agent = "OpenAPI-Generator/1.70.0/r",
+    user_agent = "OpenAPI-Generator/1.70.1/r",
     # default headers in the HTTP request
     default_headers = NULL,
     # username (HTTP basic authentication)

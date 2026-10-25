@@ -193,37 +193,16 @@ ReputationStudiesApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling ReputationStudiesApi$GetReputationReport, `project_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling ReputationStudiesApi$GetReputationReport, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling ReputationStudiesApi$GetReputationReport, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling ReputationStudiesApi$GetReputationReport, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling ReputationStudiesApi$GetReputationReport, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling ReputationStudiesApi$GetReputationReport, must be bigger than or equal to 1.")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling ReputationStudiesApi$GetReputationReport, `model` is not nullable")
-      }
-
-      if (!missing(`brand`) && is.null(`brand`)) {
-        stop("Invalid value for `brand` when calling ReputationStudiesApi$GetReputationReport, `brand` is not nullable")
-      }
-
-      if (!missing(`dimension`) && is.null(`dimension`)) {
-        stop("Invalid value for `dimension` when calling ReputationStudiesApi$GetReputationReport, `dimension` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling ReputationStudiesApi$GetReputationReport, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -460,37 +439,16 @@ ReputationStudiesApi <- R6::R6Class(
         stop("Invalid value for `report_id` when calling ReputationStudiesApi$GetStudyReport, `report_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling ReputationStudiesApi$GetStudyReport, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling ReputationStudiesApi$GetStudyReport, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling ReputationStudiesApi$GetStudyReport, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling ReputationStudiesApi$GetStudyReport, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling ReputationStudiesApi$GetStudyReport, must be bigger than or equal to 1.")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling ReputationStudiesApi$GetStudyReport, `model` is not nullable")
-      }
-
-      if (!missing(`subject`) && is.null(`subject`)) {
-        stop("Invalid value for `subject` when calling ReputationStudiesApi$GetStudyReport, `subject` is not nullable")
-      }
-
-      if (!missing(`dimension`) && is.null(`dimension`)) {
-        stop("Invalid value for `dimension` when calling ReputationStudiesApi$GetStudyReport, `dimension` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling ReputationStudiesApi$GetStudyReport, `output` is not nullable")
       }
 
       query_params[["page"]] <- `page`
@@ -617,25 +575,16 @@ ReputationStudiesApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling ReputationStudiesApi$ListReputationReports, `project_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling ReputationStudiesApi$ListReputationReports, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling ReputationStudiesApi$ListReputationReports, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling ReputationStudiesApi$ListReputationReports, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling ReputationStudiesApi$ListReputationReports, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling ReputationStudiesApi$ListReputationReports, must be bigger than or equal to 1.")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling ReputationStudiesApi$ListReputationReports, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -741,33 +690,16 @@ ReputationStudiesApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (!missing(`project_id`) && is.null(`project_id`)) {
-        stop("Invalid value for `project_id` when calling ReputationStudiesApi$ListStudies, `project_id` is not nullable")
-      }
-
-      if (!missing(`status`) && is.null(`status`)) {
-        stop("Invalid value for `status` when calling ReputationStudiesApi$ListStudies, `status` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling ReputationStudiesApi$ListStudies, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling ReputationStudiesApi$ListStudies, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling ReputationStudiesApi$ListStudies, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling ReputationStudiesApi$ListStudies, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling ReputationStudiesApi$ListStudies, must be bigger than or equal to 1.")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling ReputationStudiesApi$ListStudies, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`

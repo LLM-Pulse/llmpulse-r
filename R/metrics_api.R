@@ -279,80 +279,20 @@ MetricsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling MetricsApi$GetPromptSummary, `project_id` is not nullable")
       }
 
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling MetricsApi$GetPromptSummary, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling MetricsApi$GetPromptSummary, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling MetricsApi$GetPromptSummary, `to` is not nullable")
-      }
-
-      if (!missing(`breakdown`) && is.null(`breakdown`)) {
-        stop("Invalid value for `breakdown` when calling MetricsApi$GetPromptSummary, `breakdown` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling MetricsApi$GetPromptSummary, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling MetricsApi$GetPromptSummary, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling MetricsApi$GetPromptSummary, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling MetricsApi$GetPromptSummary, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling MetricsApi$GetPromptSummary, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling MetricsApi$GetPromptSummary, `prompt` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling MetricsApi$GetPromptSummary, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling MetricsApi$GetPromptSummary, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`sort`) && is.null(`sort`)) {
-        stop("Invalid value for `sort` when calling MetricsApi$GetPromptSummary, `sort` is not nullable")
-      }
-
-      if (!missing(`sort_dir`) && is.null(`sort_dir`)) {
-        stop("Invalid value for `sort_dir` when calling MetricsApi$GetPromptSummary, `sort_dir` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling MetricsApi$GetPromptSummary, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling MetricsApi$GetPromptSummary, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling MetricsApi$GetPromptSummary, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling MetricsApi$GetPromptSummary, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling MetricsApi$GetPromptSummary, must be bigger than or equal to 1.")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling MetricsApi$GetPromptSummary, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -548,67 +488,8 @@ MetricsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling MetricsApi$GetShareOfVoice, `project_id` is not nullable")
       }
 
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling MetricsApi$GetShareOfVoice, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling MetricsApi$GetShareOfVoice, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling MetricsApi$GetShareOfVoice, `to` is not nullable")
-      }
-
-      if (!missing(`granularity`) && is.null(`granularity`)) {
-        stop("Invalid value for `granularity` when calling MetricsApi$GetShareOfVoice, `granularity` is not nullable")
-      }
-
-      if (!missing(`competitors`) && is.null(`competitors`)) {
-        stop("Invalid value for `competitors` when calling MetricsApi$GetShareOfVoice, `competitors` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling MetricsApi$GetShareOfVoice, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling MetricsApi$GetShareOfVoice, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling MetricsApi$GetShareOfVoice, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling MetricsApi$GetShareOfVoice, `prompt` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling MetricsApi$GetShareOfVoice, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling MetricsApi$GetShareOfVoice, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling MetricsApi$GetShareOfVoice, `output` is not nullable")
-      }
-
-      if (!missing(`view`) && is.null(`view`)) {
-        stop("Invalid value for `view` when calling MetricsApi$GetShareOfVoice, `view` is not nullable")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling MetricsApi$GetShareOfVoice, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling MetricsApi$GetShareOfVoice, `language_code` is not nullable")
-      }
-
-      if (!missing(`include_project`) && is.null(`include_project`)) {
-        stop("Invalid value for `include_project` when calling MetricsApi$GetShareOfVoice, `include_project` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -799,67 +680,8 @@ MetricsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling MetricsApi$GetSummary, `project_id` is not nullable")
       }
 
-      if (!missing(`metrics`) && is.null(`metrics`)) {
-        stop("Invalid value for `metrics` when calling MetricsApi$GetSummary, `metrics` is not nullable")
-      }
-
-      if (!missing(`granularity`) && is.null(`granularity`)) {
-        stop("Invalid value for `granularity` when calling MetricsApi$GetSummary, `granularity` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling MetricsApi$GetSummary, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling MetricsApi$GetSummary, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling MetricsApi$GetSummary, `to` is not nullable")
-      }
-
-      if (!missing(`competitors`) && is.null(`competitors`)) {
-        stop("Invalid value for `competitors` when calling MetricsApi$GetSummary, `competitors` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling MetricsApi$GetSummary, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling MetricsApi$GetSummary, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling MetricsApi$GetSummary, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling MetricsApi$GetSummary, `prompt` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling MetricsApi$GetSummary, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling MetricsApi$GetSummary, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling MetricsApi$GetSummary, `output` is not nullable")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling MetricsApi$GetSummary, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling MetricsApi$GetSummary, `language_code` is not nullable")
-      }
-
-      if (!missing(`include_project`) && is.null(`include_project`)) {
-        stop("Invalid value for `include_project` when calling MetricsApi$GetSummary, `include_project` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -1047,67 +869,8 @@ MetricsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling MetricsApi$GetTimeseries, `project_id` is not nullable")
       }
 
-      if (!missing(`metrics`) && is.null(`metrics`)) {
-        stop("Invalid value for `metrics` when calling MetricsApi$GetTimeseries, `metrics` is not nullable")
-      }
-
-      if (!missing(`granularity`) && is.null(`granularity`)) {
-        stop("Invalid value for `granularity` when calling MetricsApi$GetTimeseries, `granularity` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling MetricsApi$GetTimeseries, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling MetricsApi$GetTimeseries, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling MetricsApi$GetTimeseries, `to` is not nullable")
-      }
-
-      if (!missing(`competitors`) && is.null(`competitors`)) {
-        stop("Invalid value for `competitors` when calling MetricsApi$GetTimeseries, `competitors` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling MetricsApi$GetTimeseries, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling MetricsApi$GetTimeseries, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling MetricsApi$GetTimeseries, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling MetricsApi$GetTimeseries, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling MetricsApi$GetTimeseries, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling MetricsApi$GetTimeseries, `prompt` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling MetricsApi$GetTimeseries, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling MetricsApi$GetTimeseries, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`include_project`) && is.null(`include_project`)) {
-        stop("Invalid value for `include_project` when calling MetricsApi$GetTimeseries, `include_project` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling MetricsApi$GetTimeseries, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -1299,84 +1062,20 @@ MetricsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling MetricsApi$GetTopSources, `project_id` is not nullable")
       }
 
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling MetricsApi$GetTopSources, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling MetricsApi$GetTopSources, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling MetricsApi$GetTopSources, `to` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling MetricsApi$GetTopSources, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling MetricsApi$GetTopSources, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling MetricsApi$GetTopSources, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling MetricsApi$GetTopSources, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling MetricsApi$GetTopSources, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling MetricsApi$GetTopSources, `prompt` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling MetricsApi$GetTopSources, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling MetricsApi$GetTopSources, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`sort`) && is.null(`sort`)) {
-        stop("Invalid value for `sort` when calling MetricsApi$GetTopSources, `sort` is not nullable")
-      }
-
-      if (!missing(`query`) && is.null(`query`)) {
-        stop("Invalid value for `query` when calling MetricsApi$GetTopSources, `query` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling MetricsApi$GetTopSources, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling MetricsApi$GetTopSources, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling MetricsApi$GetTopSources, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling MetricsApi$GetTopSources, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling MetricsApi$GetTopSources, must be bigger than or equal to 1.")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling MetricsApi$GetTopSources, `output` is not nullable")
-      }
-
-      if (!missing(`collection_ids`) && is.null(`collection_ids`)) {
-        stop("Invalid value for `collection_ids` when calling MetricsApi$GetTopSources, `collection_ids` is not nullable")
-      }
-
-      if (!missing(`domains`) && is.null(`domains`)) {
-        stop("Invalid value for `domains` when calling MetricsApi$GetTopSources, `domains` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -1424,10 +1123,14 @@ MetricsApi <- R6::R6Class(
       query_params[["output"]] <- `output`
 
       # no explore
-      query_params[["collection_ids"]] <- I(paste(lapply(`collection_ids`, URLencode, reserved = TRUE), collapse = ","))
+      if (!is.null(`collection_ids`)) {
+        query_params[["collection_ids"]] <- I(paste(lapply(`collection_ids`, URLencode, reserved = TRUE), collapse = ","))
+      }
 
       # no explore
-      query_params[["domains"]] <- I(paste(lapply(`domains`, URLencode, reserved = TRUE), collapse = ","))
+      if (!is.null(`domains`)) {
+        query_params[["domains"]] <- I(paste(lapply(`domains`, URLencode, reserved = TRUE), collapse = ","))
+      }
 
       local_var_url_path <- "/metrics/top_sources"
       # Bearer token

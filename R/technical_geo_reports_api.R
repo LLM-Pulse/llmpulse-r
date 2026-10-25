@@ -404,27 +404,14 @@ TechnicalGEOReportsApi <- R6::R6Class(
         stop("Invalid value for `report_type` when calling TechnicalGEOReportsApi$ListTechnicalGeoReports, `report_type` is not nullable")
       }
 
-      if (!missing(`status`) && is.null(`status`)) {
-        stop("Invalid value for `status` when calling TechnicalGEOReportsApi$ListTechnicalGeoReports, `status` is not nullable")
-      }
-
-      if (!missing(`batch_id`) && is.null(`batch_id`)) {
-        stop("Invalid value for `batch_id` when calling TechnicalGEOReportsApi$ListTechnicalGeoReports, `batch_id` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling TechnicalGEOReportsApi$ListTechnicalGeoReports, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling TechnicalGEOReportsApi$ListTechnicalGeoReports, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling TechnicalGEOReportsApi$ListTechnicalGeoReports, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling TechnicalGEOReportsApi$ListTechnicalGeoReports, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling TechnicalGEOReportsApi$ListTechnicalGeoReports, must be bigger than or equal to 1.")
       }

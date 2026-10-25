@@ -283,72 +283,20 @@ MentionsCitationsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling MentionsCitationsApi$ListAllCitations, `project_id` is not nullable")
       }
 
-      if (!missing(`competitors`) && is.null(`competitors`)) {
-        stop("Invalid value for `competitors` when calling MentionsCitationsApi$ListAllCitations, `competitors` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling MentionsCitationsApi$ListAllCitations, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling MentionsCitationsApi$ListAllCitations, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListAllCitations, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListAllCitations, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListAllCitations, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling MentionsCitationsApi$ListAllCitations, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListAllCitations, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListAllCitations, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling MentionsCitationsApi$ListAllCitations, `prompt` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling MentionsCitationsApi$ListAllCitations, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling MentionsCitationsApi$ListAllCitations, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling MentionsCitationsApi$ListAllCitations, `output` is not nullable")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling MentionsCitationsApi$ListAllCitations, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling MentionsCitationsApi$ListAllCitations, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling MentionsCitationsApi$ListAllCitations, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling MentionsCitationsApi$ListAllCitations, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling MentionsCitationsApi$ListAllCitations, `range` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -510,72 +458,20 @@ MentionsCitationsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling MentionsCitationsApi$ListAllMentions, `project_id` is not nullable")
       }
 
-      if (!missing(`competitors`) && is.null(`competitors`)) {
-        stop("Invalid value for `competitors` when calling MentionsCitationsApi$ListAllMentions, `competitors` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling MentionsCitationsApi$ListAllMentions, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling MentionsCitationsApi$ListAllMentions, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListAllMentions, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListAllMentions, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListAllMentions, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling MentionsCitationsApi$ListAllMentions, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListAllMentions, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListAllMentions, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling MentionsCitationsApi$ListAllMentions, `prompt` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling MentionsCitationsApi$ListAllMentions, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling MentionsCitationsApi$ListAllMentions, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling MentionsCitationsApi$ListAllMentions, `output` is not nullable")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling MentionsCitationsApi$ListAllMentions, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling MentionsCitationsApi$ListAllMentions, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling MentionsCitationsApi$ListAllMentions, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling MentionsCitationsApi$ListAllMentions, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling MentionsCitationsApi$ListAllMentions, `range` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -739,68 +635,20 @@ MentionsCitationsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling MentionsCitationsApi$ListCitations, `project_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling MentionsCitationsApi$ListCitations, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling MentionsCitationsApi$ListCitations, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListCitations, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListCitations, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListCitations, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling MentionsCitationsApi$ListCitations, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListCitations, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListCitations, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling MentionsCitationsApi$ListCitations, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling MentionsCitationsApi$ListCitations, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling MentionsCitationsApi$ListCitations, `prompt` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling MentionsCitationsApi$ListCitations, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling MentionsCitationsApi$ListCitations, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling MentionsCitationsApi$ListCitations, `output` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling MentionsCitationsApi$ListCitations, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling MentionsCitationsApi$ListCitations, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling MentionsCitationsApi$ListCitations, `range` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -975,72 +823,20 @@ MentionsCitationsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling MentionsCitationsApi$ListCompetitorCitations, `project_id` is not nullable")
       }
 
-      if (!missing(`competitors`) && is.null(`competitors`)) {
-        stop("Invalid value for `competitors` when calling MentionsCitationsApi$ListCompetitorCitations, `competitors` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling MentionsCitationsApi$ListCompetitorCitations, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling MentionsCitationsApi$ListCompetitorCitations, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListCompetitorCitations, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListCompetitorCitations, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListCompetitorCitations, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling MentionsCitationsApi$ListCompetitorCitations, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListCompetitorCitations, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListCompetitorCitations, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling MentionsCitationsApi$ListCompetitorCitations, `prompt` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling MentionsCitationsApi$ListCompetitorCitations, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling MentionsCitationsApi$ListCompetitorCitations, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling MentionsCitationsApi$ListCompetitorCitations, `output` is not nullable")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling MentionsCitationsApi$ListCompetitorCitations, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling MentionsCitationsApi$ListCompetitorCitations, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling MentionsCitationsApi$ListCompetitorCitations, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling MentionsCitationsApi$ListCompetitorCitations, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling MentionsCitationsApi$ListCompetitorCitations, `range` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -1206,72 +1002,20 @@ MentionsCitationsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling MentionsCitationsApi$ListCompetitorMentions, `project_id` is not nullable")
       }
 
-      if (!missing(`competitors`) && is.null(`competitors`)) {
-        stop("Invalid value for `competitors` when calling MentionsCitationsApi$ListCompetitorMentions, `competitors` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling MentionsCitationsApi$ListCompetitorMentions, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling MentionsCitationsApi$ListCompetitorMentions, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListCompetitorMentions, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListCompetitorMentions, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListCompetitorMentions, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling MentionsCitationsApi$ListCompetitorMentions, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListCompetitorMentions, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListCompetitorMentions, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling MentionsCitationsApi$ListCompetitorMentions, `prompt` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling MentionsCitationsApi$ListCompetitorMentions, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling MentionsCitationsApi$ListCompetitorMentions, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling MentionsCitationsApi$ListCompetitorMentions, `output` is not nullable")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling MentionsCitationsApi$ListCompetitorMentions, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling MentionsCitationsApi$ListCompetitorMentions, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling MentionsCitationsApi$ListCompetitorMentions, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling MentionsCitationsApi$ListCompetitorMentions, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling MentionsCitationsApi$ListCompetitorMentions, `range` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -1450,68 +1194,20 @@ MentionsCitationsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling MentionsCitationsApi$ListMentions, `project_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling MentionsCitationsApi$ListMentions, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling MentionsCitationsApi$ListMentions, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListMentions, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListMentions, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling MentionsCitationsApi$ListMentions, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling MentionsCitationsApi$ListMentions, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListMentions, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling MentionsCitationsApi$ListMentions, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling MentionsCitationsApi$ListMentions, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling MentionsCitationsApi$ListMentions, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling MentionsCitationsApi$ListMentions, `prompt` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling MentionsCitationsApi$ListMentions, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling MentionsCitationsApi$ListMentions, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling MentionsCitationsApi$ListMentions, `output` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling MentionsCitationsApi$ListMentions, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling MentionsCitationsApi$ListMentions, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling MentionsCitationsApi$ListMentions, `range` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`

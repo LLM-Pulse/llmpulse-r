@@ -1066,76 +1066,20 @@ PromptsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling PromptsApi$ListPromptExecutions, `project_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling PromptsApi$ListPromptExecutions, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling PromptsApi$ListPromptExecutions, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling PromptsApi$ListPromptExecutions, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling PromptsApi$ListPromptExecutions, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling PromptsApi$ListPromptExecutions, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling PromptsApi$ListPromptExecutions, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling PromptsApi$ListPromptExecutions, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling PromptsApi$ListPromptExecutions, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling PromptsApi$ListPromptExecutions, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling PromptsApi$ListPromptExecutions, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling PromptsApi$ListPromptExecutions, `prompt` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling PromptsApi$ListPromptExecutions, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling PromptsApi$ListPromptExecutions, `to` is not nullable")
-      }
-
-      if (!missing(`mention_filter`) && is.null(`mention_filter`)) {
-        stop("Invalid value for `mention_filter` when calling PromptsApi$ListPromptExecutions, `mention_filter` is not nullable")
-      }
-
-      if (!missing(`citation_filter`) && is.null(`citation_filter`)) {
-        stop("Invalid value for `citation_filter` when calling PromptsApi$ListPromptExecutions, `citation_filter` is not nullable")
-      }
-
-      if (!missing(`competitors`) && is.null(`competitors`)) {
-        stop("Invalid value for `competitors` when calling PromptsApi$ListPromptExecutions, `competitors` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling PromptsApi$ListPromptExecutions, `output` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling PromptsApi$ListPromptExecutions, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling PromptsApi$ListPromptExecutions, `brand_kind` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -1320,64 +1264,20 @@ PromptsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling PromptsApi$ListPrompts, `project_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling PromptsApi$ListPrompts, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling PromptsApi$ListPrompts, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling PromptsApi$ListPrompts, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling PromptsApi$ListPrompts, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling PromptsApi$ListPrompts, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling PromptsApi$ListPrompts, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling PromptsApi$ListPrompts, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling PromptsApi$ListPrompts, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling PromptsApi$ListPrompts, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling PromptsApi$ListPrompts, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling PromptsApi$ListPrompts, `prompt` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling PromptsApi$ListPrompts, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling PromptsApi$ListPrompts, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling PromptsApi$ListPrompts, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling PromptsApi$ListPrompts, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling PromptsApi$ListPrompts, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -1556,84 +1456,20 @@ PromptsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling PromptsApi$ListQueryFanOuts, `project_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling PromptsApi$ListQueryFanOuts, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling PromptsApi$ListQueryFanOuts, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling PromptsApi$ListQueryFanOuts, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling PromptsApi$ListQueryFanOuts, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling PromptsApi$ListQueryFanOuts, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`view`) && is.null(`view`)) {
-        stop("Invalid value for `view` when calling PromptsApi$ListQueryFanOuts, `view` is not nullable")
-      }
-
-      if (!missing(`order`) && is.null(`order`)) {
-        stop("Invalid value for `order` when calling PromptsApi$ListQueryFanOuts, `order` is not nullable")
-      }
-
-      if (!missing(`direction`) && is.null(`direction`)) {
-        stop("Invalid value for `direction` when calling PromptsApi$ListQueryFanOuts, `direction` is not nullable")
-      }
-
-      if (!missing(`query`) && is.null(`query`)) {
-        stop("Invalid value for `query` when calling PromptsApi$ListQueryFanOuts, `query` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling PromptsApi$ListQueryFanOuts, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling PromptsApi$ListQueryFanOuts, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling PromptsApi$ListQueryFanOuts, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling PromptsApi$ListQueryFanOuts, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling PromptsApi$ListQueryFanOuts, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling PromptsApi$ListQueryFanOuts, `prompt` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling PromptsApi$ListQueryFanOuts, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling PromptsApi$ListQueryFanOuts, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling PromptsApi$ListQueryFanOuts, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling PromptsApi$ListQueryFanOuts, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling PromptsApi$ListQueryFanOuts, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling PromptsApi$ListQueryFanOuts, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -1794,27 +1630,14 @@ PromptsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling PromptsApi$ListSuggestedPrompts, `project_id` is not nullable")
       }
 
-      if (!missing(`source`) && is.null(`source`)) {
-        stop("Invalid value for `source` when calling PromptsApi$ListSuggestedPrompts, `source` is not nullable")
-      }
-
-      if (!missing(`status`) && is.null(`status`)) {
-        stop("Invalid value for `status` when calling PromptsApi$ListSuggestedPrompts, `status` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling PromptsApi$ListSuggestedPrompts, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling PromptsApi$ListSuggestedPrompts, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling PromptsApi$ListSuggestedPrompts, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling PromptsApi$ListSuggestedPrompts, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling PromptsApi$ListSuggestedPrompts, must be bigger than or equal to 1.")
       }

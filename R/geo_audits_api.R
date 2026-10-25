@@ -351,14 +351,6 @@ GEOAuditsApi <- R6::R6Class(
         stop("Invalid value for `id` when calling GEOAuditsApi$CompareGeoAuditRuns, `id` is not nullable")
       }
 
-      if (!missing(`from_run`) && is.null(`from_run`)) {
-        stop("Invalid value for `from_run` when calling GEOAuditsApi$CompareGeoAuditRuns, `from_run` is not nullable")
-      }
-
-      if (!missing(`to_run`) && is.null(`to_run`)) {
-        stop("Invalid value for `to_run` when calling GEOAuditsApi$CompareGeoAuditRuns, `to_run` is not nullable")
-      }
-
       query_params[["project_id"]] <- `project_id`
 
       query_params[["from_run"]] <- `from_run`
@@ -998,23 +990,14 @@ GEOAuditsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling GEOAuditsApi$ListGeoAlerts, `project_id` is not nullable")
       }
 
-      if (!missing(`audit_id`) && is.null(`audit_id`)) {
-        stop("Invalid value for `audit_id` when calling GEOAuditsApi$ListGeoAlerts, `audit_id` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling GEOAuditsApi$ListGeoAlerts, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling GEOAuditsApi$ListGeoAlerts, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAlerts, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAlerts, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAlerts, must be bigger than or equal to 1.")
       }
@@ -1164,25 +1147,16 @@ GEOAuditsApi <- R6::R6Class(
         stop("Invalid value for `sequence` when calling GEOAuditsApi$ListGeoAuditFindings, `sequence` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling GEOAuditsApi$ListGeoAuditFindings, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling GEOAuditsApi$ListGeoAuditFindings, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAuditFindings, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAuditFindings, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAuditFindings, must be bigger than or equal to 1.")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling GEOAuditsApi$ListGeoAuditFindings, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -1331,23 +1305,14 @@ GEOAuditsApi <- R6::R6Class(
         stop("Invalid value for `geo_audit_id` when calling GEOAuditsApi$ListGeoAuditIssues, `geo_audit_id` is not nullable")
       }
 
-      if (!missing(`state`) && is.null(`state`)) {
-        stop("Invalid value for `state` when calling GEOAuditsApi$ListGeoAuditIssues, `state` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling GEOAuditsApi$ListGeoAuditIssues, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling GEOAuditsApi$ListGeoAuditIssues, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAuditIssues, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAuditIssues, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAuditIssues, must be bigger than or equal to 1.")
       }
@@ -1494,25 +1459,16 @@ GEOAuditsApi <- R6::R6Class(
         stop("Invalid value for `geo_audit_id` when calling GEOAuditsApi$ListGeoAuditRuns, `geo_audit_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling GEOAuditsApi$ListGeoAuditRuns, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling GEOAuditsApi$ListGeoAuditRuns, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAuditRuns, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAuditRuns, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAuditRuns, must be bigger than or equal to 1.")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling GEOAuditsApi$ListGeoAuditRuns, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -1651,31 +1607,14 @@ GEOAuditsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling GEOAuditsApi$ListGeoAudits, `project_id` is not nullable")
       }
 
-      if (!missing(`audit_type`) && is.null(`audit_type`)) {
-        stop("Invalid value for `audit_type` when calling GEOAuditsApi$ListGeoAudits, `audit_type` is not nullable")
-      }
-
-      if (!missing(`status`) && is.null(`status`)) {
-        stop("Invalid value for `status` when calling GEOAuditsApi$ListGeoAudits, `status` is not nullable")
-      }
-
-      if (!missing(`cadence`) && is.null(`cadence`)) {
-        stop("Invalid value for `cadence` when calling GEOAuditsApi$ListGeoAudits, `cadence` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling GEOAuditsApi$ListGeoAudits, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling GEOAuditsApi$ListGeoAudits, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAudits, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAudits, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling GEOAuditsApi$ListGeoAudits, must be bigger than or equal to 1.")
       }

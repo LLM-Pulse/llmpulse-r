@@ -214,88 +214,20 @@ ShoppingAdsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling ShoppingAdsApi$ListAds, `project_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling ShoppingAdsApi$ListAds, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling ShoppingAdsApi$ListAds, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling ShoppingAdsApi$ListAds, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling ShoppingAdsApi$ListAds, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling ShoppingAdsApi$ListAds, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`view`) && is.null(`view`)) {
-        stop("Invalid value for `view` when calling ShoppingAdsApi$ListAds, `view` is not nullable")
-      }
-
-      if (!missing(`owned`) && is.null(`owned`)) {
-        stop("Invalid value for `owned` when calling ShoppingAdsApi$ListAds, `owned` is not nullable")
-      }
-
-      if (!missing(`order`) && is.null(`order`)) {
-        stop("Invalid value for `order` when calling ShoppingAdsApi$ListAds, `order` is not nullable")
-      }
-
-      if (!missing(`direction`) && is.null(`direction`)) {
-        stop("Invalid value for `direction` when calling ShoppingAdsApi$ListAds, `direction` is not nullable")
-      }
-
-      if (!missing(`query`) && is.null(`query`)) {
-        stop("Invalid value for `query` when calling ShoppingAdsApi$ListAds, `query` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling ShoppingAdsApi$ListAds, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling ShoppingAdsApi$ListAds, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling ShoppingAdsApi$ListAds, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling ShoppingAdsApi$ListAds, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling ShoppingAdsApi$ListAds, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling ShoppingAdsApi$ListAds, `prompt` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling ShoppingAdsApi$ListAds, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling ShoppingAdsApi$ListAds, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling ShoppingAdsApi$ListAds, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling ShoppingAdsApi$ListAds, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling ShoppingAdsApi$ListAds, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling ShoppingAdsApi$ListAds, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -484,84 +416,20 @@ ShoppingAdsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling ShoppingAdsApi$ListLocalBusinesses, `project_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling ShoppingAdsApi$ListLocalBusinesses, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling ShoppingAdsApi$ListLocalBusinesses, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling ShoppingAdsApi$ListLocalBusinesses, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling ShoppingAdsApi$ListLocalBusinesses, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling ShoppingAdsApi$ListLocalBusinesses, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`owned`) && is.null(`owned`)) {
-        stop("Invalid value for `owned` when calling ShoppingAdsApi$ListLocalBusinesses, `owned` is not nullable")
-      }
-
-      if (!missing(`order`) && is.null(`order`)) {
-        stop("Invalid value for `order` when calling ShoppingAdsApi$ListLocalBusinesses, `order` is not nullable")
-      }
-
-      if (!missing(`direction`) && is.null(`direction`)) {
-        stop("Invalid value for `direction` when calling ShoppingAdsApi$ListLocalBusinesses, `direction` is not nullable")
-      }
-
-      if (!missing(`query`) && is.null(`query`)) {
-        stop("Invalid value for `query` when calling ShoppingAdsApi$ListLocalBusinesses, `query` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling ShoppingAdsApi$ListLocalBusinesses, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling ShoppingAdsApi$ListLocalBusinesses, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling ShoppingAdsApi$ListLocalBusinesses, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling ShoppingAdsApi$ListLocalBusinesses, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling ShoppingAdsApi$ListLocalBusinesses, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling ShoppingAdsApi$ListLocalBusinesses, `prompt` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling ShoppingAdsApi$ListLocalBusinesses, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling ShoppingAdsApi$ListLocalBusinesses, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling ShoppingAdsApi$ListLocalBusinesses, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling ShoppingAdsApi$ListLocalBusinesses, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling ShoppingAdsApi$ListLocalBusinesses, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling ShoppingAdsApi$ListLocalBusinesses, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -758,88 +626,20 @@ ShoppingAdsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling ShoppingAdsApi$ListShopping, `project_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling ShoppingAdsApi$ListShopping, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling ShoppingAdsApi$ListShopping, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling ShoppingAdsApi$ListShopping, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling ShoppingAdsApi$ListShopping, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling ShoppingAdsApi$ListShopping, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`view`) && is.null(`view`)) {
-        stop("Invalid value for `view` when calling ShoppingAdsApi$ListShopping, `view` is not nullable")
-      }
-
-      if (!missing(`owned`) && is.null(`owned`)) {
-        stop("Invalid value for `owned` when calling ShoppingAdsApi$ListShopping, `owned` is not nullable")
-      }
-
-      if (!missing(`order`) && is.null(`order`)) {
-        stop("Invalid value for `order` when calling ShoppingAdsApi$ListShopping, `order` is not nullable")
-      }
-
-      if (!missing(`direction`) && is.null(`direction`)) {
-        stop("Invalid value for `direction` when calling ShoppingAdsApi$ListShopping, `direction` is not nullable")
-      }
-
-      if (!missing(`query`) && is.null(`query`)) {
-        stop("Invalid value for `query` when calling ShoppingAdsApi$ListShopping, `query` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling ShoppingAdsApi$ListShopping, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling ShoppingAdsApi$ListShopping, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling ShoppingAdsApi$ListShopping, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling ShoppingAdsApi$ListShopping, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling ShoppingAdsApi$ListShopping, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling ShoppingAdsApi$ListShopping, `prompt` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling ShoppingAdsApi$ListShopping, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling ShoppingAdsApi$ListShopping, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling ShoppingAdsApi$ListShopping, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling ShoppingAdsApi$ListShopping, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling ShoppingAdsApi$ListShopping, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling ShoppingAdsApi$ListShopping, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`

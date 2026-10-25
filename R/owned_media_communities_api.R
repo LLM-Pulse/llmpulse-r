@@ -382,39 +382,8 @@ OwnedMediaCommunitiesApi <- R6::R6Class(
         stop("Invalid value for `provider` when calling OwnedMediaCommunitiesApi$GetOwnedMediaSummary, `provider` is not nullable")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling OwnedMediaCommunitiesApi$GetOwnedMediaSummary, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling OwnedMediaCommunitiesApi$GetOwnedMediaSummary, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling OwnedMediaCommunitiesApi$GetOwnedMediaSummary, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling OwnedMediaCommunitiesApi$GetOwnedMediaSummary, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling OwnedMediaCommunitiesApi$GetOwnedMediaSummary, `language_code` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling OwnedMediaCommunitiesApi$GetOwnedMediaSummary, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling OwnedMediaCommunitiesApi$GetOwnedMediaSummary, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling OwnedMediaCommunitiesApi$GetOwnedMediaSummary, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling OwnedMediaCommunitiesApi$GetOwnedMediaSummary, `to` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -595,72 +564,20 @@ OwnedMediaCommunitiesApi <- R6::R6Class(
         stop("Invalid value for `provider` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `provider` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`view`) && is.null(`view`)) {
-        stop("Invalid value for `view` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `view` is not nullable")
-      }
-
-      if (!missing(`store`) && is.null(`store`)) {
-        stop("Invalid value for `store` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `store` is not nullable")
-      }
-
-      if (!missing(`owned`) && is.null(`owned`)) {
-        stop("Invalid value for `owned` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `owned` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `language_code` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling OwnedMediaCommunitiesApi$ListOwnedMedia, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -860,68 +777,20 @@ OwnedMediaCommunitiesApi <- R6::R6Class(
         stop("Invalid value for `provider` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `provider` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`url`) && is.null(`url`)) {
-        stop("Invalid value for `url` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `url` is not nullable")
-      }
-
-      if (!missing(`profile`) && is.null(`profile`)) {
-        stop("Invalid value for `profile` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `profile` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `language_code` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling OwnedMediaCommunitiesApi$ListOwnedMediaCitingPrompts, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -1111,92 +980,20 @@ OwnedMediaCommunitiesApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `project_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling OwnedMediaCommunitiesApi$ListRedditCitations, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling OwnedMediaCommunitiesApi$ListRedditCitations, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling OwnedMediaCommunitiesApi$ListRedditCitations, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`view`) && is.null(`view`)) {
-        stop("Invalid value for `view` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `view` is not nullable")
-      }
-
-      if (!missing(`subreddit`) && is.null(`subreddit`)) {
-        stop("Invalid value for `subreddit` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `subreddit` is not nullable")
-      }
-
-      if (!missing(`author`) && is.null(`author`)) {
-        stop("Invalid value for `author` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `author` is not nullable")
-      }
-
-      if (!missing(`status`) && is.null(`status`)) {
-        stop("Invalid value for `status` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `status` is not nullable")
-      }
-
-      if (!missing(`owned`) && is.null(`owned`)) {
-        stop("Invalid value for `owned` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `owned` is not nullable")
-      }
-
-      if (!missing(`brand`) && is.null(`brand`)) {
-        stop("Invalid value for `brand` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `brand` is not nullable")
-      }
-
-      if (!missing(`order`) && is.null(`order`)) {
-        stop("Invalid value for `order` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `order` is not nullable")
-      }
-
-      if (!missing(`direction`) && is.null(`direction`)) {
-        stop("Invalid value for `direction` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `direction` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling OwnedMediaCommunitiesApi$ListRedditCitations, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `language_code` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `to` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling OwnedMediaCommunitiesApi$ListRedditCitations, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`

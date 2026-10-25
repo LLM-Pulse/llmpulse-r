@@ -165,14 +165,6 @@ RecommendationsApi <- R6::R6Class(
         stop("Invalid value for `id` when calling RecommendationsApi$GetRecommendation, `id` is not nullable")
       }
 
-      if (!missing(`item_status`) && is.null(`item_status`)) {
-        stop("Invalid value for `item_status` when calling RecommendationsApi$GetRecommendation, `item_status` is not nullable")
-      }
-
-      if (!missing(`resolve_source_refs`) && is.null(`resolve_source_refs`)) {
-        stop("Invalid value for `resolve_source_refs` when calling RecommendationsApi$GetRecommendation, `resolve_source_refs` is not nullable")
-      }
-
       query_params[["project_id"]] <- `project_id`
 
       if (!is.null(`item_status`) && !(`item_status` %in% c("active", "completed", "archived"))) {
@@ -388,27 +380,14 @@ RecommendationsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling RecommendationsApi$ListRecommendations, `project_id` is not nullable")
       }
 
-      if (!missing(`recommendation_type`) && is.null(`recommendation_type`)) {
-        stop("Invalid value for `recommendation_type` when calling RecommendationsApi$ListRecommendations, `recommendation_type` is not nullable")
-      }
-
-      if (!missing(`status`) && is.null(`status`)) {
-        stop("Invalid value for `status` when calling RecommendationsApi$ListRecommendations, `status` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling RecommendationsApi$ListRecommendations, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling RecommendationsApi$ListRecommendations, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling RecommendationsApi$ListRecommendations, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling RecommendationsApi$ListRecommendations, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling RecommendationsApi$ListRecommendations, must be bigger than or equal to 1.")
       }

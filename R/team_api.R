@@ -282,14 +282,6 @@ TeamApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling TeamApi$ListTeamInvitations, `page` is not nullable")
-      }
-
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling TeamApi$ListTeamInvitations, `per_page` is not nullable")
-      }
-
       query_params[["page"]] <- `page`
 
       query_params[["per_page"]] <- `per_page`
@@ -398,14 +390,6 @@ TeamApi <- R6::R6Class(
       local_var_body <- NULL
       oauth_scopes <- NULL
       is_oauth <- FALSE
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling TeamApi$ListTeamMembers, `page` is not nullable")
-      }
-
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling TeamApi$ListTeamMembers, `per_page` is not nullable")
-      }
 
       query_params[["page"]] <- `page`
 

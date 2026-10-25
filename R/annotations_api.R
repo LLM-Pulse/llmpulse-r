@@ -381,31 +381,14 @@ AnnotationsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling AnnotationsApi$ListAnnotations, `project_id` is not nullable")
       }
 
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling AnnotationsApi$ListAnnotations, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling AnnotationsApi$ListAnnotations, `to` is not nullable")
-      }
-
-      if (!missing(`annotation_category_id`) && is.null(`annotation_category_id`)) {
-        stop("Invalid value for `annotation_category_id` when calling AnnotationsApi$ListAnnotations, `annotation_category_id` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling AnnotationsApi$ListAnnotations, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling AnnotationsApi$ListAnnotations, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling AnnotationsApi$ListAnnotations, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling AnnotationsApi$ListAnnotations, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling AnnotationsApi$ListAnnotations, must be bigger than or equal to 1.")
       }

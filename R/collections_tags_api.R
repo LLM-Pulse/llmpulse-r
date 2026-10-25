@@ -545,10 +545,6 @@ CollectionsTagsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling CollectionsTagsApi$ListCollections, `project_id` is not nullable")
       }
 
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling CollectionsTagsApi$ListCollections, `output` is not nullable")
-      }
-
       query_params[["project_id"]] <- `project_id`
 
       if (!is.null(`output`) && !(`output` %in% c("flat", "csv"))) {
@@ -667,10 +663,6 @@ CollectionsTagsApi <- R6::R6Class(
 
       if (!missing(`project_id`) && is.null(`project_id`)) {
         stop("Invalid value for `project_id` when calling CollectionsTagsApi$ListTags, `project_id` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling CollectionsTagsApi$ListTags, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`

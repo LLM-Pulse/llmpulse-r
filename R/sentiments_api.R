@@ -229,84 +229,20 @@ SentimentsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling SentimentsApi$GetSentimentTags, `project_id` is not nullable")
       }
 
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling SentimentsApi$GetSentimentTags, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling SentimentsApi$GetSentimentTags, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling SentimentsApi$GetSentimentTags, `to` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling SentimentsApi$GetSentimentTags, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling SentimentsApi$GetSentimentTags, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling SentimentsApi$GetSentimentTags, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling SentimentsApi$GetSentimentTags, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling SentimentsApi$GetSentimentTags, `language_code` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling SentimentsApi$GetSentimentTags, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`analysis`) && is.null(`analysis`)) {
-        stop("Invalid value for `analysis` when calling SentimentsApi$GetSentimentTags, `analysis` is not nullable")
-      }
-
-      if (!missing(`topic`) && is.null(`topic`)) {
-        stop("Invalid value for `topic` when calling SentimentsApi$GetSentimentTags, `topic` is not nullable")
-      }
-
-      if (!missing(`query`) && is.null(`query`)) {
-        stop("Invalid value for `query` when calling SentimentsApi$GetSentimentTags, `query` is not nullable")
-      }
-
-      if (!missing(`brand`) && is.null(`brand`)) {
-        stop("Invalid value for `brand` when calling SentimentsApi$GetSentimentTags, `brand` is not nullable")
-      }
-
-      if (!missing(`sort`) && is.null(`sort`)) {
-        stop("Invalid value for `sort` when calling SentimentsApi$GetSentimentTags, `sort` is not nullable")
-      }
-
-      if (!missing(`sort_dir`) && is.null(`sort_dir`)) {
-        stop("Invalid value for `sort_dir` when calling SentimentsApi$GetSentimentTags, `sort_dir` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling SentimentsApi$GetSentimentTags, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling SentimentsApi$GetSentimentTags, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling SentimentsApi$GetSentimentTags, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling SentimentsApi$GetSentimentTags, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling SentimentsApi$GetSentimentTags, must be bigger than or equal to 1.")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling SentimentsApi$GetSentimentTags, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -505,84 +441,20 @@ SentimentsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling SentimentsApi$GetSentimentTopics, `project_id` is not nullable")
       }
 
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling SentimentsApi$GetSentimentTopics, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling SentimentsApi$GetSentimentTopics, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling SentimentsApi$GetSentimentTopics, `to` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling SentimentsApi$GetSentimentTopics, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling SentimentsApi$GetSentimentTopics, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling SentimentsApi$GetSentimentTopics, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling SentimentsApi$GetSentimentTopics, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling SentimentsApi$GetSentimentTopics, `language_code` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling SentimentsApi$GetSentimentTopics, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`analysis`) && is.null(`analysis`)) {
-        stop("Invalid value for `analysis` when calling SentimentsApi$GetSentimentTopics, `analysis` is not nullable")
-      }
-
-      if (!missing(`topic`) && is.null(`topic`)) {
-        stop("Invalid value for `topic` when calling SentimentsApi$GetSentimentTopics, `topic` is not nullable")
-      }
-
-      if (!missing(`query`) && is.null(`query`)) {
-        stop("Invalid value for `query` when calling SentimentsApi$GetSentimentTopics, `query` is not nullable")
-      }
-
-      if (!missing(`brand`) && is.null(`brand`)) {
-        stop("Invalid value for `brand` when calling SentimentsApi$GetSentimentTopics, `brand` is not nullable")
-      }
-
-      if (!missing(`sort`) && is.null(`sort`)) {
-        stop("Invalid value for `sort` when calling SentimentsApi$GetSentimentTopics, `sort` is not nullable")
-      }
-
-      if (!missing(`sort_dir`) && is.null(`sort_dir`)) {
-        stop("Invalid value for `sort_dir` when calling SentimentsApi$GetSentimentTopics, `sort_dir` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling SentimentsApi$GetSentimentTopics, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling SentimentsApi$GetSentimentTopics, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling SentimentsApi$GetSentimentTopics, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling SentimentsApi$GetSentimentTopics, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling SentimentsApi$GetSentimentTopics, must be bigger than or equal to 1.")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling SentimentsApi$GetSentimentTopics, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -745,10 +617,6 @@ SentimentsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling SentimentsApi$ListSentimentCategories, `project_id` is not nullable")
       }
 
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling SentimentsApi$ListSentimentCategories, `output` is not nullable")
-      }
-
       query_params[["project_id"]] <- `project_id`
 
       if (!is.null(`output`) && !(`output` %in% c("flat", "csv"))) {
@@ -874,58 +742,18 @@ SentimentsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling SentimentsApi$ListSentimentRecords, `project_id` is not nullable")
       }
 
-      if (!missing(`competitor_id`) && is.null(`competitor_id`)) {
-        stop("Invalid value for `competitor_id` when calling SentimentsApi$ListSentimentRecords, `competitor_id` is not nullable")
-      }
-
-      if (!missing(`brand_only`) && is.null(`brand_only`)) {
-        stop("Invalid value for `brand_only` when calling SentimentsApi$ListSentimentRecords, `brand_only` is not nullable")
-      }
-
-      if (!missing(`analysis`) && is.null(`analysis`)) {
-        stop("Invalid value for `analysis` when calling SentimentsApi$ListSentimentRecords, `analysis` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling SentimentsApi$ListSentimentRecords, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling SentimentsApi$ListSentimentRecords, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling SentimentsApi$ListSentimentRecords, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling SentimentsApi$ListSentimentRecords, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling SentimentsApi$ListSentimentRecords, `language_code` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling SentimentsApi$ListSentimentRecords, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling SentimentsApi$ListSentimentRecords, `to` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling SentimentsApi$ListSentimentRecords, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling SentimentsApi$ListSentimentRecords, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling SentimentsApi$ListSentimentRecords, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling SentimentsApi$ListSentimentRecords, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling SentimentsApi$ListSentimentRecords, must be bigger than or equal to 1.")
       }

@@ -579,18 +579,6 @@ StoreIntegrationsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling StoreIntegrationsApi$ListAiOrders, `project_id` is not nullable")
       }
 
-      if (!missing(`platform`) && is.null(`platform`)) {
-        stop("Invalid value for `platform` when calling StoreIntegrationsApi$ListAiOrders, `platform` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling StoreIntegrationsApi$ListAiOrders, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling StoreIntegrationsApi$ListAiOrders, `to` is not nullable")
-      }
-
       query_params[["project_id"]] <- `project_id`
 
       if (!is.null(`platform`) && !(`platform` %in% c("shopify"))) {
@@ -721,27 +709,14 @@ StoreIntegrationsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling StoreIntegrationsApi$ListCatalogPromptSuggestions, `project_id` is not nullable")
       }
 
-      if (!missing(`status`) && is.null(`status`)) {
-        stop("Invalid value for `status` when calling StoreIntegrationsApi$ListCatalogPromptSuggestions, `status` is not nullable")
-      }
-
-      if (!missing(`product_external_id`) && is.null(`product_external_id`)) {
-        stop("Invalid value for `product_external_id` when calling StoreIntegrationsApi$ListCatalogPromptSuggestions, `product_external_id` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling StoreIntegrationsApi$ListCatalogPromptSuggestions, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling StoreIntegrationsApi$ListCatalogPromptSuggestions, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling StoreIntegrationsApi$ListCatalogPromptSuggestions, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling StoreIntegrationsApi$ListCatalogPromptSuggestions, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling StoreIntegrationsApi$ListCatalogPromptSuggestions, must be bigger than or equal to 1.")
       }

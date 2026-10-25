@@ -234,6 +234,7 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
       if (!missing(`url_sha256`) && is.null(`url_sha256`)) {
         stop("Invalid value for `url_sha256` when calling SourcesCitationIntelligenceApi$GetCitedUrlContent, `url_sha256` is not nullable")
       }
+
       if (!is.null(`url_sha256`) && !stringr::str_detect(`url_sha256`, "^[a-f0-9]{64}$")) {
         stop("Invalid value for `url_sha256` when calling SourcesCitationIntelligenceApi$GetCitedUrlContent, must conform to the pattern ^[a-f0-9]{64}$.")
       }
@@ -369,59 +370,13 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
       if (!missing(`url_sha256`) && is.null(`url_sha256`)) {
         stop("Invalid value for `url_sha256` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `url_sha256` is not nullable")
       }
+
       if (!is.null(`url_sha256`) && !stringr::str_detect(`url_sha256`, "^[a-f0-9]{64}$")) {
         stop("Invalid value for `url_sha256` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, must conform to the pattern ^[a-f0-9]{64}$.")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `prompt` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `to` is not nullable")
-      }
-
-      if (!missing(`source_type`) && is.null(`source_type`)) {
-        stop("Invalid value for `source_type` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `source_type` is not nullable")
-      }
-
-      if (!missing(`sentiment`) && is.null(`sentiment`)) {
-        stop("Invalid value for `sentiment` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `sentiment` is not nullable")
-      }
-
-      if (!missing(`content_gap`) && is.null(`content_gap`)) {
-        stop("Invalid value for `content_gap` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `content_gap` is not nullable")
-      }
-
-      if (!missing(`include_series`) && is.null(`include_series`)) {
-        stop("Invalid value for `include_series` when calling SourcesCitationIntelligenceApi$GetCitedUrlDetail, `include_series` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -587,45 +542,16 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
         stop("Invalid value for `domains` when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain, `domains` is not nullable")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain, `prompt` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain, `to` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
 
       # no explore
-      query_params[["domains"]] <- I(paste(lapply(`domains`, URLencode, reserved = TRUE), collapse = ","))
+      if (!is.null(`domains`)) {
+        query_params[["domains"]] <- I(paste(lapply(`domains`, URLencode, reserved = TRUE), collapse = ","))
+      }
 
       if (!is.null(`model`) && !(`model` %in% c("chatgpt", "perplexity", "ai_mode", "ai_overview", "gemini", "copilot", "amazon_rufus", "claude", "grok", "deepseek", "naver_ai", "baidu_ai", "meta_ai"))) {
         stop("Invalid value for model when calling SourcesCitationIntelligenceApi$GetMentionsByCitingDomain. Must be [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai].")
@@ -779,92 +705,20 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `project_id` is not nullable")
       }
 
-      if (!missing(`view`) && is.null(`view`)) {
-        stop("Invalid value for `view` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `view` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling SourcesCitationIntelligenceApi$ListCitationGroups, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling SourcesCitationIntelligenceApi$ListCitationGroups, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling SourcesCitationIntelligenceApi$ListCitationGroups, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`order`) && is.null(`order`)) {
-        stop("Invalid value for `order` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `order` is not nullable")
-      }
-
-      if (!missing(`direction`) && is.null(`direction`)) {
-        stop("Invalid value for `direction` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `direction` is not nullable")
-      }
-
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$ListCitationGroups, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `prompt` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `to` is not nullable")
-      }
-
-      if (!missing(`key`) && is.null(`key`)) {
-        stop("Invalid value for `key` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `key` is not nullable")
-      }
-
-      if (!missing(`include_series`) && is.null(`include_series`)) {
-        stop("Invalid value for `include_series` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `include_series` is not nullable")
-      }
-
-      if (!missing(`query`) && is.null(`query`)) {
-        stop("Invalid value for `query` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `query` is not nullable")
-      }
-
-      if (!missing(`source_type`) && is.null(`source_type`)) {
-        stop("Invalid value for `source_type` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `source_type` is not nullable")
-      }
-
-      if (!missing(`sentiment`) && is.null(`sentiment`)) {
-        stop("Invalid value for `sentiment` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `sentiment` is not nullable")
-      }
-
-      if (!missing(`content_gap`) && is.null(`content_gap`)) {
-        stop("Invalid value for `content_gap` when calling SourcesCitationIntelligenceApi$ListCitationGroups, `content_gap` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -1036,23 +890,19 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
       if (!missing(`url_sha256`) && is.null(`url_sha256`)) {
         stop("Invalid value for `url_sha256` when calling SourcesCitationIntelligenceApi$ListCitedUrlOccurrences, `url_sha256` is not nullable")
       }
+
       if (!is.null(`url_sha256`) && !stringr::str_detect(`url_sha256`, "^[a-f0-9]{64}$")) {
         stop("Invalid value for `url_sha256` when calling SourcesCitationIntelligenceApi$ListCitedUrlOccurrences, must conform to the pattern ^[a-f0-9]{64}$.")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling SourcesCitationIntelligenceApi$ListCitedUrlOccurrences, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling SourcesCitationIntelligenceApi$ListCitedUrlOccurrences, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling SourcesCitationIntelligenceApi$ListCitedUrlOccurrences, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling SourcesCitationIntelligenceApi$ListCitedUrlOccurrences, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling SourcesCitationIntelligenceApi$ListCitedUrlOccurrences, must be bigger than or equal to 1.")
       }
@@ -1191,80 +1041,20 @@ SourcesCitationIntelligenceApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling SourcesCitationIntelligenceApi$ListSources, `project_id` is not nullable")
       }
 
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling SourcesCitationIntelligenceApi$ListSources, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling SourcesCitationIntelligenceApi$ListSources, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling SourcesCitationIntelligenceApi$ListSources, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling SourcesCitationIntelligenceApi$ListSources, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling SourcesCitationIntelligenceApi$ListSources, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling SourcesCitationIntelligenceApi$ListSources, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$ListSources, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling SourcesCitationIntelligenceApi$ListSources, must conform to the pattern ^\\d+(,\\d+)*$.")
-      }
-
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling SourcesCitationIntelligenceApi$ListSources, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling SourcesCitationIntelligenceApi$ListSources, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling SourcesCitationIntelligenceApi$ListSources, `prompt` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling SourcesCitationIntelligenceApi$ListSources, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling SourcesCitationIntelligenceApi$ListSources, `to` is not nullable")
-      }
-
-      if (!missing(`source_type`) && is.null(`source_type`)) {
-        stop("Invalid value for `source_type` when calling SourcesCitationIntelligenceApi$ListSources, `source_type` is not nullable")
-      }
-
-      if (!missing(`mention_filter`) && is.null(`mention_filter`)) {
-        stop("Invalid value for `mention_filter` when calling SourcesCitationIntelligenceApi$ListSources, `mention_filter` is not nullable")
-      }
-
-      if (!missing(`competitors`) && is.null(`competitors`)) {
-        stop("Invalid value for `competitors` when calling SourcesCitationIntelligenceApi$ListSources, `competitors` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling SourcesCitationIntelligenceApi$ListSources, `output` is not nullable")
-      }
-
-      if (!missing(`prompt_type`) && is.null(`prompt_type`)) {
-        stop("Invalid value for `prompt_type` when calling SourcesCitationIntelligenceApi$ListSources, `prompt_type` is not nullable")
-      }
-
-      if (!missing(`brand_kind`) && is.null(`brand_kind`)) {
-        stop("Invalid value for `brand_kind` when calling SourcesCitationIntelligenceApi$ListSources, `brand_kind` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling SourcesCitationIntelligenceApi$ListSources, `range` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`

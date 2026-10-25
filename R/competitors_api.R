@@ -552,33 +552,16 @@ CompetitorsApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling CompetitorsApi$ListCompetitorSuggestions, `project_id` is not nullable")
       }
 
-      if (!missing(`basis`) && is.null(`basis`)) {
-        stop("Invalid value for `basis` when calling CompetitorsApi$ListCompetitorSuggestions, `basis` is not nullable")
-      }
-
-      if (!missing(`query`) && is.null(`query`)) {
-        stop("Invalid value for `query` when calling CompetitorsApi$ListCompetitorSuggestions, `query` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling CompetitorsApi$ListCompetitorSuggestions, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling CompetitorsApi$ListCompetitorSuggestions, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling CompetitorsApi$ListCompetitorSuggestions, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling CompetitorsApi$ListCompetitorSuggestions, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling CompetitorsApi$ListCompetitorSuggestions, must be bigger than or equal to 1.")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling CompetitorsApi$ListCompetitorSuggestions, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -712,14 +695,6 @@ CompetitorsApi <- R6::R6Class(
 
       if (!missing(`project_id`) && is.null(`project_id`)) {
         stop("Invalid value for `project_id` when calling CompetitorsApi$ListCompetitors, `project_id` is not nullable")
-      }
-
-      if (!missing(`include_project_brand`) && is.null(`include_project_brand`)) {
-        stop("Invalid value for `include_project_brand` when calling CompetitorsApi$ListCompetitors, `include_project_brand` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling CompetitorsApi$ListCompetitors, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`

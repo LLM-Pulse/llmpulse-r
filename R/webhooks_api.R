@@ -383,18 +383,6 @@ WebhooksApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (!missing(`project_id`) && is.null(`project_id`)) {
-        stop("Invalid value for `project_id` when calling WebhooksApi$ListWebhooks, `project_id` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling WebhooksApi$ListWebhooks, `page` is not nullable")
-      }
-
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling WebhooksApi$ListWebhooks, `per_page` is not nullable")
-      }
-
       query_params[["project_id"]] <- `project_id`
 
       query_params[["page"]] <- `page`

@@ -93,10 +93,6 @@ HealthApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (!missing(`project_id`) && is.null(`project_id`)) {
-        stop("Invalid value for `project_id` when calling HealthApi$Ping, `project_id` is not nullable")
-      }
-
       query_params[["project_id"]] <- `project_id`
 
       local_var_url_path <- "/ping"

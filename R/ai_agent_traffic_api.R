@@ -193,34 +193,6 @@ AIAgentTrafficApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling AIAgentTrafficApi$GetAgentTraffic, `project_id` is not nullable")
       }
 
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling AIAgentTrafficApi$GetAgentTraffic, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling AIAgentTrafficApi$GetAgentTraffic, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling AIAgentTrafficApi$GetAgentTraffic, `to` is not nullable")
-      }
-
-      if (!missing(`bot`) && is.null(`bot`)) {
-        stop("Invalid value for `bot` when calling AIAgentTrafficApi$GetAgentTraffic, `bot` is not nullable")
-      }
-
-      if (!missing(`company`) && is.null(`company`)) {
-        stop("Invalid value for `company` when calling AIAgentTrafficApi$GetAgentTraffic, `company` is not nullable")
-      }
-
-      if (!missing(`group_by`) && is.null(`group_by`)) {
-        stop("Invalid value for `group_by` when calling AIAgentTrafficApi$GetAgentTraffic, `group_by` is not nullable")
-      }
-
-      if (!missing(`granularity`) && is.null(`granularity`)) {
-        stop("Invalid value for `granularity` when calling AIAgentTrafficApi$GetAgentTraffic, `granularity` is not nullable")
-      }
-
       query_params[["project_id"]] <- `project_id`
 
       query_params[["range"]] <- `range`
@@ -358,26 +330,6 @@ AIAgentTrafficApi <- R6::R6Class(
 
       if (!missing(`project_id`) && is.null(`project_id`)) {
         stop("Invalid value for `project_id` when calling AIAgentTrafficApi$GetAiTraffic, `project_id` is not nullable")
-      }
-
-      if (!missing(`range`) && is.null(`range`)) {
-        stop("Invalid value for `range` when calling AIAgentTrafficApi$GetAiTraffic, `range` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling AIAgentTrafficApi$GetAiTraffic, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling AIAgentTrafficApi$GetAiTraffic, `to` is not nullable")
-      }
-
-      if (!missing(`source`) && is.null(`source`)) {
-        stop("Invalid value for `source` when calling AIAgentTrafficApi$GetAiTraffic, `source` is not nullable")
-      }
-
-      if (!missing(`granularity`) && is.null(`granularity`)) {
-        stop("Invalid value for `granularity` when calling AIAgentTrafficApi$GetAiTraffic, `granularity` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`
@@ -604,10 +556,6 @@ AIAgentTrafficApi <- R6::R6Class(
 
       if (!missing(`project_id`) && is.null(`project_id`)) {
         stop("Invalid value for `project_id` when calling AIAgentTrafficApi$ListAgentBots, `project_id` is not nullable")
-      }
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling AIAgentTrafficApi$ListAgentBots, `output` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`

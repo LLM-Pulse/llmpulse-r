@@ -143,10 +143,6 @@ AnswersApi <- R6::R6Class(
         stop("Invalid value for `id` when calling AnswersApi$GetAnswer, `id` is not nullable")
       }
 
-      if (!missing(`include_source_page_details`) && is.null(`include_source_page_details`)) {
-        stop("Invalid value for `include_source_page_details` when calling AnswersApi$GetAnswer, `include_source_page_details` is not nullable")
-      }
-
       query_params[["project_id"]] <- `project_id`
 
       query_params[["include_source_page_details"]] <- `include_source_page_details`
@@ -290,72 +286,20 @@ AnswersApi <- R6::R6Class(
         stop("Invalid value for `project_id` when calling AnswersApi$ListAnswers, `project_id` is not nullable")
       }
 
-      if (!missing(`model`) && is.null(`model`)) {
-        stop("Invalid value for `model` when calling AnswersApi$ListAnswers, `model` is not nullable")
-      }
-
-      if (!missing(`collection_id`) && is.null(`collection_id`)) {
-        stop("Invalid value for `collection_id` when calling AnswersApi$ListAnswers, `collection_id` is not nullable")
-      }
       if (!is.null(`collection_id`) && !stringr::str_detect(`collection_id`, "^\\d+(,\\d+)*$")) {
         stop("Invalid value for `collection_id` when calling AnswersApi$ListAnswers, must conform to the pattern ^\\d+(,\\d+)*$.")
       }
 
-      if (!missing(`country_code`) && is.null(`country_code`)) {
-        stop("Invalid value for `country_code` when calling AnswersApi$ListAnswers, `country_code` is not nullable")
-      }
-
-      if (!missing(`language_code`) && is.null(`language_code`)) {
-        stop("Invalid value for `language_code` when calling AnswersApi$ListAnswers, `language_code` is not nullable")
-      }
-
-      if (!missing(`prompt`) && is.null(`prompt`)) {
-        stop("Invalid value for `prompt` when calling AnswersApi$ListAnswers, `prompt` is not nullable")
-      }
-
-      if (!missing(`mention_filter`) && is.null(`mention_filter`)) {
-        stop("Invalid value for `mention_filter` when calling AnswersApi$ListAnswers, `mention_filter` is not nullable")
-      }
-
-      if (!missing(`citation_filter`) && is.null(`citation_filter`)) {
-        stop("Invalid value for `citation_filter` when calling AnswersApi$ListAnswers, `citation_filter` is not nullable")
-      }
-
-      if (!missing(`competitors`) && is.null(`competitors`)) {
-        stop("Invalid value for `competitors` when calling AnswersApi$ListAnswers, `competitors` is not nullable")
-      }
-
-      if (!missing(`from`) && is.null(`from`)) {
-        stop("Invalid value for `from` when calling AnswersApi$ListAnswers, `from` is not nullable")
-      }
-
-      if (!missing(`to`) && is.null(`to`)) {
-        stop("Invalid value for `to` when calling AnswersApi$ListAnswers, `to` is not nullable")
-      }
-
-      if (!missing(`page`) && is.null(`page`)) {
-        stop("Invalid value for `page` when calling AnswersApi$ListAnswers, `page` is not nullable")
-      }
       if (!is.null(`page`) && `page` <  1) {
         stop("Invalid value for `page` when calling AnswersApi$ListAnswers, must be bigger than or equal to 1.")
       }
 
-      if (!missing(`per_page`) && is.null(`per_page`)) {
-        stop("Invalid value for `per_page` when calling AnswersApi$ListAnswers, `per_page` is not nullable")
-      }
       if (!is.null(`per_page`) && `per_page` >  100) {
         stop("Invalid value for `per_page` when calling AnswersApi$ListAnswers, must be smaller than or equal to 100.")
       }
+
       if (!is.null(`per_page`) && `per_page` <  1) {
         stop("Invalid value for `per_page` when calling AnswersApi$ListAnswers, must be bigger than or equal to 1.")
-      }
-
-      if (!missing(`query`) && is.null(`query`)) {
-        stop("Invalid value for `query` when calling AnswersApi$ListAnswers, `query` is not nullable")
-      }
-
-      if (!missing(`no_result`) && is.null(`no_result`)) {
-        stop("Invalid value for `no_result` when calling AnswersApi$ListAnswers, `no_result` is not nullable")
       }
 
       query_params[["project_id"]] <- `project_id`

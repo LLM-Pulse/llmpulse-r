@@ -459,10 +459,6 @@ ProjectsApi <- R6::R6Class(
         stop("Invalid value for `id` when calling ProjectsApi$FinalizeProjectDraft, `id` is not nullable")
       }
 
-      if (!missing(`finalize_project_draft_request`) && is.null(`finalize_project_draft_request`)) {
-        stop("Invalid value for `finalize_project_draft_request` when calling ProjectsApi$FinalizeProjectDraft, `finalize_project_draft_request` is not nullable")
-      }
-
       if (!is.null(`finalize_project_draft_request`)) {
         local_var_body <- `finalize_project_draft_request`$toJSONString()
       } else {
@@ -680,10 +676,6 @@ ProjectsApi <- R6::R6Class(
 
       if (!missing(`id`) && is.null(`id`)) {
         stop("Invalid value for `id` when calling ProjectsApi$GetProjectDraft, `id` is not nullable")
-      }
-
-      if (!missing(`include_suggestions`) && is.null(`include_suggestions`)) {
-        stop("Invalid value for `include_suggestions` when calling ProjectsApi$GetProjectDraft, `include_suggestions` is not nullable")
       }
 
       query_params[["include_suggestions"]] <- `include_suggestions`
@@ -1005,10 +997,6 @@ ProjectsApi <- R6::R6Class(
       local_var_body <- NULL
       oauth_scopes <- NULL
       is_oauth <- FALSE
-
-      if (!missing(`output`) && is.null(`output`)) {
-        stop("Invalid value for `output` when calling ProjectsApi$ListProjects, `output` is not nullable")
-      }
 
       if (!is.null(`output`) && !(`output` %in% c("flat", "csv"))) {
         stop("Invalid value for output when calling ProjectsApi$ListProjects. Must be [flat, csv].")
