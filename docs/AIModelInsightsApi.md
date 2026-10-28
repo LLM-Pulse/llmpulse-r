@@ -121,7 +121,7 @@ Name | Type | Description  | Notes
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
- **model** | Enum [chatgpt, ai_mode, ai_overview, perplexity, gemini, naver_ai, baidu_ai] | Restrict the comparison to one AI model of AI Model Insights, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). | [optional] 
+ **model** | Enum [chatgpt, ai_mode, ai_overview, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao] | Restrict the comparison to one AI model of AI Model Insights, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). | [optional] 
  **brand1** | **integer**| Competitor ID for the first comparison brand (omit to compare project brand) | [optional] 
  **brand2** | **integer**|  | [optional] 
 

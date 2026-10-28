@@ -77,8 +77,8 @@ SentimentRecord <- R6::R6Class(
         self$`prompt_text` <- `prompt_text`
       }
       if (!missing(`model`)) {
-        if (!(`model` %in% c("chatgpt", "perplexity", "ai_mode", "ai_overview", "gemini", "copilot", "amazon_rufus", "claude", "grok", "deepseek", "naver_ai", "baidu_ai", "meta_ai"))) {
-          stop(paste("Error! \"", `model`, "\" cannot be assigned to `model`. Must be \"chatgpt\", \"perplexity\", \"ai_mode\", \"ai_overview\", \"gemini\", \"copilot\", \"amazon_rufus\", \"claude\", \"grok\", \"deepseek\", \"naver_ai\", \"baidu_ai\", \"meta_ai\".", sep = ""))
+        if (!(`model` %in% c("chatgpt", "perplexity", "ai_mode", "ai_overview", "gemini", "copilot", "amazon_rufus", "claude", "grok", "deepseek", "naver_ai", "baidu_ai", "meta_ai", "naver_ai_tab", "qwen", "doubao"))) {
+          stop(paste("Error! \"", `model`, "\" cannot be assigned to `model`. Must be \"chatgpt\", \"perplexity\", \"ai_mode\", \"ai_overview\", \"gemini\", \"copilot\", \"amazon_rufus\", \"claude\", \"grok\", \"deepseek\", \"naver_ai\", \"baidu_ai\", \"meta_ai\", \"naver_ai_tab\", \"qwen\", \"doubao\".", sep = ""))
         }
         if (!(is.character(`model`) && length(`model`) == 1)) {
           stop(paste("Error! Invalid data for `model`. Must be a string:", `model`))
@@ -244,8 +244,8 @@ SentimentRecord <- R6::R6Class(
         self$`prompt_text` <- this_object$`prompt_text`
       }
       if (!is.null(this_object$`model`)) {
-        if (!is.null(this_object$`model`) && !(this_object$`model` %in% c("chatgpt", "perplexity", "ai_mode", "ai_overview", "gemini", "copilot", "amazon_rufus", "claude", "grok", "deepseek", "naver_ai", "baidu_ai", "meta_ai"))) {
-          stop(paste("Error! \"", this_object$`model`, "\" cannot be assigned to `model`. Must be \"chatgpt\", \"perplexity\", \"ai_mode\", \"ai_overview\", \"gemini\", \"copilot\", \"amazon_rufus\", \"claude\", \"grok\", \"deepseek\", \"naver_ai\", \"baidu_ai\", \"meta_ai\".", sep = ""))
+        if (!is.null(this_object$`model`) && !(this_object$`model` %in% c("chatgpt", "perplexity", "ai_mode", "ai_overview", "gemini", "copilot", "amazon_rufus", "claude", "grok", "deepseek", "naver_ai", "baidu_ai", "meta_ai", "naver_ai_tab", "qwen", "doubao"))) {
+          stop(paste("Error! \"", this_object$`model`, "\" cannot be assigned to `model`. Must be \"chatgpt\", \"perplexity\", \"ai_mode\", \"ai_overview\", \"gemini\", \"copilot\", \"amazon_rufus\", \"claude\", \"grok\", \"deepseek\", \"naver_ai\", \"baidu_ai\", \"meta_ai\", \"naver_ai_tab\", \"qwen\", \"doubao\".", sep = ""))
         }
         self$`model` <- this_object$`model`
       }
@@ -303,8 +303,8 @@ SentimentRecord <- R6::R6Class(
       self$`id` <- this_object$`id`
       self$`prompt_execution_id` <- this_object$`prompt_execution_id`
       self$`prompt_text` <- this_object$`prompt_text`
-      if (!is.null(this_object$`model`) && !(this_object$`model` %in% c("chatgpt", "perplexity", "ai_mode", "ai_overview", "gemini", "copilot", "amazon_rufus", "claude", "grok", "deepseek", "naver_ai", "baidu_ai", "meta_ai"))) {
-        stop(paste("Error! \"", this_object$`model`, "\" cannot be assigned to `model`. Must be \"chatgpt\", \"perplexity\", \"ai_mode\", \"ai_overview\", \"gemini\", \"copilot\", \"amazon_rufus\", \"claude\", \"grok\", \"deepseek\", \"naver_ai\", \"baidu_ai\", \"meta_ai\".", sep = ""))
+      if (!is.null(this_object$`model`) && !(this_object$`model` %in% c("chatgpt", "perplexity", "ai_mode", "ai_overview", "gemini", "copilot", "amazon_rufus", "claude", "grok", "deepseek", "naver_ai", "baidu_ai", "meta_ai", "naver_ai_tab", "qwen", "doubao"))) {
+        stop(paste("Error! \"", this_object$`model`, "\" cannot be assigned to `model`. Must be \"chatgpt\", \"perplexity\", \"ai_mode\", \"ai_overview\", \"gemini\", \"copilot\", \"amazon_rufus\", \"claude\", \"grok\", \"deepseek\", \"naver_ai\", \"baidu_ai\", \"meta_ai\", \"naver_ai_tab\", \"qwen\", \"doubao\".", sep = ""))
       }
       self$`model` <- this_object$`model`
       if (!is.null(this_object$`analysis`) && !(this_object$`analysis` %in% c("very_positive", "positive", "neutral", "negative", "very_negative"))) {

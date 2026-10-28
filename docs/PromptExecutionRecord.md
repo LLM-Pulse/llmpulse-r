@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **executed_at** | **character** | Null while the answer is still pending | 
 **duration_ms** | **numeric** |  | 
 **success** | **character** | Null while the answer is still pending | 
-**model** | **character** |  | [Enum: [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai]] 
+**model** | **character** |  | [Enum: [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao]] 
 **fan_out_queries** | **array[character]** | Sub-queries the model issued while answering; null when the model reports none | 
 **has_mention** | **character** |  | 
 **has_citation** | **character** |  | 
