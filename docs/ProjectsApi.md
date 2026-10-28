@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateProject**](ProjectsApi.md#CreateProject) | **POST** /projects | Create a project (fast mode)
 [**CreateProjectDraft**](ProjectsApi.md#CreateProjectDraft) | **POST** /project_drafts | Start a project draft (wizard step 1)
+[**DeleteProject**](ProjectsApi.md#DeleteProject) | **DELETE** /projects/{id} | Delete a project
 [**FinalizeProjectDraft**](ProjectsApi.md#FinalizeProjectDraft) | **POST** /project_drafts/{id}/finalize | Finalize a draft into a real project
 [**GetProjectDetails**](ProjectsApi.md#GetProjectDetails) | **GET** /dimensions/projects/{id} | Project details
 [**GetProjectDraft**](ProjectsApi.md#GetProjectDraft) | **GET** /project_drafts/{id} | Read a project draft
@@ -115,6 +116,57 @@ void (empty response body)
 | **201** | Draft created; envelope with draft state, suggestions and limits |  -  |
 | **422** | Invalid parameters |  -  |
 | **403** | Writes with a read-only key answer ERR_INSUFFICIENT_SCOPE, and a key limited to some projects ERR_KEY_PROJECT_SCOPED, with the same status: this operation acts on the whole account |  -  |
+
+# **DeleteProject**
+> ProjectDeleteResponse DeleteProject(id)
+
+Delete a project
+
+Deletes a project, like Delete Project in Project Settings, and cannot be undone. The project disappears at once from the app, GET /dimensions/projects and every other endpoint, and frees a project slot; a background job then deletes its prompts, answers, mentions, citations, sentiment, competitors and metrics history. API keys limited to it lose it, and a key left with no project is revoked. A project that is already being deleted, or that the key cannot see, answers ERR_PROJECT_NOT_FOUND. Requires an account-wide `read_write` scope API key: a key limited to some projects answers ERR_KEY_PROJECT_SCOPED. A team member needs permission to delete projects.
+
+### Example
+```R
+library(llmpulse)
+
+# Delete a project
+#
+# prepare function argument(s)
+var_id <- 56 # integer | 
+
+api_instance <- ProjectsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$DeleteProject(var_iddata_file = "result.txt")
+result <- api_instance$DeleteProject(var_id)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **integer**|  | 
+
+### Return type
+
+[**ProjectDeleteResponse**](ProjectDeleteResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Deleted |  -  |
+| **403** | A read-only key answers ERR_INSUFFICIENT_SCOPE and a key limited to some projects ERR_KEY_PROJECT_SCOPED: deleting a project acts on the whole account. A team member whose permissions do not grant deleting projects answers ERR_INSUFFICIENT_PERMISSION. All with the same status, and nothing is deleted |  -  |
+| **404** | Resource not found |  -  |
 
 # **FinalizeProjectDraft**
 > FinalizeProjectDraft(id, finalize_project_draft_request = var.finalize_project_draft_request)

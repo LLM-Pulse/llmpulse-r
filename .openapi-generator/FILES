@@ -183,6 +183,7 @@ R/project_create_response_email_subscription.R
 R/project_create_response_limits.R
 R/project_create_response_prompts.R
 R/project_create_response_same_domain_projects_inner.R
+R/project_delete_response.R
 R/project_details.R
 R/project_details_all_of_agent_traffic.R
 R/project_details_all_of_ai_traffic.R
@@ -483,6 +484,7 @@ docs/ProjectCreateResponseEmailSubscription.md
 docs/ProjectCreateResponseLimits.md
 docs/ProjectCreateResponsePrompts.md
 docs/ProjectCreateResponseSameDomainProjectsInner.md
+docs/ProjectDeleteResponse.md
 docs/ProjectDetails.md
 docs/ProjectDetailsAllOfAgentTraffic.md
 docs/ProjectDetailsAllOfAiTraffic.md
