@@ -31,6 +31,8 @@ R/answers_api.R
 R/api_client.R
 R/api_error.R
 R/api_error_error.R
+R/api_key_info.R
+R/api_keys_api.R
 R/api_response.R
 R/assign_prompt_tags_request.R
 R/catalog_product.R
@@ -62,6 +64,8 @@ R/competitor_suggestion.R
 R/competitor_suggestions_response.R
 R/competitors_api.R
 R/create_annotation_request.R
+R/create_api_key201_response.R
+R/create_api_key_request.R
 R/create_collection_request.R
 R/create_competitor_request.R
 R/create_project_draft_request.R
@@ -122,6 +126,7 @@ R/intelligence_task_update_request.R
 R/intelligence_task_update_response.R
 R/intelligence_tasks_response.R
 R/launch_recommendations_request.R
+R/list_api_keys200_response.R
 R/list_competitors200_response.R
 R/list_projects200_response.R
 R/list_team_invitations200_response.R
@@ -220,6 +225,7 @@ R/recommendations_response.R
 R/remove_prompt_tags_request.R
 R/remove_team_member200_response.R
 R/reputation_studies_api.R
+R/revoke_api_key200_response.R
 R/revoke_team_invitation200_response.R
 R/sample_webhook_payloads200_response.R
 R/sample_webhook_payloads200_response_data_inner.R
@@ -304,6 +310,7 @@ R/webhooks_api.R
 README.md
 docs/AIAgentTrafficApi.md
 docs/AIModelInsightsApi.md
+docs/APIKeysApi.md
 docs/AccountApi.md
 docs/AccountCapacity.md
 docs/AccountQuota.md
@@ -326,6 +333,7 @@ docs/AnswerDetailsLocale.md
 docs/AnswersApi.md
 docs/ApiError.md
 docs/ApiErrorError.md
+docs/ApiKeyInfo.md
 docs/AssignPromptTagsRequest.md
 docs/CatalogProduct.md
 docs/CatalogPromptSuggestion.md
@@ -356,6 +364,8 @@ docs/CompetitorSuggestion.md
 docs/CompetitorSuggestionsResponse.md
 docs/CompetitorsApi.md
 docs/CreateAnnotationRequest.md
+docs/CreateApiKey201Response.md
+docs/CreateApiKeyRequest.md
 docs/CreateCollectionRequest.md
 docs/CreateCompetitorRequest.md
 docs/CreateProjectDraftRequest.md
@@ -416,6 +426,7 @@ docs/IntelligenceTaskUpdateRequest.md
 docs/IntelligenceTaskUpdateResponse.md
 docs/IntelligenceTasksResponse.md
 docs/LaunchRecommendationsRequest.md
+docs/ListApiKeys200Response.md
 docs/ListCompetitors200Response.md
 docs/ListProjects200Response.md
 docs/ListTeamInvitations200Response.md
@@ -514,6 +525,7 @@ docs/RecommendationsResponse.md
 docs/RemovePromptTagsRequest.md
 docs/RemoveTeamMember200Response.md
 docs/ReputationStudiesApi.md
+docs/RevokeApiKey200Response.md
 docs/RevokeTeamInvitation200Response.md
 docs/SampleWebhookPayloads200Response.md
 docs/SampleWebhookPayloads200ResponseDataInner.md
