@@ -299,7 +299,7 @@ Name | Type | Description  | Notes
 
 List cited Reddit content
 
-Which Reddit content AI answers cite for your tracked prompts. view=subreddits (default) returns one row per subreddit with its citation count, unique authors and positive/negative sentiment split; view=authors returns one row per author; view=threads returns the individual cited threads with upvotes, comments, average position and dominant sentiment. Requires the Growth plan or above.
+Which Reddit content AI answers cite for your tracked prompts. view=subreddits (default) returns one row per subreddit with its citation count, unique authors and positive/negative sentiment split; view=authors returns one row per author; view=threads returns the individual cited threads with upvotes, comments, average position and dominant sentiment. view=breakdowns returns the figures behind Reddit Intelligence > Sentiment and breakdowns: citations is the number of Reddit citations after the filters, and each row is one slice, with breakdown (sentiment, model or country), key, count and pct, the share within its breakdown as the page charts it. Sentiment is that of the AI answer that cited Reddit, with all five labels (very_positive to very_negative) listed, zero included; order and direction do not apply. Requires the Growth plan or above.
 
 ### Example
 ```R
@@ -317,7 +317,7 @@ var_author <- "author_example" # character | Filter to one Reddit author (Option
 var_status <- "status_example" # character | view=threads only (Optional)
 var_owned <- "owned_example" # character | Return only subreddits/authors the account has claimed as its own (Optional)
 var_brand <- "brand_example" # character | Filter to citations whose scraped Reddit content mentions a brand: 'brand' for the tracked brand, or a competitor id. Reads the page content, not the AI answer. (Optional)
-var_order <- "order_example" # character | Sort field; the allowed set depends on view (Optional)
+var_order <- "order_example" # character | Sort field; the allowed set depends on view, and view=breakdowns accepts none (Optional)
 var_direction <- "desc" # character |  (Optional)
 var_model <- "model_example" # character | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (Optional)
 var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
@@ -342,13 +342,13 @@ Name | Type | Description  | Notes
  **project_id** | **integer**| Project ID | 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
- **view** | Enum [subreddits, authors, threads] |  | [optional] [default to &quot;subreddits&quot;]
+ **view** | Enum [subreddits, authors, threads, breakdowns] |  | [optional] [default to &quot;subreddits&quot;]
  **subreddit** | **character**| Filter to one subreddit (name without the r/ prefix) | [optional] 
  **author** | **character**| Filter to one Reddit author | [optional] 
  **status** | Enum [open, archived] | view&#x3D;threads only | [optional] 
  **owned** | **character**| Return only subreddits/authors the account has claimed as its own | [optional] 
  **brand** | **character**| Filter to citations whose scraped Reddit content mentions a brand: &#39;brand&#39; for the tracked brand, or a competitor id. Reads the page content, not the AI answer. | [optional] 
- **order** | Enum [citations, subreddit, unique_authors, positive_pct, negative_pct, author, avg_position, upvotes, comments, sentiment] | Sort field; the allowed set depends on view | [optional] 
+ **order** | Enum [citations, subreddit, unique_authors, positive_pct, negative_pct, author, avg_position, upvotes, comments, sentiment] | Sort field; the allowed set depends on view, and view&#x3D;breakdowns accepts none | [optional] 
  **direction** | Enum [asc, desc] |  | [optional] [default to &quot;desc&quot;]
  **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao] | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
