@@ -17,7 +17,7 @@
 #' @field length_warning Which tracked AI models will skip new prompts that are too long for them character
 #' @field prompts_available Prompt slots left on the plan; null when unlimited integer
 #' @field tracked Whether scheduled runs include the project the prompts were imported into. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes character
-#' @field untracked_reason Why tracked is false: paused or project_limit. Null when tracked character
+#' @field untracked_reason Why tracked is false: pitch_project, paused or project_limit. Null when tracked character
 #' @field warning What to do when tracked is false. Null when tracked character
 #' @field request_id  character
 #' @importFrom R6 R6Class
@@ -53,7 +53,7 @@ PromptsImportResponse <- R6::R6Class(
     #' @param length_warning Which tracked AI models will skip new prompts that are too long for them
     #' @param prompts_available Prompt slots left on the plan; null when unlimited
     #' @param tracked Whether scheduled runs include the project the prompts were imported into. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes
-    #' @param untracked_reason Why tracked is false: paused or project_limit. Null when tracked
+    #' @param untracked_reason Why tracked is false: pitch_project, paused or project_limit. Null when tracked
     #' @param warning What to do when tracked is false. Null when tracked
     #' @param request_id request_id
     #' @param ... Other optional arguments.

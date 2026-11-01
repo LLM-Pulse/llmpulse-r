@@ -8,6 +8,7 @@ DESCRIPTION
 NAMESPACE
 R/account_api.R
 R/account_capacity.R
+R/account_pitch_quota.R
 R/account_quota.R
 R/actor.R
 R/agent_bot.R
@@ -188,6 +189,7 @@ R/project_details.R
 R/project_details_all_of_agent_traffic.R
 R/project_details_all_of_ai_traffic.R
 R/project_details_all_of_data_coverage.R
+R/project_details_all_of_pitch_run.R
 R/project_details_all_of_search_console.R
 R/project_details_all_of_stats.R
 R/project_details_all_of_stats_prompts_by_brand_kind.R
@@ -314,6 +316,7 @@ docs/AIModelInsightsApi.md
 docs/APIKeysApi.md
 docs/AccountApi.md
 docs/AccountCapacity.md
+docs/AccountPitchQuota.md
 docs/AccountQuota.md
 docs/Actor.md
 docs/AgentBot.md
@@ -489,6 +492,7 @@ docs/ProjectDetails.md
 docs/ProjectDetailsAllOfAgentTraffic.md
 docs/ProjectDetailsAllOfAiTraffic.md
 docs/ProjectDetailsAllOfDataCoverage.md
+docs/ProjectDetailsAllOfPitchRun.md
 docs/ProjectDetailsAllOfSearchConsole.md
 docs/ProjectDetailsAllOfStats.md
 docs/ProjectDetailsAllOfStatsPromptsByBrandKind.md

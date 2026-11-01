@@ -10,8 +10,10 @@
 #' @field id  integer [optional]
 #' @field name Internal project label (sidebar, settings, admin) character [optional]
 #' @field brand_name LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`. character [optional]
-#' @field tracked Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run character
-#' @field untracked_reason Why tracked is false: paused or project_limit. Null when tracked character
+#' @field tracked Whether scheduled runs include this project. False when it is a pitch project, which runs once, when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run character
+#' @field untracked_reason Why tracked is false: pitch_project, paused or project_limit. Null when tracked character
+#' @field pitch Whether this is a pitch project, a one-off snapshot that runs its prompts once, takes no project slot and is deleted at pitch_expires_at unless it is converted (PATCH /projects/{id} with pitch false) character [optional]
+#' @field pitch_expires_at When a pitch project is deleted, with its data, unless it is converted first. Null for a tracked project character [optional]
 #' @field url  character [optional]
 #' @field description  character [optional]
 #' @field matching_names  list(character) [optional]
@@ -31,6 +33,7 @@
 #' @field created_at  character [optional]
 #' @field prompt_limit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way integer [optional]
 #' @field stats  \link{ProjectDetailsAllOfStats} [optional]
+#' @field pitch_run  \link{ProjectDetailsAllOfPitchRun} [optional]
 #' @field data_coverage  \link{ProjectDetailsAllOfDataCoverage} [optional]
 #' @field search_console  \link{ProjectDetailsAllOfSearchConsole} [optional]
 #' @field ai_traffic  \link{ProjectDetailsAllOfAiTraffic} [optional]
@@ -47,6 +50,8 @@ ProjectDetails <- R6::R6Class(
     `brand_name` = NULL,
     `tracked` = NULL,
     `untracked_reason` = NULL,
+    `pitch` = NULL,
+    `pitch_expires_at` = NULL,
     `url` = NULL,
     `description` = NULL,
     `matching_names` = NULL,
@@ -66,6 +71,7 @@ ProjectDetails <- R6::R6Class(
     `created_at` = NULL,
     `prompt_limit` = NULL,
     `stats` = NULL,
+    `pitch_run` = NULL,
     `data_coverage` = NULL,
     `search_console` = NULL,
     `ai_traffic` = NULL,
@@ -75,11 +81,13 @@ ProjectDetails <- R6::R6Class(
     #' @description
     #' Initialize a new ProjectDetails class.
     #'
-    #' @param tracked Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run
-    #' @param untracked_reason Why tracked is false: paused or project_limit. Null when tracked
+    #' @param tracked Whether scheduled runs include this project. False when it is a pitch project, which runs once, when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run
+    #' @param untracked_reason Why tracked is false: pitch_project, paused or project_limit. Null when tracked
     #' @param id id
     #' @param name Internal project label (sidebar, settings, admin)
     #' @param brand_name LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`.
+    #' @param pitch Whether this is a pitch project, a one-off snapshot that runs its prompts once, takes no project slot and is deleted at pitch_expires_at unless it is converted (PATCH /projects/{id} with pitch false)
+    #' @param pitch_expires_at When a pitch project is deleted, with its data, unless it is converted first. Null for a tracked project
     #' @param url url
     #' @param description description
     #' @param matching_names matching_names
@@ -99,13 +107,14 @@ ProjectDetails <- R6::R6Class(
     #' @param created_at created_at
     #' @param prompt_limit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way
     #' @param stats stats
+    #' @param pitch_run pitch_run
     #' @param data_coverage data_coverage
     #' @param search_console search_console
     #' @param ai_traffic ai_traffic
     #' @param agent_traffic agent_traffic
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`tracked`, `untracked_reason`, `id` = NULL, `name` = NULL, `brand_name` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `prompt_limit` = NULL, `stats` = NULL, `data_coverage` = NULL, `search_console` = NULL, `ai_traffic` = NULL, `agent_traffic` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`tracked`, `untracked_reason`, `id` = NULL, `name` = NULL, `brand_name` = NULL, `pitch` = NULL, `pitch_expires_at` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `prompt_limit` = NULL, `stats` = NULL, `pitch_run` = NULL, `data_coverage` = NULL, `search_console` = NULL, `ai_traffic` = NULL, `agent_traffic` = NULL, `request_id` = NULL, ...) {
       if (!missing(`tracked`)) {
         if (!(is.logical(`tracked`) && length(`tracked`) == 1)) {
           stop(paste("Error! Invalid data for `tracked`. Must be a boolean:", `tracked`))
@@ -135,6 +144,18 @@ ProjectDetails <- R6::R6Class(
           stop(paste("Error! Invalid data for `brand_name`. Must be a string:", `brand_name`))
         }
         self$`brand_name` <- `brand_name`
+      }
+      if (!is.null(`pitch`)) {
+        if (!(is.logical(`pitch`) && length(`pitch`) == 1)) {
+          stop(paste("Error! Invalid data for `pitch`. Must be a boolean:", `pitch`))
+        }
+        self$`pitch` <- `pitch`
+      }
+      if (!is.null(`pitch_expires_at`)) {
+        if (!is.character(`pitch_expires_at`)) {
+          stop(paste("Error! Invalid data for `pitch_expires_at`. Must be a string:", `pitch_expires_at`))
+        }
+        self$`pitch_expires_at` <- `pitch_expires_at`
       }
       if (!is.null(`url`)) {
         if (!(is.character(`url`) && length(`url`) == 1)) {
@@ -246,6 +267,10 @@ ProjectDetails <- R6::R6Class(
         stopifnot(R6::is.R6(`stats`))
         self$`stats` <- `stats`
       }
+      if (!is.null(`pitch_run`)) {
+        stopifnot(R6::is.R6(`pitch_run`))
+        self$`pitch_run` <- `pitch_run`
+      }
       if (!is.null(`data_coverage`)) {
         stopifnot(R6::is.R6(`data_coverage`))
         self$`data_coverage` <- `data_coverage`
@@ -320,6 +345,14 @@ ProjectDetails <- R6::R6Class(
       if (!is.null(self$`untracked_reason`)) {
         ProjectDetailsObject[["untracked_reason"]] <-
           self$`untracked_reason`
+      }
+      if (!is.null(self$`pitch`)) {
+        ProjectDetailsObject[["pitch"]] <-
+          self$`pitch`
+      }
+      if (!is.null(self$`pitch_expires_at`)) {
+        ProjectDetailsObject[["pitch_expires_at"]] <-
+          self$`pitch_expires_at`
       }
       if (!is.null(self$`url`)) {
         ProjectDetailsObject[["url"]] <-
@@ -397,6 +430,10 @@ ProjectDetails <- R6::R6Class(
         ProjectDetailsObject[["stats"]] <-
           self$extractSimpleType(self$`stats`)
       }
+      if (!is.null(self$`pitch_run`)) {
+        ProjectDetailsObject[["pitch_run"]] <-
+          self$extractSimpleType(self$`pitch_run`)
+      }
       if (!is.null(self$`data_coverage`)) {
         ProjectDetailsObject[["data_coverage"]] <-
           self$extractSimpleType(self$`data_coverage`)
@@ -465,6 +502,12 @@ ProjectDetails <- R6::R6Class(
       if (!is.null(this_object$`untracked_reason`)) {
         self$`untracked_reason` <- this_object$`untracked_reason`
       }
+      if (!is.null(this_object$`pitch`)) {
+        self$`pitch` <- this_object$`pitch`
+      }
+      if (!is.null(this_object$`pitch_expires_at`)) {
+        self$`pitch_expires_at` <- this_object$`pitch_expires_at`
+      }
       if (!is.null(this_object$`url`)) {
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
         if (!stringr::str_detect(this_object$`url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
@@ -528,6 +571,11 @@ ProjectDetails <- R6::R6Class(
         `stats_object`$fromJSON(jsonlite::toJSON(this_object$`stats`, auto_unbox = TRUE, digits = NA))
         self$`stats` <- `stats_object`
       }
+      if (!is.null(this_object$`pitch_run`)) {
+        `pitch_run_object` <- ProjectDetailsAllOfPitchRun$new()
+        `pitch_run_object`$fromJSON(jsonlite::toJSON(this_object$`pitch_run`, auto_unbox = TRUE, digits = NA))
+        self$`pitch_run` <- `pitch_run_object`
+      }
       if (!is.null(this_object$`data_coverage`)) {
         `data_coverage_object` <- ProjectDetailsAllOfDataCoverage$new()
         `data_coverage_object`$fromJSON(jsonlite::toJSON(this_object$`data_coverage`, auto_unbox = TRUE, digits = NA))
@@ -577,6 +625,8 @@ ProjectDetails <- R6::R6Class(
       self$`brand_name` <- this_object$`brand_name`
       self$`tracked` <- this_object$`tracked`
       self$`untracked_reason` <- this_object$`untracked_reason`
+      self$`pitch` <- this_object$`pitch`
+      self$`pitch_expires_at` <- this_object$`pitch_expires_at`
       # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
       if (!stringr::str_detect(this_object$`url`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
         stop(paste("Error! Invalid data for `url`. Must be a URL:", this_object$`url`))
@@ -600,6 +650,7 @@ ProjectDetails <- R6::R6Class(
       self$`created_at` <- this_object$`created_at`
       self$`prompt_limit` <- this_object$`prompt_limit`
       self$`stats` <- ProjectDetailsAllOfStats$new()$fromJSON(jsonlite::toJSON(this_object$`stats`, auto_unbox = TRUE, digits = NA))
+      self$`pitch_run` <- ProjectDetailsAllOfPitchRun$new()$fromJSON(jsonlite::toJSON(this_object$`pitch_run`, auto_unbox = TRUE, digits = NA))
       self$`data_coverage` <- ProjectDetailsAllOfDataCoverage$new()$fromJSON(jsonlite::toJSON(this_object$`data_coverage`, auto_unbox = TRUE, digits = NA))
       self$`search_console` <- ProjectDetailsAllOfSearchConsole$new()$fromJSON(jsonlite::toJSON(this_object$`search_console`, auto_unbox = TRUE, digits = NA))
       self$`ai_traffic` <- ProjectDetailsAllOfAiTraffic$new()$fromJSON(jsonlite::toJSON(this_object$`ai_traffic`, auto_unbox = TRUE, digits = NA))

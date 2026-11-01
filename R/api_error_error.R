@@ -9,7 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field code  character [optional]
 #' @field message  character [optional]
-#' @field meta Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. object [optional]
+#' @field meta Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. A prompt write refused because a launched pitch project's prompts are fixed carries reason pitch_prompts_frozen. object [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -25,7 +25,7 @@ ApiErrorError <- R6::R6Class(
     #'
     #' @param code code
     #' @param message message
-    #' @param meta Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source.
+    #' @param meta Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. A prompt write refused because a launched pitch project's prompts are fixed carries reason pitch_prompts_frozen.
     #' @param ... Other optional arguments.
     initialize = function(`code` = NULL, `message` = NULL, `meta` = NULL, ...) {
       if (!is.null(`code`)) {

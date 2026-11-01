@@ -10,8 +10,10 @@
 #' @field id  integer [optional]
 #' @field name Internal project label (sidebar, settings, admin) character [optional]
 #' @field brand_name LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`. character [optional]
-#' @field tracked Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run character [optional]
-#' @field untracked_reason Why tracked is false: paused or project_limit. Null when tracked character [optional]
+#' @field tracked Whether scheduled runs include this project. False when it is a pitch project, which runs once, when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run character [optional]
+#' @field untracked_reason Why tracked is false: pitch_project, paused or project_limit. Null when tracked character [optional]
+#' @field pitch Whether this is a pitch project, a one-off snapshot that runs its prompts once, takes no project slot and is deleted at pitch_expires_at unless it is converted (PATCH /projects/{id} with pitch false) character [optional]
+#' @field pitch_expires_at When a pitch project is deleted, with its data, unless it is converted first. Null for a tracked project character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -23,6 +25,8 @@ Project <- R6::R6Class(
     `brand_name` = NULL,
     `tracked` = NULL,
     `untracked_reason` = NULL,
+    `pitch` = NULL,
+    `pitch_expires_at` = NULL,
 
     #' @description
     #' Initialize a new Project class.
@@ -30,10 +34,12 @@ Project <- R6::R6Class(
     #' @param id id
     #' @param name Internal project label (sidebar, settings, admin)
     #' @param brand_name LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`.
-    #' @param tracked Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run
-    #' @param untracked_reason Why tracked is false: paused or project_limit. Null when tracked
+    #' @param tracked Whether scheduled runs include this project. False when it is a pitch project, which runs once, when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run
+    #' @param untracked_reason Why tracked is false: pitch_project, paused or project_limit. Null when tracked
+    #' @param pitch Whether this is a pitch project, a one-off snapshot that runs its prompts once, takes no project slot and is deleted at pitch_expires_at unless it is converted (PATCH /projects/{id} with pitch false)
+    #' @param pitch_expires_at When a pitch project is deleted, with its data, unless it is converted first. Null for a tracked project
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `tracked` = NULL, `untracked_reason` = NULL, ...) {
+    initialize = function(`id` = NULL, `name` = NULL, `brand_name` = NULL, `tracked` = NULL, `untracked_reason` = NULL, `pitch` = NULL, `pitch_expires_at` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -63,6 +69,18 @@ Project <- R6::R6Class(
           stop(paste("Error! Invalid data for `untracked_reason`. Must be a string:", `untracked_reason`))
         }
         self$`untracked_reason` <- `untracked_reason`
+      }
+      if (!is.null(`pitch`)) {
+        if (!(is.logical(`pitch`) && length(`pitch`) == 1)) {
+          stop(paste("Error! Invalid data for `pitch`. Must be a boolean:", `pitch`))
+        }
+        self$`pitch` <- `pitch`
+      }
+      if (!is.null(`pitch_expires_at`)) {
+        if (!is.character(`pitch_expires_at`)) {
+          stop(paste("Error! Invalid data for `pitch_expires_at`. Must be a string:", `pitch_expires_at`))
+        }
+        self$`pitch_expires_at` <- `pitch_expires_at`
       }
     },
 
@@ -117,6 +135,14 @@ Project <- R6::R6Class(
         ProjectObject[["untracked_reason"]] <-
           self$`untracked_reason`
       }
+      if (!is.null(self$`pitch`)) {
+        ProjectObject[["pitch"]] <-
+          self$`pitch`
+      }
+      if (!is.null(self$`pitch_expires_at`)) {
+        ProjectObject[["pitch_expires_at"]] <-
+          self$`pitch_expires_at`
+      }
       return(ProjectObject)
     },
 
@@ -141,6 +167,12 @@ Project <- R6::R6Class(
       }
       if (!is.null(this_object$`untracked_reason`)) {
         self$`untracked_reason` <- this_object$`untracked_reason`
+      }
+      if (!is.null(this_object$`pitch`)) {
+        self$`pitch` <- this_object$`pitch`
+      }
+      if (!is.null(this_object$`pitch_expires_at`)) {
+        self$`pitch_expires_at` <- this_object$`pitch_expires_at`
       }
       self
     },
@@ -168,6 +200,8 @@ Project <- R6::R6Class(
       self$`brand_name` <- this_object$`brand_name`
       self$`tracked` <- this_object$`tracked`
       self$`untracked_reason` <- this_object$`untracked_reason`
+      self$`pitch` <- this_object$`pitch`
+      self$`pitch_expires_at` <- this_object$`pitch_expires_at`
       self
     },
 

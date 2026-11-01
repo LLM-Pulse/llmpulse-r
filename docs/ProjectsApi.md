@@ -22,7 +22,7 @@ Method | HTTP request | Description
 
 Create a project (fast mode)
 
-Create a complete project in one call: project fields, prompts (queued for execution and categorization), collections tagging those prompts, competitors, weekly email subscription. The response lists same_domain_projects so an accidental duplicate is visible; it never blocks the create. Idempotent via `external_identifier` (embed-enabled accounts only; replay returns 200 with the existing project). Requires a `read_write` scope API key.
+Create a complete project in one call: project fields, prompts (queued for execution and categorization), collections tagging those prompts, competitors, weekly email subscription. With pitch true it creates a pitch project instead: a one-off snapshot for a prospect that runs once, takes no project slot and is deleted after 90 days unless converted; ERR_PLAN_REQUIRED when the account is below the Scale tier, on a trial or without approved pitch project access (error.meta.access says which), ERR_QUOTA_EXCEEDED when the month's pitch projects are used (error.meta.resets_on), ERR_INVALID_PARAM for more than 100 prompts or a domain the account tracks or pitched in the last 90 days. The response lists same_domain_projects so an accidental duplicate is visible; it never blocks the create. Idempotent via `external_identifier` (embed-enabled accounts only; replay returns 200 with the existing project). Requires a `read_write` scope API key.
 
 ### Example
 ```R
@@ -31,7 +31,7 @@ library(llmpulse)
 # Create a project (fast mode)
 #
 # prepare function argument(s)
-var_project_create_request <- ProjectCreateRequest$new("website_url_example", "name_example", "main_country_example", "main_language_example", "brand_name_example", "description_example", c("industry_example"), "business_model_example", "business_model_other_example", "target_audience_example", "brand_voice_example", "goals_example", c("primary_products_example"), c("matching_names_example"), c("prompts_example"), c(ProjectCreateRequest_collections_inner$new("name_example", c("prompts_example"))), c(ProjectCreateRequest_competitors_inner$new("domain_example", "brand_name_example", c("matching_names_example"))), ProjectCreateRequest_owned_media$new("youtube_channel_url_example", "instagram_profile_url_example", "facebook_page_url_example", "tiktok_profile_url_example", "app_store_url_example", "google_play_url_example"), "use_subdomain_example", "weekly_email_subscribed_example", "external_identifier_example", "execute_prompts_immediately_example") # ProjectCreateRequest | 
+var_project_create_request <- ProjectCreateRequest$new("website_url_example", "name_example", "main_country_example", "main_language_example", "brand_name_example", "description_example", c("industry_example"), "business_model_example", "business_model_other_example", "target_audience_example", "brand_voice_example", "goals_example", c("primary_products_example"), c("matching_names_example"), c("prompts_example"), c(ProjectCreateRequest_collections_inner$new("name_example", c("prompts_example"))), c(ProjectCreateRequest_competitors_inner$new("domain_example", "brand_name_example", c("matching_names_example"))), ProjectCreateRequest_owned_media$new("youtube_channel_url_example", "instagram_profile_url_example", "facebook_page_url_example", "tiktok_profile_url_example", "app_store_url_example", "google_play_url_example"), "use_subdomain_example", "weekly_email_subscribed_example", "external_identifier_example", "execute_prompts_immediately_example", "pitch_example") # ProjectCreateRequest | 
 
 api_instance <- ProjectsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
@@ -225,7 +225,7 @@ void (empty response body)
 
 Project details
 
-Detailed info for one project: matching_names, additional_owned_domains, industry, business model, primary products, target audience, brand voice, locale, app store IDs, prompt_limit (the project's own prompt cap, null without one), stats (incl. prompts_by_brand_kind counts and prompts_available, how many prompts can still be added: the lower of the project's free slots and the account's remaining prompts, null when neither caps it), data_coverage (models, countries and languages with data) and the status of each data connection (search_console, ai_traffic, agent_traffic) with the connect_url where the user connects it.
+Detailed info for one project: matching_names, additional_owned_domains, industry, business model, primary products, target audience, brand voice, locale, app store IDs, prompt_limit (the project's own prompt cap, null without one), stats (incl. prompts_by_brand_kind counts and prompts_available, how many prompts can still be added: the lower of the project's free slots and the account's remaining prompts, null when neither caps it), data_coverage (models, countries and languages with data), the status of each data connection (search_console, ai_traffic, agent_traffic) with the connect_url where the user connects it, and for a pitch project its pitch_expires_at and pitch_run (when it ran, the AI models it asked and how many answers arrived).
 
 ### Example
 ```R
@@ -413,11 +413,11 @@ Name | Type | Description  | Notes
 | **200** | Models |  -  |
 
 # **ListProjects**
-> ListProjects200Response ListProjects(output = var.output)
+> ListProjects200Response ListProjects(pitch = "exclude", output = var.output)
 
 List projects
 
-All projects accessible with your API key.
+All projects accessible with your API key. Pitch projects, one-off snapshots deleted 90 days after they are created, are left out unless pitch is include or only.
 
 ### Example
 ```R
@@ -426,14 +426,15 @@ library(llmpulse)
 # List projects
 #
 # prepare function argument(s)
+var_pitch <- "exclude" # character | exclude (default) leaves pitch projects out, include lists them with the tracked projects, only lists pitch projects alone (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
 
 api_instance <- ProjectsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
 # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-# result <- api_instance$ListProjects(output = var_outputdata_file = "result.txt")
-result <- api_instance$ListProjects(output = var_output)
+# result <- api_instance$ListProjects(pitch = var_pitch, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListProjects(pitch = var_pitch, output = var_output)
 dput(result)
 ```
 
@@ -441,6 +442,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **pitch** | Enum [exclude, include, only] | exclude (default) leaves pitch projects out, include lists them with the tracked projects, only lists pitch projects alone | [optional] [default to &quot;exclude&quot;]
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
 
 ### Return type
@@ -466,7 +468,7 @@ Name | Type | Description  | Notes
 
 Update a project profile (Brand Book)
 
-Updates the project name and profile, the same fields as Project Settings: name, brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names, and the additional owned domains (additional_owned_domains). Send only the fields to change; unknown fields are rejected, and a request is applied whole or not at all. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background, and an additional_owned_domains change reprocesses the past answers that cite an added or removed domain (rematching=true); further edits are rejected while that runs. Only the account owner can send additional_owned_domains: a team member key gets ERR_INSUFFICIENT_PERMISSION and nothing is applied. prompt_limit sets or (null) removes the project's own prompt cap, as in Account Settings > Prompt Limits. Only the account owner or a co-owner whose permissions grant Projects update can send it (Account Settings > Prompt Limits lets any co-owner change it; here a co-owner, like every team member, also needs Projects update): any other team member gets ERR_INSUFFICIENT_PERMISSION, and a key limited to some projects ERR_KEY_PROJECT_SCOPED, with nothing applied. A request that sends only prompt_limit is applied even while a rematch runs. Requires a `read_write` scope API key.
+Updates the project name and profile, the same fields as Project Settings: name, brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names, and the additional owned domains (additional_owned_domains). Send only the fields to change; unknown fields are rejected, and a request is applied whole or not at all. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background, and an additional_owned_domains change reprocesses the past answers that cite an added or removed domain (rematching=true); further edits are rejected while that runs. Only the account owner can send additional_owned_domains: a team member key gets ERR_INSUFFICIENT_PERMISSION and nothing is applied. prompt_limit sets or (null) removes the project's own prompt cap, as in Account Settings > Prompt Limits. Only the account owner or a co-owner whose permissions grant Projects update can send it (Account Settings > Prompt Limits lets any co-owner change it; here a co-owner, like every team member, also needs Projects update): any other team member gets ERR_INSUFFICIENT_PERMISSION, and a key limited to some projects ERR_KEY_PROJECT_SCOPED, with nothing applied. A request that sends only prompt_limit is applied even while a rematch runs. pitch false, sent on its own, converts a pitch project into a tracked project, like Convert in the app: it keeps its answers and metrics, is no longer deleted, takes a project slot, and its prompts count against the prompt quota and run on the account's schedule from the next run. It cannot be undone and does not give back the month's pitch project. Converting needs the Projects update and create permissions (ERR_INSUFFICIENT_PERMISSION) and a key for the whole account (ERR_KEY_PROJECT_SCOPED); ERR_LIMIT_REACHED, with error.meta.limit, when the account has no project slot or prompts left or the project has more prompts or competitors than the plan allows per project, and ERR_INVALID_PARAM when the project is not a live pitch project. Requires a `read_write` scope API key.
 
 ### Example
 ```R
@@ -476,7 +478,7 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_id <- 56 # integer | 
-var_update_project_request <- updateProject_request$new("name_example", "brand_name_example", "description_example", "industry_example", "business_model_example", "business_model_other_example", "target_audience_example", "brand_voice_example", "goals_example", c("primary_products_example"), c("matching_names_example"), c("additional_owned_domains_example"), 123) # UpdateProjectRequest | 
+var_update_project_request <- updateProject_request$new("name_example", "brand_name_example", "description_example", "industry_example", "business_model_example", "business_model_other_example", "target_audience_example", "brand_voice_example", "goals_example", c("primary_products_example"), c("matching_names_example"), c("additional_owned_domains_example"), 123, "pitch_example") # UpdateProjectRequest | 
 
 api_instance <- ProjectsApi$new()
 # Configure HTTP bearer authorization: BearerAuth

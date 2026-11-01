@@ -18,7 +18,7 @@
 #' @field brand_kind Brand focus: brand, brand_other or non_brand. Null until the prompt is classified character
 #' @field last_executed_at Null until the prompt has run character
 #' @field tracked Whether scheduled runs include this prompt. False when its project is paused or beyond the plan's project limit, or when the prompt is beyond the plan's prompt limit (the oldest prompts up to the limit run) character
-#' @field untracked_reason Why tracked is false: paused, project_limit or prompt_limit. Null when tracked character
+#' @field untracked_reason Why tracked is false: pitch_project, paused, project_limit or prompt_limit. Null when tracked character
 #' @field app_url Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project character
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -54,7 +54,7 @@ PromptRecord <- R6::R6Class(
     #' @param brand_kind Brand focus: brand, brand_other or non_brand. Null until the prompt is classified
     #' @param last_executed_at Null until the prompt has run
     #' @param tracked Whether scheduled runs include this prompt. False when its project is paused or beyond the plan's project limit, or when the prompt is beyond the plan's prompt limit (the oldest prompts up to the limit run)
-    #' @param untracked_reason Why tracked is false: paused, project_limit or prompt_limit. Null when tracked
+    #' @param untracked_reason Why tracked is false: pitch_project, paused, project_limit or prompt_limit. Null when tracked
     #' @param app_url Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project
     #' @param ... Other optional arguments.
     initialize = function(`id`, `prompt_text`, `collection_id`, `collection_ids`, `tags`, `country_code`, `language_code`, `prompt_type`, `brand_kind`, `last_executed_at`, `tracked`, `untracked_reason`, `app_url`, ...) {

@@ -20,6 +20,7 @@
 #' @field matching_names FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing in the request is applied list(character) [optional]
 #' @field additional_owned_domains FULL replacement list (at most 10) of other domains the brand owns, such as a blog or a country site; [] clears it. Citations from them count as owned, like the project website. Each entry is a website's own domain and covers its subdomains; a pasted URL is stored as its domain (https://www.acme.co.uk/x becomes acme.co.uk). A list the domain editor would refuse (a subdomain such as blog.acme.com, a platform many companies share such as youtube.com, amazon.com or wordpress.com, the project website, a tracked competitor domain, a duplicate or an entry that is not a domain) is rejected with ERR_INVALID_PARAM and the reason. Order does not matter, and an unchanged list starts nothing. Account owner only, on every plan list(character) [optional]
 #' @field prompt_limit The most prompts this project can hold, a JSON integer from 1 to 2147483647; null removes the project's limit. A string, a decimal, 0 or a negative number is rejected with ERR_INVALID_PARAM. The account's plan allowance still applies, so the lower of the two wins (GET /dimensions/projects/{id} returns prompt_limit and stats.prompts_available). A limit below the current count keeps every prompt and refuses new ones until the project is under it; note says what the project can now hold. Account owner or a co-owner with Projects update permission only; a key limited to some projects answers ERR_KEY_PROJECT_SCOPED. The Swift, Kotlin, Dart and R clients leave a null field out of the request body, so they can set a limit but not remove one: remove it with a plain HTTP request that sends prompt_limit as null integer [optional]
+#' @field pitch false converts a pitch project into a tracked project. Send it on its own, without other fields; true is rejected character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -39,6 +40,7 @@ UpdateProjectRequest <- R6::R6Class(
     `matching_names` = NULL,
     `additional_owned_domains` = NULL,
     `prompt_limit` = NULL,
+    `pitch` = NULL,
 
     #' @description
     #' Initialize a new UpdateProjectRequest class.
@@ -56,8 +58,9 @@ UpdateProjectRequest <- R6::R6Class(
     #' @param matching_names FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing in the request is applied
     #' @param additional_owned_domains FULL replacement list (at most 10) of other domains the brand owns, such as a blog or a country site; [] clears it. Citations from them count as owned, like the project website. Each entry is a website's own domain and covers its subdomains; a pasted URL is stored as its domain (https://www.acme.co.uk/x becomes acme.co.uk). A list the domain editor would refuse (a subdomain such as blog.acme.com, a platform many companies share such as youtube.com, amazon.com or wordpress.com, the project website, a tracked competitor domain, a duplicate or an entry that is not a domain) is rejected with ERR_INVALID_PARAM and the reason. Order does not matter, and an unchanged list starts nothing. Account owner only, on every plan
     #' @param prompt_limit The most prompts this project can hold, a JSON integer from 1 to 2147483647; null removes the project's limit. A string, a decimal, 0 or a negative number is rejected with ERR_INVALID_PARAM. The account's plan allowance still applies, so the lower of the two wins (GET /dimensions/projects/{id} returns prompt_limit and stats.prompts_available). A limit below the current count keeps every prompt and refuses new ones until the project is under it; note says what the project can now hold. Account owner or a co-owner with Projects update permission only; a key limited to some projects answers ERR_KEY_PROJECT_SCOPED. The Swift, Kotlin, Dart and R clients leave a null field out of the request body, so they can set a limit but not remove one: remove it with a plain HTTP request that sends prompt_limit as null
+    #' @param pitch false converts a pitch project into a tracked project. Send it on its own, without other fields; true is rejected
     #' @param ... Other optional arguments.
-    initialize = function(`name` = NULL, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `prompt_limit` = NULL, ...) {
+    initialize = function(`name` = NULL, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `prompt_limit` = NULL, `pitch` = NULL, ...) {
       if (!is.null(`name`)) {
         if (!(is.character(`name`) && length(`name`) == 1)) {
           stop(paste("Error! Invalid data for `name`. Must be a string:", `name`))
@@ -132,6 +135,12 @@ UpdateProjectRequest <- R6::R6Class(
           stop(paste("Error! Invalid data for `prompt_limit`. Must be an integer:", `prompt_limit`))
         }
         self$`prompt_limit` <- `prompt_limit`
+      }
+      if (!is.null(`pitch`)) {
+        if (!(is.logical(`pitch`) && length(`pitch`) == 1)) {
+          stop(paste("Error! Invalid data for `pitch`. Must be a boolean:", `pitch`))
+        }
+        self$`pitch` <- `pitch`
       }
     },
 
@@ -218,6 +227,10 @@ UpdateProjectRequest <- R6::R6Class(
         UpdateProjectRequestObject[["prompt_limit"]] <-
           self$`prompt_limit`
       }
+      if (!is.null(self$`pitch`)) {
+        UpdateProjectRequestObject[["pitch"]] <-
+          self$`pitch`
+      }
       return(UpdateProjectRequestObject)
     },
 
@@ -267,6 +280,9 @@ UpdateProjectRequest <- R6::R6Class(
       if (!is.null(this_object$`prompt_limit`)) {
         self$`prompt_limit` <- this_object$`prompt_limit`
       }
+      if (!is.null(this_object$`pitch`)) {
+        self$`pitch` <- this_object$`pitch`
+      }
       self
     },
 
@@ -301,6 +317,7 @@ UpdateProjectRequest <- R6::R6Class(
       self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       self$`additional_owned_domains` <- ApiClient$new()$deserializeObj(this_object$`additional_owned_domains`, "array[character]", loadNamespace("llmpulse"))
       self$`prompt_limit` <- this_object$`prompt_limit`
+      self$`pitch` <- this_object$`pitch`
       self
     },
 

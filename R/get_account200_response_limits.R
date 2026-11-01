@@ -14,6 +14,7 @@
 #' @field team_members  \link{AccountCapacity} [optional]
 #' @field recurring_geo_audits  \link{AccountQuota} [optional]
 #' @field geo_audit_manual_runs  \link{AccountQuota} [optional]
+#' @field pitch_projects  \link{AccountPitchQuota} [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -27,6 +28,7 @@ GetAccount200ResponseLimits <- R6::R6Class(
     `team_members` = NULL,
     `recurring_geo_audits` = NULL,
     `geo_audit_manual_runs` = NULL,
+    `pitch_projects` = NULL,
 
     #' @description
     #' Initialize a new GetAccount200ResponseLimits class.
@@ -38,8 +40,9 @@ GetAccount200ResponseLimits <- R6::R6Class(
     #' @param team_members team_members
     #' @param recurring_geo_audits recurring_geo_audits
     #' @param geo_audit_manual_runs geo_audit_manual_runs
+    #' @param pitch_projects pitch_projects
     #' @param ... Other optional arguments.
-    initialize = function(`prompts` = NULL, `projects` = NULL, `competitors_per_project` = NULL, `intelligence_tasks` = NULL, `team_members` = NULL, `recurring_geo_audits` = NULL, `geo_audit_manual_runs` = NULL, ...) {
+    initialize = function(`prompts` = NULL, `projects` = NULL, `competitors_per_project` = NULL, `intelligence_tasks` = NULL, `team_members` = NULL, `recurring_geo_audits` = NULL, `geo_audit_manual_runs` = NULL, `pitch_projects` = NULL, ...) {
       if (!is.null(`prompts`)) {
         stopifnot(R6::is.R6(`prompts`))
         self$`prompts` <- `prompts`
@@ -67,6 +70,10 @@ GetAccount200ResponseLimits <- R6::R6Class(
       if (!is.null(`geo_audit_manual_runs`)) {
         stopifnot(R6::is.R6(`geo_audit_manual_runs`))
         self$`geo_audit_manual_runs` <- `geo_audit_manual_runs`
+      }
+      if (!is.null(`pitch_projects`)) {
+        stopifnot(R6::is.R6(`pitch_projects`))
+        self$`pitch_projects` <- `pitch_projects`
       }
     },
 
@@ -128,6 +135,10 @@ GetAccount200ResponseLimits <- R6::R6Class(
       if (!is.null(self$`geo_audit_manual_runs`)) {
         GetAccount200ResponseLimitsObject[["geo_audit_manual_runs"]] <-
           self$extractSimpleType(self$`geo_audit_manual_runs`)
+      }
+      if (!is.null(self$`pitch_projects`)) {
+        GetAccount200ResponseLimitsObject[["pitch_projects"]] <-
+          self$extractSimpleType(self$`pitch_projects`)
       }
       return(GetAccount200ResponseLimitsObject)
     },
@@ -197,6 +208,11 @@ GetAccount200ResponseLimits <- R6::R6Class(
         `geo_audit_manual_runs_object`$fromJSON(jsonlite::toJSON(this_object$`geo_audit_manual_runs`, auto_unbox = TRUE, digits = NA))
         self$`geo_audit_manual_runs` <- `geo_audit_manual_runs_object`
       }
+      if (!is.null(this_object$`pitch_projects`)) {
+        `pitch_projects_object` <- AccountPitchQuota$new()
+        `pitch_projects_object`$fromJSON(jsonlite::toJSON(this_object$`pitch_projects`, auto_unbox = TRUE, digits = NA))
+        self$`pitch_projects` <- `pitch_projects_object`
+      }
       self
     },
 
@@ -225,6 +241,7 @@ GetAccount200ResponseLimits <- R6::R6Class(
       self$`team_members` <- AccountCapacity$new()$fromJSON(jsonlite::toJSON(this_object$`team_members`, auto_unbox = TRUE, digits = NA))
       self$`recurring_geo_audits` <- AccountQuota$new()$fromJSON(jsonlite::toJSON(this_object$`recurring_geo_audits`, auto_unbox = TRUE, digits = NA))
       self$`geo_audit_manual_runs` <- AccountQuota$new()$fromJSON(jsonlite::toJSON(this_object$`geo_audit_manual_runs`, auto_unbox = TRUE, digits = NA))
+      self$`pitch_projects` <- AccountPitchQuota$new()$fromJSON(jsonlite::toJSON(this_object$`pitch_projects`, auto_unbox = TRUE, digits = NA))
       self
     },
 

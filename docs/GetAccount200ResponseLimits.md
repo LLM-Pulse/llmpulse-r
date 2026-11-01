@@ -11,5 +11,6 @@ Name | Type | Description | Notes
 **team_members** | [**AccountCapacity**](AccountCapacity.md) |  | [optional] 
 **recurring_geo_audits** | [**AccountQuota**](AccountQuota.md) |  | [optional] 
 **geo_audit_manual_runs** | [**AccountQuota**](AccountQuota.md) |  | [optional] 
+**pitch_projects** | [**AccountPitchQuota**](AccountPitchQuota.md) |  | [optional] 
 
 

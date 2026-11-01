@@ -29,6 +29,7 @@
 #' @field weekly_email_subscribed  character [optional]
 #' @field external_identifier Embed-enabled (Enterprise) accounts only; other accounts receive ERR_PLAN_REQUIRED. Idempotency key and embed-session join key, unique per account character [optional]
 #' @field execute_prompts_immediately  character [optional]
+#' @field pitch Create a pitch project, a one-off snapshot for a prospect. It runs its prompts once across the account's AI models right away, takes no project slot and its prompts do not count against the prompt quota, and it is deleted 90 days later unless converted by sending pitch false to PATCH /projects/{id}. It uses one of the month's pitch projects (GET /account, limits.pitch_projects), needs access approved for the account and a paid subscription on the Scale tier or higher, takes 1 to 100 prompts, and cannot use a domain the account already tracks or pitched in the last 90 days. execute_prompts_immediately must not be false character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -57,6 +58,7 @@ ProjectCreateRequest <- R6::R6Class(
     `weekly_email_subscribed` = NULL,
     `external_identifier` = NULL,
     `execute_prompts_immediately` = NULL,
+    `pitch` = NULL,
 
     #' @description
     #' Initialize a new ProjectCreateRequest class.
@@ -83,8 +85,9 @@ ProjectCreateRequest <- R6::R6Class(
     #' @param weekly_email_subscribed weekly_email_subscribed. Default to FALSE.
     #' @param external_identifier Embed-enabled (Enterprise) accounts only; other accounts receive ERR_PLAN_REQUIRED. Idempotency key and embed-session join key, unique per account
     #' @param execute_prompts_immediately execute_prompts_immediately. Default to TRUE.
+    #' @param pitch Create a pitch project, a one-off snapshot for a prospect. It runs its prompts once across the account's AI models right away, takes no project slot and its prompts do not count against the prompt quota, and it is deleted 90 days later unless converted by sending pitch false to PATCH /projects/{id}. It uses one of the month's pitch projects (GET /account, limits.pitch_projects), needs access approved for the account and a paid subscription on the Scale tier or higher, takes 1 to 100 prompts, and cannot use a domain the account already tracks or pitched in the last 90 days. execute_prompts_immediately must not be false. Default to FALSE.
     #' @param ... Other optional arguments.
-    initialize = function(`website_url`, `name`, `main_country`, `main_language`, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, `prompts` = NULL, `collections` = NULL, `competitors` = NULL, `owned_media` = NULL, `use_subdomain` = FALSE, `weekly_email_subscribed` = FALSE, `external_identifier` = NULL, `execute_prompts_immediately` = TRUE, ...) {
+    initialize = function(`website_url`, `name`, `main_country`, `main_language`, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `primary_products` = NULL, `matching_names` = NULL, `prompts` = NULL, `collections` = NULL, `competitors` = NULL, `owned_media` = NULL, `use_subdomain` = FALSE, `weekly_email_subscribed` = FALSE, `external_identifier` = NULL, `execute_prompts_immediately` = TRUE, `pitch` = FALSE, ...) {
       if (!missing(`website_url`)) {
         if (!(is.character(`website_url`) && length(`website_url`) == 1)) {
           stop(paste("Error! Invalid data for `website_url`. Must be a string:", `website_url`))
@@ -213,6 +216,12 @@ ProjectCreateRequest <- R6::R6Class(
         }
         self$`execute_prompts_immediately` <- `execute_prompts_immediately`
       }
+      if (!is.null(`pitch`)) {
+        if (!(is.logical(`pitch`) && length(`pitch`) == 1)) {
+          stop(paste("Error! Invalid data for `pitch`. Must be a boolean:", `pitch`))
+        }
+        self$`pitch` <- `pitch`
+      }
     },
 
     #' @description
@@ -334,6 +343,10 @@ ProjectCreateRequest <- R6::R6Class(
         ProjectCreateRequestObject[["execute_prompts_immediately"]] <-
           self$`execute_prompts_immediately`
       }
+      if (!is.null(self$`pitch`)) {
+        ProjectCreateRequestObject[["pitch"]] <-
+          self$`pitch`
+      }
       return(ProjectCreateRequestObject)
     },
 
@@ -439,6 +452,9 @@ ProjectCreateRequest <- R6::R6Class(
       if (!is.null(this_object$`execute_prompts_immediately`)) {
         self$`execute_prompts_immediately` <- this_object$`execute_prompts_immediately`
       }
+      if (!is.null(this_object$`pitch`)) {
+        self$`pitch` <- this_object$`pitch`
+      }
       self
     },
 
@@ -486,6 +502,7 @@ ProjectCreateRequest <- R6::R6Class(
       self$`weekly_email_subscribed` <- this_object$`weekly_email_subscribed`
       self$`external_identifier` <- this_object$`external_identifier`
       self$`execute_prompts_immediately` <- this_object$`execute_prompts_immediately`
+      self$`pitch` <- this_object$`pitch`
       self
     },
 

@@ -13,7 +13,7 @@
 #' @field total_after  integer [optional]
 #' @field prompts_available  integer [optional]
 #' @field tracked Whether scheduled runs include the project the prompts were added to. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes character [optional]
-#' @field untracked_reason Why tracked is false: paused or project_limit. Null when tracked character [optional]
+#' @field untracked_reason Why tracked is false: pitch_project, paused or project_limit. Null when tracked character [optional]
 #' @field warning What to do when tracked is false. Null when tracked character [optional]
 #' @field data  list(\link{PromptsCreateResponseDataInner}) [optional]
 #' @field request_id  character [optional]
@@ -43,7 +43,7 @@ PromptsCreateResponse <- R6::R6Class(
     #' @param total_after total_after
     #' @param prompts_available prompts_available
     #' @param tracked Whether scheduled runs include the project the prompts were added to. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes
-    #' @param untracked_reason Why tracked is false: paused or project_limit. Null when tracked
+    #' @param untracked_reason Why tracked is false: pitch_project, paused or project_limit. Null when tracked
     #' @param warning What to do when tracked is false. Null when tracked
     #' @param data data
     #' @param request_id request_id
