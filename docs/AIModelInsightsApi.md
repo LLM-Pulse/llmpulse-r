@@ -10,11 +10,11 @@ Method | HTTP request | Description
 
 
 # **GetAiModelInsightsSummary**
-> GetAiModelInsightsSummary(project_id, range = var.range, from = var.from, to = var.to, granularity = var.granularity, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, competitors = var.competitors)
+> AiModelInsightsSummaryResponse GetAiModelInsightsSummary(project_id, range = var.range, from = var.from, to = var.to, granularity = var.granularity, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, competitors = var.competitors)
 
 AI Model Insights summary
 
-Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape `{ type, id, competitor_id, name, domain }` with bare (scheme-less) domains.
+Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape `{ type, id, competitor_id, name, domain }` with bare (scheme-less) domains. Rows cover the AI models the account has enabled or that answered in the window. A share, net sentiment or market share value with nothing behind it is null; counts, totals and weighted visibility scores stay 0.
 
 ### Example
 ```R
@@ -38,7 +38,10 @@ var_competitors <- "competitors_example" # character | Comma-separated competito
 api_instance <- AIModelInsightsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetAiModelInsightsSummary(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, competitors = var_competitors)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetAiModelInsightsSummary(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, competitors = var_competitorsdata_file = "result.txt")
+result <- api_instance$GetAiModelInsightsSummary(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, competitors = var_competitors)
+dput(result)
 ```
 
 ### Parameters
@@ -59,7 +62,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AiModelInsightsSummaryResponse**](AiModelInsightsSummaryResponse.md)
 
 ### Authorization
 
@@ -68,7 +71,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
