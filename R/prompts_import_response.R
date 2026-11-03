@@ -18,7 +18,8 @@
 #' @field prompts_available Prompt slots left on the plan; null when unlimited integer
 #' @field tracked Whether scheduled runs include the project the prompts were imported into. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes character
 #' @field untracked_reason Why tracked is false: pitch_project, paused or project_limit. Null when tracked character
-#' @field warning What to do when tracked is false. Null when tracked character
+#' @field warning What to do when tracked is false, or why some first runs wait when first_runs_wait_until is set. Null otherwise character
+#' @field first_runs_wait_until Set when the account's allowance of AI answers left this cycle cannot give every new prompt one answer per enabled AI model, so the rest run when the allowance resets at this time (00:00 Europe/Madrid). It counts this request's prompts against what was left when it arrived, not first runs other requests queued moments earlier. Null otherwise, when the allowance is unlimited, when tracked is false or when the account is not active character
 #' @field request_id  character
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -38,6 +39,7 @@ PromptsImportResponse <- R6::R6Class(
     `tracked` = NULL,
     `untracked_reason` = NULL,
     `warning` = NULL,
+    `first_runs_wait_until` = NULL,
     `request_id` = NULL,
 
     #' @description
@@ -54,10 +56,11 @@ PromptsImportResponse <- R6::R6Class(
     #' @param prompts_available Prompt slots left on the plan; null when unlimited
     #' @param tracked Whether scheduled runs include the project the prompts were imported into. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes
     #' @param untracked_reason Why tracked is false: pitch_project, paused or project_limit. Null when tracked
-    #' @param warning What to do when tracked is false. Null when tracked
+    #' @param warning What to do when tracked is false, or why some first runs wait when first_runs_wait_until is set. Null otherwise
+    #' @param first_runs_wait_until Set when the account's allowance of AI answers left this cycle cannot give every new prompt one answer per enabled AI model, so the rest run when the allowance resets at this time (00:00 Europe/Madrid). It counts this request's prompts against what was left when it arrived, not first runs other requests queued moments earlier. Null otherwise, when the allowance is unlimited, when tracked is false or when the account is not active
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`project_id`, `processed_rows`, `created`, `duplicates`, `tagged`, `created_tags`, `row_errors`, `length_warning`, `prompts_available`, `tracked`, `untracked_reason`, `warning`, `request_id`, ...) {
+    initialize = function(`project_id`, `processed_rows`, `created`, `duplicates`, `tagged`, `created_tags`, `row_errors`, `length_warning`, `prompts_available`, `tracked`, `untracked_reason`, `warning`, `first_runs_wait_until`, `request_id`, ...) {
       if (!missing(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -128,6 +131,12 @@ PromptsImportResponse <- R6::R6Class(
           stop(paste("Error! Invalid data for `warning`. Must be a string:", `warning`))
         }
         self$`warning` <- `warning`
+      }
+      if (!missing(`first_runs_wait_until`)) {
+        if (!(is.character(`first_runs_wait_until`) && length(`first_runs_wait_until`) == 1)) {
+          stop(paste("Error! Invalid data for `first_runs_wait_until`. Must be a string:", `first_runs_wait_until`))
+        }
+        self$`first_runs_wait_until` <- `first_runs_wait_until`
       }
       if (!missing(`request_id`)) {
         if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
@@ -216,6 +225,10 @@ PromptsImportResponse <- R6::R6Class(
         PromptsImportResponseObject[["warning"]] <-
           self$`warning`
       }
+      if (!is.null(self$`first_runs_wait_until`)) {
+        PromptsImportResponseObject[["first_runs_wait_until"]] <-
+          self$`first_runs_wait_until`
+      }
       if (!is.null(self$`request_id`)) {
         PromptsImportResponseObject[["request_id"]] <-
           self$`request_id`
@@ -289,6 +302,9 @@ PromptsImportResponse <- R6::R6Class(
       if (!is.null(this_object$`warning`)) {
         self$`warning` <- this_object$`warning`
       }
+      if (!is.null(this_object$`first_runs_wait_until`)) {
+        self$`first_runs_wait_until` <- this_object$`first_runs_wait_until`
+      }
       if (!is.null(this_object$`request_id`)) {
         self$`request_id` <- this_object$`request_id`
       }
@@ -325,6 +341,7 @@ PromptsImportResponse <- R6::R6Class(
       self$`tracked` <- this_object$`tracked`
       self$`untracked_reason` <- this_object$`untracked_reason`
       self$`warning` <- this_object$`warning`
+      self$`first_runs_wait_until` <- this_object$`first_runs_wait_until`
       self$`request_id` <- this_object$`request_id`
       self
     },
@@ -429,6 +446,14 @@ PromptsImportResponse <- R6::R6Class(
         }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for PromptsImportResponse: the required field `warning` is missing."))
+      }
+      # check the required field `first_runs_wait_until`
+      if (!is.null(input_json$`first_runs_wait_until`)) {
+        if (!(is.character(input_json$`first_runs_wait_until`) && length(input_json$`first_runs_wait_until`) == 1)) {
+          stop(paste("Error! Invalid data for `first_runs_wait_until`. Must be a string:", input_json$`first_runs_wait_until`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for PromptsImportResponse: the required field `first_runs_wait_until` is missing."))
       }
       # check the required field `request_id`
       if (!is.null(input_json$`request_id`)) {
