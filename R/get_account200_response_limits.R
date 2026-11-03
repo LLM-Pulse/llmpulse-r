@@ -14,6 +14,7 @@
 #' @field team_members  \link{AccountCapacity} [optional]
 #' @field recurring_geo_audits  \link{AccountQuota} [optional]
 #' @field geo_audit_manual_runs  \link{AccountQuota} [optional]
+#' @field prompt_executions  \link{AccountExecutionQuota} [optional]
 #' @field pitch_projects  \link{AccountPitchQuota} [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -28,6 +29,7 @@ GetAccount200ResponseLimits <- R6::R6Class(
     `team_members` = NULL,
     `recurring_geo_audits` = NULL,
     `geo_audit_manual_runs` = NULL,
+    `prompt_executions` = NULL,
     `pitch_projects` = NULL,
 
     #' @description
@@ -40,9 +42,10 @@ GetAccount200ResponseLimits <- R6::R6Class(
     #' @param team_members team_members
     #' @param recurring_geo_audits recurring_geo_audits
     #' @param geo_audit_manual_runs geo_audit_manual_runs
+    #' @param prompt_executions prompt_executions
     #' @param pitch_projects pitch_projects
     #' @param ... Other optional arguments.
-    initialize = function(`prompts` = NULL, `projects` = NULL, `competitors_per_project` = NULL, `intelligence_tasks` = NULL, `team_members` = NULL, `recurring_geo_audits` = NULL, `geo_audit_manual_runs` = NULL, `pitch_projects` = NULL, ...) {
+    initialize = function(`prompts` = NULL, `projects` = NULL, `competitors_per_project` = NULL, `intelligence_tasks` = NULL, `team_members` = NULL, `recurring_geo_audits` = NULL, `geo_audit_manual_runs` = NULL, `prompt_executions` = NULL, `pitch_projects` = NULL, ...) {
       if (!is.null(`prompts`)) {
         stopifnot(R6::is.R6(`prompts`))
         self$`prompts` <- `prompts`
@@ -70,6 +73,10 @@ GetAccount200ResponseLimits <- R6::R6Class(
       if (!is.null(`geo_audit_manual_runs`)) {
         stopifnot(R6::is.R6(`geo_audit_manual_runs`))
         self$`geo_audit_manual_runs` <- `geo_audit_manual_runs`
+      }
+      if (!is.null(`prompt_executions`)) {
+        stopifnot(R6::is.R6(`prompt_executions`))
+        self$`prompt_executions` <- `prompt_executions`
       }
       if (!is.null(`pitch_projects`)) {
         stopifnot(R6::is.R6(`pitch_projects`))
@@ -135,6 +142,10 @@ GetAccount200ResponseLimits <- R6::R6Class(
       if (!is.null(self$`geo_audit_manual_runs`)) {
         GetAccount200ResponseLimitsObject[["geo_audit_manual_runs"]] <-
           self$extractSimpleType(self$`geo_audit_manual_runs`)
+      }
+      if (!is.null(self$`prompt_executions`)) {
+        GetAccount200ResponseLimitsObject[["prompt_executions"]] <-
+          self$extractSimpleType(self$`prompt_executions`)
       }
       if (!is.null(self$`pitch_projects`)) {
         GetAccount200ResponseLimitsObject[["pitch_projects"]] <-
@@ -208,6 +219,11 @@ GetAccount200ResponseLimits <- R6::R6Class(
         `geo_audit_manual_runs_object`$fromJSON(jsonlite::toJSON(this_object$`geo_audit_manual_runs`, auto_unbox = TRUE, digits = NA))
         self$`geo_audit_manual_runs` <- `geo_audit_manual_runs_object`
       }
+      if (!is.null(this_object$`prompt_executions`)) {
+        `prompt_executions_object` <- AccountExecutionQuota$new()
+        `prompt_executions_object`$fromJSON(jsonlite::toJSON(this_object$`prompt_executions`, auto_unbox = TRUE, digits = NA))
+        self$`prompt_executions` <- `prompt_executions_object`
+      }
       if (!is.null(this_object$`pitch_projects`)) {
         `pitch_projects_object` <- AccountPitchQuota$new()
         `pitch_projects_object`$fromJSON(jsonlite::toJSON(this_object$`pitch_projects`, auto_unbox = TRUE, digits = NA))
@@ -241,6 +257,7 @@ GetAccount200ResponseLimits <- R6::R6Class(
       self$`team_members` <- AccountCapacity$new()$fromJSON(jsonlite::toJSON(this_object$`team_members`, auto_unbox = TRUE, digits = NA))
       self$`recurring_geo_audits` <- AccountQuota$new()$fromJSON(jsonlite::toJSON(this_object$`recurring_geo_audits`, auto_unbox = TRUE, digits = NA))
       self$`geo_audit_manual_runs` <- AccountQuota$new()$fromJSON(jsonlite::toJSON(this_object$`geo_audit_manual_runs`, auto_unbox = TRUE, digits = NA))
+      self$`prompt_executions` <- AccountExecutionQuota$new()$fromJSON(jsonlite::toJSON(this_object$`prompt_executions`, auto_unbox = TRUE, digits = NA))
       self$`pitch_projects` <- AccountPitchQuota$new()$fromJSON(jsonlite::toJSON(this_object$`pitch_projects`, auto_unbox = TRUE, digits = NA))
       self
     },
