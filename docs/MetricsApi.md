@@ -26,8 +26,8 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
-var_from <- "from_example" # character |  (Optional)
+var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (Optional)
+var_from <- "from_example" # character | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_breakdown <- "breakdown_example" # character | Add per-(prompt, model) rows to the output (Optional)
 var_model <- "model_example" # character | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (Optional)
@@ -57,8 +57,8 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
- **from** | **character**|  | [optional] 
+ **range** | **integer**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **from** | **character**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **breakdown** | Enum [model] | Add per-(prompt, model) rows to the output | [optional] 
  **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao] | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
@@ -108,8 +108,8 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
-var_from <- "from_example" # character |  (Optional)
+var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (Optional)
+var_from <- "from_example" # character | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
 var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (Optional)
@@ -138,8 +138,8 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
- **from** | **character**|  | [optional] 
+ **range** | **integer**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **from** | **character**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 
  **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
@@ -189,8 +189,8 @@ library(llmpulse)
 var_project_id <- 56 # integer | Project ID
 var_metrics <- "metrics_example" # character | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
-var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
-var_from <- "from_example" # character |  (Optional)
+var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (Optional)
+var_from <- "from_example" # character | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (Optional)
 var_model <- "model_example" # character | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (Optional)
@@ -219,8 +219,8 @@ Name | Type | Description  | Notes
  **project_id** | **integer**| Project ID | 
  **metrics** | **character**| Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 
- **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
- **from** | **character**|  | [optional] 
+ **range** | **integer**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **from** | **character**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao] | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
@@ -270,8 +270,8 @@ library(llmpulse)
 var_project_id <- 56 # integer | Project ID
 var_metrics <- "metrics_example" # character | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
-var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
-var_from <- "from_example" # character |  (Optional)
+var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (Optional)
+var_from <- "from_example" # character | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (Optional)
 var_model <- "model_example" # character | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (Optional)
@@ -300,8 +300,8 @@ Name | Type | Description  | Notes
  **project_id** | **integer**| Project ID | 
  **metrics** | **character**| Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 
- **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
- **from** | **character**|  | [optional] 
+ **range** | **integer**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **from** | **character**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao] | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
@@ -350,8 +350,8 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
-var_from <- "from_example" # character |  (Optional)
+var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (Optional)
+var_from <- "from_example" # character | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_model <- "model_example" # character | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (Optional)
 var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
@@ -382,8 +382,8 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
- **from** | **character**|  | [optional] 
+ **range** | **integer**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **from** | **character**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao] | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 

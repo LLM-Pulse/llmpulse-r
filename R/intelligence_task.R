@@ -28,6 +28,7 @@
 #' @field manually_edited_at When the content was last edited by hand; null while the output is as generated character [optional]
 #' @field edited_by_user_id User behind the last manual edit; null for an unedited task or an edit made from an embedded portal integer [optional]
 #' @field result_version Concurrency token for content edits: send it back as result_version on PATCH /intelligence_tasks/{id} so an edit composed before a regeneration is refused with ERR_STALE_CONTENT (409). It is \"0\" until the task first completes, then changes each time a generation or regeneration replaces result_data, never on a manual edit or a revert. Treat it as opaque text character [optional]
+#' @field cms_drafts Drafts sent from this task to the connected WordPress site, newest first (up to 10). Only GET /intelligence_tasks/{id} returns it, and never on a white-label portal host list(\link{CmsPublication}) [optional]
 #' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -56,6 +57,7 @@ IntelligenceTask <- R6::R6Class(
     `manually_edited_at` = NULL,
     `edited_by_user_id` = NULL,
     `result_version` = NULL,
+    `cms_drafts` = NULL,
     `request_id` = NULL,
 
     #' @description
@@ -82,9 +84,10 @@ IntelligenceTask <- R6::R6Class(
     #' @param manually_edited_at When the content was last edited by hand; null while the output is as generated
     #' @param edited_by_user_id User behind the last manual edit; null for an unedited task or an edit made from an embedded portal
     #' @param result_version Concurrency token for content edits: send it back as result_version on PATCH /intelligence_tasks/{id} so an edit composed before a regeneration is refused with ERR_STALE_CONTENT (409). It is \"0\" until the task first completes, then changes each time a generation or regeneration replaces result_data, never on a manual edit or a revert. Treat it as opaque text
+    #' @param cms_drafts Drafts sent from this task to the connected WordPress site, newest first (up to 10). Only GET /intelligence_tasks/{id} returns it, and never on a white-label portal host
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`id` = NULL, `public_id` = NULL, `project_id` = NULL, `task_type` = NULL, `title` = NULL, `status` = NULL, `prompt_id` = NULL, `prompt_text` = NULL, `agentic_mode` = NULL, `custom_topic` = NULL, `user_instructions` = NULL, `output_language_code` = NULL, `word_count` = NULL, `result_data` = NULL, `error_message` = NULL, `estimated_time` = NULL, `created_at` = NULL, `processed_at` = NULL, `manually_edited_at` = NULL, `edited_by_user_id` = NULL, `result_version` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`id` = NULL, `public_id` = NULL, `project_id` = NULL, `task_type` = NULL, `title` = NULL, `status` = NULL, `prompt_id` = NULL, `prompt_text` = NULL, `agentic_mode` = NULL, `custom_topic` = NULL, `user_instructions` = NULL, `output_language_code` = NULL, `word_count` = NULL, `result_data` = NULL, `error_message` = NULL, `estimated_time` = NULL, `created_at` = NULL, `processed_at` = NULL, `manually_edited_at` = NULL, `edited_by_user_id` = NULL, `result_version` = NULL, `cms_drafts` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -207,6 +210,11 @@ IntelligenceTask <- R6::R6Class(
           stop(paste("Error! Invalid data for `result_version`. Must be a string:", `result_version`))
         }
         self$`result_version` <- `result_version`
+      }
+      if (!is.null(`cms_drafts`)) {
+        stopifnot(is.vector(`cms_drafts`), length(`cms_drafts`) != 0)
+        sapply(`cms_drafts`, function(x) stopifnot(R6::is.R6(x)))
+        self$`cms_drafts` <- `cms_drafts`
       }
       if (!is.null(`request_id`)) {
         if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
@@ -331,11 +339,38 @@ IntelligenceTask <- R6::R6Class(
         IntelligenceTaskObject[["result_version"]] <-
           self$`result_version`
       }
+      if (!is.null(self$`cms_drafts`)) {
+        IntelligenceTaskObject[["cms_drafts"]] <-
+          self$extractSimpleType(self$`cms_drafts`)
+      }
       if (!is.null(self$`request_id`)) {
         IntelligenceTaskObject[["request_id"]] <-
           self$`request_id`
       }
       return(IntelligenceTaskObject)
+    },
+
+    extractSimpleType = function(x) {
+      if (R6::is.R6(x)) {
+        return(x$toSimpleType())
+      } else if (!self$hasNestedR6(x)) {
+        return(x)
+      }
+      lapply(x, self$extractSimpleType)
+    },
+
+    hasNestedR6 = function(x) {
+      if (R6::is.R6(x)) {
+        return(TRUE)
+      }
+      if (is.list(x)) {
+        for (item in x) {
+          if (self$hasNestedR6(item)) {
+            return(TRUE)
+          }
+        }
+      }
+      FALSE
     },
 
     #' @description
@@ -408,6 +443,9 @@ IntelligenceTask <- R6::R6Class(
       if (!is.null(this_object$`result_version`)) {
         self$`result_version` <- this_object$`result_version`
       }
+      if (!is.null(this_object$`cms_drafts`)) {
+        self$`cms_drafts` <- ApiClient$new()$deserializeObj(this_object$`cms_drafts`, "array[CmsPublication]", loadNamespace("llmpulse"))
+      }
       if (!is.null(this_object$`request_id`)) {
         self$`request_id` <- this_object$`request_id`
       }
@@ -453,6 +491,7 @@ IntelligenceTask <- R6::R6Class(
       self$`manually_edited_at` <- this_object$`manually_edited_at`
       self$`edited_by_user_id` <- this_object$`edited_by_user_id`
       self$`result_version` <- this_object$`result_version`
+      self$`cms_drafts` <- ApiClient$new()$deserializeObj(this_object$`cms_drafts`, "array[CmsPublication]", loadNamespace("llmpulse"))
       self$`request_id` <- this_object$`request_id`
       self
     },
