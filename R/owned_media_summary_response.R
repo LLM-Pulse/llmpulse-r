@@ -22,6 +22,10 @@
 #' @field age_buckets Social and YouTube providers only. Posts or videos without a known publication date are left out list(\link{OwnedMediaAgeBucketShare}) [optional]
 #' @field stores provider=mobile_apps only list(\link{OwnedMediaStoreTotals}) [optional]
 #' @field platforms provider=overview only, one row per platform the caller can read list(\link{OwnedMediaPlatformRollup}) [optional]
+#' @field activity All providers. One row per actual project reporting period with runs; provider=overview has null yours and other, and provider=reddit also returns positive, neutral and negative sentiment counts. Citation counts use the selected date window, and periods with runs but no citation have zero list(\link{OwnedMediaSummaryActivityPeriod}) [optional]
+#' @field subreddit_activity provider=reddit only. One row per subreddit and actual reporting period; the top five subreddits are separate and Others has a null subreddit list(\link{RedditSubredditActivityPeriod}) [optional]
+#' @field positions provider=reddit only. Position distribution over the selected date window list(\link{RedditPositionShare}) [optional]
+#' @field brand_share provider=reddit only. Citation share among the tracked brand and competitors with cited mentions list(\link{RedditBrandShare}) [optional]
 #' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -44,6 +48,10 @@ OwnedMediaSummaryResponse <- R6::R6Class(
     `age_buckets` = NULL,
     `stores` = NULL,
     `platforms` = NULL,
+    `activity` = NULL,
+    `subreddit_activity` = NULL,
+    `positions` = NULL,
+    `brand_share` = NULL,
     `request_id` = NULL,
 
     #' @description
@@ -64,9 +72,13 @@ OwnedMediaSummaryResponse <- R6::R6Class(
     #' @param age_buckets Social and YouTube providers only. Posts or videos without a known publication date are left out
     #' @param stores provider=mobile_apps only
     #' @param platforms provider=overview only, one row per platform the caller can read
+    #' @param activity All providers. One row per actual project reporting period with runs; provider=overview has null yours and other, and provider=reddit also returns positive, neutral and negative sentiment counts. Citation counts use the selected date window, and periods with runs but no citation have zero
+    #' @param subreddit_activity provider=reddit only. One row per subreddit and actual reporting period; the top five subreddits are separate and Others has a null subreddit
+    #' @param positions provider=reddit only. Position distribution over the selected date window
+    #' @param brand_share provider=reddit only. Citation share among the tracked brand and competitors with cited mentions
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`project_id` = NULL, `provider` = NULL, `from` = NULL, `to` = NULL, `connected` = NULL, `kpis` = NULL, `previous` = NULL, `changes` = NULL, `weekly` = NULL, `by_model` = NULL, `by_country` = NULL, `content_types` = NULL, `age_buckets` = NULL, `stores` = NULL, `platforms` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`project_id` = NULL, `provider` = NULL, `from` = NULL, `to` = NULL, `connected` = NULL, `kpis` = NULL, `previous` = NULL, `changes` = NULL, `weekly` = NULL, `by_model` = NULL, `by_country` = NULL, `content_types` = NULL, `age_buckets` = NULL, `stores` = NULL, `platforms` = NULL, `activity` = NULL, `subreddit_activity` = NULL, `positions` = NULL, `brand_share` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -143,6 +155,26 @@ OwnedMediaSummaryResponse <- R6::R6Class(
         stopifnot(is.vector(`platforms`), length(`platforms`) != 0)
         sapply(`platforms`, function(x) stopifnot(R6::is.R6(x)))
         self$`platforms` <- `platforms`
+      }
+      if (!is.null(`activity`)) {
+        stopifnot(is.vector(`activity`), length(`activity`) != 0)
+        sapply(`activity`, function(x) stopifnot(R6::is.R6(x)))
+        self$`activity` <- `activity`
+      }
+      if (!is.null(`subreddit_activity`)) {
+        stopifnot(is.vector(`subreddit_activity`), length(`subreddit_activity`) != 0)
+        sapply(`subreddit_activity`, function(x) stopifnot(R6::is.R6(x)))
+        self$`subreddit_activity` <- `subreddit_activity`
+      }
+      if (!is.null(`positions`)) {
+        stopifnot(is.vector(`positions`), length(`positions`) != 0)
+        sapply(`positions`, function(x) stopifnot(R6::is.R6(x)))
+        self$`positions` <- `positions`
+      }
+      if (!is.null(`brand_share`)) {
+        stopifnot(is.vector(`brand_share`), length(`brand_share`) != 0)
+        sapply(`brand_share`, function(x) stopifnot(R6::is.R6(x)))
+        self$`brand_share` <- `brand_share`
       }
       if (!is.null(`request_id`)) {
         if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
@@ -243,6 +275,22 @@ OwnedMediaSummaryResponse <- R6::R6Class(
         OwnedMediaSummaryResponseObject[["platforms"]] <-
           self$extractSimpleType(self$`platforms`)
       }
+      if (!is.null(self$`activity`)) {
+        OwnedMediaSummaryResponseObject[["activity"]] <-
+          self$extractSimpleType(self$`activity`)
+      }
+      if (!is.null(self$`subreddit_activity`)) {
+        OwnedMediaSummaryResponseObject[["subreddit_activity"]] <-
+          self$extractSimpleType(self$`subreddit_activity`)
+      }
+      if (!is.null(self$`positions`)) {
+        OwnedMediaSummaryResponseObject[["positions"]] <-
+          self$extractSimpleType(self$`positions`)
+      }
+      if (!is.null(self$`brand_share`)) {
+        OwnedMediaSummaryResponseObject[["brand_share"]] <-
+          self$extractSimpleType(self$`brand_share`)
+      }
       if (!is.null(self$`request_id`)) {
         OwnedMediaSummaryResponseObject[["request_id"]] <-
           self$`request_id`
@@ -331,6 +379,18 @@ OwnedMediaSummaryResponse <- R6::R6Class(
       if (!is.null(this_object$`platforms`)) {
         self$`platforms` <- ApiClient$new()$deserializeObj(this_object$`platforms`, "array[OwnedMediaPlatformRollup]", loadNamespace("llmpulse"))
       }
+      if (!is.null(this_object$`activity`)) {
+        self$`activity` <- ApiClient$new()$deserializeObj(this_object$`activity`, "array[OwnedMediaSummaryActivityPeriod]", loadNamespace("llmpulse"))
+      }
+      if (!is.null(this_object$`subreddit_activity`)) {
+        self$`subreddit_activity` <- ApiClient$new()$deserializeObj(this_object$`subreddit_activity`, "array[RedditSubredditActivityPeriod]", loadNamespace("llmpulse"))
+      }
+      if (!is.null(this_object$`positions`)) {
+        self$`positions` <- ApiClient$new()$deserializeObj(this_object$`positions`, "array[RedditPositionShare]", loadNamespace("llmpulse"))
+      }
+      if (!is.null(this_object$`brand_share`)) {
+        self$`brand_share` <- ApiClient$new()$deserializeObj(this_object$`brand_share`, "array[RedditBrandShare]", loadNamespace("llmpulse"))
+      }
       if (!is.null(this_object$`request_id`)) {
         self$`request_id` <- this_object$`request_id`
       }
@@ -370,6 +430,10 @@ OwnedMediaSummaryResponse <- R6::R6Class(
       self$`age_buckets` <- ApiClient$new()$deserializeObj(this_object$`age_buckets`, "array[OwnedMediaAgeBucketShare]", loadNamespace("llmpulse"))
       self$`stores` <- ApiClient$new()$deserializeObj(this_object$`stores`, "array[OwnedMediaStoreTotals]", loadNamespace("llmpulse"))
       self$`platforms` <- ApiClient$new()$deserializeObj(this_object$`platforms`, "array[OwnedMediaPlatformRollup]", loadNamespace("llmpulse"))
+      self$`activity` <- ApiClient$new()$deserializeObj(this_object$`activity`, "array[OwnedMediaSummaryActivityPeriod]", loadNamespace("llmpulse"))
+      self$`subreddit_activity` <- ApiClient$new()$deserializeObj(this_object$`subreddit_activity`, "array[RedditSubredditActivityPeriod]", loadNamespace("llmpulse"))
+      self$`positions` <- ApiClient$new()$deserializeObj(this_object$`positions`, "array[RedditPositionShare]", loadNamespace("llmpulse"))
+      self$`brand_share` <- ApiClient$new()$deserializeObj(this_object$`brand_share`, "array[RedditBrandShare]", loadNamespace("llmpulse"))
       self$`request_id` <- this_object$`request_id`
       self
     },

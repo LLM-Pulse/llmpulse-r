@@ -1,7 +1,7 @@
 #' Create a new OwnedMediaKpiChanges
 #'
 #' @description
-#' Change against the previous period. Counts in percent, share_pct in percentage points; null when the previous period has nothing to compare with
+#' Change against the previous period. Counts in percent, share_pct and positive_pct in percentage points; null when the previous period has nothing to compare with
 #'
 #' @docType class
 #' @title OwnedMediaKpiChanges
@@ -12,6 +12,9 @@
 #' @field your_profile  numeric [optional]
 #' @field your_content  numeric [optional]
 #' @field share_pct  numeric [optional]
+#' @field unique_subreddits Percent change in unique subreddits; null when the previous value cannot be compared numeric [optional]
+#' @field unique_authors Percent change in unique authors; null when the previous value cannot be compared numeric [optional]
+#' @field positive_pct Percentage-point change in positive sentiment; null when the previous period has no citations numeric [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -23,6 +26,9 @@ OwnedMediaKpiChanges <- R6::R6Class(
     `your_profile` = NULL,
     `your_content` = NULL,
     `share_pct` = NULL,
+    `unique_subreddits` = NULL,
+    `unique_authors` = NULL,
+    `positive_pct` = NULL,
 
     #' @description
     #' Initialize a new OwnedMediaKpiChanges class.
@@ -32,8 +38,11 @@ OwnedMediaKpiChanges <- R6::R6Class(
     #' @param your_profile your_profile
     #' @param your_content your_content
     #' @param share_pct share_pct
+    #' @param unique_subreddits Percent change in unique subreddits; null when the previous value cannot be compared
+    #' @param unique_authors Percent change in unique authors; null when the previous value cannot be compared
+    #' @param positive_pct Percentage-point change in positive sentiment; null when the previous period has no citations
     #' @param ... Other optional arguments.
-    initialize = function(`total` = NULL, `yours` = NULL, `your_profile` = NULL, `your_content` = NULL, `share_pct` = NULL, ...) {
+    initialize = function(`total` = NULL, `yours` = NULL, `your_profile` = NULL, `your_content` = NULL, `share_pct` = NULL, `unique_subreddits` = NULL, `unique_authors` = NULL, `positive_pct` = NULL, ...) {
       if (!is.null(`total`)) {
         self$`total` <- `total`
       }
@@ -48,6 +57,15 @@ OwnedMediaKpiChanges <- R6::R6Class(
       }
       if (!is.null(`share_pct`)) {
         self$`share_pct` <- `share_pct`
+      }
+      if (!is.null(`unique_subreddits`)) {
+        self$`unique_subreddits` <- `unique_subreddits`
+      }
+      if (!is.null(`unique_authors`)) {
+        self$`unique_authors` <- `unique_authors`
+      }
+      if (!is.null(`positive_pct`)) {
+        self$`positive_pct` <- `positive_pct`
       }
     },
 
@@ -102,6 +120,18 @@ OwnedMediaKpiChanges <- R6::R6Class(
         OwnedMediaKpiChangesObject[["share_pct"]] <-
           self$`share_pct`
       }
+      if (!is.null(self$`unique_subreddits`)) {
+        OwnedMediaKpiChangesObject[["unique_subreddits"]] <-
+          self$`unique_subreddits`
+      }
+      if (!is.null(self$`unique_authors`)) {
+        OwnedMediaKpiChangesObject[["unique_authors"]] <-
+          self$`unique_authors`
+      }
+      if (!is.null(self$`positive_pct`)) {
+        OwnedMediaKpiChangesObject[["positive_pct"]] <-
+          self$`positive_pct`
+      }
       return(OwnedMediaKpiChangesObject)
     },
 
@@ -126,6 +156,15 @@ OwnedMediaKpiChanges <- R6::R6Class(
       }
       if (!is.null(this_object$`share_pct`)) {
         self$`share_pct` <- this_object$`share_pct`
+      }
+      if (!is.null(this_object$`unique_subreddits`)) {
+        self$`unique_subreddits` <- this_object$`unique_subreddits`
+      }
+      if (!is.null(this_object$`unique_authors`)) {
+        self$`unique_authors` <- this_object$`unique_authors`
+      }
+      if (!is.null(this_object$`positive_pct`)) {
+        self$`positive_pct` <- this_object$`positive_pct`
       }
       self
     },
@@ -153,6 +192,9 @@ OwnedMediaKpiChanges <- R6::R6Class(
       self$`your_profile` <- this_object$`your_profile`
       self$`your_content` <- this_object$`your_content`
       self$`share_pct` <- this_object$`share_pct`
+      self$`unique_subreddits` <- this_object$`unique_subreddits`
+      self$`unique_authors` <- this_object$`unique_authors`
+      self$`positive_pct` <- this_object$`positive_pct`
       self
     },
 

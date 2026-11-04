@@ -13,6 +13,7 @@
 #' @field yours  integer [optional]
 #' @field share_pct  numeric [optional]
 #' @field weekly  list(\link{OwnedMediaPlatformRollupWeeklyInner}) [optional]
+#' @field activity One date/citation row per actual project tracking period with runs list(\link{OwnedMediaPlatformActivityPeriod}) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -25,6 +26,7 @@ OwnedMediaPlatformRollup <- R6::R6Class(
     `yours` = NULL,
     `share_pct` = NULL,
     `weekly` = NULL,
+    `activity` = NULL,
 
     #' @description
     #' Initialize a new OwnedMediaPlatformRollup class.
@@ -35,8 +37,9 @@ OwnedMediaPlatformRollup <- R6::R6Class(
     #' @param yours yours
     #' @param share_pct share_pct
     #' @param weekly weekly
+    #' @param activity One date/citation row per actual project tracking period with runs
     #' @param ... Other optional arguments.
-    initialize = function(`provider` = NULL, `connected` = NULL, `total` = NULL, `yours` = NULL, `share_pct` = NULL, `weekly` = NULL, ...) {
+    initialize = function(`provider` = NULL, `connected` = NULL, `total` = NULL, `yours` = NULL, `share_pct` = NULL, `weekly` = NULL, `activity` = NULL, ...) {
       if (!is.null(`provider`)) {
         if (!(`provider` %in% c("youtube", "mobile_apps", "instagram", "facebook", "tiktok", "linkedin", "reddit"))) {
           stop(paste("Error! \"", `provider`, "\" cannot be assigned to `provider`. Must be \"youtube\", \"mobile_apps\", \"instagram\", \"facebook\", \"tiktok\", \"linkedin\", \"reddit\".", sep = ""))
@@ -71,6 +74,11 @@ OwnedMediaPlatformRollup <- R6::R6Class(
         stopifnot(is.vector(`weekly`), length(`weekly`) != 0)
         sapply(`weekly`, function(x) stopifnot(R6::is.R6(x)))
         self$`weekly` <- `weekly`
+      }
+      if (!is.null(`activity`)) {
+        stopifnot(is.vector(`activity`), length(`activity`) != 0)
+        sapply(`activity`, function(x) stopifnot(R6::is.R6(x)))
+        self$`activity` <- `activity`
       }
     },
 
@@ -129,6 +137,10 @@ OwnedMediaPlatformRollup <- R6::R6Class(
         OwnedMediaPlatformRollupObject[["weekly"]] <-
           self$extractSimpleType(self$`weekly`)
       }
+      if (!is.null(self$`activity`)) {
+        OwnedMediaPlatformRollupObject[["activity"]] <-
+          self$extractSimpleType(self$`activity`)
+      }
       return(OwnedMediaPlatformRollupObject)
     },
 
@@ -183,6 +195,9 @@ OwnedMediaPlatformRollup <- R6::R6Class(
       if (!is.null(this_object$`weekly`)) {
         self$`weekly` <- ApiClient$new()$deserializeObj(this_object$`weekly`, "array[OwnedMediaPlatformRollupWeeklyInner]", loadNamespace("llmpulse"))
       }
+      if (!is.null(this_object$`activity`)) {
+        self$`activity` <- ApiClient$new()$deserializeObj(this_object$`activity`, "array[OwnedMediaPlatformActivityPeriod]", loadNamespace("llmpulse"))
+      }
       self
     },
 
@@ -213,6 +228,7 @@ OwnedMediaPlatformRollup <- R6::R6Class(
       self$`yours` <- this_object$`yours`
       self$`share_pct` <- this_object$`share_pct`
       self$`weekly` <- ApiClient$new()$deserializeObj(this_object$`weekly`, "array[OwnedMediaPlatformRollupWeeklyInner]", loadNamespace("llmpulse"))
+      self$`activity` <- ApiClient$new()$deserializeObj(this_object$`activity`, "array[OwnedMediaPlatformActivityPeriod]", loadNamespace("llmpulse"))
       self
     },
 

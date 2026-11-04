@@ -12,6 +12,9 @@
 #' @field your_profile Citations of your profile or channel pages. Null for mobile_apps and overview integer [optional]
 #' @field your_content Citations of your posts or videos. Null for mobile_apps and overview integer [optional]
 #' @field share_pct yours as a percentage of total (0-100) numeric [optional]
+#' @field unique_subreddits Number of cited subreddits (provider=reddit; null or omitted for other providers) integer [optional]
+#' @field unique_authors Number of cited Reddit authors (provider=reddit; null or omitted for other providers) integer [optional]
+#' @field positive_pct Positive sentiment among rated Reddit citations, as a percentage (provider=reddit; null or omitted for other providers) numeric [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -23,6 +26,9 @@ OwnedMediaKpis <- R6::R6Class(
     `your_profile` = NULL,
     `your_content` = NULL,
     `share_pct` = NULL,
+    `unique_subreddits` = NULL,
+    `unique_authors` = NULL,
+    `positive_pct` = NULL,
 
     #' @description
     #' Initialize a new OwnedMediaKpis class.
@@ -32,8 +38,11 @@ OwnedMediaKpis <- R6::R6Class(
     #' @param your_profile Citations of your profile or channel pages. Null for mobile_apps and overview
     #' @param your_content Citations of your posts or videos. Null for mobile_apps and overview
     #' @param share_pct yours as a percentage of total (0-100)
+    #' @param unique_subreddits Number of cited subreddits (provider=reddit; null or omitted for other providers)
+    #' @param unique_authors Number of cited Reddit authors (provider=reddit; null or omitted for other providers)
+    #' @param positive_pct Positive sentiment among rated Reddit citations, as a percentage (provider=reddit; null or omitted for other providers)
     #' @param ... Other optional arguments.
-    initialize = function(`total` = NULL, `yours` = NULL, `your_profile` = NULL, `your_content` = NULL, `share_pct` = NULL, ...) {
+    initialize = function(`total` = NULL, `yours` = NULL, `your_profile` = NULL, `your_content` = NULL, `share_pct` = NULL, `unique_subreddits` = NULL, `unique_authors` = NULL, `positive_pct` = NULL, ...) {
       if (!is.null(`total`)) {
         if (!(is.numeric(`total`) && length(`total`) == 1)) {
           stop(paste("Error! Invalid data for `total`. Must be an integer:", `total`))
@@ -60,6 +69,21 @@ OwnedMediaKpis <- R6::R6Class(
       }
       if (!is.null(`share_pct`)) {
         self$`share_pct` <- `share_pct`
+      }
+      if (!is.null(`unique_subreddits`)) {
+        if (!(is.numeric(`unique_subreddits`) && length(`unique_subreddits`) == 1)) {
+          stop(paste("Error! Invalid data for `unique_subreddits`. Must be an integer:", `unique_subreddits`))
+        }
+        self$`unique_subreddits` <- `unique_subreddits`
+      }
+      if (!is.null(`unique_authors`)) {
+        if (!(is.numeric(`unique_authors`) && length(`unique_authors`) == 1)) {
+          stop(paste("Error! Invalid data for `unique_authors`. Must be an integer:", `unique_authors`))
+        }
+        self$`unique_authors` <- `unique_authors`
+      }
+      if (!is.null(`positive_pct`)) {
+        self$`positive_pct` <- `positive_pct`
       }
     },
 
@@ -114,6 +138,18 @@ OwnedMediaKpis <- R6::R6Class(
         OwnedMediaKpisObject[["share_pct"]] <-
           self$`share_pct`
       }
+      if (!is.null(self$`unique_subreddits`)) {
+        OwnedMediaKpisObject[["unique_subreddits"]] <-
+          self$`unique_subreddits`
+      }
+      if (!is.null(self$`unique_authors`)) {
+        OwnedMediaKpisObject[["unique_authors"]] <-
+          self$`unique_authors`
+      }
+      if (!is.null(self$`positive_pct`)) {
+        OwnedMediaKpisObject[["positive_pct"]] <-
+          self$`positive_pct`
+      }
       return(OwnedMediaKpisObject)
     },
 
@@ -138,6 +174,15 @@ OwnedMediaKpis <- R6::R6Class(
       }
       if (!is.null(this_object$`share_pct`)) {
         self$`share_pct` <- this_object$`share_pct`
+      }
+      if (!is.null(this_object$`unique_subreddits`)) {
+        self$`unique_subreddits` <- this_object$`unique_subreddits`
+      }
+      if (!is.null(this_object$`unique_authors`)) {
+        self$`unique_authors` <- this_object$`unique_authors`
+      }
+      if (!is.null(this_object$`positive_pct`)) {
+        self$`positive_pct` <- this_object$`positive_pct`
       }
       self
     },
@@ -165,6 +210,9 @@ OwnedMediaKpis <- R6::R6Class(
       self$`your_profile` <- this_object$`your_profile`
       self$`your_content` <- this_object$`your_content`
       self$`share_pct` <- this_object$`share_pct`
+      self$`unique_subreddits` <- this_object$`unique_subreddits`
+      self$`unique_authors` <- this_object$`unique_authors`
+      self$`positive_pct` <- this_object$`positive_pct`
       self
     },
 

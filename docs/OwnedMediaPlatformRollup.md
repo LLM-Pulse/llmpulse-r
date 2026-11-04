@@ -10,5 +10,6 @@ Name | Type | Description | Notes
 **yours** | **integer** |  | [optional] 
 **share_pct** | **numeric** |  | [optional] 
 **weekly** | [**array[OwnedMediaPlatformRollupWeeklyInner]**](OwnedMediaPlatformRollup_weekly_inner.md) |  | [optional] 
+**activity** | [**array[OwnedMediaPlatformActivityPeriod]**](OwnedMediaPlatformActivityPeriod.md) | One date/citation row per actual project tracking period with runs | [optional] 
 
 

@@ -1,12 +1,18 @@
 #' Create a new OwnedMediaRow
 #'
 #' @description
-#' One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model) and apps (domain, total_responses, rank, global_rank). Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position.
+#' One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank) and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position.
 #'
 #' @docType class
 #' @title OwnedMediaRow
 #' @description OwnedMediaRow Class
 #' @format An \code{R6Class} generator object
+#' @field date The start date of the actual reporting period (view=activity) character [optional]
+#' @field entity_id Platform entity identifier (view=activity) character [optional]
+#' @field entity_name Current entity name when known (view=activity) character [optional]
+#' @field entity_url Current profile, channel or app listing URL when known (view=activity) character [optional]
+#' @field store Store selected for provider=mobile_apps (view=activity) character [optional]
+#' @field competitor_id Competitor identifier when the activity row represents a competitor app integer [optional]
 #' @field title  character [optional]
 #' @field url  character [optional]
 #' @field channel_name  character [optional]
@@ -21,7 +27,7 @@
 #' @field thumbnail_url The post or video image. Our cached copy where one exists, so the link does not expire character [optional]
 #' @field avatar_url The profile or channel image. Our cached copy where one exists character [optional]
 #' @field content_type The post format on its platform: reel, post or tv on Instagram, post or pulse on LinkedIn, post elsewhere character [optional]
-#' @field citations  integer [optional]
+#' @field citations Citations for the row; for view=activity, the count in this reporting period integer [optional]
 #' @field unique_videos  integer [optional]
 #' @field unique_posts  integer [optional]
 #' @field followers  integer [optional]
@@ -45,6 +51,12 @@
 OwnedMediaRow <- R6::R6Class(
   "OwnedMediaRow",
   public = list(
+    `date` = NULL,
+    `entity_id` = NULL,
+    `entity_name` = NULL,
+    `entity_url` = NULL,
+    `store` = NULL,
+    `competitor_id` = NULL,
     `title` = NULL,
     `url` = NULL,
     `channel_name` = NULL,
@@ -81,6 +93,12 @@ OwnedMediaRow <- R6::R6Class(
     #' @description
     #' Initialize a new OwnedMediaRow class.
     #'
+    #' @param date The start date of the actual reporting period (view=activity)
+    #' @param entity_id Platform entity identifier (view=activity)
+    #' @param entity_name Current entity name when known (view=activity)
+    #' @param entity_url Current profile, channel or app listing URL when known (view=activity)
+    #' @param store Store selected for provider=mobile_apps (view=activity)
+    #' @param competitor_id Competitor identifier when the activity row represents a competitor app
     #' @param title title
     #' @param url url
     #' @param channel_name channel_name
@@ -95,7 +113,7 @@ OwnedMediaRow <- R6::R6Class(
     #' @param thumbnail_url The post or video image. Our cached copy where one exists, so the link does not expire
     #' @param avatar_url The profile or channel image. Our cached copy where one exists
     #' @param content_type The post format on its platform: reel, post or tv on Instagram, post or pulse on LinkedIn, post elsewhere
-    #' @param citations citations
+    #' @param citations Citations for the row; for view=activity, the count in this reporting period
     #' @param unique_videos unique_videos
     #' @param unique_posts unique_posts
     #' @param followers followers
@@ -114,7 +132,46 @@ OwnedMediaRow <- R6::R6Class(
     #' @param rank rank
     #' @param global_rank global_rank
     #' @param ... Other optional arguments.
-    initialize = function(`title` = NULL, `url` = NULL, `channel_name` = NULL, `channel_handle` = NULL, `channel_url` = NULL, `video_id` = NULL, `key` = NULL, `name` = NULL, `handle` = NULL, `caption` = NULL, `owner_handle` = NULL, `thumbnail_url` = NULL, `avatar_url` = NULL, `content_type` = NULL, `citations` = NULL, `unique_videos` = NULL, `unique_posts` = NULL, `followers` = NULL, `likes` = NULL, `comments` = NULL, `views` = NULL, `published_at` = NULL, `posted_at` = NULL, `avg_position` = NULL, `yours` = NULL, `citation_date` = NULL, `position` = NULL, `model` = NULL, `domain` = NULL, `total_responses` = NULL, `rank` = NULL, `global_rank` = NULL, ...) {
+    initialize = function(`date` = NULL, `entity_id` = NULL, `entity_name` = NULL, `entity_url` = NULL, `store` = NULL, `competitor_id` = NULL, `title` = NULL, `url` = NULL, `channel_name` = NULL, `channel_handle` = NULL, `channel_url` = NULL, `video_id` = NULL, `key` = NULL, `name` = NULL, `handle` = NULL, `caption` = NULL, `owner_handle` = NULL, `thumbnail_url` = NULL, `avatar_url` = NULL, `content_type` = NULL, `citations` = NULL, `unique_videos` = NULL, `unique_posts` = NULL, `followers` = NULL, `likes` = NULL, `comments` = NULL, `views` = NULL, `published_at` = NULL, `posted_at` = NULL, `avg_position` = NULL, `yours` = NULL, `citation_date` = NULL, `position` = NULL, `model` = NULL, `domain` = NULL, `total_responses` = NULL, `rank` = NULL, `global_rank` = NULL, ...) {
+      if (!is.null(`date`)) {
+        if (!is.character(`date`)) {
+          stop(paste("Error! Invalid data for `date`. Must be a string:", `date`))
+        }
+        self$`date` <- `date`
+      }
+      if (!is.null(`entity_id`)) {
+        if (!(is.character(`entity_id`) && length(`entity_id`) == 1)) {
+          stop(paste("Error! Invalid data for `entity_id`. Must be a string:", `entity_id`))
+        }
+        self$`entity_id` <- `entity_id`
+      }
+      if (!is.null(`entity_name`)) {
+        if (!(is.character(`entity_name`) && length(`entity_name`) == 1)) {
+          stop(paste("Error! Invalid data for `entity_name`. Must be a string:", `entity_name`))
+        }
+        self$`entity_name` <- `entity_name`
+      }
+      if (!is.null(`entity_url`)) {
+        if (!(is.character(`entity_url`) && length(`entity_url`) == 1)) {
+          stop(paste("Error! Invalid data for `entity_url`. Must be a string:", `entity_url`))
+        }
+        self$`entity_url` <- `entity_url`
+      }
+      if (!is.null(`store`)) {
+        if (!(`store` %in% c("google_play", "app_store"))) {
+          stop(paste("Error! \"", `store`, "\" cannot be assigned to `store`. Must be \"google_play\", \"app_store\".", sep = ""))
+        }
+        if (!(is.character(`store`) && length(`store`) == 1)) {
+          stop(paste("Error! Invalid data for `store`. Must be a string:", `store`))
+        }
+        self$`store` <- `store`
+      }
+      if (!is.null(`competitor_id`)) {
+        if (!(is.numeric(`competitor_id`) && length(`competitor_id`) == 1)) {
+          stop(paste("Error! Invalid data for `competitor_id`. Must be an integer:", `competitor_id`))
+        }
+        self$`competitor_id` <- `competitor_id`
+      }
       if (!is.null(`title`)) {
         if (!(is.character(`title`) && length(`title`) == 1)) {
           stop(paste("Error! Invalid data for `title`. Must be a string:", `title`))
@@ -334,6 +391,30 @@ OwnedMediaRow <- R6::R6Class(
     #' @return A base R type, e.g. a list or numeric/character array.
     toSimpleType = function() {
       OwnedMediaRowObject <- list()
+      if (!is.null(self$`date`)) {
+        OwnedMediaRowObject[["date"]] <-
+          self$`date`
+      }
+      if (!is.null(self$`entity_id`)) {
+        OwnedMediaRowObject[["entity_id"]] <-
+          self$`entity_id`
+      }
+      if (!is.null(self$`entity_name`)) {
+        OwnedMediaRowObject[["entity_name"]] <-
+          self$`entity_name`
+      }
+      if (!is.null(self$`entity_url`)) {
+        OwnedMediaRowObject[["entity_url"]] <-
+          self$`entity_url`
+      }
+      if (!is.null(self$`store`)) {
+        OwnedMediaRowObject[["store"]] <-
+          self$`store`
+      }
+      if (!is.null(self$`competitor_id`)) {
+        OwnedMediaRowObject[["competitor_id"]] <-
+          self$`competitor_id`
+      }
       if (!is.null(self$`title`)) {
         OwnedMediaRowObject[["title"]] <-
           self$`title`
@@ -472,6 +553,27 @@ OwnedMediaRow <- R6::R6Class(
     #' @return the instance of OwnedMediaRow
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`date`)) {
+        self$`date` <- this_object$`date`
+      }
+      if (!is.null(this_object$`entity_id`)) {
+        self$`entity_id` <- this_object$`entity_id`
+      }
+      if (!is.null(this_object$`entity_name`)) {
+        self$`entity_name` <- this_object$`entity_name`
+      }
+      if (!is.null(this_object$`entity_url`)) {
+        self$`entity_url` <- this_object$`entity_url`
+      }
+      if (!is.null(this_object$`store`)) {
+        if (!is.null(this_object$`store`) && !(this_object$`store` %in% c("google_play", "app_store"))) {
+          stop(paste("Error! \"", this_object$`store`, "\" cannot be assigned to `store`. Must be \"google_play\", \"app_store\".", sep = ""))
+        }
+        self$`store` <- this_object$`store`
+      }
+      if (!is.null(this_object$`competitor_id`)) {
+        self$`competitor_id` <- this_object$`competitor_id`
+      }
       if (!is.null(this_object$`title`)) {
         self$`title` <- this_object$`title`
       }
@@ -589,6 +691,15 @@ OwnedMediaRow <- R6::R6Class(
     #' @return the instance of OwnedMediaRow
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`date` <- this_object$`date`
+      self$`entity_id` <- this_object$`entity_id`
+      self$`entity_name` <- this_object$`entity_name`
+      self$`entity_url` <- this_object$`entity_url`
+      if (!is.null(this_object$`store`) && !(this_object$`store` %in% c("google_play", "app_store"))) {
+        stop(paste("Error! \"", this_object$`store`, "\" cannot be assigned to `store`. Must be \"google_play\", \"app_store\".", sep = ""))
+      }
+      self$`store` <- this_object$`store`
+      self$`competitor_id` <- this_object$`competitor_id`
       self$`title` <- this_object$`title`
       self$`url` <- this_object$`url`
       self$`channel_name` <- this_object$`channel_name`
