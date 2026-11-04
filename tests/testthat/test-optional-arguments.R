@@ -70,6 +70,9 @@ test_that("a required argument is still checked", {
 # bodies, and otherwise a string of zeros, which passes the id and sha256
 # patterns. A required enum rejects the placeholder, but only after every
 # argument has passed the nullable checks, so that rejection is accepted.
+# A required number with a bound (GetCmsContent's id >= 1) rejects the
+# string at that same point, so it is retried with 1, which every bound on a
+# required argument accepts, and the request is still built.
 placeholder <- function(name) {
   if (grepl("_request$", name)) {
     return(list(toJSONString = function(...) "{}"))
@@ -98,10 +101,21 @@ test_that("every plain method builds its request with only its required argument
         arguments$.parse <- FALSE
       }
       sent <- length(client$requests)
-      error <- tryCatch({
-        do.call(api[[method]], arguments)
-        NULL
-      }, error = function(e) conditionMessage(e))
+      call_method <- function(arguments) {
+        tryCatch({
+          do.call(api[[method]], arguments)
+          NULL
+        }, error = function(e) conditionMessage(e))
+      }
+      error <- call_method(arguments)
+      required_bound <- paste0("^Invalid value for `(", paste(required, collapse = "|"), ")` when calling ",
+                               class_name, "\\$", method, ", must be (bigger|smaller) than or equal to")
+      for (attempt in seq_along(required)) {
+        bounded <- if (is.null(error)) character() else regmatches(error, regexec(required_bound, error))[[1]]
+        if (length(bounded) == 0) break
+        arguments[[bounded[2]]] <- 1L
+        error <- call_method(arguments)
+      }
       checked <- checked + 1
       required_enum <- paste0("^Invalid value for (", paste(required, collapse = "|"), ") when calling ",
                               class_name, "\\$", method, "\\. Must be \\[")
@@ -116,5 +130,5 @@ test_that("every plain method builds its request with only its required argument
   }
 
   expect_gt(checked, 0)
-  expect_identical(failures, character())
+  expect_identical(failures, character(), info = paste(failures, collapse = "\n"))
 })
