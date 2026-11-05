@@ -11,12 +11,13 @@
 #' @field prompt_id  integer [optional]
 #' @field prompt_text  character [optional]
 #' @field model  character [optional]
-#' @field response  character [optional]
+#' @field response The AI answer. For a declined answer (no_result_reason declined) it is the reply the model gave instead; for no_answer it is a placeholder, not an AI response character [optional]
 #' @field response_truncated  character [optional]
 #' @field executed_at  character [optional]
 #' @field duration_ms Milliseconds, rounded to one decimal place numeric [optional]
 #' @field success Null while the answer is still pending character [optional]
 #' @field no_result True for a sentinel non-answer (no answer could be collected after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics character [optional]
+#' @field no_result_reason Present only when no_result is true. declined = the model declined to answer (today only Gemini, shown as Declined in the app) and response holds its reply; no_answer = no answer could be collected character [optional]
 #' @field fan_out_queries  list(character) [optional]
 #' @field mentions  list(object) [optional]
 #' @field citations  list(object) [optional]
@@ -47,6 +48,7 @@ AnswerDetails <- R6::R6Class(
     `duration_ms` = NULL,
     `success` = NULL,
     `no_result` = NULL,
+    `no_result_reason` = NULL,
     `fan_out_queries` = NULL,
     `mentions` = NULL,
     `citations` = NULL,
@@ -70,12 +72,13 @@ AnswerDetails <- R6::R6Class(
     #' @param prompt_id prompt_id
     #' @param prompt_text prompt_text
     #' @param model model
-    #' @param response response
+    #' @param response The AI answer. For a declined answer (no_result_reason declined) it is the reply the model gave instead; for no_answer it is a placeholder, not an AI response
     #' @param response_truncated response_truncated
     #' @param executed_at executed_at
     #' @param duration_ms Milliseconds, rounded to one decimal place
     #' @param success Null while the answer is still pending
     #' @param no_result True for a sentinel non-answer (no answer could be collected after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics
+    #' @param no_result_reason Present only when no_result is true. declined = the model declined to answer (today only Gemini, shown as Declined in the app) and response holds its reply; no_answer = no answer could be collected
     #' @param fan_out_queries fan_out_queries
     #' @param mentions mentions
     #' @param citations citations
@@ -90,7 +93,7 @@ AnswerDetails <- R6::R6Class(
     #' @param app_url Opens this answer in the app. The link names its project, so it opens there for any user with access to that project
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`plan_required_fields`, `id` = NULL, `prompt_id` = NULL, `prompt_text` = NULL, `model` = NULL, `response` = NULL, `response_truncated` = NULL, `executed_at` = NULL, `duration_ms` = NULL, `success` = NULL, `no_result` = NULL, `fan_out_queries` = NULL, `mentions` = NULL, `citations` = NULL, `competitor_mentions` = NULL, `competitor_citations` = NULL, `sentiments` = NULL, `sources` = NULL, `shopping_products` = NULL, `brand_entities` = NULL, `local_businesses` = NULL, `locale` = NULL, `app_url` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`plan_required_fields`, `id` = NULL, `prompt_id` = NULL, `prompt_text` = NULL, `model` = NULL, `response` = NULL, `response_truncated` = NULL, `executed_at` = NULL, `duration_ms` = NULL, `success` = NULL, `no_result` = NULL, `no_result_reason` = NULL, `fan_out_queries` = NULL, `mentions` = NULL, `citations` = NULL, `competitor_mentions` = NULL, `competitor_citations` = NULL, `sentiments` = NULL, `sources` = NULL, `shopping_products` = NULL, `brand_entities` = NULL, `local_businesses` = NULL, `locale` = NULL, `app_url` = NULL, `request_id` = NULL, ...) {
       if (!missing(`plan_required_fields`)) {
         stopifnot(is.vector(`plan_required_fields`), length(`plan_required_fields`) != 0)
         sapply(`plan_required_fields`, function(x) stopifnot(is.character(x)))
@@ -152,6 +155,15 @@ AnswerDetails <- R6::R6Class(
           stop(paste("Error! Invalid data for `no_result`. Must be a boolean:", `no_result`))
         }
         self$`no_result` <- `no_result`
+      }
+      if (!is.null(`no_result_reason`)) {
+        if (!(`no_result_reason` %in% c("declined", "no_answer"))) {
+          stop(paste("Error! \"", `no_result_reason`, "\" cannot be assigned to `no_result_reason`. Must be \"declined\", \"no_answer\".", sep = ""))
+        }
+        if (!(is.character(`no_result_reason`) && length(`no_result_reason`) == 1)) {
+          stop(paste("Error! Invalid data for `no_result_reason`. Must be a string:", `no_result_reason`))
+        }
+        self$`no_result_reason` <- `no_result_reason`
       }
       if (!is.null(`fan_out_queries`)) {
         stopifnot(is.vector(`fan_out_queries`), length(`fan_out_queries`) != 0)
@@ -296,6 +308,10 @@ AnswerDetails <- R6::R6Class(
         AnswerDetailsObject[["no_result"]] <-
           self$`no_result`
       }
+      if (!is.null(self$`no_result_reason`)) {
+        AnswerDetailsObject[["no_result_reason"]] <-
+          self$`no_result_reason`
+      }
       if (!is.null(self$`fan_out_queries`)) {
         AnswerDetailsObject[["fan_out_queries"]] <-
           self$`fan_out_queries`
@@ -415,6 +431,12 @@ AnswerDetails <- R6::R6Class(
       if (!is.null(this_object$`no_result`)) {
         self$`no_result` <- this_object$`no_result`
       }
+      if (!is.null(this_object$`no_result_reason`)) {
+        if (!is.null(this_object$`no_result_reason`) && !(this_object$`no_result_reason` %in% c("declined", "no_answer"))) {
+          stop(paste("Error! \"", this_object$`no_result_reason`, "\" cannot be assigned to `no_result_reason`. Must be \"declined\", \"no_answer\".", sep = ""))
+        }
+        self$`no_result_reason` <- this_object$`no_result_reason`
+      }
       if (!is.null(this_object$`fan_out_queries`)) {
         self$`fan_out_queries` <- ApiClient$new()$deserializeObj(this_object$`fan_out_queries`, "array[character]", loadNamespace("llmpulse"))
       }
@@ -494,6 +516,10 @@ AnswerDetails <- R6::R6Class(
       self$`duration_ms` <- this_object$`duration_ms`
       self$`success` <- this_object$`success`
       self$`no_result` <- this_object$`no_result`
+      if (!is.null(this_object$`no_result_reason`) && !(this_object$`no_result_reason` %in% c("declined", "no_answer"))) {
+        stop(paste("Error! \"", this_object$`no_result_reason`, "\" cannot be assigned to `no_result_reason`. Must be \"declined\", \"no_answer\".", sep = ""))
+      }
+      self$`no_result_reason` <- this_object$`no_result_reason`
       self$`fan_out_queries` <- ApiClient$new()$deserializeObj(this_object$`fan_out_queries`, "array[character]", loadNamespace("llmpulse"))
       self$`mentions` <- ApiClient$new()$deserializeObj(this_object$`mentions`, "array[object]", loadNamespace("llmpulse"))
       self$`citations` <- ApiClient$new()$deserializeObj(this_object$`citations`, "array[object]", loadNamespace("llmpulse"))
