@@ -99,6 +99,7 @@ R/create_api_key_request.R
 R/create_collection_request.R
 R/create_competitor_request.R
 R/create_project_draft_request.R
+R/create_reputation_report_request.R
 R/create_team_invitation201_response.R
 R/create_team_invitation_request.R
 R/create_technical_geo_reports_request.R
@@ -261,6 +262,8 @@ R/reddit_position_share.R
 R/reddit_subreddit_activity_period.R
 R/remove_prompt_tags_request.R
 R/remove_team_member200_response.R
+R/reputation_report_create_response.R
+R/reputation_report_summary.R
 R/reputation_studies_api.R
 R/revoke_api_key200_response.R
 R/revoke_team_invitation200_response.R
@@ -447,6 +450,7 @@ docs/CreateApiKeyRequest.md
 docs/CreateCollectionRequest.md
 docs/CreateCompetitorRequest.md
 docs/CreateProjectDraftRequest.md
+docs/CreateReputationReportRequest.md
 docs/CreateTeamInvitation201Response.md
 docs/CreateTeamInvitationRequest.md
 docs/CreateTechnicalGeoReportsRequest.md
@@ -609,6 +613,8 @@ docs/RedditPositionShare.md
 docs/RedditSubredditActivityPeriod.md
 docs/RemovePromptTagsRequest.md
 docs/RemoveTeamMember200Response.md
+docs/ReputationReportCreateResponse.md
+docs/ReputationReportSummary.md
 docs/ReputationStudiesApi.md
 docs/RevokeApiKey200Response.md
 docs/RevokeTeamInvitation200Response.md
