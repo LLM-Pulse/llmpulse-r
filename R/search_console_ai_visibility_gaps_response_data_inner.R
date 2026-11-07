@@ -12,9 +12,10 @@
 #' @field clicks  integer [optional]
 #' @field ctr 0..1 fraction numeric [optional]
 #' @field position Impression-weighted average position numeric [optional]
-#' @field prompt_id The project's prompt with the same text as the query; null when no prompt matches integer [optional]
+#' @field prompt_id The project's prompt the query matches (see match_type); null when no prompt matches integer [optional]
 #' @field responses AI answers the matching prompt got in the window over the account's enabled models; null when no prompt matches integer [optional]
 #' @field brand_visibility Brand Visibility of the matching prompt in the window, percent (0-100) of its AI answers that mention the brand, over the account's enabled models; null when no prompt matches or it has no answer numeric [optional]
+#' @field match_type How the query matched: prompt (the same text as the prompt) or fan_out (the same text as a search the prompt's AI answers ran in the window); null when no prompt matches character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -29,6 +30,7 @@ SearchConsoleAiVisibilityGapsResponseDataInner <- R6::R6Class(
     `prompt_id` = NULL,
     `responses` = NULL,
     `brand_visibility` = NULL,
+    `match_type` = NULL,
 
     #' @description
     #' Initialize a new SearchConsoleAiVisibilityGapsResponseDataInner class.
@@ -38,11 +40,12 @@ SearchConsoleAiVisibilityGapsResponseDataInner <- R6::R6Class(
     #' @param clicks clicks
     #' @param ctr 0..1 fraction
     #' @param position Impression-weighted average position
-    #' @param prompt_id The project's prompt with the same text as the query; null when no prompt matches
+    #' @param prompt_id The project's prompt the query matches (see match_type); null when no prompt matches
     #' @param responses AI answers the matching prompt got in the window over the account's enabled models; null when no prompt matches
     #' @param brand_visibility Brand Visibility of the matching prompt in the window, percent (0-100) of its AI answers that mention the brand, over the account's enabled models; null when no prompt matches or it has no answer
+    #' @param match_type How the query matched: prompt (the same text as the prompt) or fan_out (the same text as a search the prompt's AI answers ran in the window); null when no prompt matches
     #' @param ... Other optional arguments.
-    initialize = function(`query` = NULL, `impressions` = NULL, `clicks` = NULL, `ctr` = NULL, `position` = NULL, `prompt_id` = NULL, `responses` = NULL, `brand_visibility` = NULL, ...) {
+    initialize = function(`query` = NULL, `impressions` = NULL, `clicks` = NULL, `ctr` = NULL, `position` = NULL, `prompt_id` = NULL, `responses` = NULL, `brand_visibility` = NULL, `match_type` = NULL, ...) {
       if (!is.null(`query`)) {
         if (!(is.character(`query`) && length(`query`) == 1)) {
           stop(paste("Error! Invalid data for `query`. Must be a string:", `query`))
@@ -81,6 +84,12 @@ SearchConsoleAiVisibilityGapsResponseDataInner <- R6::R6Class(
       }
       if (!is.null(`brand_visibility`)) {
         self$`brand_visibility` <- `brand_visibility`
+      }
+      if (!is.null(`match_type`)) {
+        if (!(is.character(`match_type`) && length(`match_type`) == 1)) {
+          stop(paste("Error! Invalid data for `match_type`. Must be a string:", `match_type`))
+        }
+        self$`match_type` <- `match_type`
       }
     },
 
@@ -147,6 +156,10 @@ SearchConsoleAiVisibilityGapsResponseDataInner <- R6::R6Class(
         SearchConsoleAiVisibilityGapsResponseDataInnerObject[["brand_visibility"]] <-
           self$`brand_visibility`
       }
+      if (!is.null(self$`match_type`)) {
+        SearchConsoleAiVisibilityGapsResponseDataInnerObject[["match_type"]] <-
+          self$`match_type`
+      }
       return(SearchConsoleAiVisibilityGapsResponseDataInnerObject)
     },
 
@@ -181,6 +194,9 @@ SearchConsoleAiVisibilityGapsResponseDataInner <- R6::R6Class(
       if (!is.null(this_object$`brand_visibility`)) {
         self$`brand_visibility` <- this_object$`brand_visibility`
       }
+      if (!is.null(this_object$`match_type`)) {
+        self$`match_type` <- this_object$`match_type`
+      }
       self
     },
 
@@ -210,6 +226,7 @@ SearchConsoleAiVisibilityGapsResponseDataInner <- R6::R6Class(
       self$`prompt_id` <- this_object$`prompt_id`
       self$`responses` <- this_object$`responses`
       self$`brand_visibility` <- this_object$`brand_visibility`
+      self$`match_type` <- this_object$`match_type`
       self
     },
 
