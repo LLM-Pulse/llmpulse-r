@@ -1,7 +1,7 @@
 #' Create a new OwnedMediaRow
 #'
 #' @description
-#' One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank) and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position.
+#' One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank), the Trustpilot views profiles (key, name, rating, reviews_count, url, competitor_id), brands (name, domain, key, rating, rating_change, reviews_count, status, url, competitor_id) and reviews (id, brand, rating, title, text, author, published_at, replied, url, competitor_id), and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position.
 #'
 #' @docType class
 #' @title OwnedMediaRow
@@ -12,14 +12,23 @@
 #' @field entity_name Current entity name when known (view=activity) character [optional]
 #' @field entity_url Current profile, channel or app listing URL when known (view=activity) character [optional]
 #' @field store Store selected for provider=mobile_apps (view=activity) character [optional]
-#' @field competitor_id Competitor identifier when the activity row represents a competitor app integer [optional]
+#' @field competitor_id Competitor identifier when the row represents a competitor's app or Trustpilot profile integer [optional]
+#' @field id The review's identifier (provider=trustpilot, view=reviews) integer [optional]
+#' @field brand The brand or competitor whose Trustpilot profile carries the review (provider=trustpilot, view=reviews) character [optional]
+#' @field rating Trustpilot rating out of 5: the profile's at its last monthly read (views profiles and brands) or the review's stars (view=reviews) numeric [optional]
+#' @field rating_change Change of the profile's rating since the previous monthly read (provider=trustpilot, view=brands); null before a second read numeric [optional]
+#' @field reviews_count The profile's review count on Trustpilot at its last monthly read (provider=trustpilot) integer [optional]
+#' @field status Whether the brand's Trustpilot profile has been read (found), Trustpilot has no business for its domain (not_found), or it has not been read yet (pending) (provider=trustpilot, view=brands) character [optional]
+#' @field text The review text (provider=trustpilot, view=reviews) character [optional]
+#' @field author The reviewer's display name (provider=trustpilot, view=reviews) character [optional]
+#' @field replied Whether the business replied to the review (provider=trustpilot, view=reviews) character [optional]
 #' @field title  character [optional]
 #' @field url  character [optional]
 #' @field channel_name  character [optional]
 #' @field channel_handle The video's channel handle, without the @ character [optional]
 #' @field channel_url  character [optional]
 #' @field video_id  character [optional]
-#' @field key The channel key (handle:..., channel:... or name:...), accepted as profile by /dimensions/owned_media/citing_prompts character [optional]
+#' @field key The channel key (handle:..., channel:... or name:...), accepted as profile by /dimensions/owned_media/citing_prompts; on provider=trustpilot, the business domain the profile is filed under, null for a brand without a domain character [optional]
 #' @field name  character [optional]
 #' @field handle  character [optional]
 #' @field caption  character [optional]
@@ -41,7 +50,7 @@
 #' @field citation_date  character [optional]
 #' @field position  integer [optional]
 #' @field model  character [optional]
-#' @field domain The app's store listing URL (provider=mobile_apps) character [optional]
+#' @field domain The app's store listing URL (provider=mobile_apps), or the brand's domain (provider=trustpilot, view=brands) character [optional]
 #' @field total_responses  integer [optional]
 #' @field rank  integer [optional]
 #' @field global_rank  integer [optional]
@@ -57,6 +66,15 @@ OwnedMediaRow <- R6::R6Class(
     `entity_url` = NULL,
     `store` = NULL,
     `competitor_id` = NULL,
+    `id` = NULL,
+    `brand` = NULL,
+    `rating` = NULL,
+    `rating_change` = NULL,
+    `reviews_count` = NULL,
+    `status` = NULL,
+    `text` = NULL,
+    `author` = NULL,
+    `replied` = NULL,
     `title` = NULL,
     `url` = NULL,
     `channel_name` = NULL,
@@ -98,14 +116,23 @@ OwnedMediaRow <- R6::R6Class(
     #' @param entity_name Current entity name when known (view=activity)
     #' @param entity_url Current profile, channel or app listing URL when known (view=activity)
     #' @param store Store selected for provider=mobile_apps (view=activity)
-    #' @param competitor_id Competitor identifier when the activity row represents a competitor app
+    #' @param competitor_id Competitor identifier when the row represents a competitor's app or Trustpilot profile
+    #' @param id The review's identifier (provider=trustpilot, view=reviews)
+    #' @param brand The brand or competitor whose Trustpilot profile carries the review (provider=trustpilot, view=reviews)
+    #' @param rating Trustpilot rating out of 5: the profile's at its last monthly read (views profiles and brands) or the review's stars (view=reviews)
+    #' @param rating_change Change of the profile's rating since the previous monthly read (provider=trustpilot, view=brands); null before a second read
+    #' @param reviews_count The profile's review count on Trustpilot at its last monthly read (provider=trustpilot)
+    #' @param status Whether the brand's Trustpilot profile has been read (found), Trustpilot has no business for its domain (not_found), or it has not been read yet (pending) (provider=trustpilot, view=brands)
+    #' @param text The review text (provider=trustpilot, view=reviews)
+    #' @param author The reviewer's display name (provider=trustpilot, view=reviews)
+    #' @param replied Whether the business replied to the review (provider=trustpilot, view=reviews)
     #' @param title title
     #' @param url url
     #' @param channel_name channel_name
     #' @param channel_handle The video's channel handle, without the @
     #' @param channel_url channel_url
     #' @param video_id video_id
-    #' @param key The channel key (handle:..., channel:... or name:...), accepted as profile by /dimensions/owned_media/citing_prompts
+    #' @param key The channel key (handle:..., channel:... or name:...), accepted as profile by /dimensions/owned_media/citing_prompts; on provider=trustpilot, the business domain the profile is filed under, null for a brand without a domain
     #' @param name name
     #' @param handle handle
     #' @param caption caption
@@ -127,12 +154,12 @@ OwnedMediaRow <- R6::R6Class(
     #' @param citation_date citation_date
     #' @param position position
     #' @param model model
-    #' @param domain The app's store listing URL (provider=mobile_apps)
+    #' @param domain The app's store listing URL (provider=mobile_apps), or the brand's domain (provider=trustpilot, view=brands)
     #' @param total_responses total_responses
     #' @param rank rank
     #' @param global_rank global_rank
     #' @param ... Other optional arguments.
-    initialize = function(`date` = NULL, `entity_id` = NULL, `entity_name` = NULL, `entity_url` = NULL, `store` = NULL, `competitor_id` = NULL, `title` = NULL, `url` = NULL, `channel_name` = NULL, `channel_handle` = NULL, `channel_url` = NULL, `video_id` = NULL, `key` = NULL, `name` = NULL, `handle` = NULL, `caption` = NULL, `owner_handle` = NULL, `thumbnail_url` = NULL, `avatar_url` = NULL, `content_type` = NULL, `citations` = NULL, `unique_videos` = NULL, `unique_posts` = NULL, `followers` = NULL, `likes` = NULL, `comments` = NULL, `views` = NULL, `published_at` = NULL, `posted_at` = NULL, `avg_position` = NULL, `yours` = NULL, `citation_date` = NULL, `position` = NULL, `model` = NULL, `domain` = NULL, `total_responses` = NULL, `rank` = NULL, `global_rank` = NULL, ...) {
+    initialize = function(`date` = NULL, `entity_id` = NULL, `entity_name` = NULL, `entity_url` = NULL, `store` = NULL, `competitor_id` = NULL, `id` = NULL, `brand` = NULL, `rating` = NULL, `rating_change` = NULL, `reviews_count` = NULL, `status` = NULL, `text` = NULL, `author` = NULL, `replied` = NULL, `title` = NULL, `url` = NULL, `channel_name` = NULL, `channel_handle` = NULL, `channel_url` = NULL, `video_id` = NULL, `key` = NULL, `name` = NULL, `handle` = NULL, `caption` = NULL, `owner_handle` = NULL, `thumbnail_url` = NULL, `avatar_url` = NULL, `content_type` = NULL, `citations` = NULL, `unique_videos` = NULL, `unique_posts` = NULL, `followers` = NULL, `likes` = NULL, `comments` = NULL, `views` = NULL, `published_at` = NULL, `posted_at` = NULL, `avg_position` = NULL, `yours` = NULL, `citation_date` = NULL, `position` = NULL, `model` = NULL, `domain` = NULL, `total_responses` = NULL, `rank` = NULL, `global_rank` = NULL, ...) {
       if (!is.null(`date`)) {
         if (!is.character(`date`)) {
           stop(paste("Error! Invalid data for `date`. Must be a string:", `date`))
@@ -171,6 +198,57 @@ OwnedMediaRow <- R6::R6Class(
           stop(paste("Error! Invalid data for `competitor_id`. Must be an integer:", `competitor_id`))
         }
         self$`competitor_id` <- `competitor_id`
+      }
+      if (!is.null(`id`)) {
+        if (!(is.numeric(`id`) && length(`id`) == 1)) {
+          stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
+        }
+        self$`id` <- `id`
+      }
+      if (!is.null(`brand`)) {
+        if (!(is.character(`brand`) && length(`brand`) == 1)) {
+          stop(paste("Error! Invalid data for `brand`. Must be a string:", `brand`))
+        }
+        self$`brand` <- `brand`
+      }
+      if (!is.null(`rating`)) {
+        self$`rating` <- `rating`
+      }
+      if (!is.null(`rating_change`)) {
+        self$`rating_change` <- `rating_change`
+      }
+      if (!is.null(`reviews_count`)) {
+        if (!(is.numeric(`reviews_count`) && length(`reviews_count`) == 1)) {
+          stop(paste("Error! Invalid data for `reviews_count`. Must be an integer:", `reviews_count`))
+        }
+        self$`reviews_count` <- `reviews_count`
+      }
+      if (!is.null(`status`)) {
+        if (!(`status` %in% c("found", "not_found", "pending"))) {
+          stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"found\", \"not_found\", \"pending\".", sep = ""))
+        }
+        if (!(is.character(`status`) && length(`status`) == 1)) {
+          stop(paste("Error! Invalid data for `status`. Must be a string:", `status`))
+        }
+        self$`status` <- `status`
+      }
+      if (!is.null(`text`)) {
+        if (!(is.character(`text`) && length(`text`) == 1)) {
+          stop(paste("Error! Invalid data for `text`. Must be a string:", `text`))
+        }
+        self$`text` <- `text`
+      }
+      if (!is.null(`author`)) {
+        if (!(is.character(`author`) && length(`author`) == 1)) {
+          stop(paste("Error! Invalid data for `author`. Must be a string:", `author`))
+        }
+        self$`author` <- `author`
+      }
+      if (!is.null(`replied`)) {
+        if (!(is.logical(`replied`) && length(`replied`) == 1)) {
+          stop(paste("Error! Invalid data for `replied`. Must be a boolean:", `replied`))
+        }
+        self$`replied` <- `replied`
       }
       if (!is.null(`title`)) {
         if (!(is.character(`title`) && length(`title`) == 1)) {
@@ -415,6 +493,42 @@ OwnedMediaRow <- R6::R6Class(
         OwnedMediaRowObject[["competitor_id"]] <-
           self$`competitor_id`
       }
+      if (!is.null(self$`id`)) {
+        OwnedMediaRowObject[["id"]] <-
+          self$`id`
+      }
+      if (!is.null(self$`brand`)) {
+        OwnedMediaRowObject[["brand"]] <-
+          self$`brand`
+      }
+      if (!is.null(self$`rating`)) {
+        OwnedMediaRowObject[["rating"]] <-
+          self$`rating`
+      }
+      if (!is.null(self$`rating_change`)) {
+        OwnedMediaRowObject[["rating_change"]] <-
+          self$`rating_change`
+      }
+      if (!is.null(self$`reviews_count`)) {
+        OwnedMediaRowObject[["reviews_count"]] <-
+          self$`reviews_count`
+      }
+      if (!is.null(self$`status`)) {
+        OwnedMediaRowObject[["status"]] <-
+          self$`status`
+      }
+      if (!is.null(self$`text`)) {
+        OwnedMediaRowObject[["text"]] <-
+          self$`text`
+      }
+      if (!is.null(self$`author`)) {
+        OwnedMediaRowObject[["author"]] <-
+          self$`author`
+      }
+      if (!is.null(self$`replied`)) {
+        OwnedMediaRowObject[["replied"]] <-
+          self$`replied`
+      }
       if (!is.null(self$`title`)) {
         OwnedMediaRowObject[["title"]] <-
           self$`title`
@@ -574,6 +688,36 @@ OwnedMediaRow <- R6::R6Class(
       if (!is.null(this_object$`competitor_id`)) {
         self$`competitor_id` <- this_object$`competitor_id`
       }
+      if (!is.null(this_object$`id`)) {
+        self$`id` <- this_object$`id`
+      }
+      if (!is.null(this_object$`brand`)) {
+        self$`brand` <- this_object$`brand`
+      }
+      if (!is.null(this_object$`rating`)) {
+        self$`rating` <- this_object$`rating`
+      }
+      if (!is.null(this_object$`rating_change`)) {
+        self$`rating_change` <- this_object$`rating_change`
+      }
+      if (!is.null(this_object$`reviews_count`)) {
+        self$`reviews_count` <- this_object$`reviews_count`
+      }
+      if (!is.null(this_object$`status`)) {
+        if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("found", "not_found", "pending"))) {
+          stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"found\", \"not_found\", \"pending\".", sep = ""))
+        }
+        self$`status` <- this_object$`status`
+      }
+      if (!is.null(this_object$`text`)) {
+        self$`text` <- this_object$`text`
+      }
+      if (!is.null(this_object$`author`)) {
+        self$`author` <- this_object$`author`
+      }
+      if (!is.null(this_object$`replied`)) {
+        self$`replied` <- this_object$`replied`
+      }
       if (!is.null(this_object$`title`)) {
         self$`title` <- this_object$`title`
       }
@@ -700,6 +844,18 @@ OwnedMediaRow <- R6::R6Class(
       }
       self$`store` <- this_object$`store`
       self$`competitor_id` <- this_object$`competitor_id`
+      self$`id` <- this_object$`id`
+      self$`brand` <- this_object$`brand`
+      self$`rating` <- this_object$`rating`
+      self$`rating_change` <- this_object$`rating_change`
+      self$`reviews_count` <- this_object$`reviews_count`
+      if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("found", "not_found", "pending"))) {
+        stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"found\", \"not_found\", \"pending\".", sep = ""))
+      }
+      self$`status` <- this_object$`status`
+      self$`text` <- this_object$`text`
+      self$`author` <- this_object$`author`
+      self$`replied` <- this_object$`replied`
       self$`title` <- this_object$`title`
       self$`url` <- this_object$`url`
       self$`channel_name` <- this_object$`channel_name`

@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **remote_status** | **character** | WordPress status of the post when the draft was created (draft) | [optional] 
 **remote_url** | **character** |  | [optional] 
 **edit_url** | **character** | The post&#39;s edit screen in the WordPress admin | [optional] 
-**error_code** | **character** | Why the send failed, for example reconnect_required, missing_capability, unreachable or rejected | [optional] 
+**error_code** | **character** | Why the send failed, the same token as error.meta.reason, for example reconnect_required, authorization_header_lost, missing_capability, firewall_blocked, timeout, unreachable or rejected | [optional] 
 **created_at** | **character** |  | [optional] 
 **sent_at** | **character** |  | [optional] 
 

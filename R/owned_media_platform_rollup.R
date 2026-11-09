@@ -41,8 +41,8 @@ OwnedMediaPlatformRollup <- R6::R6Class(
     #' @param ... Other optional arguments.
     initialize = function(`provider` = NULL, `connected` = NULL, `total` = NULL, `yours` = NULL, `share_pct` = NULL, `weekly` = NULL, `activity` = NULL, ...) {
       if (!is.null(`provider`)) {
-        if (!(`provider` %in% c("youtube", "mobile_apps", "instagram", "facebook", "tiktok", "linkedin", "reddit"))) {
-          stop(paste("Error! \"", `provider`, "\" cannot be assigned to `provider`. Must be \"youtube\", \"mobile_apps\", \"instagram\", \"facebook\", \"tiktok\", \"linkedin\", \"reddit\".", sep = ""))
+        if (!(`provider` %in% c("youtube", "mobile_apps", "instagram", "facebook", "tiktok", "linkedin", "trustpilot", "reddit"))) {
+          stop(paste("Error! \"", `provider`, "\" cannot be assigned to `provider`. Must be \"youtube\", \"mobile_apps\", \"instagram\", \"facebook\", \"tiktok\", \"linkedin\", \"trustpilot\", \"reddit\".", sep = ""))
         }
         if (!(is.character(`provider`) && length(`provider`) == 1)) {
           stop(paste("Error! Invalid data for `provider`. Must be a string:", `provider`))
@@ -175,8 +175,8 @@ OwnedMediaPlatformRollup <- R6::R6Class(
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`provider`)) {
-        if (!is.null(this_object$`provider`) && !(this_object$`provider` %in% c("youtube", "mobile_apps", "instagram", "facebook", "tiktok", "linkedin", "reddit"))) {
-          stop(paste("Error! \"", this_object$`provider`, "\" cannot be assigned to `provider`. Must be \"youtube\", \"mobile_apps\", \"instagram\", \"facebook\", \"tiktok\", \"linkedin\", \"reddit\".", sep = ""))
+        if (!is.null(this_object$`provider`) && !(this_object$`provider` %in% c("youtube", "mobile_apps", "instagram", "facebook", "tiktok", "linkedin", "trustpilot", "reddit"))) {
+          stop(paste("Error! \"", this_object$`provider`, "\" cannot be assigned to `provider`. Must be \"youtube\", \"mobile_apps\", \"instagram\", \"facebook\", \"tiktok\", \"linkedin\", \"trustpilot\", \"reddit\".", sep = ""))
         }
         self$`provider` <- this_object$`provider`
       }
@@ -219,8 +219,8 @@ OwnedMediaPlatformRollup <- R6::R6Class(
     #' @return the instance of OwnedMediaPlatformRollup
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
-      if (!is.null(this_object$`provider`) && !(this_object$`provider` %in% c("youtube", "mobile_apps", "instagram", "facebook", "tiktok", "linkedin", "reddit"))) {
-        stop(paste("Error! \"", this_object$`provider`, "\" cannot be assigned to `provider`. Must be \"youtube\", \"mobile_apps\", \"instagram\", \"facebook\", \"tiktok\", \"linkedin\", \"reddit\".", sep = ""))
+      if (!is.null(this_object$`provider`) && !(this_object$`provider` %in% c("youtube", "mobile_apps", "instagram", "facebook", "tiktok", "linkedin", "trustpilot", "reddit"))) {
+        stop(paste("Error! \"", this_object$`provider`, "\" cannot be assigned to `provider`. Must be \"youtube\", \"mobile_apps\", \"instagram\", \"facebook\", \"tiktok\", \"linkedin\", \"trustpilot\", \"reddit\".", sep = ""))
       }
       self$`provider` <- this_object$`provider`
       self$`connected` <- this_object$`connected`

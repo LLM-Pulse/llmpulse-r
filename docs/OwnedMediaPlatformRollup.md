@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**provider** | **character** |  | [optional] [Enum: [youtube, mobile_apps, instagram, facebook, tiktok, linkedin, reddit]] 
+**provider** | **character** |  | [optional] [Enum: [youtube, mobile_apps, instagram, facebook, tiktok, linkedin, trustpilot, reddit]] 
 **connected** | **character** |  | [optional] 
 **total** | **integer** |  | [optional] 
 **yours** | **integer** |  | [optional] 

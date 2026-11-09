@@ -18,7 +18,7 @@
 #' @field remote_status WordPress status of the post when the draft was created (draft) character [optional]
 #' @field remote_url  character [optional]
 #' @field edit_url The post's edit screen in the WordPress admin character [optional]
-#' @field error_code Why the send failed, for example reconnect_required, missing_capability, unreachable or rejected character [optional]
+#' @field error_code Why the send failed, the same token as error.meta.reason, for example reconnect_required, authorization_header_lost, missing_capability, firewall_blocked, timeout, unreachable or rejected character [optional]
 #' @field created_at  character [optional]
 #' @field sent_at  character [optional]
 #' @importFrom R6 R6Class
@@ -56,7 +56,7 @@ CmsPublication <- R6::R6Class(
     #' @param remote_status WordPress status of the post when the draft was created (draft)
     #' @param remote_url remote_url
     #' @param edit_url The post's edit screen in the WordPress admin
-    #' @param error_code Why the send failed, for example reconnect_required, missing_capability, unreachable or rejected
+    #' @param error_code Why the send failed, the same token as error.meta.reason, for example reconnect_required, authorization_header_lost, missing_capability, firewall_blocked, timeout, unreachable or rejected
     #' @param created_at created_at
     #' @param sent_at sent_at
     #' @param ... Other optional arguments.
