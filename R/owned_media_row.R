@@ -1,7 +1,7 @@
 #' Create a new OwnedMediaRow
 #'
 #' @description
-#' One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank), the Trustpilot views profiles (key, name, rating, reviews_count, url, competitor_id), brands (name, domain, key, rating, rating_change, reviews_count, status, url, competitor_id) and reviews (id, brand, rating, title, text, author, published_at, replied, url, competitor_id), and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position.
+#' One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank), the Trustpilot views profiles (key, name, rating, reviews_count, url, competitor_id), brands (name, domain, key, rating, rating_change, reviews_count, reviews_held, replied_count, not_replied_count, reply_rate_pct, median_reply_hours, status, url, competitor_id) and reviews (id, brand, rating, title, text, author, published_at, replied, url, competitor_id), and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position.
 #'
 #' @docType class
 #' @title OwnedMediaRow
@@ -22,6 +22,11 @@
 #' @field text The review text (provider=trustpilot, view=reviews) character [optional]
 #' @field author The reviewer's display name (provider=trustpilot, view=reviews) character [optional]
 #' @field replied Whether the business replied to the review (provider=trustpilot, view=reviews) character [optional]
+#' @field reviews_held How many of the profile's reviews LLM Pulse holds: the newest ones from each monthly read, not every review on Trustpilot (provider=trustpilot, view=brands). The reply fields count among these, whatever the date window; all of them are null until the profile has been read integer [optional]
+#' @field replied_count Reviews held that the business replied to (provider=trustpilot, view=brands) integer [optional]
+#' @field not_replied_count Reviews held that the business has not replied to (provider=trustpilot, view=brands) integer [optional]
+#' @field reply_rate_pct replied_count over reviews_held, on a 0-100 scale; null when no review is held (provider=trustpilot, view=brands) numeric [optional]
+#' @field median_reply_hours Median hours from a held review's publication to the business's reply, over the replied reviews held that carry both dates (a reply dated before its review is left out); null when there is none (provider=trustpilot, view=brands) numeric [optional]
 #' @field title  character [optional]
 #' @field url  character [optional]
 #' @field channel_name  character [optional]
@@ -75,6 +80,11 @@ OwnedMediaRow <- R6::R6Class(
     `text` = NULL,
     `author` = NULL,
     `replied` = NULL,
+    `reviews_held` = NULL,
+    `replied_count` = NULL,
+    `not_replied_count` = NULL,
+    `reply_rate_pct` = NULL,
+    `median_reply_hours` = NULL,
     `title` = NULL,
     `url` = NULL,
     `channel_name` = NULL,
@@ -126,6 +136,11 @@ OwnedMediaRow <- R6::R6Class(
     #' @param text The review text (provider=trustpilot, view=reviews)
     #' @param author The reviewer's display name (provider=trustpilot, view=reviews)
     #' @param replied Whether the business replied to the review (provider=trustpilot, view=reviews)
+    #' @param reviews_held How many of the profile's reviews LLM Pulse holds: the newest ones from each monthly read, not every review on Trustpilot (provider=trustpilot, view=brands). The reply fields count among these, whatever the date window; all of them are null until the profile has been read
+    #' @param replied_count Reviews held that the business replied to (provider=trustpilot, view=brands)
+    #' @param not_replied_count Reviews held that the business has not replied to (provider=trustpilot, view=brands)
+    #' @param reply_rate_pct replied_count over reviews_held, on a 0-100 scale; null when no review is held (provider=trustpilot, view=brands)
+    #' @param median_reply_hours Median hours from a held review's publication to the business's reply, over the replied reviews held that carry both dates (a reply dated before its review is left out); null when there is none (provider=trustpilot, view=brands)
     #' @param title title
     #' @param url url
     #' @param channel_name channel_name
@@ -159,7 +174,7 @@ OwnedMediaRow <- R6::R6Class(
     #' @param rank rank
     #' @param global_rank global_rank
     #' @param ... Other optional arguments.
-    initialize = function(`date` = NULL, `entity_id` = NULL, `entity_name` = NULL, `entity_url` = NULL, `store` = NULL, `competitor_id` = NULL, `id` = NULL, `brand` = NULL, `rating` = NULL, `rating_change` = NULL, `reviews_count` = NULL, `status` = NULL, `text` = NULL, `author` = NULL, `replied` = NULL, `title` = NULL, `url` = NULL, `channel_name` = NULL, `channel_handle` = NULL, `channel_url` = NULL, `video_id` = NULL, `key` = NULL, `name` = NULL, `handle` = NULL, `caption` = NULL, `owner_handle` = NULL, `thumbnail_url` = NULL, `avatar_url` = NULL, `content_type` = NULL, `citations` = NULL, `unique_videos` = NULL, `unique_posts` = NULL, `followers` = NULL, `likes` = NULL, `comments` = NULL, `views` = NULL, `published_at` = NULL, `posted_at` = NULL, `avg_position` = NULL, `yours` = NULL, `citation_date` = NULL, `position` = NULL, `model` = NULL, `domain` = NULL, `total_responses` = NULL, `rank` = NULL, `global_rank` = NULL, ...) {
+    initialize = function(`date` = NULL, `entity_id` = NULL, `entity_name` = NULL, `entity_url` = NULL, `store` = NULL, `competitor_id` = NULL, `id` = NULL, `brand` = NULL, `rating` = NULL, `rating_change` = NULL, `reviews_count` = NULL, `status` = NULL, `text` = NULL, `author` = NULL, `replied` = NULL, `reviews_held` = NULL, `replied_count` = NULL, `not_replied_count` = NULL, `reply_rate_pct` = NULL, `median_reply_hours` = NULL, `title` = NULL, `url` = NULL, `channel_name` = NULL, `channel_handle` = NULL, `channel_url` = NULL, `video_id` = NULL, `key` = NULL, `name` = NULL, `handle` = NULL, `caption` = NULL, `owner_handle` = NULL, `thumbnail_url` = NULL, `avatar_url` = NULL, `content_type` = NULL, `citations` = NULL, `unique_videos` = NULL, `unique_posts` = NULL, `followers` = NULL, `likes` = NULL, `comments` = NULL, `views` = NULL, `published_at` = NULL, `posted_at` = NULL, `avg_position` = NULL, `yours` = NULL, `citation_date` = NULL, `position` = NULL, `model` = NULL, `domain` = NULL, `total_responses` = NULL, `rank` = NULL, `global_rank` = NULL, ...) {
       if (!is.null(`date`)) {
         if (!is.character(`date`)) {
           stop(paste("Error! Invalid data for `date`. Must be a string:", `date`))
@@ -249,6 +264,30 @@ OwnedMediaRow <- R6::R6Class(
           stop(paste("Error! Invalid data for `replied`. Must be a boolean:", `replied`))
         }
         self$`replied` <- `replied`
+      }
+      if (!is.null(`reviews_held`)) {
+        if (!(is.numeric(`reviews_held`) && length(`reviews_held`) == 1)) {
+          stop(paste("Error! Invalid data for `reviews_held`. Must be an integer:", `reviews_held`))
+        }
+        self$`reviews_held` <- `reviews_held`
+      }
+      if (!is.null(`replied_count`)) {
+        if (!(is.numeric(`replied_count`) && length(`replied_count`) == 1)) {
+          stop(paste("Error! Invalid data for `replied_count`. Must be an integer:", `replied_count`))
+        }
+        self$`replied_count` <- `replied_count`
+      }
+      if (!is.null(`not_replied_count`)) {
+        if (!(is.numeric(`not_replied_count`) && length(`not_replied_count`) == 1)) {
+          stop(paste("Error! Invalid data for `not_replied_count`. Must be an integer:", `not_replied_count`))
+        }
+        self$`not_replied_count` <- `not_replied_count`
+      }
+      if (!is.null(`reply_rate_pct`)) {
+        self$`reply_rate_pct` <- `reply_rate_pct`
+      }
+      if (!is.null(`median_reply_hours`)) {
+        self$`median_reply_hours` <- `median_reply_hours`
       }
       if (!is.null(`title`)) {
         if (!(is.character(`title`) && length(`title`) == 1)) {
@@ -529,6 +568,26 @@ OwnedMediaRow <- R6::R6Class(
         OwnedMediaRowObject[["replied"]] <-
           self$`replied`
       }
+      if (!is.null(self$`reviews_held`)) {
+        OwnedMediaRowObject[["reviews_held"]] <-
+          self$`reviews_held`
+      }
+      if (!is.null(self$`replied_count`)) {
+        OwnedMediaRowObject[["replied_count"]] <-
+          self$`replied_count`
+      }
+      if (!is.null(self$`not_replied_count`)) {
+        OwnedMediaRowObject[["not_replied_count"]] <-
+          self$`not_replied_count`
+      }
+      if (!is.null(self$`reply_rate_pct`)) {
+        OwnedMediaRowObject[["reply_rate_pct"]] <-
+          self$`reply_rate_pct`
+      }
+      if (!is.null(self$`median_reply_hours`)) {
+        OwnedMediaRowObject[["median_reply_hours"]] <-
+          self$`median_reply_hours`
+      }
       if (!is.null(self$`title`)) {
         OwnedMediaRowObject[["title"]] <-
           self$`title`
@@ -718,6 +777,21 @@ OwnedMediaRow <- R6::R6Class(
       if (!is.null(this_object$`replied`)) {
         self$`replied` <- this_object$`replied`
       }
+      if (!is.null(this_object$`reviews_held`)) {
+        self$`reviews_held` <- this_object$`reviews_held`
+      }
+      if (!is.null(this_object$`replied_count`)) {
+        self$`replied_count` <- this_object$`replied_count`
+      }
+      if (!is.null(this_object$`not_replied_count`)) {
+        self$`not_replied_count` <- this_object$`not_replied_count`
+      }
+      if (!is.null(this_object$`reply_rate_pct`)) {
+        self$`reply_rate_pct` <- this_object$`reply_rate_pct`
+      }
+      if (!is.null(this_object$`median_reply_hours`)) {
+        self$`median_reply_hours` <- this_object$`median_reply_hours`
+      }
       if (!is.null(this_object$`title`)) {
         self$`title` <- this_object$`title`
       }
@@ -856,6 +930,11 @@ OwnedMediaRow <- R6::R6Class(
       self$`text` <- this_object$`text`
       self$`author` <- this_object$`author`
       self$`replied` <- this_object$`replied`
+      self$`reviews_held` <- this_object$`reviews_held`
+      self$`replied_count` <- this_object$`replied_count`
+      self$`not_replied_count` <- this_object$`not_replied_count`
+      self$`reply_rate_pct` <- this_object$`reply_rate_pct`
+      self$`median_reply_hours` <- this_object$`median_reply_hours`
       self$`title` <- this_object$`title`
       self$`url` <- this_object$`url`
       self$`channel_name` <- this_object$`channel_name`

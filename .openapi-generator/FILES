@@ -346,6 +346,7 @@ R/timeseries_response.R
 R/timeseries_series.R
 R/top_sources_response.R
 R/top_sources_response_data_inner.R
+R/trustpilot_replies.R
 R/update_annotation_request.R
 R/update_collection_request.R
 R/update_competitor_request.R
@@ -697,6 +698,7 @@ docs/TimeseriesResponse.md
 docs/TimeseriesSeries.md
 docs/TopSourcesResponse.md
 docs/TopSourcesResponseDataInner.md
+docs/TrustpilotReplies.md
 docs/UpdateAnnotationRequest.md
 docs/UpdateCollectionRequest.md
 docs/UpdateCompetitorRequest.md

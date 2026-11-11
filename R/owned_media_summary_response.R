@@ -26,6 +26,7 @@
 #' @field subreddit_activity provider=reddit only. One row per subreddit and actual reporting period; the top five subreddits are separate and Others has a null subreddit list(\link{RedditSubredditActivityPeriod}) [optional]
 #' @field positions provider=reddit only. Position distribution over the selected date window list(\link{RedditPositionShare}) [optional]
 #' @field brand_share provider=reddit only. Citation share among the tracked brand and competitors with cited mentions list(\link{RedditBrandShare}) [optional]
+#' @field replies  \link{TrustpilotReplies} [optional]
 #' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -52,6 +53,7 @@ OwnedMediaSummaryResponse <- R6::R6Class(
     `subreddit_activity` = NULL,
     `positions` = NULL,
     `brand_share` = NULL,
+    `replies` = NULL,
     `request_id` = NULL,
 
     #' @description
@@ -76,9 +78,10 @@ OwnedMediaSummaryResponse <- R6::R6Class(
     #' @param subreddit_activity provider=reddit only. One row per subreddit and actual reporting period; the top five subreddits are separate and Others has a null subreddit
     #' @param positions provider=reddit only. Position distribution over the selected date window
     #' @param brand_share provider=reddit only. Citation share among the tracked brand and competitors with cited mentions
+    #' @param replies replies
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`project_id` = NULL, `provider` = NULL, `from` = NULL, `to` = NULL, `connected` = NULL, `kpis` = NULL, `previous` = NULL, `changes` = NULL, `weekly` = NULL, `by_model` = NULL, `by_country` = NULL, `content_types` = NULL, `age_buckets` = NULL, `stores` = NULL, `platforms` = NULL, `activity` = NULL, `subreddit_activity` = NULL, `positions` = NULL, `brand_share` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`project_id` = NULL, `provider` = NULL, `from` = NULL, `to` = NULL, `connected` = NULL, `kpis` = NULL, `previous` = NULL, `changes` = NULL, `weekly` = NULL, `by_model` = NULL, `by_country` = NULL, `content_types` = NULL, `age_buckets` = NULL, `stores` = NULL, `platforms` = NULL, `activity` = NULL, `subreddit_activity` = NULL, `positions` = NULL, `brand_share` = NULL, `replies` = NULL, `request_id` = NULL, ...) {
       if (!is.null(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -175,6 +178,10 @@ OwnedMediaSummaryResponse <- R6::R6Class(
         stopifnot(is.vector(`brand_share`), length(`brand_share`) != 0)
         sapply(`brand_share`, function(x) stopifnot(R6::is.R6(x)))
         self$`brand_share` <- `brand_share`
+      }
+      if (!is.null(`replies`)) {
+        stopifnot(R6::is.R6(`replies`))
+        self$`replies` <- `replies`
       }
       if (!is.null(`request_id`)) {
         if (!(is.character(`request_id`) && length(`request_id`) == 1)) {
@@ -291,6 +298,10 @@ OwnedMediaSummaryResponse <- R6::R6Class(
         OwnedMediaSummaryResponseObject[["brand_share"]] <-
           self$extractSimpleType(self$`brand_share`)
       }
+      if (!is.null(self$`replies`)) {
+        OwnedMediaSummaryResponseObject[["replies"]] <-
+          self$extractSimpleType(self$`replies`)
+      }
       if (!is.null(self$`request_id`)) {
         OwnedMediaSummaryResponseObject[["request_id"]] <-
           self$`request_id`
@@ -391,6 +402,11 @@ OwnedMediaSummaryResponse <- R6::R6Class(
       if (!is.null(this_object$`brand_share`)) {
         self$`brand_share` <- ApiClient$new()$deserializeObj(this_object$`brand_share`, "array[RedditBrandShare]", loadNamespace("llmpulse"))
       }
+      if (!is.null(this_object$`replies`)) {
+        `replies_object` <- TrustpilotReplies$new()
+        `replies_object`$fromJSON(jsonlite::toJSON(this_object$`replies`, auto_unbox = TRUE, digits = NA))
+        self$`replies` <- `replies_object`
+      }
       if (!is.null(this_object$`request_id`)) {
         self$`request_id` <- this_object$`request_id`
       }
@@ -434,6 +450,7 @@ OwnedMediaSummaryResponse <- R6::R6Class(
       self$`subreddit_activity` <- ApiClient$new()$deserializeObj(this_object$`subreddit_activity`, "array[RedditSubredditActivityPeriod]", loadNamespace("llmpulse"))
       self$`positions` <- ApiClient$new()$deserializeObj(this_object$`positions`, "array[RedditPositionShare]", loadNamespace("llmpulse"))
       self$`brand_share` <- ApiClient$new()$deserializeObj(this_object$`brand_share`, "array[RedditBrandShare]", loadNamespace("llmpulse"))
+      self$`replies` <- TrustpilotReplies$new()$fromJSON(jsonlite::toJSON(this_object$`replies`, auto_unbox = TRUE, digits = NA))
       self$`request_id` <- this_object$`request_id`
       self
     },

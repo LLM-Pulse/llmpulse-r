@@ -23,6 +23,7 @@ Name | Type | Description | Notes
 **subreddit_activity** | [**array[RedditSubredditActivityPeriod]**](RedditSubredditActivityPeriod.md) | provider&#x3D;reddit only. One row per subreddit and actual reporting period; the top five subreddits are separate and Others has a null subreddit | [optional] 
 **positions** | [**array[RedditPositionShare]**](RedditPositionShare.md) | provider&#x3D;reddit only. Position distribution over the selected date window | [optional] 
 **brand_share** | [**array[RedditBrandShare]**](RedditBrandShare.md) | provider&#x3D;reddit only. Citation share among the tracked brand and competitors with cited mentions | [optional] 
+**replies** | [**TrustpilotReplies**](TrustpilotReplies.md) |  | [optional] 
 **request_id** | **character** |  | [optional] 
 
 
