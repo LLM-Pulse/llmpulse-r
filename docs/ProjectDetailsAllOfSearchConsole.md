@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **character** |  | [optional] [Enum: [connected, reconnect_required, not_connected]] 
 **property** | **character** | The primary property (e.g. sc-domain:example.com), null when not connected | [optional] 
-**connect_url** | **character** | The in-app page where the property is connected or reconnected (Preferences &gt; Project Settings &gt; Data Connections) | [optional] 
+**connect_url** | **character** | The in-app page where the property is connected or reconnected (Preferences &gt; Project Settings &gt; Connections) | [optional] 
 **properties_count** | **integer** | Connected properties Google still accepts (reconnect_required ones excluded); GET /search_console/properties lists every property with its status | [optional] 
 
 

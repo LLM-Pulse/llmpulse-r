@@ -9,7 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field status  character [optional]
 #' @field property The primary property (e.g. sc-domain:example.com), null when not connected character [optional]
-#' @field connect_url The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections) character [optional]
+#' @field connect_url The in-app page where the property is connected or reconnected (Preferences > Project Settings > Connections) character [optional]
 #' @field properties_count Connected properties Google still accepts (reconnect_required ones excluded); GET /search_console/properties lists every property with its status integer [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -27,7 +27,7 @@ ProjectDetailsAllOfSearchConsole <- R6::R6Class(
     #'
     #' @param status status
     #' @param property The primary property (e.g. sc-domain:example.com), null when not connected
-    #' @param connect_url The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections)
+    #' @param connect_url The in-app page where the property is connected or reconnected (Preferences > Project Settings > Connections)
     #' @param properties_count Connected properties Google still accepts (reconnect_required ones excluded); GET /search_console/properties lists every property with its status
     #' @param ... Other optional arguments.
     initialize = function(`status` = NULL, `property` = NULL, `connect_url` = NULL, `properties_count` = NULL, ...) {
