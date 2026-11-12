@@ -7,10 +7,12 @@
 #' @title CustomReportDateRange
 #' @description CustomReportDateRange Class
 #' @format An \code{R6Class} generator object
-#' @field type rolling (the last range_days days) or previous_month (the previous calendar month) character
-#' @field range_days Length of a rolling window; null for previous_month integer
+#' @field type rolling (the last range_days days), previous_month (the previous calendar month), previous_3_months (the 3 calendar months before the current one) or custom (fixed dates, custom_from to custom_to) character
+#' @field range_days Length of a rolling window; null for the other types integer
+#' @field custom_from First day chosen for a custom range; null for the other types character
+#' @field custom_to Last day chosen for a custom range, which can be after today; null for the other types character
 #' @field from First day of the window as of now (detail only) character [optional]
-#' @field to Last day of the window as of now (detail only) character [optional]
+#' @field to Last day of the window as of now (detail only); a custom range stops at today character [optional]
 #' @field label The window as the report shows it (detail only) character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -20,6 +22,8 @@ CustomReportDateRange <- R6::R6Class(
   public = list(
     `type` = NULL,
     `range_days` = NULL,
+    `custom_from` = NULL,
+    `custom_to` = NULL,
     `from` = NULL,
     `to` = NULL,
     `label` = NULL,
@@ -27,16 +31,18 @@ CustomReportDateRange <- R6::R6Class(
     #' @description
     #' Initialize a new CustomReportDateRange class.
     #'
-    #' @param type rolling (the last range_days days) or previous_month (the previous calendar month)
-    #' @param range_days Length of a rolling window; null for previous_month
+    #' @param type rolling (the last range_days days), previous_month (the previous calendar month), previous_3_months (the 3 calendar months before the current one) or custom (fixed dates, custom_from to custom_to)
+    #' @param range_days Length of a rolling window; null for the other types
+    #' @param custom_from First day chosen for a custom range; null for the other types
+    #' @param custom_to Last day chosen for a custom range, which can be after today; null for the other types
     #' @param from First day of the window as of now (detail only)
-    #' @param to Last day of the window as of now (detail only)
+    #' @param to Last day of the window as of now (detail only); a custom range stops at today
     #' @param label The window as the report shows it (detail only)
     #' @param ... Other optional arguments.
-    initialize = function(`type`, `range_days`, `from` = NULL, `to` = NULL, `label` = NULL, ...) {
+    initialize = function(`type`, `range_days`, `custom_from`, `custom_to`, `from` = NULL, `to` = NULL, `label` = NULL, ...) {
       if (!missing(`type`)) {
-        if (!(`type` %in% c("rolling", "previous_month"))) {
-          stop(paste("Error! \"", `type`, "\" cannot be assigned to `type`. Must be \"rolling\", \"previous_month\".", sep = ""))
+        if (!(`type` %in% c("rolling", "previous_month", "previous_3_months", "custom"))) {
+          stop(paste("Error! \"", `type`, "\" cannot be assigned to `type`. Must be \"rolling\", \"previous_month\", \"previous_3_months\", \"custom\".", sep = ""))
         }
         if (!(is.character(`type`) && length(`type`) == 1)) {
           stop(paste("Error! Invalid data for `type`. Must be a string:", `type`))
@@ -48,6 +54,18 @@ CustomReportDateRange <- R6::R6Class(
           stop(paste("Error! Invalid data for `range_days`. Must be an integer:", `range_days`))
         }
         self$`range_days` <- `range_days`
+      }
+      if (!missing(`custom_from`)) {
+        if (!(is.character(`custom_from`) && length(`custom_from`) == 1)) {
+          stop(paste("Error! Invalid data for `custom_from`. Must be a string:", `custom_from`))
+        }
+        self$`custom_from` <- `custom_from`
+      }
+      if (!missing(`custom_to`)) {
+        if (!(is.character(`custom_to`) && length(`custom_to`) == 1)) {
+          stop(paste("Error! Invalid data for `custom_to`. Must be a string:", `custom_to`))
+        }
+        self$`custom_to` <- `custom_to`
       }
       if (!is.null(`from`)) {
         if (!is.character(`from`)) {
@@ -108,6 +126,14 @@ CustomReportDateRange <- R6::R6Class(
         CustomReportDateRangeObject[["range_days"]] <-
           self$`range_days`
       }
+      if (!is.null(self$`custom_from`)) {
+        CustomReportDateRangeObject[["custom_from"]] <-
+          self$`custom_from`
+      }
+      if (!is.null(self$`custom_to`)) {
+        CustomReportDateRangeObject[["custom_to"]] <-
+          self$`custom_to`
+      }
       if (!is.null(self$`from`)) {
         CustomReportDateRangeObject[["from"]] <-
           self$`from`
@@ -131,13 +157,19 @@ CustomReportDateRange <- R6::R6Class(
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`type`)) {
-        if (!is.null(this_object$`type`) && !(this_object$`type` %in% c("rolling", "previous_month"))) {
-          stop(paste("Error! \"", this_object$`type`, "\" cannot be assigned to `type`. Must be \"rolling\", \"previous_month\".", sep = ""))
+        if (!is.null(this_object$`type`) && !(this_object$`type` %in% c("rolling", "previous_month", "previous_3_months", "custom"))) {
+          stop(paste("Error! \"", this_object$`type`, "\" cannot be assigned to `type`. Must be \"rolling\", \"previous_month\", \"previous_3_months\", \"custom\".", sep = ""))
         }
         self$`type` <- this_object$`type`
       }
       if (!is.null(this_object$`range_days`)) {
         self$`range_days` <- this_object$`range_days`
+      }
+      if (!is.null(this_object$`custom_from`)) {
+        self$`custom_from` <- this_object$`custom_from`
+      }
+      if (!is.null(this_object$`custom_to`)) {
+        self$`custom_to` <- this_object$`custom_to`
       }
       if (!is.null(this_object$`from`)) {
         self$`from` <- this_object$`from`
@@ -169,11 +201,13 @@ CustomReportDateRange <- R6::R6Class(
     #' @return the instance of CustomReportDateRange
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
-      if (!is.null(this_object$`type`) && !(this_object$`type` %in% c("rolling", "previous_month"))) {
-        stop(paste("Error! \"", this_object$`type`, "\" cannot be assigned to `type`. Must be \"rolling\", \"previous_month\".", sep = ""))
+      if (!is.null(this_object$`type`) && !(this_object$`type` %in% c("rolling", "previous_month", "previous_3_months", "custom"))) {
+        stop(paste("Error! \"", this_object$`type`, "\" cannot be assigned to `type`. Must be \"rolling\", \"previous_month\", \"previous_3_months\", \"custom\".", sep = ""))
       }
       self$`type` <- this_object$`type`
       self$`range_days` <- this_object$`range_days`
+      self$`custom_from` <- this_object$`custom_from`
+      self$`custom_to` <- this_object$`custom_to`
       self$`from` <- this_object$`from`
       self$`to` <- this_object$`to`
       self$`label` <- this_object$`label`
@@ -201,6 +235,22 @@ CustomReportDateRange <- R6::R6Class(
         }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for CustomReportDateRange: the required field `range_days` is missing."))
+      }
+      # check the required field `custom_from`
+      if (!is.null(input_json$`custom_from`)) {
+        if (!(is.character(input_json$`custom_from`) && length(input_json$`custom_from`) == 1)) {
+          stop(paste("Error! Invalid data for `custom_from`. Must be a string:", input_json$`custom_from`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for CustomReportDateRange: the required field `custom_from` is missing."))
+      }
+      # check the required field `custom_to`
+      if (!is.null(input_json$`custom_to`)) {
+        if (!(is.character(input_json$`custom_to`) && length(input_json$`custom_to`) == 1)) {
+          stop(paste("Error! Invalid data for `custom_to`. Must be a string:", input_json$`custom_to`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for CustomReportDateRange: the required field `custom_to` is missing."))
       }
     },
 

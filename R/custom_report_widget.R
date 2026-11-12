@@ -12,7 +12,7 @@
 #' @field kind  character
 #' @field width  character
 #' @field available false when the widget's data source (web analytics, agent analytics, owned media) is not connected character
-#' @field data Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period). table: rows, one object per row. Null when the widget is not available. named list(object) [optional]
+#' @field data Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period). table: rows, one object per row; the monthly_breakdown widget has one row per calendar month of the window with month, from, to, partial (a month the window cuts), responses, mentions, visibility, weighted_visibility, sov_share, citations and avg_mention_position. Null when the widget is not available. named list(object) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -34,7 +34,7 @@ CustomReportWidget <- R6::R6Class(
     #' @param kind kind
     #' @param width width
     #' @param available false when the widget's data source (web analytics, agent analytics, owned media) is not connected
-    #' @param data Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period). table: rows, one object per row. Null when the widget is not available.
+    #' @param data Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period). table: rows, one object per row; the monthly_breakdown widget has one row per calendar month of the window with month, from, to, partial (a month the window cuts), responses, mentions, visibility, weighted_visibility, sov_share, citations and avg_mention_position. Null when the widget is not available.
     #' @param ... Other optional arguments.
     initialize = function(`key`, `label`, `kind`, `width`, `available`, `data` = NULL, ...) {
       if (!missing(`key`)) {
