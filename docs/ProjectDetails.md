@@ -29,6 +29,7 @@ Name | Type | Description | Notes
 **app_store_id** | **character** |  | [optional] 
 **created_at** | **character** |  | [optional] 
 **prompt_limit** | **integer** | The most prompts this project can hold, set by the account owner or a co-owner (Account Settings &gt; Prompt Limits). Null when the project has no limit of its own; the account&#39;s plan allowance applies either way | [optional] 
+**project_type** | **character** | The project type it is billed as under the account&#39;s pricing agreement, such as core or lean (its own, else the account&#39;s default type). Null for accounts without per-project types and for pitch projects | [optional] 
 **stats** | [**ProjectDetailsAllOfStats**](ProjectDetails_allOf_stats.md) |  | [optional] 
 **pitch_run** | [**ProjectDetailsAllOfPitchRun**](ProjectDetails_allOf_pitch_run.md) |  | [optional] 
 **data_coverage** | [**ProjectDetailsAllOfDataCoverage**](ProjectDetails_allOf_data_coverage.md) |  | [optional] 

@@ -21,6 +21,7 @@
 #' @field matching_names  list(character)
 #' @field additional_owned_domains Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none list(character)
 #' @field prompt_limit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way integer
+#' @field project_type The project type it is billed as under the account's pricing agreement, such as core or lean. Null for accounts without per-project types and for pitch projects character
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -41,6 +42,7 @@ ProjectProfile <- R6::R6Class(
     `matching_names` = NULL,
     `additional_owned_domains` = NULL,
     `prompt_limit` = NULL,
+    `project_type` = NULL,
 
     #' @description
     #' Initialize a new ProjectProfile class.
@@ -50,6 +52,7 @@ ProjectProfile <- R6::R6Class(
     #' @param matching_names matching_names
     #' @param additional_owned_domains Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none
     #' @param prompt_limit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way
+    #' @param project_type The project type it is billed as under the account's pricing agreement, such as core or lean. Null for accounts without per-project types and for pitch projects
     #' @param brand_name brand_name
     #' @param description description
     #' @param industry Industry as stored: one key as a string (e.g. SAAS), or an array of key strings. Deliberately untyped so generated clients decode either shape
@@ -60,7 +63,7 @@ ProjectProfile <- R6::R6Class(
     #' @param brand_voice brand_voice
     #' @param goals goals
     #' @param ... Other optional arguments.
-    initialize = function(`id`, `name`, `matching_names`, `additional_owned_domains`, `prompt_limit`, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `primary_products` = NULL, `brand_voice` = NULL, `goals` = NULL, ...) {
+    initialize = function(`id`, `name`, `matching_names`, `additional_owned_domains`, `prompt_limit`, `project_type`, `brand_name` = NULL, `description` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `target_audience` = NULL, `primary_products` = NULL, `brand_voice` = NULL, `goals` = NULL, ...) {
       if (!missing(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
@@ -88,6 +91,12 @@ ProjectProfile <- R6::R6Class(
           stop(paste("Error! Invalid data for `prompt_limit`. Must be an integer:", `prompt_limit`))
         }
         self$`prompt_limit` <- `prompt_limit`
+      }
+      if (!missing(`project_type`)) {
+        if (!(is.character(`project_type`) && length(`project_type`) == 1)) {
+          stop(paste("Error! Invalid data for `project_type`. Must be a string:", `project_type`))
+        }
+        self$`project_type` <- `project_type`
       }
       if (!is.null(`brand_name`)) {
         if (!(is.character(`brand_name`) && length(`brand_name`) == 1)) {
@@ -228,6 +237,10 @@ ProjectProfile <- R6::R6Class(
         ProjectProfileObject[["prompt_limit"]] <-
           self$`prompt_limit`
       }
+      if (!is.null(self$`project_type`)) {
+        ProjectProfileObject[["project_type"]] <-
+          self$`project_type`
+      }
       return(ProjectProfileObject)
     },
 
@@ -280,6 +293,9 @@ ProjectProfile <- R6::R6Class(
       if (!is.null(this_object$`prompt_limit`)) {
         self$`prompt_limit` <- this_object$`prompt_limit`
       }
+      if (!is.null(this_object$`project_type`)) {
+        self$`project_type` <- this_object$`project_type`
+      }
       self
     },
 
@@ -315,6 +331,7 @@ ProjectProfile <- R6::R6Class(
       self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
       self$`additional_owned_domains` <- ApiClient$new()$deserializeObj(this_object$`additional_owned_domains`, "array[character]", loadNamespace("llmpulse"))
       self$`prompt_limit` <- this_object$`prompt_limit`
+      self$`project_type` <- this_object$`project_type`
       self
     },
 
@@ -361,6 +378,14 @@ ProjectProfile <- R6::R6Class(
         }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for ProjectProfile: the required field `prompt_limit` is missing."))
+      }
+      # check the required field `project_type`
+      if (!is.null(input_json$`project_type`)) {
+        if (!(is.character(input_json$`project_type`) && length(input_json$`project_type`) == 1)) {
+          stop(paste("Error! Invalid data for `project_type`. Must be a string:", input_json$`project_type`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for ProjectProfile: the required field `project_type` is missing."))
       }
     },
 

@@ -32,6 +32,7 @@
 #' @field app_store_id  character [optional]
 #' @field created_at  character [optional]
 #' @field prompt_limit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way integer [optional]
+#' @field project_type The project type it is billed as under the account's pricing agreement, such as core or lean (its own, else the account's default type). Null for accounts without per-project types and for pitch projects character [optional]
 #' @field stats  \link{ProjectDetailsAllOfStats} [optional]
 #' @field pitch_run  \link{ProjectDetailsAllOfPitchRun} [optional]
 #' @field data_coverage  \link{ProjectDetailsAllOfDataCoverage} [optional]
@@ -70,6 +71,7 @@ ProjectDetails <- R6::R6Class(
     `app_store_id` = NULL,
     `created_at` = NULL,
     `prompt_limit` = NULL,
+    `project_type` = NULL,
     `stats` = NULL,
     `pitch_run` = NULL,
     `data_coverage` = NULL,
@@ -106,6 +108,7 @@ ProjectDetails <- R6::R6Class(
     #' @param app_store_id app_store_id
     #' @param created_at created_at
     #' @param prompt_limit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way
+    #' @param project_type The project type it is billed as under the account's pricing agreement, such as core or lean (its own, else the account's default type). Null for accounts without per-project types and for pitch projects
     #' @param stats stats
     #' @param pitch_run pitch_run
     #' @param data_coverage data_coverage
@@ -114,7 +117,7 @@ ProjectDetails <- R6::R6Class(
     #' @param agent_traffic agent_traffic
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`tracked`, `untracked_reason`, `id` = NULL, `name` = NULL, `brand_name` = NULL, `pitch` = NULL, `pitch_expires_at` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `prompt_limit` = NULL, `stats` = NULL, `pitch_run` = NULL, `data_coverage` = NULL, `search_console` = NULL, `ai_traffic` = NULL, `agent_traffic` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`tracked`, `untracked_reason`, `id` = NULL, `name` = NULL, `brand_name` = NULL, `pitch` = NULL, `pitch_expires_at` = NULL, `url` = NULL, `description` = NULL, `matching_names` = NULL, `additional_owned_domains` = NULL, `industry` = NULL, `business_model` = NULL, `business_model_other` = NULL, `primary_products` = NULL, `target_audience` = NULL, `brand_voice` = NULL, `goals` = NULL, `country_code` = NULL, `language_code` = NULL, `paused` = NULL, `google_play_id` = NULL, `app_store_id` = NULL, `created_at` = NULL, `prompt_limit` = NULL, `project_type` = NULL, `stats` = NULL, `pitch_run` = NULL, `data_coverage` = NULL, `search_console` = NULL, `ai_traffic` = NULL, `agent_traffic` = NULL, `request_id` = NULL, ...) {
       if (!missing(`tracked`)) {
         if (!(is.logical(`tracked`) && length(`tracked`) == 1)) {
           stop(paste("Error! Invalid data for `tracked`. Must be a boolean:", `tracked`))
@@ -262,6 +265,12 @@ ProjectDetails <- R6::R6Class(
           stop(paste("Error! Invalid data for `prompt_limit`. Must be an integer:", `prompt_limit`))
         }
         self$`prompt_limit` <- `prompt_limit`
+      }
+      if (!is.null(`project_type`)) {
+        if (!(is.character(`project_type`) && length(`project_type`) == 1)) {
+          stop(paste("Error! Invalid data for `project_type`. Must be a string:", `project_type`))
+        }
+        self$`project_type` <- `project_type`
       }
       if (!is.null(`stats`)) {
         stopifnot(R6::is.R6(`stats`))
@@ -426,6 +435,10 @@ ProjectDetails <- R6::R6Class(
         ProjectDetailsObject[["prompt_limit"]] <-
           self$`prompt_limit`
       }
+      if (!is.null(self$`project_type`)) {
+        ProjectDetailsObject[["project_type"]] <-
+          self$`project_type`
+      }
       if (!is.null(self$`stats`)) {
         ProjectDetailsObject[["stats"]] <-
           self$extractSimpleType(self$`stats`)
@@ -566,6 +579,9 @@ ProjectDetails <- R6::R6Class(
       if (!is.null(this_object$`prompt_limit`)) {
         self$`prompt_limit` <- this_object$`prompt_limit`
       }
+      if (!is.null(this_object$`project_type`)) {
+        self$`project_type` <- this_object$`project_type`
+      }
       if (!is.null(this_object$`stats`)) {
         `stats_object` <- ProjectDetailsAllOfStats$new()
         `stats_object`$fromJSON(jsonlite::toJSON(this_object$`stats`, auto_unbox = TRUE, digits = NA))
@@ -649,6 +665,7 @@ ProjectDetails <- R6::R6Class(
       self$`app_store_id` <- this_object$`app_store_id`
       self$`created_at` <- this_object$`created_at`
       self$`prompt_limit` <- this_object$`prompt_limit`
+      self$`project_type` <- this_object$`project_type`
       self$`stats` <- ProjectDetailsAllOfStats$new()$fromJSON(jsonlite::toJSON(this_object$`stats`, auto_unbox = TRUE, digits = NA))
       self$`pitch_run` <- ProjectDetailsAllOfPitchRun$new()$fromJSON(jsonlite::toJSON(this_object$`pitch_run`, auto_unbox = TRUE, digits = NA))
       self$`data_coverage` <- ProjectDetailsAllOfDataCoverage$new()$fromJSON(jsonlite::toJSON(this_object$`data_coverage`, auto_unbox = TRUE, digits = NA))
