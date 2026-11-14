@@ -10,8 +10,8 @@
 #' @field model AI model key, as /dimensions/models lists it character [optional]
 #' @field label Display name of the model character [optional]
 #' @field color Hex color the app charts the model with character [optional]
-#' @field weighted_visibility_score The brand's AI Visibility Score points in the model; 0 when it has none numeric [optional]
-#' @field share_of_total The model's percentage (0-100) of total_weighted_visibility_score; null when that total is 0 numeric [optional]
+#' @field weighted_visibility_score The brand's AI Visibility Score in the model, its points there divided by the days the model answered; 0 when it has none numeric [optional]
+#' @field share_of_total The model's percentage (0-100) of the brand's AI Visibility Score points; null when the brand has none numeric [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -30,8 +30,8 @@ AiModelWeightedVisibilityRow <- R6::R6Class(
     #' @param model AI model key, as /dimensions/models lists it
     #' @param label Display name of the model
     #' @param color Hex color the app charts the model with
-    #' @param weighted_visibility_score The brand's AI Visibility Score points in the model; 0 when it has none
-    #' @param share_of_total The model's percentage (0-100) of total_weighted_visibility_score; null when that total is 0
+    #' @param weighted_visibility_score The brand's AI Visibility Score in the model, its points there divided by the days the model answered; 0 when it has none
+    #' @param share_of_total The model's percentage (0-100) of the brand's AI Visibility Score points; null when the brand has none
     #' @param ... Other optional arguments.
     initialize = function(`model` = NULL, `label` = NULL, `color` = NULL, `weighted_visibility_score` = NULL, `share_of_total` = NULL, ...) {
       if (!is.null(`model`)) {

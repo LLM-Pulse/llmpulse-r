@@ -26,7 +26,7 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (Optional)
 var_from <- "from_example" # character | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_breakdown <- "breakdown_example" # character | Add per-(prompt, model) rows to the output (Optional)
@@ -34,7 +34,7 @@ var_model <- "model_example" # character | Filter by one AI model. It must be a 
 var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
-var_prompt <- 56 # integer | Filter by prompt ID (Optional)
+var_prompt <- 56 # integer | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (Optional)
 var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_sort <- "responses" # character |  (Optional)
@@ -57,7 +57,7 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **range** | **integer**| Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. | [optional] 
  **from** | **character**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **breakdown** | Enum [model] | Add per-(prompt, model) rows to the output | [optional] 
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
- **prompt** | **integer**| Filter by prompt ID | [optional] 
+ **prompt** | **integer**| Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
  **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **sort** | Enum [responses, mentions, citations, mention_rate, visibility, citation_rate, avg_mention_position, avg_position] |  | [optional] [default to &quot;responses&quot;]
@@ -108,18 +108,18 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (Optional)
 var_from <- "from_example" # character | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
-var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (Optional)
+var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (Optional)
 var_model <- "model_example" # character | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (Optional)
 var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
-var_prompt <- 56 # integer | Filter by prompt ID (Optional)
+var_prompt <- 56 # integer | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (Optional)
 var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
-var_view <- "over_time" # character | Which Share of Voice projection to flatten. Only valid together with 'output'. 'over_time' (default) is one row per date and actor, 'current' the ranked snapshot, 'breakdown' the Top 4 plus Others. (Optional)
+var_view <- "over_time" # character | Which Share of Voice projection to flatten. It applies only together with 'output'; an unknown value returns 422 ERR_INVALID_PARAM with or without it. 'over_time' (default) is one row per date and actor, 'current' the ranked snapshot, 'breakdown' the Top 4 plus Others. (Optional)
 var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 var_include_project <- TRUE # character |  (Optional)
@@ -138,18 +138,18 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **range** | **integer**| Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. | [optional] 
  **from** | **character**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 
- **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
+ **competitors** | **character**| Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) | [optional] 
  **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao, bing_ai_mode] | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
- **prompt** | **integer**| Filter by prompt ID | [optional] 
+ **prompt** | **integer**| Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
  **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
- **view** | Enum [over_time, current, breakdown] | Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. | [optional] [default to &quot;over_time&quot;]
+ **view** | Enum [over_time, current, breakdown] | Which Share of Voice projection to flatten. It applies only together with &#39;output&#39;; an unknown value returns 422 ERR_INVALID_PARAM with or without it. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. | [optional] [default to &quot;over_time&quot;]
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **include_project** | **character**|  | [optional] [default to TRUE]
@@ -187,15 +187,15 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_metrics <- "metrics_example" # character | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (Optional)
+var_metrics <- "metrics_example" # character | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. weighted_visibility (ai_visibility_score) is position-weighted points divided by the days with responses, per period and for the summary total. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
-var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (Optional)
 var_from <- "from_example" # character | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
-var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (Optional)
+var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (Optional)
 var_model <- "model_example" # character | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (Optional)
 var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
-var_prompt <- 56 # integer | Filter by prompt ID (Optional)
+var_prompt <- 56 # integer | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (Optional)
 var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_output <- "output_example" # character | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (Optional)
@@ -217,15 +217,15 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **metrics** | **character**| Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. | [optional] 
+ **metrics** | **character**| Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. weighted_visibility (ai_visibility_score) is position-weighted points divided by the days with responses, per period and for the summary total. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 
- **range** | **integer**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **range** | **integer**| Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. | [optional] 
  **from** | **character**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
- **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
+ **competitors** | **character**| Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) | [optional] 
  **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao, bing_ai_mode] | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
- **prompt** | **integer**| Filter by prompt ID | [optional] 
+ **prompt** | **integer**| Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
  **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **output** | Enum [flat, csv] | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
@@ -268,17 +268,17 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_metrics <- "metrics_example" # character | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (Optional)
+var_metrics <- "metrics_example" # character | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. weighted_visibility (ai_visibility_score) is position-weighted points divided by the days with responses, per period and for the summary total. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
-var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (Optional)
 var_from <- "from_example" # character | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
-var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (Optional)
+var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (Optional)
 var_model <- "model_example" # character | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (Optional)
 var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
-var_prompt <- 56 # integer | Filter by prompt ID (Optional)
+var_prompt <- 56 # integer | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (Optional)
 var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_include_project <- TRUE # character |  (Optional)
@@ -298,17 +298,17 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **metrics** | **character**| Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. | [optional] 
+ **metrics** | **character**| Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. weighted_visibility (ai_visibility_score) is position-weighted points divided by the days with responses, per period and for the summary total. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 
- **range** | **integer**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **range** | **integer**| Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. | [optional] 
  **from** | **character**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
- **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
+ **competitors** | **character**| Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) | [optional] 
  **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao, bing_ai_mode] | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
- **prompt** | **integer**| Filter by prompt ID | [optional] 
+ **prompt** | **integer**| Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
  **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **include_project** | **character**|  | [optional] [default to TRUE]
@@ -350,14 +350,14 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (Optional)
 var_from <- "from_example" # character | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_model <- "model_example" # character | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (Optional)
 var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
 var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
 var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
-var_prompt <- 56 # integer | Filter by prompt ID (Optional)
+var_prompt <- 56 # integer | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (Optional)
 var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
 var_sort <- "total_responses" # character |  (Optional)
@@ -382,14 +382,14 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **range** | **integer**| Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. | [optional] 
  **from** | **character**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao, bing_ai_mode] | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
- **prompt** | **integer**| Filter by prompt ID | [optional] 
+ **prompt** | **integer**| Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
  **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **sort** | Enum [total_responses, avg_mention_rate, avg_visibility] |  | [optional] [default to &quot;total_responses&quot;]

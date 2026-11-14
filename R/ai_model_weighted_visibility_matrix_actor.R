@@ -12,7 +12,7 @@
 #' @field competitor_id Null for the project, the competitor id otherwise integer [optional]
 #' @field name  character [optional]
 #' @field domain Bare (scheme-less) domain. Null for the project actor when the project has no URL. character [optional]
-#' @field total_weighted_visibility_score The actor's AI Visibility Score points summed over the models numeric [optional]
+#' @field total_weighted_visibility_score The actor's AI Visibility Score across the enabled models, its points there divided by the project's days with answers in them, so actors compare numeric [optional]
 #' @field models One cell per model, keyed by model named list(\link{AiModelWeightedVisibilityCell}) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -36,7 +36,7 @@ AiModelWeightedVisibilityMatrixActor <- R6::R6Class(
     #' @param competitor_id Null for the project, the competitor id otherwise
     #' @param name name
     #' @param domain Bare (scheme-less) domain. Null for the project actor when the project has no URL.
-    #' @param total_weighted_visibility_score The actor's AI Visibility Score points summed over the models
+    #' @param total_weighted_visibility_score The actor's AI Visibility Score across the enabled models, its points there divided by the project's days with answers in them, so actors compare
     #' @param models One cell per model, keyed by model
     #' @param ... Other optional arguments.
     initialize = function(`type` = NULL, `id` = NULL, `competitor_id` = NULL, `name` = NULL, `domain` = NULL, `total_weighted_visibility_score` = NULL, `models` = NULL, ...) {

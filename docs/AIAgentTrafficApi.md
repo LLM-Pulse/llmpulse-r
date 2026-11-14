@@ -26,7 +26,7 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (Optional)
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_bot <- "bot_example" # character | Filter by bot slug (e.g. gptbot, claudebot, perplexitybot) (Optional)
@@ -48,7 +48,7 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
  **from** | **character**|  | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **bot** | **character**| Filter by bot slug (e.g. gptbot, claudebot, perplexitybot) | [optional] 
@@ -91,7 +91,7 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (Optional)
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_source <- "source_example" # character | Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) (Optional)
@@ -108,7 +108,7 @@ api_instance$GetAiTraffic(var_project_id, range = var_range, from = var_from, to
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
  **from** | **character**|  | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **source** | **character**| Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) | [optional] 

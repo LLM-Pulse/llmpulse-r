@@ -129,7 +129,7 @@ library(llmpulse)
 # List webhook subscriptions
 #
 # prepare function argument(s)
-var_project_id <- 56 # integer | Optional project filter (Optional)
+var_project_id <- 56 # integer | Optional project filter. An id that is not a plain number, or that names no project of the account, returns ERR_PROJECT_NOT_FOUND. (Optional)
 var_page <- 56 # integer |  (Optional)
 var_per_page <- 56 # integer | Max 100 (Optional)
 
@@ -146,7 +146,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **project_id** | **integer**| Optional project filter | [optional] 
+ **project_id** | **integer**| Optional project filter. An id that is not a plain number, or that names no project of the account, returns ERR_PROJECT_NOT_FOUND. | [optional] 
  **page** | **integer**|  | [optional] 
  **per_page** | **integer**| Max 100 | [optional] 
 
@@ -169,6 +169,7 @@ Name | Type | Description  | Notes
 | **200** | OK |  -  |
 | **401** | Authentication failed |  -  |
 | **403** | Endpoint requires a higher plan tier |  -  |
+| **404** | Resource not found |  -  |
 
 # **SampleWebhookPayloads**
 > SampleWebhookPayloads200Response SampleWebhookPayloads(event_type, project_id)

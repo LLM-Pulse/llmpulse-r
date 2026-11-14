@@ -7,7 +7,7 @@
 #' @title AiModelWeightedVisibilityCell
 #' @description AiModelWeightedVisibilityCell Class
 #' @format An \code{R6Class} generator object
-#' @field value The actor's AI Visibility Score points in the model; 0 when it has none numeric [optional]
+#' @field value The actor's AI Visibility Score in the model, its points there divided by the project's days with answers in that model; 0 when it has none numeric [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -19,7 +19,7 @@ AiModelWeightedVisibilityCell <- R6::R6Class(
     #' @description
     #' Initialize a new AiModelWeightedVisibilityCell class.
     #'
-    #' @param value The actor's AI Visibility Score points in the model; 0 when it has none
+    #' @param value The actor's AI Visibility Score in the model, its points there divided by the project's days with answers in that model; 0 when it has none
     #' @param ... Other optional arguments.
     initialize = function(`value` = NULL, ...) {
       if (!is.null(`value`)) {

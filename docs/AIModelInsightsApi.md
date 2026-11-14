@@ -24,7 +24,7 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (Optional)
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
@@ -33,7 +33,7 @@ var_country_code <- "country_code_example" # character | One ISO country code or
 var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
 var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
 var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
-var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (Optional)
+var_competitors <- "competitors_example" # character | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (Optional)
 
 api_instance <- AIModelInsightsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
@@ -49,7 +49,7 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
  **from** | **character**|  | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 
@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
  **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
- **competitors** | **character**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
+ **competitors** | **character**| Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) | [optional] 
 
 ### Return type
 
@@ -91,7 +91,7 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (Optional)
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
@@ -115,7 +115,7 @@ api_instance$GetAiModelPositionDistribution(var_project_id, range = var_range, f
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
  **from** | **character**|  | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 
@@ -159,7 +159,7 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back (alternative to from/to) (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (Optional)
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
@@ -182,7 +182,7 @@ api_instance$GetAiOverviewResults(var_project_id, range = var_range, from = var_
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back (alternative to from/to) | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
  **from** | **character**|  | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 

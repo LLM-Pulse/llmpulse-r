@@ -128,7 +128,7 @@ library(llmpulse)
 var_project_id <- 56 # integer | Project ID
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character |  (Optional)
-var_annotation_category_id <- 56 # integer |  (Optional)
+var_annotation_category_id <- 56 # integer | Keep the annotations filed under this category, one of the project's or a system category. Any other id returns 422 ERR_INVALID_PARAM. (Optional)
 var_page <- 1 # integer |  (Optional)
 var_per_page <- 20 # integer |  (Optional)
 
@@ -145,7 +145,7 @@ Name | Type | Description  | Notes
  **project_id** | **integer**| Project ID | 
  **from** | **character**|  | [optional] 
  **to** | **character**|  | [optional] 
- **annotation_category_id** | **integer**|  | [optional] 
+ **annotation_category_id** | **integer**| Keep the annotations filed under this category, one of the project&#39;s or a system category. Any other id returns 422 ERR_INVALID_PARAM. | [optional] 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
 

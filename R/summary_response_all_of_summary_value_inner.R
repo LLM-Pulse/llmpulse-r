@@ -9,8 +9,8 @@
 #' @format An \code{R6Class} generator object
 #' @field actor  \link{Actor} [optional]
 #' @field metric  character [optional]
-#' @field total  numeric [optional]
-#' @field aggregation How total combines the buckets character [optional]
+#' @field total Count metrics sum the buckets; rate, position and sentiment metrics average them. ai_visibility_score (weighted_visibility) is the window's points divided by its data days (the days with responses under the filters), the number the app shows, whatever the granularity. numeric [optional]
+#' @field aggregation How total combines the buckets (average for ai_visibility_score, a per-data-day score) character [optional]
 #' @field min  numeric [optional]
 #' @field max  numeric [optional]
 #' @field last  numeric [optional]
@@ -33,8 +33,8 @@ SummaryResponseAllOfSummaryValueInner <- R6::R6Class(
     #'
     #' @param actor actor
     #' @param metric metric
-    #' @param total total
-    #' @param aggregation How total combines the buckets
+    #' @param total Count metrics sum the buckets; rate, position and sentiment metrics average them. ai_visibility_score (weighted_visibility) is the window's points divided by its data days (the days with responses under the filters), the number the app shows, whatever the granularity.
+    #' @param aggregation How total combines the buckets (average for ai_visibility_score, a per-data-day score)
     #' @param min min
     #' @param max max
     #' @param last last

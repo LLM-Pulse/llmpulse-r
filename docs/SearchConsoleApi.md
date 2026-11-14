@@ -33,7 +33,7 @@ library(llmpulse)
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
 var_property <- "all" # character | Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (Optional)
-var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (Optional)
 var_from <- "from_example" # character | Start date (YYYY-MM-DD). Defaults to 30 days ago. (Optional)
 var_to <- "to_example" # character | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (Optional)
 var_min_impressions <- 100 # integer | Smallest impressions a query needs. (Optional)
@@ -61,7 +61,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
  **property** | **character**| Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. | [optional] 
- **range** | **integer**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] 
+ **range** | **integer**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] 
  **from** | **character**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] 
  **to** | **character**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] 
  **min_impressions** | **integer**| Smallest impressions a query needs. | [optional] [default to 100]
@@ -113,7 +113,7 @@ library(llmpulse)
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
 var_property <- "all" # character | Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (Optional)
-var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (Optional)
 var_from <- "from_example" # character | Start date (YYYY-MM-DD). Defaults to 30 days ago. (Optional)
 var_to <- "to_example" # character | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (Optional)
 var_search_type <- "web" # character | Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (Optional)
@@ -136,7 +136,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
  **property** | **character**| Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. | [optional] 
- **range** | **integer**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] 
+ **range** | **integer**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] 
  **from** | **character**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] 
  **to** | **character**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] 
  **search_type** | Enum [web, image, video, news, discover, googleNews] | Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. | [optional] [default to &quot;web&quot;]
@@ -183,7 +183,7 @@ library(llmpulse)
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
 var_property <- "all" # character | Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (Optional)
-var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (Optional)
 var_from <- "from_example" # character | Start date (YYYY-MM-DD). Defaults to 30 days ago. (Optional)
 var_to <- "to_example" # character | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (Optional)
 var_min_impressions <- 100 # integer | Smallest impressions a query needs. (Optional)
@@ -211,7 +211,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
  **property** | **character**| Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. | [optional] 
- **range** | **integer**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] 
+ **range** | **integer**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] 
  **from** | **character**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] 
  **to** | **character**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] 
  **min_impressions** | **integer**| Smallest impressions a query needs. | [optional] [default to 100]
@@ -263,7 +263,7 @@ library(llmpulse)
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
 var_property <- "all" # character | Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (Optional)
-var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (Optional)
 var_from <- "from_example" # character | Start date (YYYY-MM-DD). Defaults to 30 days ago. (Optional)
 var_to <- "to_example" # character | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (Optional)
 var_dimension <- "page" # character | Compare pages or queries. (Optional)
@@ -291,7 +291,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
  **property** | **character**| Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. | [optional] 
- **range** | **integer**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] 
+ **range** | **integer**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] 
  **from** | **character**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] 
  **to** | **character**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] 
  **dimension** | Enum [page, query] | Compare pages or queries. | [optional] [default to &quot;page&quot;]
@@ -343,7 +343,7 @@ library(llmpulse)
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
 var_property <- "all" # character | Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (Optional)
-var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (Optional)
 var_from <- "from_example" # character | Start date (YYYY-MM-DD). Defaults to 30 days ago. (Optional)
 var_to <- "to_example" # character | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (Optional)
 var_min_impressions <- 100 # integer | Smallest impressions a query needs. (Optional)
@@ -372,7 +372,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
  **property** | **character**| Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. | [optional] 
- **range** | **integer**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] 
+ **range** | **integer**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] 
  **from** | **character**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] 
  **to** | **character**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] 
  **min_impressions** | **integer**| Smallest impressions a query needs. | [optional] [default to 100]
@@ -424,7 +424,7 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (Optional)
 var_from <- "from_example" # character | Start date (YYYY-MM-DD). Defaults to 30 days ago. (Optional)
 var_to <- "to_example" # character | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (Optional)
 var_sort <- "impressions" # character |  (Optional)
@@ -452,7 +452,7 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] 
+ **range** | **integer**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] 
  **from** | **character**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] 
  **to** | **character**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] 
  **sort** | Enum [impressions, clicks, ctr, position] |  | [optional] [default to &quot;impressions&quot;]
@@ -504,7 +504,7 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (Optional)
 var_from <- "from_example" # character | Start date (YYYY-MM-DD). Defaults to 30 days ago. (Optional)
 var_to <- "to_example" # character | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (Optional)
 var_sort <- "impressions" # character |  (Optional)
@@ -532,7 +532,7 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] 
+ **range** | **integer**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] 
  **from** | **character**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] 
  **to** | **character**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] 
  **sort** | Enum [impressions, clicks, ctr, position] |  | [optional] [default to &quot;impressions&quot;]
@@ -585,7 +585,7 @@ library(llmpulse)
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
 var_dimensions <- "page,query" # character | Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance, property. Each becomes a field of every row; country and device values are lowercase. property is the Search Console property the row comes from (see the property parameter).
-var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (Optional)
 var_from <- "from_example" # character | Start date (YYYY-MM-DD). Defaults to 30 days ago. (Optional)
 var_to <- "to_example" # character | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (Optional)
 var_sort <- "impressions" # character |  (Optional)
@@ -614,7 +614,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
  **dimensions** | **character**| Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance, property. Each becomes a field of every row; country and device values are lowercase. property is the Search Console property the row comes from (see the property parameter). | 
- **range** | **integer**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] 
+ **range** | **integer**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] 
  **from** | **character**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] 
  **to** | **character**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] 
  **sort** | Enum [impressions, clicks, ctr, position] |  | [optional] [default to &quot;impressions&quot;]
@@ -666,7 +666,7 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (Optional)
 var_from <- "from_example" # character | Start date (YYYY-MM-DD). Defaults to 30 days ago. (Optional)
 var_to <- "to_example" # character | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (Optional)
 var_dimension <- "dimension_example" # character | Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. property gives one row per property read (see the property parameter). (Optional)
@@ -691,7 +691,7 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] 
+ **range** | **integer**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] 
  **from** | **character**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] 
  **to** | **character**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] 
  **dimension** | Enum [country, device, page, query, searchAppearance, property] | Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. property gives one row per property read (see the property parameter). | [optional] 
@@ -740,7 +740,7 @@ library(llmpulse)
 #
 # prepare function argument(s)
 var_project_id <- 56 # integer | Project ID
-var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention. (Optional)
+var_range <- 56 # integer | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (Optional)
 var_from <- "from_example" # character | Start date (YYYY-MM-DD). Defaults to 30 days ago. (Optional)
 var_to <- "to_example" # character | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (Optional)
 var_granularity <- "granularity_example" # character |  (Optional)
@@ -765,7 +765,7 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **integer**| Project ID | 
- **range** | **integer**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] 
+ **range** | **integer**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] 
  **from** | **character**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] 
  **to** | **character**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] 
  **granularity** | Enum [day, week, month] |  | [optional] 

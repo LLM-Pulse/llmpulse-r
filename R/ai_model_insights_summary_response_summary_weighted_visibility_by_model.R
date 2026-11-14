@@ -7,7 +7,7 @@
 #' @title AiModelInsightsSummaryResponseSummaryWeightedVisibilityByModel
 #' @description AiModelInsightsSummaryResponseSummaryWeightedVisibilityByModel Class
 #' @format An \code{R6Class} generator object
-#' @field total_weighted_visibility_score The brand's AI Visibility Score points across the models; 0 when it has none numeric [optional]
+#' @field total_weighted_visibility_score The brand's AI Visibility Score across the enabled models, its points there divided by the days with answers in any of them (the Overview's number for the same filters; a model that answered while disabled keeps its row but stays out of it); 0 when it has none numeric [optional]
 #' @field models  list(\link{AiModelWeightedVisibilityRow}) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -21,7 +21,7 @@ AiModelInsightsSummaryResponseSummaryWeightedVisibilityByModel <- R6::R6Class(
     #' @description
     #' Initialize a new AiModelInsightsSummaryResponseSummaryWeightedVisibilityByModel class.
     #'
-    #' @param total_weighted_visibility_score The brand's AI Visibility Score points across the models; 0 when it has none
+    #' @param total_weighted_visibility_score The brand's AI Visibility Score across the enabled models, its points there divided by the days with answers in any of them (the Overview's number for the same filters; a model that answered while disabled keeps its row but stays out of it); 0 when it has none
     #' @param models models
     #' @param ... Other optional arguments.
     initialize = function(`total_weighted_visibility_score` = NULL, `models` = NULL, ...) {
