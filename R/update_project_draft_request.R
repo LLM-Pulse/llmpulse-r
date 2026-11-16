@@ -9,7 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field step  character
 #' @field name  character [optional]
-#' @field brand_name  character [optional]
+#' @field brand_name Defaults to name. Up to 100 characters, the name included when it stands in; finalize refuses a longer one with ERR_INVALID_PARAM character [optional]
 #' @field description  character [optional]
 #' @field industry  list(character) [optional]
 #' @field matching_names Brand-name variants used to detect mentions (details step). At most 50 names of up to 100 characters each; the step stores the list as sent, and finalize refuses a longer list or name with ERR_INVALID_PARAM (422) list(character) [optional]
@@ -51,7 +51,7 @@ UpdateProjectDraftRequest <- R6::R6Class(
     #'
     #' @param step step
     #' @param name name
-    #' @param brand_name brand_name
+    #' @param brand_name Defaults to name. Up to 100 characters, the name included when it stands in; finalize refuses a longer one with ERR_INVALID_PARAM
     #' @param description description
     #' @param industry industry
     #' @param matching_names Brand-name variants used to detect mentions (details step). At most 50 names of up to 100 characters each; the step stores the list as sent, and finalize refuses a longer list or name with ERR_INVALID_PARAM (422)
@@ -397,6 +397,10 @@ UpdateProjectDraftRequest <- R6::R6Class(
         return(FALSE)
       }
 
+      if (nchar(self$`brand_name`) > 100) {
+        return(FALSE)
+      }
+
       if (length(self$`matching_names`) > 50) {
         return(FALSE)
       }
@@ -417,6 +421,10 @@ UpdateProjectDraftRequest <- R6::R6Class(
       # check if the required `step` is null
       if (is.null(self$`step`)) {
         invalid_fields["step"] <- "Non-nullable required field `step` cannot be null."
+      }
+
+      if (nchar(self$`brand_name`) > 100) {
+        invalid_fields["brand_name"] <- "Invalid length for `brand_name`, must be smaller than or equal to 100."
       }
 
       if (length(self$`matching_names`) > 50) {

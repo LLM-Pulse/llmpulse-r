@@ -8,7 +8,7 @@
 #' @description UpdateProjectRequest Class
 #' @format An \code{R6Class} generator object
 #' @field name Project name shown in the app. A label: it does not change mention detection unless brand_name is empty. Cannot be blank character [optional]
-#' @field brand_name Brand name used to detect mentions. Applies to future runs; it does not rewrite history character [optional]
+#' @field brand_name Brand name used to detect mentions, up to 100 characters (a longer one is refused with ERR_INVALID_PARAM). Applies to future runs; it does not rewrite history character [optional]
 #' @field description What the brand does. Context for Recommendations and GEO Writer (Brand Book) character [optional]
 #' @field industry Single industry key (e.g. SAAS), stored as sent; an array of keys is also accepted and stored as an array, like the in-app multi-select. Unknown keys are rejected with the valid keys listed character [optional]
 #' @field business_model Business model key (e.g. B2B_SAAS); unknown keys are rejected character [optional]
@@ -48,7 +48,7 @@ UpdateProjectRequest <- R6::R6Class(
     #' Initialize a new UpdateProjectRequest class.
     #'
     #' @param name Project name shown in the app. A label: it does not change mention detection unless brand_name is empty. Cannot be blank
-    #' @param brand_name Brand name used to detect mentions. Applies to future runs; it does not rewrite history
+    #' @param brand_name Brand name used to detect mentions, up to 100 characters (a longer one is refused with ERR_INVALID_PARAM). Applies to future runs; it does not rewrite history
     #' @param description What the brand does. Context for Recommendations and GEO Writer (Brand Book)
     #' @param industry Single industry key (e.g. SAAS), stored as sent; an array of keys is also accepted and stored as an array, like the in-app multi-select. Unknown keys are rejected with the valid keys listed
     #' @param business_model Business model key (e.g. B2B_SAAS); unknown keys are rejected
@@ -359,6 +359,10 @@ UpdateProjectRequest <- R6::R6Class(
     #'
     #' @return true if the values in all fields are valid.
     isValid = function() {
+      if (nchar(self$`brand_name`) > 100) {
+        return(FALSE)
+      }
+
       if (length(self$`matching_names`) > 50) {
         return(FALSE)
       }
@@ -379,6 +383,10 @@ UpdateProjectRequest <- R6::R6Class(
     #' @return A list of invalid fields (if any).
     getInvalidFields = function() {
       invalid_fields <- list()
+      if (nchar(self$`brand_name`) > 100) {
+        invalid_fields["brand_name"] <- "Invalid length for `brand_name`, must be smaller than or equal to 100."
+      }
+
       if (length(self$`matching_names`) > 50) {
         invalid_fields["matching_names"] <- "Invalid length for `matching_names`, number of items must be less than or equal to 50."
       }

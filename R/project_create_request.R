@@ -11,7 +11,7 @@
 #' @field name Project name, as plain text. It can be changed later with PATCH /projects/{id} character
 #' @field main_country  character
 #' @field main_language  character
-#' @field brand_name  character [optional]
+#' @field brand_name Defaults to name. Up to 100 characters, the name included when it stands in; a longer one is refused with ERR_INVALID_PARAM character [optional]
 #' @field description  character [optional]
 #' @field industry Industry keys, case-insensitive; a single key string is also accepted. An unknown key returns ERR_INVALID_PARAM listing the valid keys (the same list as the in-app industry picker, e.g. TECHNOLOGY, SAAS, ECOMMERCE) list(character) [optional]
 #' @field business_model Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected character [optional]
@@ -69,7 +69,7 @@ ProjectCreateRequest <- R6::R6Class(
     #' @param name Project name, as plain text. It can be changed later with PATCH /projects/{id}
     #' @param main_country main_country
     #' @param main_language main_language
-    #' @param brand_name brand_name
+    #' @param brand_name Defaults to name. Up to 100 characters, the name included when it stands in; a longer one is refused with ERR_INVALID_PARAM
     #' @param description description
     #' @param industry Industry keys, case-insensitive; a single key string is also accepted. An unknown key returns ERR_INVALID_PARAM listing the valid keys (the same list as the in-app industry picker, e.g. TECHNOLOGY, SAAS, ECOMMERCE)
     #' @param business_model Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected
@@ -600,6 +600,10 @@ ProjectCreateRequest <- R6::R6Class(
         return(FALSE)
       }
 
+      if (nchar(self$`brand_name`) > 100) {
+        return(FALSE)
+      }
+
       if (length(self$`matching_names`) > 50) {
         return(FALSE)
       }
@@ -643,6 +647,10 @@ ProjectCreateRequest <- R6::R6Class(
       # check if the required `main_language` is null
       if (is.null(self$`main_language`)) {
         invalid_fields["main_language"] <- "Non-nullable required field `main_language` cannot be null."
+      }
+
+      if (nchar(self$`brand_name`) > 100) {
+        invalid_fields["brand_name"] <- "Invalid length for `brand_name`, must be smaller than or equal to 100."
       }
 
       if (length(self$`matching_names`) > 50) {
