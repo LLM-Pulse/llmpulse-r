@@ -4,13 +4,178 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**AddUrlListEntries**](SourcesCitationIntelligenceApi.md#AddUrlListEntries) | **POST** /url_lists/{id}/entries | Add entries to a URL list
+[**CreateUrlList**](SourcesCitationIntelligenceApi.md#CreateUrlList) | **POST** /url_lists | Create a URL list
+[**DeleteUrlList**](SourcesCitationIntelligenceApi.md#DeleteUrlList) | **DELETE** /url_lists/{id} | Delete a URL list
 [**GetCitedUrlContent**](SourcesCitationIntelligenceApi.md#GetCitedUrlContent) | **GET** /citation_intelligence/urls/{url_sha256}/content | Cited URL cached content
 [**GetCitedUrlDetail**](SourcesCitationIntelligenceApi.md#GetCitedUrlDetail) | **GET** /citation_intelligence/urls/{url_sha256} | Cited URL detail
 [**GetMentionsByCitingDomain**](SourcesCitationIntelligenceApi.md#GetMentionsByCitingDomain) | **GET** /citation_intelligence/mentions_by_domain | Mention share by citing domain
+[**GetUrlList**](SourcesCitationIntelligenceApi.md#GetUrlList) | **GET** /url_lists/{id} | Get a URL list report
 [**ListCitationGroups**](SourcesCitationIntelligenceApi.md#ListCitationGroups) | **GET** /citation_intelligence/groups | Grouped citation intelligence
 [**ListCitedUrlOccurrences**](SourcesCitationIntelligenceApi.md#ListCitedUrlOccurrences) | **GET** /citation_intelligence/urls/{url_sha256}/occurrences | Cited URL occurrences
 [**ListSources**](SourcesCitationIntelligenceApi.md#ListSources) | **GET** /dimensions/sources | List source URLs
+[**ListUrlLists**](SourcesCitationIntelligenceApi.md#ListUrlLists) | **GET** /url_lists | List URL lists
+[**RemoveUrlListEntries**](SourcesCitationIntelligenceApi.md#RemoveUrlListEntries) | **POST** /url_lists/{id}/entries/remove | Remove entries from a URL list
+[**UpdateUrlList**](SourcesCitationIntelligenceApi.md#UpdateUrlList) | **PATCH** /url_lists/{id} | Update a URL list
 
+
+# **AddUrlListEntries**
+> UrlListEntriesAddResponse AddUrlListEntries(id, url_list_entries_add_request)
+
+Add entries to a URL list
+
+Adds entries, as POST /url_lists reads them. A rule the list already holds keeps its place and takes only the added_on, cost and channel this request sends for it. Values that do not parse come back in invalid_entries. Requires a `read_write` scope API key and the Growth plan.
+
+### Example
+```R
+library(llmpulse)
+
+# Add entries to a URL list
+#
+# prepare function argument(s)
+var_id <- 56 # integer | 
+var_url_list_entries_add_request <- UrlListEntriesAddRequest$new(123, c(UrlListEntryInput$new("value_example", "url", "added_on_example", 123, "channel_example")), "url") # UrlListEntriesAddRequest | 
+
+api_instance <- SourcesCitationIntelligenceApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$AddUrlListEntries(var_id, var_url_list_entries_add_requestdata_file = "result.txt")
+result <- api_instance$AddUrlListEntries(var_id, var_url_list_entries_add_request)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **integer**|  | 
+ **url_list_entries_add_request** | [**UrlListEntriesAddRequest**](UrlListEntriesAddRequest.md)|  | 
+
+### Return type
+
+[**UrlListEntriesAddResponse**](UrlListEntriesAddResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Entries written |  -  |
+| **403** | API key lacks write permission |  -  |
+| **404** | Resource not found |  -  |
+| **422** | Invalid parameters |  -  |
+
+# **CreateUrlList**
+> UrlListCreateResponse CreateUrlList(url_list_create_request)
+
+Create a URL list
+
+Creates a URL list. Each entry is a string or an object with value, match_type, added_on (YYYY-MM-DD, default today), cost (in the list currency) and channel. Without a match_type, \"acme.com/blog/*\" is a prefix, a value with a path or query an exact URL and a bare host a domain. A list holds at most 1000 entries and a project at most 100 lists; the name is unique per project, case-insensitive. Refusals answer ERR_INVALID_PARAM with a reason token in error.meta.reason. Requires a `read_write` scope API key and the Growth plan.
+
+### Example
+```R
+library(llmpulse)
+
+# Create a URL list
+#
+# prepare function argument(s)
+var_url_list_create_request <- UrlListCreateRequest$new(123, "name_example", "description_example", "USD", c(UrlListEntryInput$new("value_example", "url", "added_on_example", 123, "channel_example")), "url") # UrlListCreateRequest | 
+
+api_instance <- SourcesCitationIntelligenceApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$CreateUrlList(var_url_list_create_requestdata_file = "result.txt")
+result <- api_instance$CreateUrlList(var_url_list_create_request)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **url_list_create_request** | [**UrlListCreateRequest**](UrlListCreateRequest.md)|  | 
+
+### Return type
+
+[**UrlListCreateResponse**](UrlListCreateResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **201** | Created |  -  |
+| **403** | API key lacks write permission |  -  |
+| **422** | Invalid parameters |  -  |
+
+# **DeleteUrlList**
+> UrlListDeleteResponse DeleteUrlList(project_id, id)
+
+Delete a URL list
+
+Deletes a URL list and its entries. Citation data is not affected. Requires a `read_write` scope API key and the Growth plan.
+
+### Example
+```R
+library(llmpulse)
+
+# Delete a URL list
+#
+# prepare function argument(s)
+var_project_id <- 56 # integer | Project ID
+var_id <- 56 # integer | 
+
+api_instance <- SourcesCitationIntelligenceApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$DeleteUrlList(var_project_id, var_iddata_file = "result.txt")
+result <- api_instance$DeleteUrlList(var_project_id, var_id)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **project_id** | **integer**| Project ID | 
+ **id** | **integer**|  | 
+
+### Return type
+
+[**UrlListDeleteResponse**](UrlListDeleteResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Deleted |  -  |
+| **403** | API key lacks write permission |  -  |
+| **404** | Resource not found |  -  |
 
 # **GetCitedUrlContent**
 > GetCitedUrlContent(project_id, url_sha256)
@@ -197,6 +362,88 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Mention share per citing domain |  -  |
+| **422** | Invalid parameters |  -  |
+
+# **GetUrlList**
+> UrlListDetailResponse GetUrlList(id, project_id, status = var.status, order = "citations", direction = "desc", page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, brand_kind = var.brand_kind, from = var.from, to = var.to, range = var.range)
+
+Get a URL list report
+
+The list, its summary (entries_count, cited_entries, citations, answers in the window, citation_rate, avg_citation_position, median_days_to_first_citation, total_cost, cost_per_cited_entry) and a page of its entries. An entry's status is cited (an answer cited it in the window), lost (cited before the window, not in it) or not_cited. first_cited_at reads the filtered answers up to the window's end. days_to_first_citation is null before the first citation or when the page was cited before it was added. brand_mentioned is set for exact URLs once their page was read, else null. Without from/to or range the window is all time. Requires the Growth plan.
+
+### Example
+```R
+library(llmpulse)
+
+# Get a URL list report
+#
+# prepare function argument(s)
+var_id <- 56 # integer | 
+var_project_id <- 56 # integer | Project ID
+var_status <- "status_example" # character | Only entries with this status. (Optional)
+var_order <- "citations" # character |  (Optional)
+var_direction <- "desc" # character |  (Optional)
+var_page <- 1 # integer |  (Optional)
+var_per_page <- 20 # integer |  (Optional)
+var_model <- "model_example" # character | Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key's user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (Optional)
+var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_prompt <- 56 # integer | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (Optional)
+var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
+var_from <- "from_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (Optional)
+
+api_instance <- SourcesCitationIntelligenceApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetUrlList(var_id, var_project_id, status = var_status, order = var_order, direction = var_direction, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_to, range = var_rangedata_file = "result.txt")
+result <- api_instance$GetUrlList(var_id, var_project_id, status = var_status, order = var_order, direction = var_direction, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_to, range = var_range)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **integer**|  | 
+ **project_id** | **integer**| Project ID | 
+ **status** | Enum [cited, lost, not_cited] | Only entries with this status. | [optional] 
+ **order** | Enum [value, status, added_on, first_cited_at, days_to_cite, citations, avg_position, cost, channel] |  | [optional] [default to &quot;citations&quot;]
+ **direction** | Enum [asc, desc] |  | [optional] [default to &quot;desc&quot;]
+ **page** | **integer**|  | [optional] [default to 1]
+ **per_page** | **integer**|  | [optional] [default to 20]
+ **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao, bing_ai_mode] | Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. | [optional] 
+ **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt** | **integer**| Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
+ **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **from** | **character**|  | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
+
+### Return type
+
+[**UrlListDetailResponse**](UrlListDetailResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | URL list report |  -  |
+| **403** | Endpoint requires the Growth plan or above |  -  |
+| **404** | Resource not found |  -  |
 | **422** | Invalid parameters |  -  |
 
 # **ListCitationGroups**
@@ -410,5 +657,182 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Paginated sources |  -  |
+| **422** | Invalid parameters |  -  |
+
+# **ListUrlLists**
+> UrlListsResponse ListUrlLists(project_id, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, brand_kind = var.brand_kind, from = var.from, to = var.to, range = var.range)
+
+List URL lists
+
+A URL list is a named set of rules, each an exact URL (matched over http and https, with or without www), a URL prefix (every page under host/path) or a domain (the site and its subdomains). Its numbers count the AI answers to the prompts tracked in the project: cited_entries is the entries an answer cited in the window and citations the answers citing any entry, each once. Without from/to or range the window is all time. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
+
+### Example
+```R
+library(llmpulse)
+
+# List URL lists
+#
+# prepare function argument(s)
+var_project_id <- 56 # integer | Project ID
+var_model <- "model_example" # character | Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key's user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (Optional)
+var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_prompt <- 56 # integer | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (Optional)
+var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
+var_from <- "from_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
+var_range <- 56 # integer | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (Optional)
+
+api_instance <- SourcesCitationIntelligenceApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListUrlLists(var_project_id, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_to, range = var_rangedata_file = "result.txt")
+result <- api_instance$ListUrlLists(var_project_id, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_to, range = var_range)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **project_id** | **integer**| Project ID | 
+ **model** | Enum [chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao, bing_ai_mode] | Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. | [optional] 
+ **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt** | **integer**| Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
+ **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **from** | **character**|  | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
+ **range** | **integer**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
+
+### Return type
+
+[**UrlListsResponse**](UrlListsResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | URL lists |  -  |
+| **403** | Endpoint requires the Growth plan or above |  -  |
+| **422** | Invalid parameters |  -  |
+
+# **RemoveUrlListEntries**
+> UrlListEntriesRemoveResponse RemoveUrlListEntries(id, url_list_entries_remove_request)
+
+Remove entries from a URL list
+
+Removes entries by id (from GET /url_lists/{id}) or by value as written (\"https://acme.com/a\", \"acme.com/blog/*\", \"acme.com\"). Sending neither answers ERR_INVALID_PARAM. Requires a `read_write` scope API key and the Growth plan.
+
+### Example
+```R
+library(llmpulse)
+
+# Remove entries from a URL list
+#
+# prepare function argument(s)
+var_id <- 56 # integer | 
+var_url_list_entries_remove_request <- UrlListEntriesRemoveRequest$new(123, c(123), c("values_example")) # UrlListEntriesRemoveRequest | 
+
+api_instance <- SourcesCitationIntelligenceApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$RemoveUrlListEntries(var_id, var_url_list_entries_remove_requestdata_file = "result.txt")
+result <- api_instance$RemoveUrlListEntries(var_id, var_url_list_entries_remove_request)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **integer**|  | 
+ **url_list_entries_remove_request** | [**UrlListEntriesRemoveRequest**](UrlListEntriesRemoveRequest.md)|  | 
+
+### Return type
+
+[**UrlListEntriesRemoveResponse**](UrlListEntriesRemoveResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Entries removed |  -  |
+| **403** | API key lacks write permission |  -  |
+| **404** | Resource not found |  -  |
+| **422** | Invalid parameters |  -  |
+
+# **UpdateUrlList**
+> UrlListUpdateResponse UpdateUrlList(id, url_list_update_request)
+
+Update a URL list
+
+Changes the name, description or currency of a URL list. Entries are added with POST /url_lists/{id}/entries and removed with POST /url_lists/{id}/entries/remove. Requires a `read_write` scope API key and the Growth plan.
+
+### Example
+```R
+library(llmpulse)
+
+# Update a URL list
+#
+# prepare function argument(s)
+var_id <- 56 # integer | 
+var_url_list_update_request <- UrlListUpdateRequest$new(123, "name_example", "description_example", "USD") # UrlListUpdateRequest | 
+
+api_instance <- SourcesCitationIntelligenceApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$UpdateUrlList(var_id, var_url_list_update_requestdata_file = "result.txt")
+result <- api_instance$UpdateUrlList(var_id, var_url_list_update_request)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **integer**|  | 
+ **url_list_update_request** | [**UrlListUpdateRequest**](UrlListUpdateRequest.md)|  | 
+
+### Return type
+
+[**UrlListUpdateResponse**](UrlListUpdateResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Updated |  -  |
+| **403** | API key lacks write permission |  -  |
+| **404** | Resource not found |  -  |
 | **422** | Invalid parameters |  -  |
 
