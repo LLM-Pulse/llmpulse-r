@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**GetAiModelInsightsSummary**](AIModelInsightsApi.md#GetAiModelInsightsSummary) | **GET** /reports/ai_model_insights/summary | AI Model Insights summary
 [**GetAiModelPositionDistribution**](AIModelInsightsApi.md#GetAiModelPositionDistribution) | **GET** /reports/ai_model_insights/position_distribution | Position distribution comparison
 [**GetAiOverviewResults**](AIModelInsightsApi.md#GetAiOverviewResults) | **GET** /reports/ai_model_insights/ai_overview_results | Google AI Overview result availability
+[**GetDeclinedAnswers**](AIModelInsightsApi.md#GetDeclinedAnswers) | **GET** /reports/ai_model_insights/declined_answers | Declined answers (decline rate)
 
 
 # **GetAiModelInsightsSummary**
@@ -211,4 +212,78 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | AI Overview result-availability data + per-prompt table |  -  |
+
+# **GetDeclinedAnswers**
+> AiModelDeclinedAnswersResponse GetDeclinedAnswers(project_id, range = var.range, from = var.from, to = var.to, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, page = 1, per_page = 20)
+
+Declined answers (decline rate)
+
+The Declined answers tab of AI Model Insights. A model declines a prompt for its own safety filters (safety_filter) or because it refuses the topic itself, such as tobacco, gambling or alcohol (topic_refusal); today only Gemini declines. A declined answer counts as no answer and never lowers visibility. The chart has one point per tracking period at the account's cadence that holds an answer of the model, and the window starts at the tracking period holding its first day.
+
+### Example
+```R
+library(llmpulse)
+
+# Declined answers (decline rate)
+#
+# prepare function argument(s)
+var_project_id <- 56 # integer | Project ID
+var_range <- 56 # integer | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (Optional)
+var_from <- "from_example" # character |  (Optional)
+var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
+var_model <- "model_example" # character | The model whose declines to read, whether or not it is enabled for the API key's user. Default: gemini. Any other model returns 422 ERR_INVALID_PARAM (invalid model). (Optional)
+var_collection_id <- "12,34" # character | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (Optional)
+var_country_code <- "country_code_example" # character | One ISO country code or a comma-separated list (e.g. US,GB,DE) (Optional)
+var_language_code <- "language_code_example" # character | One ISO language code or a comma-separated list (e.g. en,es,de) (Optional)
+var_prompt_type <- "prompt_type_example" # character | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (Optional)
+var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (Optional)
+var_page <- 1 # integer |  (Optional)
+var_per_page <- 20 # integer |  (Optional)
+
+api_instance <- AIModelInsightsApi$new()
+# Configure HTTP bearer authorization: BearerAuth
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetDeclinedAnswers(var_project_id, range = var_range, from = var_from, to = var_to, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, page = var_page, per_page = var_per_pagedata_file = "result.txt")
+result <- api_instance$GetDeclinedAnswers(var_project_id, range = var_range, from = var_from, to = var_to, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, page = var_page, per_page = var_per_page)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **project_id** | **integer**| Project ID | 
+ **range** | **integer**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
+ **from** | **character**|  | [optional] 
+ **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
+ **model** | Enum [gemini] | The model whose declines to read, whether or not it is enabled for the API key&#39;s user. Default: gemini. Any other model returns 422 ERR_INVALID_PARAM (invalid model). | [optional] 
+ **collection_id** | **character**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
+ **country_code** | **character**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **language_code** | **character**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt_type** | **character**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brand_kind** | Enum [brand, brand_other, non_brand] | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **page** | **integer**|  | [optional] [default to 1]
+ **per_page** | **integer**|  | [optional] [default to 20]
+
+### Return type
+
+[**AiModelDeclinedAnswersResponse**](AiModelDeclinedAnswersResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Decline counts and rates for the window, per tracking period and per prompt |  -  |
+| **401** | Authentication failed |  -  |
+| **404** | Resource not found |  -  |
+| **422** | Invalid parameters |  -  |
 
