@@ -251,7 +251,7 @@ var_brand_kind <- "brand_kind_example" # character | Filter by brand kind: brand
 var_from <- "from_example" # character |  (Optional)
 var_to <- "to_example" # character | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (Optional)
 var_source_type <- "source_type_example" # character |  (Optional)
-var_sentiment <- "sentiment_example" # character |  (Optional)
+var_sentiment <- "sentiment_example" # character | Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (Optional)
 var_content_gap <- "content_gap_example" # character | mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (Optional)
 var_include_series <- FALSE # character | Adds citation_series. Without it the response is unchanged. (Optional)
 
@@ -276,7 +276,7 @@ Name | Type | Description  | Notes
  **from** | **character**|  | [optional] 
  **to** | **character**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **source_type** | Enum [owned, competitor, third_party, social_media, own_domain, ugc, background] |  | [optional] 
- **sentiment** | Enum [negative] |  | [optional] 
+ **sentiment** | Enum [negative] | Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. | [optional] 
  **content_gap** | Enum [mentioned, gap] | mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. | [optional] 
  **include_series** | **character**| Adds citation_series. Without it the response is unchanged. | [optional] [default to FALSE]
 
@@ -297,6 +297,7 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | URL-level intelligence |  -  |
+| **403** | Endpoint requires the Growth plan or above |  -  |
 | **404** | Resource not found |  -  |
 
 # **GetMentionsByCitingDomain**
@@ -478,7 +479,7 @@ var_key <- "key_example" # character | Return only this group of the chosen view
 var_include_series <- FALSE # character | Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group's row. (Optional)
 var_query <- "query_example" # character |  (Optional)
 var_source_type <- "source_type_example" # character |  (Optional)
-var_sentiment <- "sentiment_example" # character |  (Optional)
+var_sentiment <- "sentiment_example" # character | Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (Optional)
 var_content_gap <- "content_gap_example" # character | mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (Optional)
 
 api_instance <- SourcesCitationIntelligenceApi$new()
@@ -509,7 +510,7 @@ Name | Type | Description  | Notes
  **include_series** | **character**| Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. | [optional] [default to FALSE]
  **query** | **character**|  | [optional] 
  **source_type** | Enum [owned, competitor, third_party, social_media, own_domain, ugc, background] |  | [optional] 
- **sentiment** | Enum [negative] |  | [optional] 
+ **sentiment** | Enum [negative] | Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. | [optional] 
  **content_gap** | Enum [mentioned, gap] | mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. | [optional] 
 
 ### Return type
@@ -529,10 +530,11 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Grouped citation intelligence |  -  |
+| **403** | Endpoint requires the Growth plan or above |  -  |
 | **422** | Invalid parameters |  -  |
 
 # **ListCitedUrlOccurrences**
-> ListCitedUrlOccurrences(project_id, url_sha256, page = 1, per_page = 20)
+> ListCitedUrlOccurrences(project_id, url_sha256, page = 1, per_page = 20, sentiment = var.sentiment)
 
 Cited URL occurrences
 
@@ -547,11 +549,12 @@ var_project_id <- 56 # integer | Project ID
 var_url_sha256 <- "url_sha256_example" # character | 64-character hex SHA-256 of the cited URL
 var_page <- 1 # integer |  (Optional)
 var_per_page <- 20 # integer |  (Optional)
+var_sentiment <- "sentiment_example" # character | Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (Optional)
 
 api_instance <- SourcesCitationIntelligenceApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListCitedUrlOccurrences(var_project_id, var_url_sha256, page = var_page, per_page = var_per_page)
+api_instance$ListCitedUrlOccurrences(var_project_id, var_url_sha256, page = var_page, per_page = var_per_page, sentiment = var_sentiment)
 ```
 
 ### Parameters
@@ -562,6 +565,7 @@ Name | Type | Description  | Notes
  **url_sha256** | **character**| 64-character hex SHA-256 of the cited URL | 
  **page** | **integer**|  | [optional] [default to 1]
  **per_page** | **integer**|  | [optional] [default to 20]
+ **sentiment** | Enum [negative] | Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. | [optional] 
 
 ### Return type
 
@@ -580,6 +584,7 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Paginated occurrences |  -  |
+| **403** | Endpoint requires the Growth plan or above |  -  |
 | **404** | Resource not found |  -  |
 
 # **ListSources**

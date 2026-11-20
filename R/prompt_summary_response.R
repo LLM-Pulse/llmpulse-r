@@ -18,6 +18,7 @@
 #' @field per_page  integer [optional]
 #' @field total  integer [optional]
 #' @field data  list(\link{PromptSummaryRow}) [optional]
+#' @field plan_required_fields The row fields left out because they need a higher plan (the sentiment fields below Growth); empty when none is list(character)
 #' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -36,11 +37,13 @@ PromptSummaryResponse <- R6::R6Class(
     `per_page` = NULL,
     `total` = NULL,
     `data` = NULL,
+    `plan_required_fields` = NULL,
     `request_id` = NULL,
 
     #' @description
     #' Initialize a new PromptSummaryResponse class.
     #'
+    #' @param plan_required_fields The row fields left out because they need a higher plan (the sentiment fields below Growth); empty when none is
     #' @param project_id project_id
     #' @param from from
     #' @param to to
@@ -54,7 +57,12 @@ PromptSummaryResponse <- R6::R6Class(
     #' @param data data
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`project_id` = NULL, `from` = NULL, `to` = NULL, `filters` = NULL, `breakdown` = NULL, `sort` = NULL, `sort_dir` = NULL, `page` = NULL, `per_page` = NULL, `total` = NULL, `data` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`plan_required_fields`, `project_id` = NULL, `from` = NULL, `to` = NULL, `filters` = NULL, `breakdown` = NULL, `sort` = NULL, `sort_dir` = NULL, `page` = NULL, `per_page` = NULL, `total` = NULL, `data` = NULL, `request_id` = NULL, ...) {
+      if (!missing(`plan_required_fields`)) {
+        stopifnot(is.vector(`plan_required_fields`), length(`plan_required_fields`) != 0)
+        sapply(`plan_required_fields`, function(x) stopifnot(is.character(x)))
+        self$`plan_required_fields` <- `plan_required_fields`
+      }
       if (!is.null(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -201,6 +209,10 @@ PromptSummaryResponse <- R6::R6Class(
         PromptSummaryResponseObject[["data"]] <-
           self$extractSimpleType(self$`data`)
       }
+      if (!is.null(self$`plan_required_fields`)) {
+        PromptSummaryResponseObject[["plan_required_fields"]] <-
+          self$`plan_required_fields`
+      }
       if (!is.null(self$`request_id`)) {
         PromptSummaryResponseObject[["request_id"]] <-
           self$`request_id`
@@ -273,6 +285,9 @@ PromptSummaryResponse <- R6::R6Class(
       if (!is.null(this_object$`data`)) {
         self$`data` <- ApiClient$new()$deserializeObj(this_object$`data`, "array[PromptSummaryRow]", loadNamespace("llmpulse"))
       }
+      if (!is.null(this_object$`plan_required_fields`)) {
+        self$`plan_required_fields` <- ApiClient$new()$deserializeObj(this_object$`plan_required_fields`, "array[character]", loadNamespace("llmpulse"))
+      }
       if (!is.null(this_object$`request_id`)) {
         self$`request_id` <- this_object$`request_id`
       }
@@ -308,6 +323,7 @@ PromptSummaryResponse <- R6::R6Class(
       self$`per_page` <- this_object$`per_page`
       self$`total` <- this_object$`total`
       self$`data` <- ApiClient$new()$deserializeObj(this_object$`data`, "array[PromptSummaryRow]", loadNamespace("llmpulse"))
+      self$`plan_required_fields` <- ApiClient$new()$deserializeObj(this_object$`plan_required_fields`, "array[character]", loadNamespace("llmpulse"))
       self$`request_id` <- this_object$`request_id`
       self
     },
@@ -318,6 +334,13 @@ PromptSummaryResponse <- R6::R6Class(
     #' @param input the JSON input
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
+      # check the required field `plan_required_fields`
+      if (!is.null(input_json$`plan_required_fields`)) {
+        stopifnot(is.vector(input_json$`plan_required_fields`), length(input_json$`plan_required_fields`) != 0)
+        tmp <- sapply(input_json$`plan_required_fields`, function(x) stopifnot(is.character(x)))
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for PromptSummaryResponse: the required field `plan_required_fields` is missing."))
+      }
     },
 
     #' @description
@@ -333,6 +356,11 @@ PromptSummaryResponse <- R6::R6Class(
     #'
     #' @return true if the values in all fields are valid.
     isValid = function() {
+      # check if the required `plan_required_fields` is null
+      if (is.null(self$`plan_required_fields`)) {
+        return(FALSE)
+      }
+
       TRUE
     },
 
@@ -342,6 +370,11 @@ PromptSummaryResponse <- R6::R6Class(
     #' @return A list of invalid fields (if any).
     getInvalidFields = function() {
       invalid_fields <- list()
+      # check if the required `plan_required_fields` is null
+      if (is.null(self$`plan_required_fields`)) {
+        invalid_fields["plan_required_fields"] <- "Non-nullable required field `plan_required_fields` cannot be null."
+      }
+
       invalid_fields
     },
 

@@ -13,6 +13,7 @@
 #' @field filters  \link{AiModelInsightsFiltersEcho} [optional]
 #' @field models The AI models the account has enabled or that answered in the window, in the in-app column order list(\link{AiModelInsightsModel}) [optional]
 #' @field summary  \link{AiModelInsightsSummaryResponseSummary} [optional]
+#' @field plan_required_fields The summary sections left out because they need a higher plan (brand_net_sentiment_by_model and sentiment_market_share below Growth); empty when none is list(character)
 #' @field request_id  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -26,11 +27,13 @@ AiModelInsightsSummaryResponse <- R6::R6Class(
     `filters` = NULL,
     `models` = NULL,
     `summary` = NULL,
+    `plan_required_fields` = NULL,
     `request_id` = NULL,
 
     #' @description
     #' Initialize a new AiModelInsightsSummaryResponse class.
     #'
+    #' @param plan_required_fields The summary sections left out because they need a higher plan (brand_net_sentiment_by_model and sentiment_market_share below Growth); empty when none is
     #' @param project_id project_id
     #' @param from from
     #' @param to to
@@ -39,7 +42,12 @@ AiModelInsightsSummaryResponse <- R6::R6Class(
     #' @param summary summary
     #' @param request_id request_id
     #' @param ... Other optional arguments.
-    initialize = function(`project_id` = NULL, `from` = NULL, `to` = NULL, `filters` = NULL, `models` = NULL, `summary` = NULL, `request_id` = NULL, ...) {
+    initialize = function(`plan_required_fields`, `project_id` = NULL, `from` = NULL, `to` = NULL, `filters` = NULL, `models` = NULL, `summary` = NULL, `request_id` = NULL, ...) {
+      if (!missing(`plan_required_fields`)) {
+        stopifnot(is.vector(`plan_required_fields`), length(`plan_required_fields`) != 0)
+        sapply(`plan_required_fields`, function(x) stopifnot(is.character(x)))
+        self$`plan_required_fields` <- `plan_required_fields`
+      }
       if (!is.null(`project_id`)) {
         if (!(is.numeric(`project_id`) && length(`project_id`) == 1)) {
           stop(paste("Error! Invalid data for `project_id`. Must be an integer:", `project_id`))
@@ -134,6 +142,10 @@ AiModelInsightsSummaryResponse <- R6::R6Class(
         AiModelInsightsSummaryResponseObject[["summary"]] <-
           self$extractSimpleType(self$`summary`)
       }
+      if (!is.null(self$`plan_required_fields`)) {
+        AiModelInsightsSummaryResponseObject[["plan_required_fields"]] <-
+          self$`plan_required_fields`
+      }
       if (!is.null(self$`request_id`)) {
         AiModelInsightsSummaryResponseObject[["request_id"]] <-
           self$`request_id`
@@ -193,6 +205,9 @@ AiModelInsightsSummaryResponse <- R6::R6Class(
         `summary_object`$fromJSON(jsonlite::toJSON(this_object$`summary`, auto_unbox = TRUE, digits = NA))
         self$`summary` <- `summary_object`
       }
+      if (!is.null(this_object$`plan_required_fields`)) {
+        self$`plan_required_fields` <- ApiClient$new()$deserializeObj(this_object$`plan_required_fields`, "array[character]", loadNamespace("llmpulse"))
+      }
       if (!is.null(this_object$`request_id`)) {
         self$`request_id` <- this_object$`request_id`
       }
@@ -223,6 +238,7 @@ AiModelInsightsSummaryResponse <- R6::R6Class(
       self$`filters` <- AiModelInsightsFiltersEcho$new()$fromJSON(jsonlite::toJSON(this_object$`filters`, auto_unbox = TRUE, digits = NA))
       self$`models` <- ApiClient$new()$deserializeObj(this_object$`models`, "array[AiModelInsightsModel]", loadNamespace("llmpulse"))
       self$`summary` <- AiModelInsightsSummaryResponseSummary$new()$fromJSON(jsonlite::toJSON(this_object$`summary`, auto_unbox = TRUE, digits = NA))
+      self$`plan_required_fields` <- ApiClient$new()$deserializeObj(this_object$`plan_required_fields`, "array[character]", loadNamespace("llmpulse"))
       self$`request_id` <- this_object$`request_id`
       self
     },
@@ -233,6 +249,13 @@ AiModelInsightsSummaryResponse <- R6::R6Class(
     #' @param input the JSON input
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
+      # check the required field `plan_required_fields`
+      if (!is.null(input_json$`plan_required_fields`)) {
+        stopifnot(is.vector(input_json$`plan_required_fields`), length(input_json$`plan_required_fields`) != 0)
+        tmp <- sapply(input_json$`plan_required_fields`, function(x) stopifnot(is.character(x)))
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for AiModelInsightsSummaryResponse: the required field `plan_required_fields` is missing."))
+      }
     },
 
     #' @description
@@ -248,6 +271,11 @@ AiModelInsightsSummaryResponse <- R6::R6Class(
     #'
     #' @return true if the values in all fields are valid.
     isValid = function() {
+      # check if the required `plan_required_fields` is null
+      if (is.null(self$`plan_required_fields`)) {
+        return(FALSE)
+      }
+
       TRUE
     },
 
@@ -257,6 +285,11 @@ AiModelInsightsSummaryResponse <- R6::R6Class(
     #' @return A list of invalid fields (if any).
     getInvalidFields = function() {
       invalid_fields <- list()
+      # check if the required `plan_required_fields` is null
+      if (is.null(self$`plan_required_fields`)) {
+        invalid_fields["plan_required_fields"] <- "Non-nullable required field `plan_required_fields` cannot be null."
+      }
+
       invalid_fields
     },
 

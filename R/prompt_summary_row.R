@@ -24,7 +24,7 @@
 #' @field prompt_type Search intent: informational, navigational, commercial or transactional. Null until the prompt is classified character [optional]
 #' @field brand_kind Brand focus: brand, brand_other or non_brand. Null until the prompt is classified character [optional]
 #' @field tags Every tag the prompt belongs to list(\link{TagRef}) [optional]
-#' @field sentiment_responses Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries) integer [optional]
+#' @field sentiment_responses Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries). Needs the Growth plan or above, like every sentiment field of the row; below it they are left out and named in plan_required_fields integer [optional]
 #' @field sentiment_very_positive Percentage (0-100) of sentiment_responses whose brand verdict is very positive; null when sentiment_responses is 0 numeric [optional]
 #' @field sentiment_positive Percentage (0-100) of sentiment_responses whose brand verdict is positive; null when sentiment_responses is 0 numeric [optional]
 #' @field sentiment_neutral Percentage (0-100) of sentiment_responses whose brand verdict is neutral; null when sentiment_responses is 0 numeric [optional]
@@ -82,7 +82,7 @@ PromptSummaryRow <- R6::R6Class(
     #' @param prompt_type Search intent: informational, navigational, commercial or transactional. Null until the prompt is classified
     #' @param brand_kind Brand focus: brand, brand_other or non_brand. Null until the prompt is classified
     #' @param tags Every tag the prompt belongs to
-    #' @param sentiment_responses Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries)
+    #' @param sentiment_responses Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries). Needs the Growth plan or above, like every sentiment field of the row; below it they are left out and named in plan_required_fields
     #' @param sentiment_very_positive Percentage (0-100) of sentiment_responses whose brand verdict is very positive; null when sentiment_responses is 0
     #' @param sentiment_positive Percentage (0-100) of sentiment_responses whose brand verdict is positive; null when sentiment_responses is 0
     #' @param sentiment_neutral Percentage (0-100) of sentiment_responses whose brand verdict is neutral; null when sentiment_responses is 0
