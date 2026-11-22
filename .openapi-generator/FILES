@@ -65,6 +65,13 @@ R/api_key_info.R
 R/api_keys_api.R
 R/api_response.R
 R/assign_prompt_tags_request.R
+R/bing_webmaster_list_response.R
+R/bing_webmaster_list_response_data_inner.R
+R/bing_webmaster_metrics.R
+R/bing_webmaster_summary_response.R
+R/bing_webmaster_timeseries_response.R
+R/bing_webmaster_timeseries_response_data_inner.R
+R/bing_webmaster_tools_api.R
 R/catalog_product.R
 R/catalog_prompt_suggestion.R
 R/catalog_prompt_suggestion_ids_request.R
@@ -227,6 +234,7 @@ R/project_delete_response.R
 R/project_details.R
 R/project_details_all_of_agent_traffic.R
 R/project_details_all_of_ai_traffic.R
+R/project_details_all_of_bing_webmaster.R
 R/project_details_all_of_data_coverage.R
 R/project_details_all_of_pitch_run.R
 R/project_details_all_of_search_console.R
@@ -444,6 +452,13 @@ docs/ApiError.md
 docs/ApiErrorError.md
 docs/ApiKeyInfo.md
 docs/AssignPromptTagsRequest.md
+docs/BingWebmasterListResponse.md
+docs/BingWebmasterListResponseDataInner.md
+docs/BingWebmasterMetrics.md
+docs/BingWebmasterSummaryResponse.md
+docs/BingWebmasterTimeseriesResponse.md
+docs/BingWebmasterTimeseriesResponseDataInner.md
+docs/BingWebmasterToolsApi.md
 docs/CatalogProduct.md
 docs/CatalogPromptSuggestion.md
 docs/CatalogPromptSuggestionIdsRequest.md
@@ -606,6 +621,7 @@ docs/ProjectDeleteResponse.md
 docs/ProjectDetails.md
 docs/ProjectDetailsAllOfAgentTraffic.md
 docs/ProjectDetailsAllOfAiTraffic.md
+docs/ProjectDetailsAllOfBingWebmaster.md
 docs/ProjectDetailsAllOfDataCoverage.md
 docs/ProjectDetailsAllOfPitchRun.md
 docs/ProjectDetailsAllOfSearchConsole.md
