@@ -13,7 +13,7 @@
 #' @field yours  integer [optional]
 #' @field share_pct  numeric [optional]
 #' @field weekly  list(\link{OwnedMediaPlatformRollupWeeklyInner}) [optional]
-#' @field activity One date/citation row per actual project tracking period with runs list(\link{OwnedMediaPlatformActivityPeriod}) [optional]
+#' @field activity One date/citation row per project tracking period that holds a run inside the window; a period whose runs all fell before from is left out list(\link{OwnedMediaPlatformActivityPeriod}) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -37,7 +37,7 @@ OwnedMediaPlatformRollup <- R6::R6Class(
     #' @param yours yours
     #' @param share_pct share_pct
     #' @param weekly weekly
-    #' @param activity One date/citation row per actual project tracking period with runs
+    #' @param activity One date/citation row per project tracking period that holds a run inside the window; a period whose runs all fell before from is left out
     #' @param ... Other optional arguments.
     initialize = function(`provider` = NULL, `connected` = NULL, `total` = NULL, `yours` = NULL, `share_pct` = NULL, `weekly` = NULL, `activity` = NULL, ...) {
       if (!is.null(`provider`)) {

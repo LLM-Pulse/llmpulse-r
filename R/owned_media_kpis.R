@@ -15,6 +15,7 @@
 #' @field unique_subreddits Number of cited subreddits (provider=reddit; null or omitted for other providers) integer [optional]
 #' @field unique_authors Number of cited Reddit authors (provider=reddit; null or omitted for other providers) integer [optional]
 #' @field positive_pct Positive sentiment among rated Reddit citations, as a percentage (provider=reddit; null or omitted for other providers) numeric [optional]
+#' @field connected_count provider=overview only. The platforms with a connected profile, channel or app, out of the rows in platforms (the Connected sources card). It describes the current setup, so previous.kpis and changes leave it out integer [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -29,6 +30,7 @@ OwnedMediaKpis <- R6::R6Class(
     `unique_subreddits` = NULL,
     `unique_authors` = NULL,
     `positive_pct` = NULL,
+    `connected_count` = NULL,
 
     #' @description
     #' Initialize a new OwnedMediaKpis class.
@@ -41,8 +43,9 @@ OwnedMediaKpis <- R6::R6Class(
     #' @param unique_subreddits Number of cited subreddits (provider=reddit; null or omitted for other providers)
     #' @param unique_authors Number of cited Reddit authors (provider=reddit; null or omitted for other providers)
     #' @param positive_pct Positive sentiment among rated Reddit citations, as a percentage (provider=reddit; null or omitted for other providers)
+    #' @param connected_count provider=overview only. The platforms with a connected profile, channel or app, out of the rows in platforms (the Connected sources card). It describes the current setup, so previous.kpis and changes leave it out
     #' @param ... Other optional arguments.
-    initialize = function(`total` = NULL, `yours` = NULL, `your_profile` = NULL, `your_content` = NULL, `share_pct` = NULL, `unique_subreddits` = NULL, `unique_authors` = NULL, `positive_pct` = NULL, ...) {
+    initialize = function(`total` = NULL, `yours` = NULL, `your_profile` = NULL, `your_content` = NULL, `share_pct` = NULL, `unique_subreddits` = NULL, `unique_authors` = NULL, `positive_pct` = NULL, `connected_count` = NULL, ...) {
       if (!is.null(`total`)) {
         if (!(is.numeric(`total`) && length(`total`) == 1)) {
           stop(paste("Error! Invalid data for `total`. Must be an integer:", `total`))
@@ -84,6 +87,12 @@ OwnedMediaKpis <- R6::R6Class(
       }
       if (!is.null(`positive_pct`)) {
         self$`positive_pct` <- `positive_pct`
+      }
+      if (!is.null(`connected_count`)) {
+        if (!(is.numeric(`connected_count`) && length(`connected_count`) == 1)) {
+          stop(paste("Error! Invalid data for `connected_count`. Must be an integer:", `connected_count`))
+        }
+        self$`connected_count` <- `connected_count`
       }
     },
 
@@ -150,6 +159,10 @@ OwnedMediaKpis <- R6::R6Class(
         OwnedMediaKpisObject[["positive_pct"]] <-
           self$`positive_pct`
       }
+      if (!is.null(self$`connected_count`)) {
+        OwnedMediaKpisObject[["connected_count"]] <-
+          self$`connected_count`
+      }
       return(OwnedMediaKpisObject)
     },
 
@@ -184,6 +197,9 @@ OwnedMediaKpis <- R6::R6Class(
       if (!is.null(this_object$`positive_pct`)) {
         self$`positive_pct` <- this_object$`positive_pct`
       }
+      if (!is.null(this_object$`connected_count`)) {
+        self$`connected_count` <- this_object$`connected_count`
+      }
       self
     },
 
@@ -213,6 +229,7 @@ OwnedMediaKpis <- R6::R6Class(
       self$`unique_subreddits` <- this_object$`unique_subreddits`
       self$`unique_authors` <- this_object$`unique_authors`
       self$`positive_pct` <- this_object$`positive_pct`
+      self$`connected_count` <- this_object$`connected_count`
       self
     },
 

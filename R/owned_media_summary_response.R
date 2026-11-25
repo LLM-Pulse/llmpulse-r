@@ -22,8 +22,8 @@
 #' @field age_buckets Social and YouTube providers only. Posts or videos without a known publication date are left out list(\link{OwnedMediaAgeBucketShare}) [optional]
 #' @field stores provider=mobile_apps only list(\link{OwnedMediaStoreTotals}) [optional]
 #' @field platforms provider=overview only, one row per platform the caller can read list(\link{OwnedMediaPlatformRollup}) [optional]
-#' @field activity All providers. One row per actual project reporting period with runs; provider=overview has null yours and other, and provider=reddit also returns positive, neutral and negative sentiment counts. Citation counts use the selected date window, and periods with runs but no citation have zero list(\link{OwnedMediaSummaryActivityPeriod}) [optional]
-#' @field subreddit_activity provider=reddit only. One row per subreddit and actual reporting period; the top five subreddits are separate and Others has a null subreddit list(\link{RedditSubredditActivityPeriod}) [optional]
+#' @field activity All providers. One row per project tracking period that holds a run inside the window; provider=overview has null yours and other, and provider=reddit also returns positive, neutral and negative sentiment counts. Citation counts use the days of the selected date window only, so when the window starts mid-period the first period counts fewer days than the app chart, which reads it whole. A period whose runs all fell before from is left out, and a period with runs but no citation has zero list(\link{OwnedMediaSummaryActivityPeriod}) [optional]
+#' @field subreddit_activity provider=reddit only. One row per subreddit and tracking period that holds a run inside the window; the top five subreddits are separate and Others has a null subreddit list(\link{RedditSubredditActivityPeriod}) [optional]
 #' @field positions provider=reddit only. Position distribution over the selected date window list(\link{RedditPositionShare}) [optional]
 #' @field brand_share provider=reddit only. Citation share among the tracked brand and competitors with cited mentions list(\link{RedditBrandShare}) [optional]
 #' @field replies  \link{TrustpilotReplies} [optional]
@@ -74,8 +74,8 @@ OwnedMediaSummaryResponse <- R6::R6Class(
     #' @param age_buckets Social and YouTube providers only. Posts or videos without a known publication date are left out
     #' @param stores provider=mobile_apps only
     #' @param platforms provider=overview only, one row per platform the caller can read
-    #' @param activity All providers. One row per actual project reporting period with runs; provider=overview has null yours and other, and provider=reddit also returns positive, neutral and negative sentiment counts. Citation counts use the selected date window, and periods with runs but no citation have zero
-    #' @param subreddit_activity provider=reddit only. One row per subreddit and actual reporting period; the top five subreddits are separate and Others has a null subreddit
+    #' @param activity All providers. One row per project tracking period that holds a run inside the window; provider=overview has null yours and other, and provider=reddit also returns positive, neutral and negative sentiment counts. Citation counts use the days of the selected date window only, so when the window starts mid-period the first period counts fewer days than the app chart, which reads it whole. A period whose runs all fell before from is left out, and a period with runs but no citation has zero
+    #' @param subreddit_activity provider=reddit only. One row per subreddit and tracking period that holds a run inside the window; the top five subreddits are separate and Others has a null subreddit
     #' @param positions provider=reddit only. Position distribution over the selected date window
     #' @param brand_share provider=reddit only. Citation share among the tracked brand and competitors with cited mentions
     #' @param replies replies
