@@ -13,6 +13,7 @@ export(ApiClient)
 export(ApiResponse)
 
 # Models
+export(AccountAgentUsage)
 export(AccountCapacity)
 export(AccountExecutionQuota)
 export(AccountPitchQuota)

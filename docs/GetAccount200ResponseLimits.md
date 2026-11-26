@@ -13,5 +13,6 @@ Name | Type | Description | Notes
 **geo_audit_manual_runs** | [**AccountQuota**](AccountQuota.md) |  | [optional] 
 **prompt_executions** | [**AccountExecutionQuota**](AccountExecutionQuota.md) |  | [optional] 
 **pitch_projects** | [**AccountPitchQuota**](AccountPitchQuota.md) |  | [optional] 
+**agent_usage** | [**AccountAgentUsage**](AccountAgentUsage.md) |  | [optional] 
 
 
