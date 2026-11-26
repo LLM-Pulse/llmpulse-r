@@ -14,7 +14,7 @@
 #' @field industry  list(character) [optional]
 #' @field matching_names Brand-name variants used to detect mentions (details step). At most 50 names of up to 100 characters each; the step stores the list as sent, and finalize refuses a longer list or name with ERR_INVALID_PARAM (422) list(character) [optional]
 #' @field external_identifier  character [optional]
-#' @field prompts  list(character) [optional]
+#' @field prompts Prompts step, each prompt up to 2,000 bytes of UTF-8 text (about 2,000 characters in English, fewer with accented letters or non-Latin scripts). A longer one returns ERR_INVALID_PARAM with error.meta.reason prompt_too_long and the step stays open list(character) [optional]
 #' @field competitors Competitors step: objects {domain, brand_name, matching_names}, capped by plan. Each competitor's matching_names takes at most 50 names of up to 100 characters, checked at finalize like POST /projects list(object) [optional]
 #' @field youtube_channel_url  character [optional]
 #' @field instagram_profile_url  character [optional]
@@ -56,7 +56,7 @@ UpdateProjectDraftRequest <- R6::R6Class(
     #' @param industry industry
     #' @param matching_names Brand-name variants used to detect mentions (details step). At most 50 names of up to 100 characters each; the step stores the list as sent, and finalize refuses a longer list or name with ERR_INVALID_PARAM (422)
     #' @param external_identifier external_identifier
-    #' @param prompts prompts
+    #' @param prompts Prompts step, each prompt up to 2,000 bytes of UTF-8 text (about 2,000 characters in English, fewer with accented letters or non-Latin scripts). A longer one returns ERR_INVALID_PARAM with error.meta.reason prompt_too_long and the step stays open
     #' @param competitors Competitors step: objects {domain, brand_name, matching_names}, capped by plan. Each competitor's matching_names takes at most 50 names of up to 100 characters, checked at finalize like POST /projects
     #' @param youtube_channel_url youtube_channel_url
     #' @param instagram_profile_url instagram_profile_url

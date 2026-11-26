@@ -8,7 +8,7 @@
 #' @description CatalogPromptSuggestionsAcceptResponseSkippedInner Class
 #' @format An \code{R6Class} generator object
 #' @field suggestion_id  integer
-#' @field reason accepted or rejected (the suggestion was no longer pending), or pending_deletion character
+#' @field reason accepted or rejected (the suggestion was no longer pending), pending_deletion, or prompt_too_long (it would be a new prompt over the 2,000-byte limit; the suggestion stays pending) character
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -22,7 +22,7 @@ CatalogPromptSuggestionsAcceptResponseSkippedInner <- R6::R6Class(
     #' Initialize a new CatalogPromptSuggestionsAcceptResponseSkippedInner class.
     #'
     #' @param suggestion_id suggestion_id
-    #' @param reason accepted or rejected (the suggestion was no longer pending), or pending_deletion
+    #' @param reason accepted or rejected (the suggestion was no longer pending), pending_deletion, or prompt_too_long (it would be a new prompt over the 2,000-byte limit; the suggestion stays pending)
     #' @param ... Other optional arguments.
     initialize = function(`suggestion_id`, `reason`, ...) {
       if (!missing(`suggestion_id`)) {

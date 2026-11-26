@@ -8,7 +8,7 @@
 #' @description PromptsCreateRequest Class
 #' @format An \code{R6Class} generator object
 #' @field project_id  integer
-#' @field prompts  list(character)
+#' @field prompts Prompt texts (max 100). Each can be up to 2,000 bytes of UTF-8 text (about 2,000 characters in English, fewer with accented letters or non-Latin scripts). A new prompt over that returns ERR_INVALID_PARAM with error.meta.reason prompt_too_long and creates none of the batch; a text the project already tracks still comes back as exists. list(character)
 #' @field country_code  character
 #' @field language_code  character
 #' @importFrom R6 R6Class
@@ -26,7 +26,7 @@ PromptsCreateRequest <- R6::R6Class(
     #' Initialize a new PromptsCreateRequest class.
     #'
     #' @param project_id project_id
-    #' @param prompts prompts
+    #' @param prompts Prompt texts (max 100). Each can be up to 2,000 bytes of UTF-8 text (about 2,000 characters in English, fewer with accented letters or non-Latin scripts). A new prompt over that returns ERR_INVALID_PARAM with error.meta.reason prompt_too_long and creates none of the batch; a text the project already tracks still comes back as exists.
     #' @param country_code country_code
     #' @param language_code language_code
     #' @param ... Other optional arguments.

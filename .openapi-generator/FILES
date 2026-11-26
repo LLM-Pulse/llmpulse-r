@@ -274,6 +274,7 @@ R/owned_media_summary_response.R
 R/owned_media_summary_response_previous.R
 R/owned_media_week.R
 R/paginated_envelope.R
+R/peec_export_import_response.R
 R/ping200_response.R
 R/project.R
 R/project_create_request.R
@@ -326,6 +327,7 @@ R/prompts_api.R
 R/prompts_create_request.R
 R/prompts_create_response.R
 R/prompts_create_response_data_inner.R
+R/prompts_import_file_response.R
 R/prompts_import_request.R
 R/prompts_import_request_rows_inner.R
 R/prompts_import_response.R
@@ -754,6 +756,7 @@ docs/OwnedMediaSummaryResponse.md
 docs/OwnedMediaSummaryResponsePrevious.md
 docs/OwnedMediaWeek.md
 docs/PaginatedEnvelope.md
+docs/PeecExportImportResponse.md
 docs/Ping200Response.md
 docs/Project.md
 docs/ProjectCreateRequest.md
@@ -806,6 +809,7 @@ docs/PromptsApi.md
 docs/PromptsCreateRequest.md
 docs/PromptsCreateResponse.md
 docs/PromptsCreateResponseDataInner.md
+docs/PromptsImportFileResponse.md
 docs/PromptsImportRequest.md
 docs/PromptsImportRequestRowsInner.md
 docs/PromptsImportResponse.md
