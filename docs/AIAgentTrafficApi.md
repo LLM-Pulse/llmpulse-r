@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **GetAiTraffic**
-> GetAiTraffic(project_id, range = var.range, from = var.from, to = var.to, source = var.source, granularity = var.granularity)
+> AiTrafficResponse GetAiTraffic(project_id, range = var.range, from = var.from, to = var.to, source = var.source, granularity = var.granularity)
 
 AI referral traffic (Scale plan or above)
 
@@ -100,7 +100,10 @@ var_granularity <- "granularity_example" # character |  (Optional)
 api_instance <- AIAgentTrafficApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetAiTraffic(var_project_id, range = var_range, from = var_from, to = var_to, source = var_source, granularity = var_granularity)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetAiTraffic(var_project_id, range = var_range, from = var_from, to = var_to, source = var_source, granularity = var_granularitydata_file = "result.txt")
+result <- api_instance$GetAiTraffic(var_project_id, range = var_range, from = var_from, to = var_to, source = var_source, granularity = var_granularity)
+dput(result)
 ```
 
 ### Parameters
@@ -116,7 +119,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AiTrafficResponse**](AiTrafficResponse.md)
 
 ### Authorization
 

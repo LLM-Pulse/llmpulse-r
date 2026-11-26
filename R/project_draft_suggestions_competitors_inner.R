@@ -1,0 +1,245 @@
+#' Create a new ProjectDraftSuggestionsCompetitorsInner
+#'
+#' @description
+#' ProjectDraftSuggestionsCompetitorsInner Class
+#'
+#' @docType class
+#' @title ProjectDraftSuggestionsCompetitorsInner
+#' @description ProjectDraftSuggestionsCompetitorsInner Class
+#' @format An \code{R6Class} generator object
+#' @field brand_name  character
+#' @field domain  character
+#' @field matching_names  list(character)
+#' @importFrom R6 R6Class
+#' @importFrom jsonlite fromJSON toJSON
+#' @export
+ProjectDraftSuggestionsCompetitorsInner <- R6::R6Class(
+  "ProjectDraftSuggestionsCompetitorsInner",
+  public = list(
+    `brand_name` = NULL,
+    `domain` = NULL,
+    `matching_names` = NULL,
+
+    #' @description
+    #' Initialize a new ProjectDraftSuggestionsCompetitorsInner class.
+    #'
+    #' @param brand_name brand_name
+    #' @param domain domain
+    #' @param matching_names matching_names
+    #' @param ... Other optional arguments.
+    initialize = function(`brand_name`, `domain`, `matching_names`, ...) {
+      if (!missing(`brand_name`)) {
+        if (!(is.character(`brand_name`) && length(`brand_name`) == 1)) {
+          stop(paste("Error! Invalid data for `brand_name`. Must be a string:", `brand_name`))
+        }
+        self$`brand_name` <- `brand_name`
+      }
+      if (!missing(`domain`)) {
+        if (!(is.character(`domain`) && length(`domain`) == 1)) {
+          stop(paste("Error! Invalid data for `domain`. Must be a string:", `domain`))
+        }
+        self$`domain` <- `domain`
+      }
+      if (!missing(`matching_names`)) {
+        stopifnot(is.vector(`matching_names`), length(`matching_names`) != 0)
+        sapply(`matching_names`, function(x) stopifnot(is.character(x)))
+        self$`matching_names` <- `matching_names`
+      }
+    },
+
+    #' @description
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
+    toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return ProjectDraftSuggestionsCompetitorsInner as a base R list.
+    #' @examples
+    #' # convert array of ProjectDraftSuggestionsCompetitorsInner (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert ProjectDraftSuggestionsCompetitorsInner to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
+      ProjectDraftSuggestionsCompetitorsInnerObject <- list()
+      if (!is.null(self$`brand_name`)) {
+        ProjectDraftSuggestionsCompetitorsInnerObject[["brand_name"]] <-
+          self$`brand_name`
+      }
+      if (!is.null(self$`domain`)) {
+        ProjectDraftSuggestionsCompetitorsInnerObject[["domain"]] <-
+          self$`domain`
+      }
+      if (!is.null(self$`matching_names`)) {
+        ProjectDraftSuggestionsCompetitorsInnerObject[["matching_names"]] <-
+          self$`matching_names`
+      }
+      return(ProjectDraftSuggestionsCompetitorsInnerObject)
+    },
+
+    #' @description
+    #' Deserialize JSON string into an instance of ProjectDraftSuggestionsCompetitorsInner
+    #'
+    #' @param input_json the JSON input
+    #' @return the instance of ProjectDraftSuggestionsCompetitorsInner
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`brand_name`)) {
+        self$`brand_name` <- this_object$`brand_name`
+      }
+      if (!is.null(this_object$`domain`)) {
+        self$`domain` <- this_object$`domain`
+      }
+      if (!is.null(this_object$`matching_names`)) {
+        self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
+      }
+      self
+    },
+
+    #' @description
+    #' To JSON String
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
+    #' @return ProjectDraftSuggestionsCompetitorsInner in JSON format
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
+    },
+
+    #' @description
+    #' Deserialize JSON string into an instance of ProjectDraftSuggestionsCompetitorsInner
+    #'
+    #' @param input_json the JSON input
+    #' @return the instance of ProjectDraftSuggestionsCompetitorsInner
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`brand_name` <- this_object$`brand_name`
+      self$`domain` <- this_object$`domain`
+      self$`matching_names` <- ApiClient$new()$deserializeObj(this_object$`matching_names`, "array[character]", loadNamespace("llmpulse"))
+      self
+    },
+
+    #' @description
+    #' Validate JSON input with respect to ProjectDraftSuggestionsCompetitorsInner and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    validateJSON = function(input) {
+      input_json <- jsonlite::fromJSON(input)
+      # check the required field `brand_name`
+      if (!is.null(input_json$`brand_name`)) {
+        if (!(is.character(input_json$`brand_name`) && length(input_json$`brand_name`) == 1)) {
+          stop(paste("Error! Invalid data for `brand_name`. Must be a string:", input_json$`brand_name`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for ProjectDraftSuggestionsCompetitorsInner: the required field `brand_name` is missing."))
+      }
+      # check the required field `domain`
+      if (!is.null(input_json$`domain`)) {
+        if (!(is.character(input_json$`domain`) && length(input_json$`domain`) == 1)) {
+          stop(paste("Error! Invalid data for `domain`. Must be a string:", input_json$`domain`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for ProjectDraftSuggestionsCompetitorsInner: the required field `domain` is missing."))
+      }
+      # check the required field `matching_names`
+      if (!is.null(input_json$`matching_names`)) {
+        stopifnot(is.vector(input_json$`matching_names`), length(input_json$`matching_names`) != 0)
+        tmp <- sapply(input_json$`matching_names`, function(x) stopifnot(is.character(x)))
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for ProjectDraftSuggestionsCompetitorsInner: the required field `matching_names` is missing."))
+      }
+    },
+
+    #' @description
+    #' To string (JSON format)
+    #'
+    #' @return String representation of ProjectDraftSuggestionsCompetitorsInner
+    toString = function() {
+      self$toJSONString()
+    },
+
+    #' @description
+    #' Return true if the values in all fields are valid.
+    #'
+    #' @return true if the values in all fields are valid.
+    isValid = function() {
+      # check if the required `brand_name` is null
+      if (is.null(self$`brand_name`)) {
+        return(FALSE)
+      }
+
+      # check if the required `domain` is null
+      if (is.null(self$`domain`)) {
+        return(FALSE)
+      }
+
+      # check if the required `matching_names` is null
+      if (is.null(self$`matching_names`)) {
+        return(FALSE)
+      }
+
+      TRUE
+    },
+
+    #' @description
+    #' Return a list of invalid fields (if any).
+    #'
+    #' @return A list of invalid fields (if any).
+    getInvalidFields = function() {
+      invalid_fields <- list()
+      # check if the required `brand_name` is null
+      if (is.null(self$`brand_name`)) {
+        invalid_fields["brand_name"] <- "Non-nullable required field `brand_name` cannot be null."
+      }
+
+      # check if the required `domain` is null
+      if (is.null(self$`domain`)) {
+        invalid_fields["domain"] <- "Non-nullable required field `domain` cannot be null."
+      }
+
+      # check if the required `matching_names` is null
+      if (is.null(self$`matching_names`)) {
+        invalid_fields["matching_names"] <- "Non-nullable required field `matching_names` cannot be null."
+      }
+
+      invalid_fields
+    },
+
+    #' @description
+    #' Print the object
+    print = function() {
+      print(jsonlite::prettify(self$toJSONString()))
+      invisible(self)
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
+)
+## Uncomment below to unlock the class to allow modifications of the method or field
+# ProjectDraftSuggestionsCompetitorsInner$unlock()
+#
+## Below is an example to define the print function
+# ProjectDraftSuggestionsCompetitorsInner$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
+## Uncomment below to lock the class to prevent modifications to the method or field
+# ProjectDraftSuggestionsCompetitorsInner$lock()
+

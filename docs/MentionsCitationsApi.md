@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **ListAllCitations**
-> ListAllCitations(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
+> AllCitationsResponse ListAllCitations(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
 
 List all citations (brand + competitor)
 
@@ -45,7 +45,10 @@ var_range <- 56 # integer | Number of days to look back (alternative to from/to,
 api_instance <- MentionsCitationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListAllCitations(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListAllCitations(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_rangedata_file = "result.txt")
+result <- api_instance$ListAllCitations(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
+dput(result)
 ```
 
 ### Parameters
@@ -70,7 +73,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AllCitationsResponse**](AllCitationsResponse.md)
 
 ### Authorization
 
@@ -79,7 +82,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -87,7 +90,7 @@ void (empty response body)
 | **200** | Paginated citations with actor_type discriminator |  -  |
 
 # **ListAllMentions**
-> ListAllMentions(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
+> AllMentionsResponse ListAllMentions(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
 
 List all mentions (brand + competitor)
 
@@ -119,7 +122,10 @@ var_range <- 56 # integer | Number of days to look back (alternative to from/to,
 api_instance <- MentionsCitationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListAllMentions(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListAllMentions(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_rangedata_file = "result.txt")
+result <- api_instance$ListAllMentions(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
+dput(result)
 ```
 
 ### Parameters
@@ -144,7 +150,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AllMentionsResponse**](AllMentionsResponse.md)
 
 ### Authorization
 
@@ -153,7 +159,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -236,7 +242,7 @@ Name | Type | Description  | Notes
 | **200** | Paginated brand citations |  -  |
 
 # **ListCompetitorCitations**
-> ListCompetitorCitations(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
+> CompetitorCitationsResponse ListCompetitorCitations(project_id, competitors = var.competitors, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, prompt = var.prompt, from = var.from, to = var.to, output = var.output, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
 
 List competitor citations
 
@@ -268,7 +274,10 @@ var_range <- 56 # integer | Number of days to look back (alternative to from/to,
 api_instance <- MentionsCitationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListCompetitorCitations(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListCompetitorCitations(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_rangedata_file = "result.txt")
+result <- api_instance$ListCompetitorCitations(var_project_id, competitors = var_competitors, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, prompt = var_prompt, from = var_from, to = var_to, output = var_output, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
+dput(result)
 ```
 
 ### Parameters
@@ -293,7 +302,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CompetitorCitationsResponse**](CompetitorCitationsResponse.md)
 
 ### Authorization
 
@@ -302,7 +311,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

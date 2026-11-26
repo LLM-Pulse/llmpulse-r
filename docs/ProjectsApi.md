@@ -70,7 +70,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **CreateProjectDraft**
-> CreateProjectDraft(create_project_draft_request)
+> ProjectDraftResponse CreateProjectDraft(create_project_draft_request)
 
 Start a project draft (wizard step 1)
 
@@ -88,7 +88,10 @@ var_create_project_draft_request <- createProjectDraft_request$new("website_url_
 api_instance <- ProjectsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$CreateProjectDraft(var_create_project_draft_request)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$CreateProjectDraft(var_create_project_draft_requestdata_file = "result.txt")
+result <- api_instance$CreateProjectDraft(var_create_project_draft_request)
+dput(result)
 ```
 
 ### Parameters
@@ -99,7 +102,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ProjectDraftResponse**](ProjectDraftResponse.md)
 
 ### Authorization
 
@@ -271,7 +274,7 @@ Name | Type | Description  | Notes
 | **404** | Resource not found |  -  |
 
 # **GetProjectDraft**
-> GetProjectDraft(id, include_suggestions = FALSE)
+> ProjectDraftResponse GetProjectDraft(id, include_suggestions = FALSE)
 
 Read a project draft
 
@@ -288,7 +291,10 @@ var_include_suggestions <- FALSE # character | Cache-only: returns suggestions f
 api_instance <- ProjectsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetProjectDraft(var_id, include_suggestions = var_include_suggestions)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetProjectDraft(var_id, include_suggestions = var_include_suggestionsdata_file = "result.txt")
+result <- api_instance$GetProjectDraft(var_id, include_suggestions = var_include_suggestions)
+dput(result)
 ```
 
 ### Parameters
@@ -300,7 +306,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ProjectDraftResponse**](ProjectDraftResponse.md)
 
 ### Authorization
 
@@ -518,7 +524,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **UpdateProjectDraft**
-> UpdateProjectDraft(id, update_project_draft_request)
+> ProjectDraftResponse UpdateProjectDraft(id, update_project_draft_request)
 
 Submit a wizard step
 
@@ -537,7 +543,10 @@ var_update_project_draft_request <- updateProjectDraft_request$new("details", "n
 api_instance <- ProjectsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$UpdateProjectDraft(var_id, var_update_project_draft_request)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$UpdateProjectDraft(var_id, var_update_project_draft_requestdata_file = "result.txt")
+result <- api_instance$UpdateProjectDraft(var_id, var_update_project_draft_request)
+dput(result)
 ```
 
 ### Parameters
@@ -549,7 +558,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ProjectDraftResponse**](ProjectDraftResponse.md)
 
 ### Authorization
 

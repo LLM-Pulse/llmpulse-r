@@ -1,13 +1,13 @@
 #' Create a new ReputationReportSummary
 #'
 #' @description
-#' One reputation report's status and analyst model coverage
+#' One reputation or custom-study report's status and analyst model coverage
 #'
 #' @docType class
 #' @title ReputationReportSummary
 #' @description ReputationReportSummary Class
 #' @format An \code{R6Class} generator object
-#' @field id Report id for GET /reputation/reports/{id} character
+#' @field id Report id for GET /reputation/reports/{id}, or GET /studies/{id}/reports/{report_id} for a study report character
 #' @field status  character
 #' @field created_at  character
 #' @field processed_at  character [optional]
@@ -31,7 +31,7 @@ ReputationReportSummary <- R6::R6Class(
     #' @description
     #' Initialize a new ReputationReportSummary class.
     #'
-    #' @param id Report id for GET /reputation/reports/{id}
+    #' @param id Report id for GET /reputation/reports/{id}, or GET /studies/{id}/reports/{report_id} for a study report
     #' @param status status
     #' @param created_at created_at
     #' @param available_models Analyst models that produced data

@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 
 # **CreateTechnicalGeoReports**
-> CreateTechnicalGeoReports(create_technical_geo_reports_request)
+> TechnicalGeoReportsCreateResponse CreateTechnicalGeoReports(create_technical_geo_reports_request)
 
 Run technical GEO analysis
 
@@ -30,7 +30,10 @@ var_create_technical_geo_reports_request <- createTechnicalGeoReports_request$ne
 api_instance <- TechnicalGEOReportsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$CreateTechnicalGeoReports(var_create_technical_geo_reports_request)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$CreateTechnicalGeoReports(var_create_technical_geo_reports_requestdata_file = "result.txt")
+result <- api_instance$CreateTechnicalGeoReports(var_create_technical_geo_reports_request)
+dput(result)
 ```
 
 ### Parameters
@@ -41,7 +44,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**TechnicalGeoReportsCreateResponse**](TechnicalGeoReportsCreateResponse.md)
 
 ### Authorization
 
@@ -60,7 +63,7 @@ void (empty response body)
 | **422** | Invalid parameters |  -  |
 
 # **GetTechnicalGeoReport**
-> GetTechnicalGeoReport(project_id, report_type, id)
+> TechnicalGeoReportResponse GetTechnicalGeoReport(project_id, report_type, id)
 
 Get a technical GEO report
 
@@ -80,7 +83,10 @@ var_id <- 56 # integer | Report id returned by POST /technical_geo_reports or GE
 api_instance <- TechnicalGEOReportsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetTechnicalGeoReport(var_project_id, var_report_type, var_id)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetTechnicalGeoReport(var_project_id, var_report_type, var_iddata_file = "result.txt")
+result <- api_instance$GetTechnicalGeoReport(var_project_id, var_report_type, var_id)
+dput(result)
 ```
 
 ### Parameters
@@ -93,7 +99,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**TechnicalGeoReportResponse**](TechnicalGeoReportResponse.md)
 
 ### Authorization
 
@@ -112,7 +118,7 @@ void (empty response body)
 | **422** | Invalid parameters |  -  |
 
 # **ListTechnicalGeoReports**
-> ListTechnicalGeoReports(project_id, report_type, status = var.status, batch_id = var.batch_id, page = 1, per_page = 20)
+> TechnicalGeoReportsResponse ListTechnicalGeoReports(project_id, report_type, status = var.status, batch_id = var.batch_id, page = 1, per_page = 20)
 
 List technical GEO reports
 
@@ -135,7 +141,10 @@ var_per_page <- 20 # integer |  (Optional)
 api_instance <- TechnicalGEOReportsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListTechnicalGeoReports(var_project_id, var_report_type, status = var_status, batch_id = var_batch_id, page = var_page, per_page = var_per_page)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListTechnicalGeoReports(var_project_id, var_report_type, status = var_status, batch_id = var_batch_id, page = var_page, per_page = var_per_pagedata_file = "result.txt")
+result <- api_instance$ListTechnicalGeoReports(var_project_id, var_report_type, status = var_status, batch_id = var_batch_id, page = var_page, per_page = var_per_page)
+dput(result)
 ```
 
 ### Parameters
@@ -151,7 +160,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**TechnicalGeoReportsResponse**](TechnicalGeoReportsResponse.md)
 
 ### Authorization
 

@@ -1,4 +1,4 @@
-# llmpulse::RecommendationSummarySummary
+# llmpulse::RecommendationDetailResponseSummary
 
 Empty until the generation completes
 

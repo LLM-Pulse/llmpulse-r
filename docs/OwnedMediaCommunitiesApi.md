@@ -295,7 +295,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **ListRedditCitations**
-> ListRedditCitations(project_id, page = 1, per_page = 20, view = "subreddits", subreddit = var.subreddit, author = var.author, status = var.status, owned = var.owned, brand = var.brand, order = var.order, direction = "desc", model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, brand_kind = var.brand_kind, range = var.range, from = var.from, to = var.to, output = var.output)
+> RedditResponse ListRedditCitations(project_id, page = 1, per_page = 20, view = "subreddits", subreddit = var.subreddit, author = var.author, status = var.status, owned = var.owned, brand = var.brand, order = var.order, direction = "desc", model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, brand_kind = var.brand_kind, range = var.range, from = var.from, to = var.to, output = var.output)
 
 List cited Reddit content
 
@@ -332,7 +332,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- OwnedMediaCommunitiesApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListRedditCitations(var_project_id, page = var_page, per_page = var_per_page, view = var_view, subreddit = var_subreddit, author = var_author, status = var_status, owned = var_owned, brand = var_brand, order = var_order, direction = var_direction, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListRedditCitations(var_project_id, page = var_page, per_page = var_per_page, view = var_view, subreddit = var_subreddit, author = var_author, status = var_status, owned = var_owned, brand = var_brand, order = var_order, direction = var_direction, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListRedditCitations(var_project_id, page = var_page, per_page = var_per_page, view = var_view, subreddit = var_subreddit, author = var_author, status = var_status, owned = var_owned, brand = var_brand, order = var_order, direction = var_direction, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -362,7 +365,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**RedditResponse**](RedditResponse.md)
 
 ### Authorization
 

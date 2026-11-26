@@ -178,7 +178,7 @@ Name | Type | Description  | Notes
 | **404** | Resource not found |  -  |
 
 # **GetCitedUrlContent**
-> GetCitedUrlContent(project_id, url_sha256)
+> CitedUrlContentResponse GetCitedUrlContent(project_id, url_sha256)
 
 Cited URL cached content
 
@@ -197,7 +197,10 @@ var_url_sha256 <- "url_sha256_example" # character | 64-character hex SHA-256 of
 api_instance <- SourcesCitationIntelligenceApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetCitedUrlContent(var_project_id, var_url_sha256)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetCitedUrlContent(var_project_id, var_url_sha256data_file = "result.txt")
+result <- api_instance$GetCitedUrlContent(var_project_id, var_url_sha256)
+dput(result)
 ```
 
 ### Parameters
@@ -209,7 +212,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CitedUrlContentResponse**](CitedUrlContentResponse.md)
 
 ### Authorization
 
@@ -227,7 +230,7 @@ void (empty response body)
 | **404** | Resource not found |  -  |
 
 # **GetCitedUrlDetail**
-> GetCitedUrlDetail(project_id, url_sha256, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, brand_kind = var.brand_kind, from = var.from, to = var.to, source_type = var.source_type, sentiment = var.sentiment, content_gap = var.content_gap, include_series = FALSE)
+> CitedUrlDetailsResponse GetCitedUrlDetail(project_id, url_sha256, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, brand_kind = var.brand_kind, from = var.from, to = var.to, source_type = var.source_type, sentiment = var.sentiment, content_gap = var.content_gap, include_series = FALSE)
 
 Cited URL detail
 
@@ -258,7 +261,10 @@ var_include_series <- FALSE # character | Adds citation_series. Without it the r
 api_instance <- SourcesCitationIntelligenceApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetCitedUrlDetail(var_project_id, var_url_sha256, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_to, source_type = var_source_type, sentiment = var_sentiment, content_gap = var_content_gap, include_series = var_include_series)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetCitedUrlDetail(var_project_id, var_url_sha256, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_to, source_type = var_source_type, sentiment = var_sentiment, content_gap = var_content_gap, include_series = var_include_seriesdata_file = "result.txt")
+result <- api_instance$GetCitedUrlDetail(var_project_id, var_url_sha256, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_to, source_type = var_source_type, sentiment = var_sentiment, content_gap = var_content_gap, include_series = var_include_series)
+dput(result)
 ```
 
 ### Parameters
@@ -282,7 +288,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CitedUrlDetailsResponse**](CitedUrlDetailsResponse.md)
 
 ### Authorization
 
@@ -301,7 +307,7 @@ void (empty response body)
 | **404** | Resource not found |  -  |
 
 # **GetMentionsByCitingDomain**
-> GetMentionsByCitingDomain(project_id, domains, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, brand_kind = var.brand_kind, from = var.from, to = var.to)
+> CitingDomainMentionShareResponse GetMentionsByCitingDomain(project_id, domains, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, brand_kind = var.brand_kind, from = var.from, to = var.to)
 
 Mention share by citing domain
 
@@ -328,7 +334,10 @@ var_to <- "to_example" # character | End of the window. A date-only value such a
 api_instance <- SourcesCitationIntelligenceApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetMentionsByCitingDomain(var_project_id, var_domains, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_to)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetMentionsByCitingDomain(var_project_id, var_domains, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_todata_file = "result.txt")
+result <- api_instance$GetMentionsByCitingDomain(var_project_id, var_domains, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_to)
+dput(result)
 ```
 
 ### Parameters
@@ -348,7 +357,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CitingDomainMentionShareResponse**](CitingDomainMentionShareResponse.md)
 
 ### Authorization
 
@@ -448,7 +457,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **ListCitationGroups**
-> ListCitationGroups(project_id, view = "url", page = 1, per_page = 20, order = var.order, direction = var.direction, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, brand_kind = var.brand_kind, from = var.from, to = var.to, key = var.key, include_series = FALSE, query = var.query, source_type = var.source_type, sentiment = var.sentiment, content_gap = var.content_gap)
+> CitationGroupsResponse ListCitationGroups(project_id, view = "url", page = 1, per_page = 20, order = var.order, direction = var.direction, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, brand_kind = var.brand_kind, from = var.from, to = var.to, key = var.key, include_series = FALSE, query = var.query, source_type = var.source_type, sentiment = var.sentiment, content_gap = var.content_gap)
 
 Grouped citation intelligence
 
@@ -485,7 +494,10 @@ var_content_gap <- "content_gap_example" # character | mentioned: the cited page
 api_instance <- SourcesCitationIntelligenceApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListCitationGroups(var_project_id, view = var_view, page = var_page, per_page = var_per_page, order = var_order, direction = var_direction, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_to, key = var_key, include_series = var_include_series, query = var_query, source_type = var_source_type, sentiment = var_sentiment, content_gap = var_content_gap)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListCitationGroups(var_project_id, view = var_view, page = var_page, per_page = var_per_page, order = var_order, direction = var_direction, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_to, key = var_key, include_series = var_include_series, query = var_query, source_type = var_source_type, sentiment = var_sentiment, content_gap = var_content_gapdata_file = "result.txt")
+result <- api_instance$ListCitationGroups(var_project_id, view = var_view, page = var_page, per_page = var_per_page, order = var_order, direction = var_direction, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, brand_kind = var_brand_kind, from = var_from, to = var_to, key = var_key, include_series = var_include_series, query = var_query, source_type = var_source_type, sentiment = var_sentiment, content_gap = var_content_gap)
+dput(result)
 ```
 
 ### Parameters
@@ -515,7 +527,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CitationGroupsResponse**](CitationGroupsResponse.md)
 
 ### Authorization
 
@@ -534,7 +546,7 @@ void (empty response body)
 | **422** | Invalid parameters |  -  |
 
 # **ListCitedUrlOccurrences**
-> ListCitedUrlOccurrences(project_id, url_sha256, page = 1, per_page = 20, sentiment = var.sentiment)
+> CitedUrlOccurrencesResponse ListCitedUrlOccurrences(project_id, url_sha256, page = 1, per_page = 20, sentiment = var.sentiment)
 
 Cited URL occurrences
 
@@ -554,7 +566,10 @@ var_sentiment <- "sentiment_example" # character | Keeps the occurrences in answ
 api_instance <- SourcesCitationIntelligenceApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListCitedUrlOccurrences(var_project_id, var_url_sha256, page = var_page, per_page = var_per_page, sentiment = var_sentiment)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListCitedUrlOccurrences(var_project_id, var_url_sha256, page = var_page, per_page = var_per_page, sentiment = var_sentimentdata_file = "result.txt")
+result <- api_instance$ListCitedUrlOccurrences(var_project_id, var_url_sha256, page = var_page, per_page = var_per_page, sentiment = var_sentiment)
+dput(result)
 ```
 
 ### Parameters
@@ -569,7 +584,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CitedUrlOccurrencesResponse**](CitedUrlOccurrencesResponse.md)
 
 ### Authorization
 
@@ -588,7 +603,7 @@ void (empty response body)
 | **404** | Resource not found |  -  |
 
 # **ListSources**
-> ListSources(project_id, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, from = var.from, to = var.to, source_type = var.source_type, mention_filter = var.mention_filter, competitors = var.competitors, output = var.output, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
+> SourcesResponse ListSources(project_id, page = 1, per_page = 20, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, from = var.from, to = var.to, source_type = var.source_type, mention_filter = var.mention_filter, competitors = var.competitors, output = var.output, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range)
 
 List source URLs
 
@@ -620,7 +635,10 @@ var_range <- 56 # integer | Number of days to look back (alternative to from/to,
 api_instance <- SourcesCitationIntelligenceApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListSources(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, source_type = var_source_type, mention_filter = var_mention_filter, competitors = var_competitors, output = var_output, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListSources(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, source_type = var_source_type, mention_filter = var_mention_filter, competitors = var_competitors, output = var_output, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_rangedata_file = "result.txt")
+result <- api_instance$ListSources(var_project_id, page = var_page, per_page = var_per_page, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, from = var_from, to = var_to, source_type = var_source_type, mention_filter = var_mention_filter, competitors = var_competitors, output = var_output, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range)
+dput(result)
 ```
 
 ### Parameters
@@ -647,7 +665,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**SourcesResponse**](SourcesResponse.md)
 
 ### Authorization
 

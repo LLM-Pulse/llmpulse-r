@@ -116,7 +116,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **DeleteCollection**
-> DeleteCollection(project_id, id)
+> CollectionDeleteResponse DeleteCollection(project_id, id)
 
 Delete a tag
 
@@ -135,7 +135,10 @@ var_id <- 56 # integer |
 api_instance <- CollectionsTagsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$DeleteCollection(var_project_id, var_id)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$DeleteCollection(var_project_id, var_iddata_file = "result.txt")
+result <- api_instance$DeleteCollection(var_project_id, var_id)
+dput(result)
 ```
 
 ### Parameters
@@ -147,7 +150,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CollectionDeleteResponse**](CollectionDeleteResponse.md)
 
 ### Authorization
 
@@ -315,7 +318,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **UpdateCollection**
-> UpdateCollection(id, update_collection_request)
+> CollectionUpdateResponse UpdateCollection(id, update_collection_request)
 
 Update a tag
 
@@ -334,7 +337,10 @@ var_update_collection_request <- updateCollection_request$new(123, "name_example
 api_instance <- CollectionsTagsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$UpdateCollection(var_id, var_update_collection_request)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$UpdateCollection(var_id, var_update_collection_requestdata_file = "result.txt")
+result <- api_instance$UpdateCollection(var_id, var_update_collection_request)
+dput(result)
 ```
 
 ### Parameters
@@ -346,7 +352,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CollectionUpdateResponse**](CollectionUpdateResponse.md)
 
 ### Authorization
 

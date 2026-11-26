@@ -63,7 +63,7 @@ Name | Type | Description  | Notes
 | **404** | Resource not found |  -  |
 
 # **ListAnswers**
-> ListAnswers(project_id, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, mention_filter = var.mention_filter, citation_filter = var.citation_filter, competitors = var.competitors, from = var.from, to = var.to, page = 1, per_page = 20, query = var.query, no_result = var.no_result)
+> AnswersResponse ListAnswers(project_id, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, mention_filter = var.mention_filter, citation_filter = var.citation_filter, competitors = var.competitors, from = var.from, to = var.to, page = 1, per_page = 20, query = var.query, no_result = var.no_result)
 
 List AI responses
 
@@ -97,7 +97,10 @@ var_no_result <- "no_result_example" # character | Filter sentinel non-answers (
 api_instance <- AnswersApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListAnswers(var_project_id, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, mention_filter = var_mention_filter, citation_filter = var_citation_filter, competitors = var_competitors, from = var_from, to = var_to, page = var_page, per_page = var_per_page, query = var_query, no_result = var_no_result)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListAnswers(var_project_id, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, mention_filter = var_mention_filter, citation_filter = var_citation_filter, competitors = var_competitors, from = var_from, to = var_to, page = var_page, per_page = var_per_page, query = var_query, no_result = var_no_resultdata_file = "result.txt")
+result <- api_instance$ListAnswers(var_project_id, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, mention_filter = var_mention_filter, citation_filter = var_citation_filter, competitors = var_competitors, from = var_from, to = var_to, page = var_page, per_page = var_per_page, query = var_query, no_result = var_no_result)
+dput(result)
 ```
 
 ### Parameters
@@ -124,7 +127,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AnswersResponse**](AnswersResponse.md)
 
 ### Authorization
 

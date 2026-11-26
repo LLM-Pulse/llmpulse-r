@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **GetRecommendation**
-> GetRecommendation(project_id, id, item_status = var.item_status, resolve_source_refs = TRUE)
+> RecommendationDetailResponse GetRecommendation(project_id, id, item_status = var.item_status, resolve_source_refs = TRUE)
 
 Get recommendation run with items
 
@@ -30,7 +30,10 @@ var_resolve_source_refs <- TRUE # character |  (Optional)
 api_instance <- RecommendationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetRecommendation(var_project_id, var_id, item_status = var_item_status, resolve_source_refs = var_resolve_source_refs)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetRecommendation(var_project_id, var_id, item_status = var_item_status, resolve_source_refs = var_resolve_source_refsdata_file = "result.txt")
+result <- api_instance$GetRecommendation(var_project_id, var_id, item_status = var_item_status, resolve_source_refs = var_resolve_source_refs)
+dput(result)
 ```
 
 ### Parameters
@@ -44,7 +47,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**RecommendationDetailResponse**](RecommendationDetailResponse.md)
 
 ### Authorization
 
@@ -62,7 +65,7 @@ void (empty response body)
 | **404** | Resource not found |  -  |
 
 # **LaunchRecommendations**
-> LaunchRecommendations(launch_recommendations_request)
+> RecommendationLaunchResponse LaunchRecommendations(launch_recommendations_request)
 
 Launch a recommendations generation
 
@@ -80,7 +83,10 @@ var_launch_recommendations_request <- launchRecommendations_request$new(123, "ai
 api_instance <- RecommendationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$LaunchRecommendations(var_launch_recommendations_request)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$LaunchRecommendations(var_launch_recommendations_requestdata_file = "result.txt")
+result <- api_instance$LaunchRecommendations(var_launch_recommendations_request)
+dput(result)
 ```
 
 ### Parameters
@@ -91,7 +97,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**RecommendationLaunchResponse**](RecommendationLaunchResponse.md)
 
 ### Authorization
 

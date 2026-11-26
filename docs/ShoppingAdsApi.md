@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 
 # **ListAds**
-> ListAds(project_id, page = 1, per_page = 20, view = "advertisers", owned = var.owned, order = var.order, direction = var.direction, query = var.query, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range, from = var.from, to = var.to, output = var.output)
+> AdsResponse ListAds(project_id, page = 1, per_page = 20, view = "advertisers", owned = var.owned, order = var.order, direction = var.direction, query = var.query, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range, from = var.from, to = var.to, output = var.output)
 
 List AI ad placements
 
@@ -46,7 +46,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- ShoppingAdsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListAds(var_project_id, page = var_page, per_page = var_per_page, view = var_view, owned = var_owned, order = var_order, direction = var_direction, query = var_query, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListAds(var_project_id, page = var_page, per_page = var_per_page, view = var_view, owned = var_owned, order = var_order, direction = var_direction, query = var_query, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListAds(var_project_id, page = var_page, per_page = var_per_page, view = var_view, owned = var_owned, order = var_order, direction = var_direction, query = var_query, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -75,7 +78,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AdsResponse**](AdsResponse.md)
 
 ### Authorization
 
@@ -177,7 +180,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **ListShopping**
-> ListShopping(project_id, page = 1, per_page = 20, view = "products", owned = var.owned, order = var.order, direction = "desc", query = var.query, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range, from = var.from, to = var.to, output = var.output)
+> ShoppingResponse ListShopping(project_id, page = 1, per_page = 20, view = "products", owned = var.owned, order = var.order, direction = "desc", query = var.query, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range, from = var.from, to = var.to, output = var.output)
 
 List shopping results
 
@@ -213,7 +216,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- ShoppingAdsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListShopping(var_project_id, page = var_page, per_page = var_per_page, view = var_view, owned = var_owned, order = var_order, direction = var_direction, query = var_query, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListShopping(var_project_id, page = var_page, per_page = var_per_page, view = var_view, owned = var_owned, order = var_order, direction = var_direction, query = var_query, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListShopping(var_project_id, page = var_page, per_page = var_per_page, view = var_view, owned = var_owned, order = var_order, direction = var_direction, query = var_query, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -242,7 +248,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ShoppingResponse**](ShoppingResponse.md)
 
 ### Authorization
 

@@ -181,7 +181,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **ListSentimentCategories**
-> ListSentimentCategories(project_id, output = var.output)
+> SentimentCategoriesResponse ListSentimentCategories(project_id, output = var.output)
 
 List sentiment categories (Growth plan or above)
 
@@ -200,7 +200,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- SentimentsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListSentimentCategories(var_project_id, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListSentimentCategories(var_project_id, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListSentimentCategories(var_project_id, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -212,7 +215,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**SentimentCategoriesResponse**](SentimentCategoriesResponse.md)
 
 ### Authorization
 

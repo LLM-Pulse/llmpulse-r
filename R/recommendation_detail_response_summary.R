@@ -1,11 +1,11 @@
-#' Create a new RecommendationSummarySummary
+#' Create a new RecommendationDetailResponseSummary
 #'
 #' @description
 #' Empty until the generation completes
 #'
 #' @docType class
-#' @title RecommendationSummarySummary
-#' @description RecommendationSummarySummary Class
+#' @title RecommendationDetailResponseSummary
+#' @description RecommendationDetailResponseSummary Class
 #' @format An \code{R6Class} generator object
 #' @field total_recommendations  integer [optional]
 #' @field high_priority_count  integer [optional]
@@ -13,15 +13,15 @@
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
-RecommendationSummarySummary <- R6::R6Class(
-  "RecommendationSummarySummary",
+RecommendationDetailResponseSummary <- R6::R6Class(
+  "RecommendationDetailResponseSummary",
   public = list(
     `total_recommendations` = NULL,
     `high_priority_count` = NULL,
     `categories` = NULL,
 
     #' @description
-    #' Initialize a new RecommendationSummarySummary class.
+    #' Initialize a new RecommendationDetailResponseSummary class.
     #'
     #' @param total_recommendations total_recommendations
     #' @param high_priority_count high_priority_count
@@ -59,9 +59,9 @@ RecommendationSummarySummary <- R6::R6Class(
     #'
     #' Convert the R6 object to a list to work more easily with other tooling.
     #'
-    #' @return RecommendationSummarySummary as a base R list.
+    #' @return RecommendationDetailResponseSummary as a base R list.
     #' @examples
-    #' # convert array of RecommendationSummarySummary (x) to a data frame
+    #' # convert array of RecommendationDetailResponseSummary (x) to a data frame
     #' \dontrun{
     #' library(purrr)
     #' library(tibble)
@@ -73,31 +73,31 @@ RecommendationSummarySummary <- R6::R6Class(
     },
 
     #' @description
-    #' Convert RecommendationSummarySummary to a base R type
+    #' Convert RecommendationDetailResponseSummary to a base R type
     #'
     #' @return A base R type, e.g. a list or numeric/character array.
     toSimpleType = function() {
-      RecommendationSummarySummaryObject <- list()
+      RecommendationDetailResponseSummaryObject <- list()
       if (!is.null(self$`total_recommendations`)) {
-        RecommendationSummarySummaryObject[["total_recommendations"]] <-
+        RecommendationDetailResponseSummaryObject[["total_recommendations"]] <-
           self$`total_recommendations`
       }
       if (!is.null(self$`high_priority_count`)) {
-        RecommendationSummarySummaryObject[["high_priority_count"]] <-
+        RecommendationDetailResponseSummaryObject[["high_priority_count"]] <-
           self$`high_priority_count`
       }
       if (!is.null(self$`categories`)) {
-        RecommendationSummarySummaryObject[["categories"]] <-
+        RecommendationDetailResponseSummaryObject[["categories"]] <-
           self$`categories`
       }
-      return(RecommendationSummarySummaryObject)
+      return(RecommendationDetailResponseSummaryObject)
     },
 
     #' @description
-    #' Deserialize JSON string into an instance of RecommendationSummarySummary
+    #' Deserialize JSON string into an instance of RecommendationDetailResponseSummary
     #'
     #' @param input_json the JSON input
-    #' @return the instance of RecommendationSummarySummary
+    #' @return the instance of RecommendationDetailResponseSummary
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`total_recommendations`)) {
@@ -116,7 +116,7 @@ RecommendationSummarySummary <- R6::R6Class(
     #' To JSON String
     #' 
     #' @param ... Parameters passed to `jsonlite::toJSON`
-    #' @return RecommendationSummarySummary in JSON format
+    #' @return RecommendationDetailResponseSummary in JSON format
     toJSONString = function(...) {
       simple <- self$toSimpleType()
       json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
@@ -124,10 +124,10 @@ RecommendationSummarySummary <- R6::R6Class(
     },
 
     #' @description
-    #' Deserialize JSON string into an instance of RecommendationSummarySummary
+    #' Deserialize JSON string into an instance of RecommendationDetailResponseSummary
     #'
     #' @param input_json the JSON input
-    #' @return the instance of RecommendationSummarySummary
+    #' @return the instance of RecommendationDetailResponseSummary
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`total_recommendations` <- this_object$`total_recommendations`
@@ -137,7 +137,7 @@ RecommendationSummarySummary <- R6::R6Class(
     },
 
     #' @description
-    #' Validate JSON input with respect to RecommendationSummarySummary and throw an exception if invalid
+    #' Validate JSON input with respect to RecommendationDetailResponseSummary and throw an exception if invalid
     #'
     #' @param input the JSON input
     validateJSON = function(input) {
@@ -147,7 +147,7 @@ RecommendationSummarySummary <- R6::R6Class(
     #' @description
     #' To string (JSON format)
     #'
-    #' @return String representation of RecommendationSummarySummary
+    #' @return String representation of RecommendationDetailResponseSummary
     toString = function() {
       self$toJSONString()
     },
@@ -180,13 +180,13 @@ RecommendationSummarySummary <- R6::R6Class(
   lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-# RecommendationSummarySummary$unlock()
+# RecommendationDetailResponseSummary$unlock()
 #
 ## Below is an example to define the print function
-# RecommendationSummarySummary$set("public", "print", function(...) {
+# RecommendationDetailResponseSummary$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)
 # })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-# RecommendationSummarySummary$lock()
+# RecommendationDetailResponseSummary$lock()
 

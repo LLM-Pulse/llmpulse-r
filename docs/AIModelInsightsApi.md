@@ -80,7 +80,7 @@ Name | Type | Description  | Notes
 | **200** | Summary |  -  |
 
 # **GetAiModelPositionDistribution**
-> GetAiModelPositionDistribution(project_id, range = var.range, from = var.from, to = var.to, granularity = var.granularity, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, model = var.model, brand1 = var.brand1, brand2 = var.brand2)
+> AiModelPositionDistributionResponse GetAiModelPositionDistribution(project_id, range = var.range, from = var.from, to = var.to, granularity = var.granularity, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, model = var.model, brand1 = var.brand1, brand2 = var.brand2)
 
 Position distribution comparison
 
@@ -108,7 +108,10 @@ var_brand2 <- 56 # integer |  (Optional)
 api_instance <- AIModelInsightsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetAiModelPositionDistribution(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, model = var_model, brand1 = var_brand1, brand2 = var_brand2)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetAiModelPositionDistribution(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, model = var_model, brand1 = var_brand1, brand2 = var_brand2data_file = "result.txt")
+result <- api_instance$GetAiModelPositionDistribution(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, model = var_model, brand1 = var_brand1, brand2 = var_brand2)
+dput(result)
 ```
 
 ### Parameters
@@ -131,7 +134,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AiModelPositionDistributionResponse**](AiModelPositionDistributionResponse.md)
 
 ### Authorization
 
@@ -140,7 +143,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -148,7 +151,7 @@ void (empty response body)
 | **200** | Bucketed position totals + chart-ready series |  -  |
 
 # **GetAiOverviewResults**
-> GetAiOverviewResults(project_id, range = var.range, from = var.from, to = var.to, granularity = var.granularity, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, page = 1, per_page = 20)
+> AiOverviewResultsResponse GetAiOverviewResults(project_id, range = var.range, from = var.from, to = var.to, granularity = var.granularity, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt_type = var.prompt_type, brand_kind = var.brand_kind, page = 1, per_page = 20)
 
 Google AI Overview result availability
 
@@ -175,7 +178,10 @@ var_per_page <- 20 # integer |  (Optional)
 api_instance <- AIModelInsightsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetAiOverviewResults(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, page = var_page, per_page = var_per_page)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetAiOverviewResults(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, page = var_page, per_page = var_per_pagedata_file = "result.txt")
+result <- api_instance$GetAiOverviewResults(var_project_id, range = var_range, from = var_from, to = var_to, granularity = var_granularity, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt_type = var_prompt_type, brand_kind = var_brand_kind, page = var_page, per_page = var_per_page)
+dput(result)
 ```
 
 ### Parameters
@@ -197,7 +203,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AiOverviewResultsResponse**](AiOverviewResultsResponse.md)
 
 ### Authorization
 
@@ -206,7 +212,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

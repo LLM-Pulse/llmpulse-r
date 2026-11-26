@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **DeleteAnnotation**
-> DeleteAnnotation(project_id, id)
+> AnnotationDeleteResponse DeleteAnnotation(project_id, id)
 
 Delete a timeline annotation
 
@@ -81,7 +81,10 @@ var_id <- 56 # integer |
 api_instance <- AnnotationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$DeleteAnnotation(var_project_id, var_id)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$DeleteAnnotation(var_project_id, var_iddata_file = "result.txt")
+result <- api_instance$DeleteAnnotation(var_project_id, var_id)
+dput(result)
 ```
 
 ### Parameters
@@ -93,7 +96,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AnnotationDeleteResponse**](AnnotationDeleteResponse.md)
 
 ### Authorization
 
@@ -112,7 +115,7 @@ void (empty response body)
 | **404** | Resource not found |  -  |
 
 # **ListAnnotations**
-> ListAnnotations(project_id, from = var.from, to = var.to, annotation_category_id = var.annotation_category_id, page = 1, per_page = 20)
+> AnnotationsResponse ListAnnotations(project_id, from = var.from, to = var.to, annotation_category_id = var.annotation_category_id, page = 1, per_page = 20)
 
 List timeline annotations
 
@@ -135,7 +138,10 @@ var_per_page <- 20 # integer |  (Optional)
 api_instance <- AnnotationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListAnnotations(var_project_id, from = var_from, to = var_to, annotation_category_id = var_annotation_category_id, page = var_page, per_page = var_per_page)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListAnnotations(var_project_id, from = var_from, to = var_to, annotation_category_id = var_annotation_category_id, page = var_page, per_page = var_per_pagedata_file = "result.txt")
+result <- api_instance$ListAnnotations(var_project_id, from = var_from, to = var_to, annotation_category_id = var_annotation_category_id, page = var_page, per_page = var_per_page)
+dput(result)
 ```
 
 ### Parameters
@@ -151,7 +157,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AnnotationsResponse**](AnnotationsResponse.md)
 
 ### Authorization
 
@@ -169,7 +175,7 @@ void (empty response body)
 | **403** | API key belongs to a team member whose permission matrix does not grant this feature |  -  |
 
 # **UpdateAnnotation**
-> UpdateAnnotation(id, update_annotation_request)
+> AnnotationUpdateResponse UpdateAnnotation(id, update_annotation_request)
 
 Update a timeline annotation
 
@@ -188,7 +194,10 @@ var_update_annotation_request <- updateAnnotation_request$new(123, "title_exampl
 api_instance <- AnnotationsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$UpdateAnnotation(var_id, var_update_annotation_request)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$UpdateAnnotation(var_id, var_update_annotation_requestdata_file = "result.txt")
+result <- api_instance$UpdateAnnotation(var_id, var_update_annotation_request)
+dput(result)
 ```
 
 ### Parameters
@@ -200,7 +209,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AnnotationUpdateResponse**](AnnotationUpdateResponse.md)
 
 ### Authorization
 

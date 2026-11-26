@@ -174,7 +174,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **DeletePrompt**
-> DeletePrompt(project_id, id)
+> PromptDeleteResponse DeletePrompt(project_id, id)
 
 Delete a prompt
 
@@ -193,7 +193,10 @@ var_id <- 56 # integer |
 api_instance <- PromptsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$DeletePrompt(var_project_id, var_id)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$DeletePrompt(var_project_id, var_iddata_file = "result.txt")
+result <- api_instance$DeletePrompt(var_project_id, var_id)
+dput(result)
 ```
 
 ### Parameters
@@ -205,7 +208,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**PromptDeleteResponse**](PromptDeleteResponse.md)
 
 ### Authorization
 
@@ -479,7 +482,7 @@ Name | Type | Description  | Notes
 | **200** | Paginated prompts. Every row carries app_url, the link that opens the prompt in the app |  -  |
 
 # **ListQueryFanOuts**
-> ListQueryFanOuts(project_id, page = 1, per_page = 20, view = "query", order = var.order, direction = "desc", query = var.query, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range, from = var.from, to = var.to, output = var.output)
+> QueryFanOutsResponse ListQueryFanOuts(project_id, page = 1, per_page = 20, view = "query", order = var.order, direction = "desc", query = var.query, model = var.model, collection_id = var.collection_id, country_code = var.country_code, language_code = var.language_code, prompt = var.prompt, prompt_type = var.prompt_type, brand_kind = var.brand_kind, range = var.range, from = var.from, to = var.to, output = var.output)
 
 List query fan-out
 
@@ -514,7 +517,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- PromptsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListQueryFanOuts(var_project_id, page = var_page, per_page = var_per_page, view = var_view, order = var_order, direction = var_direction, query = var_query, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListQueryFanOuts(var_project_id, page = var_page, per_page = var_per_page, view = var_view, order = var_order, direction = var_direction, query = var_query, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListQueryFanOuts(var_project_id, page = var_page, per_page = var_per_page, view = var_view, order = var_order, direction = var_direction, query = var_query, model = var_model, collection_id = var_collection_id, country_code = var_country_code, language_code = var_language_code, prompt = var_prompt, prompt_type = var_prompt_type, brand_kind = var_brand_kind, range = var_range, from = var_from, to = var_to, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -542,7 +548,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**QueryFanOutsResponse**](QueryFanOutsResponse.md)
 
 ### Authorization
 

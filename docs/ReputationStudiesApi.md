@@ -67,7 +67,7 @@ Name | Type | Description  | Notes
 | **429** | Another request is starting a report for this project; retry after a few seconds |  -  |
 
 # **GetReputationReport**
-> GetReputationReport(id, project_id, page = 1, per_page = 20, model = var.model, brand = var.brand, dimension = var.dimension, output = var.output)
+> ReputationReportScoresResponse GetReputationReport(id, project_id, page = 1, per_page = 20, model = var.model, brand = var.brand, dimension = var.dimension, output = var.output)
 
 Get reputation report scores
 
@@ -92,7 +92,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- ReputationStudiesApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetReputationReport(var_id, var_project_id, page = var_page, per_page = var_per_page, model = var_model, brand = var_brand, dimension = var_dimension, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetReputationReport(var_id, var_project_id, page = var_page, per_page = var_per_page, model = var_model, brand = var_brand, dimension = var_dimension, output = var_outputdata_file = "result.txt")
+result <- api_instance$GetReputationReport(var_id, var_project_id, page = var_page, per_page = var_per_page, model = var_model, brand = var_brand, dimension = var_dimension, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -110,7 +113,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ReputationReportScoresResponse**](ReputationReportScoresResponse.md)
 
 ### Authorization
 
@@ -129,7 +132,7 @@ void (empty response body)
 | **422** | Invalid parameters |  -  |
 
 # **GetStudy**
-> GetStudy(id)
+> StudyResponse GetStudy(id)
 
 Get a custom AI study
 
@@ -147,7 +150,10 @@ var_id <- 56 # integer |
 api_instance <- ReputationStudiesApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetStudy(var_id)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetStudy(var_iddata_file = "result.txt")
+result <- api_instance$GetStudy(var_id)
+dput(result)
 ```
 
 ### Parameters
@@ -158,7 +164,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**StudyResponse**](StudyResponse.md)
 
 ### Authorization
 
@@ -176,7 +182,7 @@ void (empty response body)
 | **404** | Resource not found |  -  |
 
 # **GetStudyReport**
-> GetStudyReport(id, report_id, page = 1, per_page = 20, model = var.model, subject = var.subject, dimension = var.dimension, output = var.output)
+> StudyReportScoresResponse GetStudyReport(id, report_id, page = 1, per_page = 20, model = var.model, subject = var.subject, dimension = var.dimension, output = var.output)
 
 Get custom study report scores
 
@@ -201,7 +207,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- ReputationStudiesApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$GetStudyReport(var_id, var_report_id, page = var_page, per_page = var_per_page, model = var_model, subject = var_subject, dimension = var_dimension, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$GetStudyReport(var_id, var_report_id, page = var_page, per_page = var_per_page, model = var_model, subject = var_subject, dimension = var_dimension, output = var_outputdata_file = "result.txt")
+result <- api_instance$GetStudyReport(var_id, var_report_id, page = var_page, per_page = var_per_page, model = var_model, subject = var_subject, dimension = var_dimension, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -219,7 +228,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**StudyReportScoresResponse**](StudyReportScoresResponse.md)
 
 ### Authorization
 
@@ -238,7 +247,7 @@ void (empty response body)
 | **422** | Invalid parameters |  -  |
 
 # **ListReputationReports**
-> ListReputationReports(project_id, page = 1, per_page = 20, output = var.output)
+> ReputationReportsResponse ListReputationReports(project_id, page = 1, per_page = 20, output = var.output)
 
 List reputation reports
 
@@ -259,7 +268,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- ReputationStudiesApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListReputationReports(var_project_id, page = var_page, per_page = var_per_page, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListReputationReports(var_project_id, page = var_page, per_page = var_per_page, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListReputationReports(var_project_id, page = var_page, per_page = var_per_page, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -273,7 +285,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ReputationReportsResponse**](ReputationReportsResponse.md)
 
 ### Authorization
 
@@ -282,7 +294,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -290,7 +302,7 @@ void (empty response body)
 | **200** | Paginated report summaries |  -  |
 
 # **ListStudies**
-> ListStudies(project_id = var.project_id, status = var.status, page = 1, per_page = 20, output = var.output)
+> StudiesResponse ListStudies(project_id = var.project_id, status = var.status, page = 1, per_page = 20, output = var.output)
 
 List custom AI studies
 
@@ -312,7 +324,10 @@ var_output <- "output_example" # character | Rectangular output for BI tools (Ta
 api_instance <- ReputationStudiesApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$ListStudies(project_id = var_project_id, status = var_status, page = var_page, per_page = var_per_page, output = var_output)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$ListStudies(project_id = var_project_id, status = var_status, page = var_page, per_page = var_per_page, output = var_outputdata_file = "result.txt")
+result <- api_instance$ListStudies(project_id = var_project_id, status = var_status, page = var_page, per_page = var_per_page, output = var_output)
+dput(result)
 ```
 
 ### Parameters
@@ -327,7 +342,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**StudiesResponse**](StudiesResponse.md)
 
 ### Authorization
 
@@ -336,7 +351,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

@@ -17,7 +17,7 @@
 #' @field updated_at  character
 #' @field total_recommendations  integer
 #' @field high_priority_count  integer
-#' @field summary  \link{RecommendationSummarySummary}
+#' @field summary  \link{RecommendationDetailResponseSummary}
 #' @field context Generation context and run diagnostics as stored; empty until the generation completes. Its keys are not a stable contract object
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -279,7 +279,7 @@ RecommendationSummary <- R6::R6Class(
         self$`high_priority_count` <- this_object$`high_priority_count`
       }
       if (!is.null(this_object$`summary`)) {
-        `summary_object` <- RecommendationSummarySummary$new()
+        `summary_object` <- RecommendationDetailResponseSummary$new()
         `summary_object`$fromJSON(jsonlite::toJSON(this_object$`summary`, auto_unbox = TRUE, digits = NA))
         self$`summary` <- `summary_object`
       }
@@ -323,7 +323,7 @@ RecommendationSummary <- R6::R6Class(
       self$`updated_at` <- this_object$`updated_at`
       self$`total_recommendations` <- this_object$`total_recommendations`
       self$`high_priority_count` <- this_object$`high_priority_count`
-      self$`summary` <- RecommendationSummarySummary$new()$fromJSON(jsonlite::toJSON(this_object$`summary`, auto_unbox = TRUE, digits = NA))
+      self$`summary` <- RecommendationDetailResponseSummary$new()$fromJSON(jsonlite::toJSON(this_object$`summary`, auto_unbox = TRUE, digits = NA))
       self$`context` <- this_object$`context`
       self
     },

@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 | **422** | Invalid parameters |  -  |
 
 # **DeleteCompetitor**
-> DeleteCompetitor(project_id, id)
+> CompetitorDeleteResponse DeleteCompetitor(project_id, id)
 
 Delete a competitor
 
@@ -83,7 +83,10 @@ var_id <- 56 # integer |
 api_instance <- CompetitorsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$DeleteCompetitor(var_project_id, var_id)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$DeleteCompetitor(var_project_id, var_iddata_file = "result.txt")
+result <- api_instance$DeleteCompetitor(var_project_id, var_id)
+dput(result)
 ```
 
 ### Parameters
@@ -95,7 +98,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CompetitorDeleteResponse**](CompetitorDeleteResponse.md)
 
 ### Authorization
 
@@ -274,7 +277,7 @@ Name | Type | Description  | Notes
 | **200** | Competitors |  -  |
 
 # **UpdateCompetitor**
-> UpdateCompetitor(id, update_competitor_request)
+> CompetitorUpdateResponse UpdateCompetitor(id, update_competitor_request)
 
 Update a competitor
 
@@ -293,7 +296,10 @@ var_update_competitor_request <- updateCompetitor_request$new(123, "brand_name_e
 api_instance <- CompetitorsApi$new()
 # Configure HTTP bearer authorization: BearerAuth
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
-api_instance$UpdateCompetitor(var_id, var_update_competitor_request)
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$UpdateCompetitor(var_id, var_update_competitor_requestdata_file = "result.txt")
+result <- api_instance$UpdateCompetitor(var_id, var_update_competitor_request)
+dput(result)
 ```
 
 ### Parameters
@@ -305,7 +311,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CompetitorUpdateResponse**](CompetitorUpdateResponse.md)
 
 ### Authorization
 
