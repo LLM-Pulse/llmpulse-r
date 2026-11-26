@@ -67,15 +67,22 @@ test_that("a required argument is still checked", {
 })
 
 # Each required argument gets a placeholder: a stub body for the *_request
-# bodies, and otherwise a string of zeros, which passes the id and sha256
-# patterns. A required enum rejects the placeholder, but only after every
-# argument has passed the nullable checks, so that rejection is accepted.
-# A required number with a bound (GetCmsContent's id >= 1) rejects the
-# string at that same point, so it is retried with 1, which every bound on a
-# required argument accepts, and the request is still built.
+# bodies, a real temporary file for `file` (the file imports upload it with
+# httr::upload_file, which needs a path that exists), and otherwise a string
+# of zeros, which passes the id and sha256 patterns. A required enum rejects
+# the placeholder, but only after every argument has passed the nullable
+# checks, so that rejection is accepted. A required number with a bound
+# (GetCmsContent's id >= 1) rejects the string at that same point, so it is
+# retried with 1, which every bound on a required argument accepts, and the
+# request is still built.
 placeholder <- function(name) {
   if (grepl("_request$", name)) {
     return(list(toJSONString = function(...) "{}"))
+  }
+  if (identical(name, "file")) {
+    path <- tempfile(fileext = ".csv")
+    writeLines("prompt", path)
+    return(path)
   }
   strrep("0", 64)
 }
