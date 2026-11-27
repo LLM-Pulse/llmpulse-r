@@ -274,7 +274,6 @@ R/owned_media_summary_response.R
 R/owned_media_summary_response_previous.R
 R/owned_media_week.R
 R/paginated_envelope.R
-R/peec_export_import_response.R
 R/ping200_response.R
 R/project.R
 R/project_create_request.R
@@ -756,7 +755,6 @@ docs/OwnedMediaSummaryResponse.md
 docs/OwnedMediaSummaryResponsePrevious.md
 docs/OwnedMediaWeek.md
 docs/PaginatedEnvelope.md
-docs/PeecExportImportResponse.md
 docs/Ping200Response.md
 docs/Project.md
 docs/ProjectCreateRequest.md
